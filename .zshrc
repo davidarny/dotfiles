@@ -100,6 +100,10 @@ function fbr {
     git checkout $(echo "$branch" | sed "s/.* //" | sed "s#remotes/[^/]*/##")
 }
 
+function cpver {
+    echo -n $(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[", ]//g') | pbcopy
+}
+
 # Homebrew
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/opt/python@3.10/libexec/bin:$PATH
