@@ -61,6 +61,8 @@ plugins=(
     zsh-autosuggestions
 )
 
+export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
+
 source $ZSH/oh-my-zsh.sh
 
 # Antigen
@@ -140,9 +142,6 @@ alias tb="nc termbin.com 9999"
 alias ipinfo="curl ipinfo.io"
 alias t="exa -n --long --tree --level=1"
 alias c="clear"
-
-# Zoxide
-eval "$(zoxide init zsh)"
 
 # Java
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
