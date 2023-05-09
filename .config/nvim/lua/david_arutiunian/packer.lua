@@ -22,11 +22,14 @@ return require('packer').startup(function(use)
     use('theprimeagen/harpoon')
     use('mbbill/undotree')
     use('tpope/vim-fugitive')
-    use('vim-airline/vim-airline')
-    use('vim-airline/vim-airline-themes')
     use('github/copilot.vim')
 
     use('prettier/vim-prettier', { run = 'yarn install --frozen-lockfile --production' })
+
+    use {
+        'nvim-lualine/lualine.nvim',
+        requires = { 'nvim-tree/nvim-web-devicons', opt = true }
+    }
 
     use {
         'johnfrankmorgan/whitespace.nvim',

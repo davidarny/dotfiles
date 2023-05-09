@@ -104,6 +104,11 @@ _G.packer_plugins = {
     path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/start/lsp-zero.nvim",
     url = "https://github.com/VonHeikemen/lsp-zero.nvim"
   },
+  ["lualine.nvim"] = {
+    loaded = true,
+    path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/start/lualine.nvim",
+    url = "https://github.com/nvim-lualine/lualine.nvim"
+  },
   ["mason-lspconfig.nvim"] = {
     loaded = true,
     path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/start/mason-lspconfig.nvim",
@@ -134,6 +139,12 @@ _G.packer_plugins = {
     path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/start/nvim-treesitter-context",
     url = "https://github.com/nvim-treesitter/nvim-treesitter-context"
   },
+  ["nvim-web-devicons"] = {
+    loaded = false,
+    needs_bufread = false,
+    path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/opt/nvim-web-devicons",
+    url = "https://github.com/nvim-tree/nvim-web-devicons"
+  },
   ["packer.nvim"] = {
     loaded = true,
     path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/start/packer.nvim",
@@ -153,16 +164,6 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/start/undotree",
     url = "https://github.com/mbbill/undotree"
-  },
-  ["vim-airline"] = {
-    loaded = true,
-    path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/start/vim-airline",
-    url = "https://github.com/vim-airline/vim-airline"
-  },
-  ["vim-airline-themes"] = {
-    loaded = true,
-    path = "/Users/david_arutiunian/.local/share/nvim/site/pack/packer/start/vim-airline-themes",
-    url = "https://github.com/vim-airline/vim-airline-themes"
   },
   ["vim-fugitive"] = {
     loaded = true,
