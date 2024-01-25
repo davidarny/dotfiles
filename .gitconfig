@@ -5,11 +5,6 @@
     eol = lf
     pager = diff-so-fancy | less --tabs=4 -RFX
 
-[user]
-
-    name = David Arutiunian
-    email = arutiunian666@gmail.com
-
 [alias]
 
     # Remove branches that have already been merged with main
@@ -68,15 +63,16 @@
 [mergetool]
 
     keepBackup = true
+    prompt = false
 
-	prompt = false
 [commit]
 
-    gpgsign = false
+	gpgSign = true
 
 [gpg]
 
     program = /usr/local/bin/gpg
+    format = openpgp
 
 [color]
 
@@ -99,30 +95,21 @@
     new = green bold
     whitespace = red reverse
 
-[bulkworkspaces]
-
-    vivi = /Users/david_arutiunian/Development/MWL/vivi
-    banzai = /Users/david_arutiunian/Development/MWL/banzai
-    vivi-admin = /Users/david_arutiunian/Development/MWL/admin
-    vivi-core = /Users/david_arutiunian/Development/MWL/core
-    betandreas-front = /Users/david_arutiunian/Development/mostbet/betandreas-front
-    mostbet-front = /Users/david_arutiunian/Development/mostbet/mostbet-front
-
 [interactive]
 
     diffFilter = diff-so-fancy --patch
 
-[init]
-    defaultBranch = main
-[difftool "Kaleidoscope"]
-	cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
-[mergetool "Kaleidoscope"]
-	cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
-	trustExitCode = true
-[diff]
-	tool = Kaleidoscope
 [difftool]
-	prompt = false
-	trustExitCode = true
-[merge]
-	tool = Kaleidoscope
+
+    prompt = false
+    trustExitCode = true
+
+[tag]
+
+    forceSignAnnotated = false
+
+[gpg "ssh"]
+
+    program = ssh-keygen
+    allowedSignersFile = ""
+
