@@ -1,1 +1,0 @@
-require("david_arutiunian")
