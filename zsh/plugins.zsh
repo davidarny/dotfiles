@@ -1,4 +1,3 @@
-# Antigen
 source /opt/homebrew/share/antigen/antigen.zsh
 
 antigen bundle command-not-found
