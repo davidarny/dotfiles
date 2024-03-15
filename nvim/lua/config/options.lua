@@ -10,5 +10,4 @@ opt.writebackup = false -- if a file is being edited by another program (or was 
 opt.swapfile = false -- creates a swapfile disable to avoid the annoying prompt
 opt.hlsearch = true -- highlight all matches on previous search pattern
 opt.relativenumber = false
-opt.spell = true
 opt.spelllang = { "en", "ru" }
