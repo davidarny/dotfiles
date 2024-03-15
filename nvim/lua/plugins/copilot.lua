@@ -1,3 +1,6 @@
+-- stylua: ignore
+if true then return {} end
+
 --- Get all the changes in the git repository
 ---@param staged? boolean
 ---@return string

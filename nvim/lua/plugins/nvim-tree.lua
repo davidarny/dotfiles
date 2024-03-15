@@ -1,5 +1,5 @@
 local VIEW_WIDTH_FIXED = 35
-local view_width_max = VIEW_WIDTH_FIXED -- fixed to start
+local view_width_max = -1 -- fixed to start
 
 -- toggle the width and redraw
 local function toggle_width_adaptive()
