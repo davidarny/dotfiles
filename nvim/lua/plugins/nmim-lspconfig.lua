@@ -39,7 +39,6 @@ return {
         },
         jsonls = {},
         cssls = {},
-        phpactor = {},
         css_variables = {},
 
         stylelint_lsp = {
