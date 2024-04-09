@@ -1,3 +1,4 @@
+-- NeoTREE is disabled in edgu.lua
 return {
   "nvim-neo-tree/neo-tree.nvim",
   enabled = false,

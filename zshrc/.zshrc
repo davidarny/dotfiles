@@ -28,6 +28,12 @@ plugins=(
     gitgo
 )
 
+export JIRA_URL="https://jira.dats.tech"
+export JIRA_NAME="d.arutyunyan"
+export JIRA_RAPID_BOARD=true
+export JIRA_RAPID_VIEW=687
+export JIRA_DEFAULT_ACTION=dashboard
+
 export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 
 source $ZSH/oh-my-zsh.sh

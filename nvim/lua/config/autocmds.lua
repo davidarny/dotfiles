@@ -15,9 +15,9 @@ vim.api.nvim_create_autocmd("ModeChanged", {
   end,
 })
 
-local function open_nvim_tree()
-  require("nvim-tree.api").tree.toggle()
-  require("nvim-tree.api").tree.toggle()
-end
-
-vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
+-- local function open_nvim_tree()
+--   require("nvim-tree.api").tree.toggle()
+--   require("nvim-tree.api").tree.toggle()
+-- end
+--
+-- vim.api.nvim_create_autocmd({ "VimEnter" }, { callback = open_nvim_tree })
