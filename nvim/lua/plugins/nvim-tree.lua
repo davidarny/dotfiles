@@ -42,6 +42,7 @@ return {
       },
 
       view = {
+        side = "right",
         width = {
           min = 35,
           max = get_view_width_max,
@@ -61,8 +62,8 @@ return {
 
         api.config.mappings.default_on_attach(bufnr)
 
-        vim.keymap.set("n", "<leader>fe", "<cmd>NvimTreeToggle<CR>", opts("Toggle"))
-        vim.keymap.set("n", "<leader>fa", toggle_width_adaptive, opts("Toggle Width"))
+        vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", opts("Toggle"))
+        vim.keymap.set("n", "<leader>ea", toggle_width_adaptive, opts("Toggle Width"))
       end,
     })
   end,
