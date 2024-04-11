@@ -52,6 +52,7 @@ fi
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+eval "$(gh copilot alias -- zsh)"
 eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
 
 PATH=$(pyenv root)/shims:$PATH
