@@ -11,11 +11,11 @@ function ask() {
 	[ "$response_lc" = "y" ]
 }
 
-if ask "Do you want to install .vimrc?"; then
+if ask "Do you want to install vim?"; then
 	stow --target $HOME vim
 fi
 
-if ask "Do you want to install .zshrc?"; then
+if ask "Do you want to install zsh?"; then
 	mkdir -p $HOME/.config/zsh
 	stow --target $HOME/.config/zsh zsh
 	stow --target $HOME zshrc
@@ -26,10 +26,19 @@ if ask "Do you want to install nvim?"; then
 	stow --target $HOME/.config/nvim nvim
 fi
 
-if ask "Do you want to install .gitconfig?"; then
+if ask "Do you want to install git?"; then
 	stow --target $HOME git
 fi
 
-if ask "Do you want to install .tmux.conf?"; then
+if ask "Do you want to install tmux?"; then
 	stow --target $HOME tmux
+fi
+
+if ask "Do you want to install bin?"; then
+	stow --target $HOME/.local/bin bin
+fi
+
+if ask "Do you want to install zellih?"; then
+	mkdir -p $HOME/.config/zellij/layout
+	stow --target $HOME/.config/zellij zellij
 fi

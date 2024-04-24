@@ -1,3 +1,8 @@
 alias c="clear"
 alias t="exa -n --long --tree --level=1"
 alias lg="lazygit"
+alias dev="cd ~/Developer"
+alias zj="zellij"
+alias tm="tmux"
+alias tms="tmux-sessionizer"
+alias zjs="zellij-sessionizer"

@@ -51,6 +51,7 @@ fi
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 eval "$(zoxide init zsh)"
+eval "$(fzf --zsh)"
 eval "$(starship init zsh)"
 eval "$(gh copilot alias -- zsh)"
 eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
@@ -71,6 +72,9 @@ HB_CNF_HANDLER="$(brew --repository)/Library/Taps/homebrew/homebrew-command-not-
 if [ -f "$HB_CNF_HANDLER" ]; then
 source "$HB_CNF_HANDLER";
 fi
+
+# Where should I put you?
+bindkey -s ^f "tmux-sessionizer\n"
 
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
