@@ -116,3 +116,5 @@
 [includeIf "gitdir:**/MWL/**"]
 
     path = ~/.gitconfig.dats.team
+[user]
+	name = David Arutyunyan

@@ -1,0 +1,25 @@
+layout {
+    tab focus=true name="VIVI" cwd="~/Developer/MWL/vivi-v2/" {
+      pane size=1 borderless=true {
+        plugin location="tab-bar"
+      }
+      pane split_direction="vertical" {
+        pane name="VIVI" size="60%" command="nvim" {
+          args "."
+        }
+        pane size="40%" {
+          pane size="40%" name="TERM"
+          pane size="60%" name="GIT" command="lazygit"
+        }
+      }
+      pane size=2 borderless=true {
+        plugin location="status-bar"
+      }
+    }
+}
+
+ui {
+    pane_frames {
+        rounded_corners true
+    }
+}

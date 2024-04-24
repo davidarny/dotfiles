@@ -1,0 +1,43 @@
+layout {
+    tab focus=true name="VIVI" cwd="~/Developer/MWL/vivi-v2/" {
+      pane size=1 borderless=true {
+        plugin location="tab-bar"
+      }
+      pane name="VIVI" command="nvim" {
+        args "."
+      }
+      pane size=2 borderless=true {
+        plugin location="status-bar"
+      }
+    }
+
+    tab name="BANZAI" cwd="~/Developer/MWL/banzai/" {
+      pane size=1 borderless=true {
+        plugin location="tab-bar"
+      }
+      pane name="BANZAI" command="nvim" {
+        args "."
+      }
+      pane size=2 borderless=true {
+        plugin location="status-bar"
+      }
+    }
+
+    tab name="CORE" cwd="~/Developer/MWL/core/" {
+      pane size=1 borderless=true {
+        plugin location="tab-bar"
+      }
+      pane name="CORE" command="nvim" {
+        args "."
+      }
+      pane size=2 borderless=true {
+        plugin location="status-bar"
+      }
+    }
+}
+
+ui {
+    pane_frames {
+        rounded_corners true
+    }
+}
