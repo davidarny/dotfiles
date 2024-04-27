@@ -96,3 +96,15 @@ function fnm_upgrade {
     | jq -r '.dependencies | to_entries[] | .key+"@"+.value.version' \
     | xargs npm i -g
 }
+
+# Upgrade @mwl/core-lib package
+function mwl_core_upgrade() {
+  local new_version="$1"
+  sed -i '' "s|\"@mwl/core-lib\": \".*\",|\"@mwl/core-lib\": \"$new_version\",|" package.json
+}
+
+# Upgrade @mwl/ui package
+function mwl_ui_upgrade() {
+  local new_version="$1"
+  sed -i '' "s|\"@mwl/ui\": \".*\",|\"@mwl/ui\": \"$new_version\",|" package.json
+}
