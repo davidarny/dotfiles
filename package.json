@@ -1,0 +1,19 @@
+{
+  "name": "dotfiles",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "author": "David Arutyunyan <arutyunyan666@gmail.com>",
+  "license": "GLWTS",
+  "scripts": {
+    "link": "node lib/install.js",
+    "unlink": "node lib/uninstall.js"
+  },
+  "dependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/inquirer": "^9.0.7",
+    "chalk": "^5.3.0",
+    "inquirer": "^9.2.20",
+    "junk": "^4.0.1"
+  }
+}
