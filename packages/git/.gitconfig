@@ -1,120 +1,77 @@
+[include]
+    path = ~/.gitconfig.github.com
+
+[includeIf "gitdir:**/MWL/**"]
+    path = ~/.gitconfig.dats.team
+
 [core]
-
-    autocrlf = false
-    editor = nvim
     eol = lf
-    pager = diff-so-fancy | less --tabs=4 -RFX
+    editor = nvim
+    autocrlf = false
+    pager = delta
 
-[alias]
+[user]
+    name = David Arutyunyan
 
-    # Remove branches that have already been merged with main
-    # a.k.a. ‘delete merged’
-    dm = "!f(){ git branch | grep -v "master" | grep -v ^* | xargs git branch -d; }; f"
-    dmf = "!f(){ git branch | grep -v "master" | grep -v ^* | xargs git branch -D; }; f"
+[interactive]
+    diffFilter = delta --color-only
 
-    # View abbreviated SHA, description, and history graph of the latest 20 commits
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+[delta]
+    navigate = true
+    side-by-side = true
+    line-numbers = true
 
-    # View last commit prettified
-    last = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit -1 HEAD
+[merge]
+    conflictstyle = diff3
 
-    # Unstage git changes
-    unstage = reset --soft HEAD
+[diff]
+    colorMoved = default
 
-    # Commit with message
-    cm = commit -m
-
-    # Commit and ammend
-    cma = commit --amend --no-edit
-
-    # Just a push
-    p = push
-
-    # Show short status
-    sb = status --short --branch
-
-    # ???
-    se = !git rev-list --all | xargs git grep -F
-
-    # List global config
-    gl = config --global -l
-
-    # Just a checkout
-    co = checkout
-
-    # Checkout a branhc
-    cob = checkout -b
-
-    # List aliases
-    la = !git config -l | grep alias | cut -c 7-
-
-    # List contributors
-    contributors = git log --format='%aN' | sort -u
 
 [push]
-
     followTags = true
     autoSetupRemote = true
 
 [pull]
-
-    rebase = false
-
-[mergetool]
-
-    keepBackup = true
-    prompt = false
+    rebase = true
 
 [gpg]
-
     program = /usr/local/bin/gpg
     format = openpgp
 
-[color]
-
-    ui = true
-
-[color "diff-highlight"]
-
-    oldNormal = red bold
-    oldHighlight = red bold 52
-    newNormal = green bold
-    newHighlight = green bold 22
-
-[color "diff"]
-
-    meta = 11
-    frag = magenta bold
-    func = 146 bold
-    commit = yellow bold
-    old = red bold
-    new = green bold
-    whitespace = red reverse
-
-[interactive]
-
-    diffFilter = diff-so-fancy --patch
-
-[difftool]
-
-    prompt = false
-    trustExitCode = true
-
 [tag]
-
     forceSignAnnotated = false
 
 [gpg "ssh"]
-
     program = ssh-keygen
-    allowedSignersFile = ""
 
-[include]
-
-    path = ~/.gitconfig.github.com
-
-[includeIf "gitdir:**/MWL/**"]
-
-    path = ~/.gitconfig.dats.team
-[user]
-	name = David Arutyunyan
+[alias]
+    # Remove branches that have already been merged with main a.k.a. ‘delete merged’
+    dm = "!f(){ git branch | grep -v "master" | grep -v ^* | xargs git branch -d; }; f"
+    dmf = "!f(){ git branch | grep -v "master" | grep -v ^* | xargs git branch -D; }; f"
+    # View abbreviated SHA, description, and history graph of the latest 20 commits
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+    # View last commit prettified
+    last = log --color --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit -1 HEAD
+    # Unstage git changes
+    unstage = reset --soft HEAD
+    # Commit with message
+    cm = commit -m
+    # Commit and ammend
+    cma = commit --amend --no-edit
+    # Just a push
+    p = push
+    # Show short status
+    sb = status --short --branch
+    # ???
+    se = !git rev-list --all | xargs git grep -F
+    # List global config
+    gl = config --global -l
+    # Just a checkout
+    co = checkout
+    # Checkout a branhc
+    cob = checkout -b
+    # List aliases
+    la = !git config -l | grep alias | cut -c 7-
+    # List contributors
+    contributors = git log --format='%aN' | sort -u
