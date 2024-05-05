@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-stow --target="$HOME" config
+stow --target="$HOME" configs
