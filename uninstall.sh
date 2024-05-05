@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-stow --delete --target="$HOME" config
+stow --delete --target="$HOME" configw
