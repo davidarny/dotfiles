@@ -119,8 +119,9 @@ if [ -f "$HB_CNF_HANDLER" ]; then
   source "$HB_CNF_HANDLER";
 fi
 
-# Where should I put you?
 bindkey -s ^f "tmux-sessionizer\n"
+
+neofetch
 
 # THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
