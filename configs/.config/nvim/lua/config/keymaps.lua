@@ -3,4 +3,3 @@
 -- Add any additional keymaps here
 
 vim.keymap.set({ "n", "x" }, "gx", "<cmd>Browse<CR>", { desc = "Open in Browser" })
-vim.keymap.set("n", "<leader>ba", ":bufdo bd <CR>", { desc = "Close All Buffers", noremap = true, silent = true })
