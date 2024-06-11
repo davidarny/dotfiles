@@ -7,10 +7,11 @@ autoload -U compinit
 compinit -i
 
 export PATH=$HOME/.local/bin:$PATH
-export ZSH="/Users/david_arutiunian/.oh-my-zsh"
+export ZSH=$HOME/.oh-my-zsh
 
 plugins=(
     git
+    gitgo
     gitfast
     gitignore
     fnm
@@ -18,22 +19,13 @@ plugins=(
     httpie
     common-aliases
     command-not-found
-    fzf
     gh
-    jira
+    fzf
     macos
+    zsh-completions
     zsh-autosuggestions
     zsh-syntax-highlighting
-    gitgo
 )
-
-export JIRA_URL="https://jira.dats.tech"
-export JIRA_NAME="d.arutyunyan"
-export JIRA_RAPID_BOARD=true
-export JIRA_RAPID_VIEW=687
-export JIRA_DEFAULT_ACTION=dashboard
-
-export ZSH_COMPDUMP=$ZSH/cache/.zcompdump-$HOST
 
 export FZF_DEFAULT_OPTS="
 	--color=fg:#908caa,bg:#242136,hl:#ebbcba
@@ -87,13 +79,13 @@ source $ZSH/oh-my-zsh.sh
 
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/opt/python@3.10/libexec/bin:$PATH
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 source /opt/homebrew/opt/git-extras/share/git-extras/git-extras-completion.zsh
 if [ -f $(brew --prefix)/etc/zsh_completion ]; then
   . $(brew --prefix)/etc/zsh_completion
 fi
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 eval "$(zoxide init zsh)"
 eval "$(fzf --zsh)"
 eval "$(thefuck --alias)"
@@ -120,12 +112,7 @@ if [ -f "$HB_CNF_HANDLER" ]; then
 fi
 
 bindkey -s ^f "tmux-sessionizer\n"
-
-neofetch
-
-# THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="$HOME/.sdkman"
-[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+bindkey -s ^z "zellij-sessionizer\n"
 
 # Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
