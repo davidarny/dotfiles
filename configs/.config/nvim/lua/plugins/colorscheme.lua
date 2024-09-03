@@ -1,12 +1,8 @@
 return {
-  { "catppuccin/nvim" },
   { "rose-pine/neovim", name = "rose-pine" },
   {
     "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "rose-pine-moon",
-      -- colorscheme = "catppuccin-macchiato",
-    },
+    opts = { colorscheme = "rose-pine-moon" },
   },
   {
     "akinsho/bufferline.nvim",
@@ -20,12 +16,7 @@ return {
     "nvim-lualine/lualine.nvim",
     event = "ColorScheme",
     config = function()
-      require("lualine").setup({
-        options = {
-          --- @usage 'rose-pine' | 'rose-pine-alt'
-          theme = "rose-pine",
-        },
-      })
+      require("lualine").setup({ options = { theme = "rose-pine" } })
     end,
   },
 }
