@@ -3,6 +3,8 @@
 export EDITOR=nvim
 export BAT_THEME="TwoDark"
 
+set -o ignoreeof
+
 autoload -U compinit
 compinit -i
 

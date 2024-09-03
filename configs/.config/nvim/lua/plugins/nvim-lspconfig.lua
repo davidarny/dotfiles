@@ -11,8 +11,9 @@ return {
     },
     ---@class PluginLspOpts
     opts = {
-      ---@type lspconfig.options
-      ---@diagnostic disable-next-line: missing-fields
+      inlay_hints = {
+        enabled = false,
+      },
       servers = {
         stylelint_lsp = {
           filetypes = {
@@ -22,7 +23,6 @@ return {
             "postcss",
           },
           settings = {
-            ---@diagnostic disable-next-line: missing-fields
             stylelintplus = {
               autoFixOnSave = true,
               validateOnSave = true,
