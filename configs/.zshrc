@@ -29,12 +29,30 @@ plugins=(
     zsh-syntax-highlighting
 )
 
-export FZF_DEFAULT_OPTS="
-	--color=fg:#908caa,bg:#242136,hl:#ebbcba
-	--color=fg+:#e0def4,bg+:#26233a,hl+:#ebbcba
-	--color=border:#403d52,header:#31748f,gutter:#191724
-	--color=spinner:#f6c177,info:#9ccfd8,separator:#403d52
-	--color=pointer:#c4a7e7,marker:#eb6f92,prompt:#908caa"
+# https://github.com/folke/tokyonight.nvim/tree/main/extras/fzf
+export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
+  --highlight-line \
+  --info=inline-right \
+  --ansi \
+  --layout=reverse \
+  --border=none
+  --color=bg+:#283457 \
+  --color=bg:#16161e \
+  --color=border:#27a1b9 \
+  --color=fg:#c0caf5 \
+  --color=gutter:#16161e \
+  --color=header:#ff9e64 \
+  --color=hl+:#2ac3de \
+  --color=hl:#2ac3de \
+  --color=info:#545c7e \
+  --color=marker:#ff007c \
+  --color=pointer:#ff007c \
+  --color=prompt:#2ac3de \
+  --color=query:#c0caf5:regular \
+  --color=scrollbar:#27a1b9 \
+  --color=separator:#ff9e64 \
+  --color=spinner:#ff007c \
+"
 
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -115,6 +133,9 @@ fi
 
 bindkey -s ^f "tmux-sessionizer\n"
 bindkey -s ^z "zellij-sessionizer\n"
+
+# https://github.com/3rd/image.nvim?tab=readme-ov-file#installing-imagemagick
+export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:$DYLD_LIBRARY_PATH"
 
 # Q post block. Keep at the bottom of this file.
 [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"

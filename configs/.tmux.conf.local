@@ -1,20 +1,3 @@
-# set -g @plugin 'rose-pine/tmux'
-# set -g @rose_pine_variant 'moon'
-#
-# set -g @rose_pine_date_time '%H:%M | %a'
-#
-# set -g @rose_pine_user 'on' # Turn on the username component in the statusbar
-# set -g @rose_pine_directory 'on' # Turn on the current folder component in the status bar
-#
-# set -g @rose_pine_session_icon '' # Changes the default icon to the left of the session name
-# set -g @rose_pine_current_window_icon '' # Changes the default icon to the left of the active window name
-# set -g @rose_pine_folder_icon '' # Changes the default icon to the left of the current directory folder
-# set -g @rose_pine_username_icon '' # Changes the default icon to the right of the hostname
-# set -g @rose_pine_hostname_icon '󰒋' # Changes the default icon to the right of the hostname
-# set -g @rose_pine_date_time_icon '󰃰' # Changes the default icon to the right of the date module
-# set -g @rose_pine_window_status_separator "  " # Changes the default icon that appears between window names
-
-
 set -g @plugin "janoamaral/tokyo-night-tmux"
 
 set -g @tokyo-night-tmux_show_datetime 0
@@ -27,3 +10,6 @@ set -g @tokyo-night-tmux_show_netspeed 1
 set -g @tokyo-night-tmux_netspeed_iface "en0"
 set -g @tokyo-night-tmux_netspeed_showip 0
 set -g @tokyo-night-tmux_netspeed_refresh 1
+
+# https://github.com/3rd/image.nvim
+set -gq allow-passthrough on
