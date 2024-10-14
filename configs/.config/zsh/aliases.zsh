@@ -12,3 +12,4 @@ alias tm="tmux"
 alias tms="tmux-sessionizer"
 alias zjs="zellij-sessionizer"
 
+alias reset="source ~/.zshrc"
