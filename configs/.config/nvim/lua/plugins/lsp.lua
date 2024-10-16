@@ -27,6 +27,7 @@ return { -- LSP Plugins
 
       -- Allows extra capabilities provided by nvim-cmp
       'hrsh7th/cmp-nvim-lsp',
+      'onsails/lspkind.nvim',
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -147,9 +148,9 @@ return { -- LSP Plugins
 
             vim.api.nvim_create_autocmd('LspDetach', {
               group = vim.api.nvim_create_augroup('kickstart-lsp-detach', { clear = true }),
-              callback = function(event2)
+              callback = function(sub_event)
                 vim.lsp.buf.clear_references()
-                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = event2.buf }
+                vim.api.nvim_clear_autocmds { group = 'kickstart-lsp-highlight', buffer = sub_event.buf }
               end,
             })
           end
@@ -256,7 +257,10 @@ return { -- LSP Plugins
         'stylua', -- Used to format Lua code
         'prettier',
       })
-      require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+
+      require('mason-tool-installer').setup {
+        ensure_installed = ensure_installed,
+      }
 
       require('mason-lspconfig').setup {
         handlers = {

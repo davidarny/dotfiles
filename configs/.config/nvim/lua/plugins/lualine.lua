@@ -7,6 +7,7 @@ return {
 
   config = function()
     local lualine = require 'lualine'
+    local overseer = require 'overseer'
 
     local sections = {
       lualine_a = { 'mode' },
@@ -65,7 +66,18 @@ return {
       lualine_x = {
         'macro_recording',
         '%S',
-        { 'encoding', icon = '󰈮' },
+        {
+          'overseer',
+          colored = true, -- Color the task icons and counts
+          symbols = {
+            [overseer.STATUS.FAILURE] = ':',
+            [overseer.STATUS.CANCELED] = '󰜺:',
+            [overseer.STATUS.SUCCESS] = ':',
+            [overseer.STATUS.RUNNING] = ':',
+          },
+        },
+        'copilot',
+        'encoding',
         'fileformat',
         'filetype',
       },
