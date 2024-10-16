@@ -44,42 +44,42 @@ return {
         require('noice').redirect(vim.fn.getcmdline())
       end,
       mode = 'c',
-      desc = 'Redirect Cmdline',
+      desc = 'Redirect cmdline',
     },
     {
       '<leader>snl',
       function()
         require('noice').cmd 'last'
       end,
-      desc = 'Noice Last Message',
+      desc = 'Noice last message',
     },
     {
       '<leader>snh',
       function()
         require('noice').cmd 'history'
       end,
-      desc = 'Noice History',
+      desc = 'Noice history',
     },
     {
       '<leader>sna',
       function()
         require('noice').cmd 'all'
       end,
-      desc = 'Noice All',
+      desc = 'Noice all',
     },
     {
       '<leader>snd',
       function()
         require('noice').cmd 'dismiss'
       end,
-      desc = 'Dismiss All',
+      desc = 'Dismiss all',
     },
     {
       '<leader>snt',
       function()
         require('noice').cmd 'pick'
       end,
-      desc = 'Noice Picker (Telescope/FzfLua)',
+      desc = 'Noice picker (Telescope/FzfLua)',
     },
     {
       '<c-f>',
@@ -90,7 +90,7 @@ return {
       end,
       silent = true,
       expr = true,
-      desc = '[S]croll [F]orward',
+      desc = 'Scroll forward',
       mode = { 'i', 'n', 's' },
     },
     {
@@ -102,7 +102,7 @@ return {
       end,
       silent = true,
       expr = true,
-      desc = '[S]croll [B]ackward',
+      desc = 'Scroll backward',
       mode = { 'i', 'n', 's' },
     },
   },

@@ -11,7 +11,7 @@ return {
     {
       '<leader>xX',
       '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
-      desc = 'Buffer Diagnostics (Trouble)',
+      desc = 'Buffer diagnostics (Trouble)',
     },
     {
       '<leader>cs',
@@ -21,17 +21,17 @@ return {
     {
       '<leader>cl',
       '<cmd>Trouble lsp toggle focus=false win.position=right<cr>',
-      desc = 'LSP Definitions / References / ... (Trouble)',
+      desc = 'LSP definitions / references / ... (Trouble)',
     },
     {
       '<leader>xL',
       '<cmd>Trouble loclist toggle<cr>',
-      desc = 'Location List (Trouble)',
+      desc = 'Location list (Trouble)',
     },
     {
       '<leader>xQ',
       '<cmd>Trouble qflist toggle<cr>',
-      desc = 'Quickfix List (Trouble)',
+      desc = 'Quickfix list (Trouble)',
     },
   },
 }
