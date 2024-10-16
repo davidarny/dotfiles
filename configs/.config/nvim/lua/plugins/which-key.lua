@@ -49,7 +49,8 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>t', group = 'Toggle' },
       { '<leader>h', group = 'Git hunk', mode = { 'n', 'v' } },
       { '<BS>', desc = 'Decrement selection', mode = 'x' },
-      { '<c-space>', desc = 'Increment selection', mode = { 'x', 'n' } },
+      { '<C-space>', desc = 'Increment selection', mode = { 'x', 'n' } },
+      { '<leader>o', group = 'Overseer' },
     },
   },
 }
