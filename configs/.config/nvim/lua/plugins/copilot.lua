@@ -67,7 +67,7 @@ return {
       {
         '<leader>a',
         '',
-        desc = '+ai',
+        desc = '+AI',
         mode = { 'n', 'v' },
       },
       -- Show help actions with telescope

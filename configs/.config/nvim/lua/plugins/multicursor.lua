@@ -17,6 +17,7 @@ return {
     -- Add or skip adding a new cursor by matching word/selection
     -- stylua: ignore start
     map({ 'n', 'v' }, '<leader>mn', function() mc.matchAddCursor(1) end, { desc = 'Add cursor above' })
+    map({ 'n', 'v' }, '<leader>mx', function() mc.clearCursors() end, { desc = 'Clear cursors' })
     map({ 'n', 'v' }, '<leader>ms', function() mc.matchSkipCursor(1) end, { desc = 'Skip cursor above' })
     map({ 'n', 'v' }, '<leader>mN', function() mc.matchAddCursor(-1) end, { desc = 'Add cursor below' })
     map({ 'n', 'v' }, '<leader>mS', function() mc.matchSkipCursor(-1) end, { desc = 'Skip cursor below' })
@@ -51,15 +52,15 @@ return {
     -- Clone every cursor and disable the originals.
     -- map({ 'n', 'v' }, '<leader><c-q>', mc.duplicateCursors)
 
-    map('n', '<esc>', function()
-      if not mc.cursorsEnabled() then
-        mc.enableCursors()
-      elseif mc.hasCursors() then
-        mc.clearCursors()
-      else
-        -- Default <esc> handler.
-      end
-    end)
+    -- map('n', '<esc>', function()
+    --   if not mc.cursorsEnabled() then
+    --     mc.enableCursors()
+    --   elseif mc.hasCursors() then
+    --     mc.clearCursors()
+    --   else
+    --     -- Default <esc> handler.
+    --   end
+    -- end)
 
     -- bring back cursors if you accidentally clear them
     -- map('n', '<leader>gv', mc.restoreCursors)
