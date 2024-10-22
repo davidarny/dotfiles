@@ -3,7 +3,6 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   dependencies = {
     'nvim-tree/nvim-web-devicons',
-    'yavorski/lualine-macro-recording.nvim',
   },
 
   config = function()
@@ -29,9 +28,9 @@ return {
             elseif vim.bo.filetype == 'qf' then
               return '󰁨 Quickfix'
             elseif vim.bo.filetype == 'oil' then
-              return '  Oil'
-            elseif name == '[No Name]' then
-              return ' New file'
+              return '󱏒 Oil'
+            elseif name == '[No Name]' or name == '' then
+              return '[No Name]'
             elseif icon ~= nil then
               return icon .. ' ' .. name
             end
@@ -65,8 +64,6 @@ return {
         },
       },
       lualine_x = {
-        'macro_recording',
-        '%S',
         {
           'overseer',
           colored = true, -- Color the task icons and counts
@@ -77,7 +74,6 @@ return {
             [overseer.STATUS.RUNNING] = ':',
           },
         },
-        'copilot',
         'encoding',
         'fileformat',
         'filetype',
@@ -91,6 +87,7 @@ return {
         theme = 'auto',
         globalstatus = vim.o.laststatus == 3,
       },
+      -- winbar = winbar,
       sections = sections,
       inactive_sections = sections,
     }
