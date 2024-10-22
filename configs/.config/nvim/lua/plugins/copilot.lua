@@ -57,8 +57,33 @@ return {
       }
     end,
     keys = {
-      { '<c-s>', '<CR>', ft = 'copilot-chat', desc = 'Submit prompt', remap = true },
-      { '<leader>a', '', desc = '+ai', mode = { 'n', 'v' } },
+      {
+        '<c-s>',
+        '<CR>',
+        ft = 'copilot-chat',
+        desc = 'Submit prompt',
+        remap = true,
+      },
+      {
+        '<leader>a',
+        '',
+        desc = '+ai',
+        mode = { 'n', 'v' },
+      },
+      -- Show help actions with telescope
+      {
+        '<leader>ad',
+        M.pick 'help',
+        desc = 'Diagnostic help (CopilotChat)',
+        mode = { 'n', 'v' },
+      },
+      -- Show prompts actions with telescope
+      {
+        '<leader>ap',
+        M.pick 'prompt',
+        desc = 'Prompt actions (CopilotChat)',
+        mode = { 'n', 'v' },
+      },
       {
         '<leader>aa',
         function()
@@ -86,10 +111,6 @@ return {
         desc = 'Quick chat (CopilotChat)',
         mode = { 'n', 'v' },
       },
-      -- Show help actions with telescope
-      { '<leader>ad', M.pick 'help', desc = 'Diagnostic help (CopilotChat)', mode = { 'n', 'v' } },
-      -- Show prompts actions with telescope
-      { '<leader>ap', M.pick 'prompt', desc = 'Prompt actions (CopilotChat)', mode = { 'n', 'v' } },
     },
     config = function(_, opts)
       local chat = require 'CopilotChat'
