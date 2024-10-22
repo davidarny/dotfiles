@@ -63,9 +63,8 @@ return { -- Fuzzy Finder (files, lsp, etc)
       },
       extensions = {
         file_browser = { hijack_netrw = true },
-        ['ui-select'] = {
-          require('telescope.themes').get_dropdown(),
-        },
+        ['ui-select'] = { require('telescope.themes').get_dropdown() },
+        smart_open = { match_algorithm = 'fzf', cwd_only = true },
       },
     }
 
@@ -77,7 +76,11 @@ return { -- Fuzzy Finder (files, lsp, etc)
     local builtin = require 'telescope.builtin'
     vim.keymap.set('n', '<leader>sh', builtin.help_tags, { desc = 'Search help' })
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = 'Search keymaps' })
-    vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = 'Search files' })
+
+    vim.keymap.set('n', '<leader>sf', function()
+      require('telescope').extensions.smart_open.smart_open()
+    end, { desc = 'Search files' })
+
     vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = 'Search select telescope' })
     vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = 'Search current word' })
     vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = 'Search by grep' })
@@ -105,7 +108,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     end, { desc = 'Search in open files' })
 
     -- Shortcut for searching your Neovim configuration files
-    vim.keymap.set('n', '<leader>sn', function()
+    vim.keymap.set('n', '<leader>sN', function()
       builtin.find_files { cwd = vim.fn.stdpath 'config' }
     end, { desc = 'Search neovim files' })
   end,
