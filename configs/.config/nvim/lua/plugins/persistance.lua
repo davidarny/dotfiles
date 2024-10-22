@@ -4,7 +4,7 @@ return {
   -- You can restore sessions when returning through the dashboard.
   {
     'folke/persistence.nvim',
-    event = 'BufReadPre',
+    event = { 'BufReadPre', 'BufNewFile' },
     keys = {
       {
         '<leader>qs',

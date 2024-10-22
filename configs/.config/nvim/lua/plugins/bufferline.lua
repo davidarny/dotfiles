@@ -1,7 +1,6 @@
 return {
   'akinsho/bufferline.nvim',
-  event = 'VeryLazy',
-  version = '*',
+  event = { 'BufReadPre', 'BufNewFile' },
   dependencies = 'nvim-tree/nvim-web-devicons',
   keys = {
     { '<leader>bp', '<Cmd>BufferLineTogglePin<CR>', desc = 'Toggle pin' },

@@ -58,3 +58,8 @@ map({ 'i', 'x', 'n', 's' }, '<C-s>', '<cmd>w<cr><esc>', { desc = 'Save file' })
 
 -- Quit
 map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
+
+-- Swap paste behavior
+map({ 'n', 'x' }, 'p', 'P')
+map({ 'n', 'x' }, 'P', 'p')
+map({ 'n', 'x' }, 'd', '"_d')
