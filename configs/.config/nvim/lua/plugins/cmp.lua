@@ -133,34 +133,18 @@ return { -- Autocompletion
         --    https://github.com/L3MON4D3/LuaSnip?tab=readme-ov-file#keymaps
       },
 
+      -- stylua: ignore
       sources = {
         -- Copilot source
-        {
-          name = 'copilot',
-          group_index = 2,
-        },
+        { name = 'copilot'   , group_index = 2 },
         -- Supermaven source
-        {
-          name = 'supermaven',
-          group_index = 2,
-        },
+        { name = 'supermaven', group_index = 2 },
         -- Other sources
-        {
-          name = 'lazydev',
-          group_index = 0, -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
-        },
-        {
-          name = 'nvim_lsp',
-          group_index = 2,
-        },
-        {
-          name = 'luasnip',
-          group_index = 2,
-        },
-        {
-          name = 'path',
-          group_index = 2,
-        },
+        -- Set group index to 0 to skip loading LuaLS completions as lazydev recommends it
+        { name = 'lazydev'   , group_index = 0 },
+        { name = 'nvim_lsp'  , group_index = 2 },
+        { name = 'luasnip'   , group_index = 2 },
+        { name = 'path'      , group_index = 2 },
       },
 
       sorting = {

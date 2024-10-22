@@ -15,6 +15,8 @@ return {
         backend = 'kitty',
         kitty_method = 'normal',
         integrations = {
+          css = { enabled = false },
+          html = { enabled = false },
           markdown = {
             enabled = true,
             clear_in_insert_mode = false,
@@ -28,12 +30,6 @@ return {
             download_remote_images = true,
             only_render_image_at_cursor = false,
             filetypes = { 'norg' },
-          },
-          html = {
-            enabled = false,
-          },
-          css = {
-            enabled = false,
           },
         },
         max_width = nil,

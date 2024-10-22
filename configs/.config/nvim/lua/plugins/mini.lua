@@ -9,6 +9,7 @@ return { -- Collection of various small independent plugins/modules
     --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
     --  - ci'  - [C]hange [I]nside [']quote
     require('mini.ai').setup { n_lines = 500 }
+    require('mini.align').setup {}
 
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     --
@@ -26,16 +27,17 @@ return { -- Collection of various small independent plugins/modules
     }
 
     require('mini.icons').setup {
+      -- stylua: ignore
       file = {
-        ['.eslintrc.js'] = { glyph = '󰱺', hl = 'MiniIconsYellow' },
-        ['.node-version'] = { glyph = '', hl = 'MiniIconsGreen' },
-        ['.prettierrc'] = { glyph = '', hl = 'MiniIconsPurple' },
-        ['.yarnrc.yml'] = { glyph = '', hl = 'MiniIconsBlue' },
-        ['eslint.config.js'] = { glyph = '󰱺', hl = 'MiniIconsYellow' },
-        ['package.json'] = { glyph = '', hl = 'MiniIconsGreen' },
-        ['tsconfig.json'] = { glyph = '', hl = 'MiniIconsAzure' },
+        ['.eslintrc.js']        = { glyph = '󰱺', hl = 'MiniIconsYellow' },
+        ['.node-version']       = { glyph = '', hl = 'MiniIconsGreen' },
+        ['.prettierrc']         = { glyph = '', hl = 'MiniIconsPurple' },
+        ['.yarnrc.yml']         = { glyph = '', hl = 'MiniIconsBlue' },
+        ['eslint.config.js']    = { glyph = '󰱺', hl = 'MiniIconsYellow' },
+        ['package.json']        = { glyph = '', hl = 'MiniIconsGreen' },
+        ['tsconfig.json']       = { glyph = '', hl = 'MiniIconsAzure' },
         ['tsconfig.build.json'] = { glyph = '', hl = 'MiniIconsAzure' },
-        ['yarn.lock'] = { glyph = '', hl = 'MiniIconsBlue' },
+        ['yarn.lock']           = { glyph = '', hl = 'MiniIconsBlue' },
       },
     }
 
