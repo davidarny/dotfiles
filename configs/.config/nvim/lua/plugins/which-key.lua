@@ -43,16 +43,20 @@ return { -- Useful plugin to show you pending keybinds.
     -- Document existing key chains
     -- stylua: ignore
     spec = {
-      { '<leader>c', group = 'Code', mode = { 'n', 'x' } },
-      { '<leader>d', group = 'Doc  ument' },
-      { '<leader>r', group = 'Rename' },
-      { '<leader>s', group = 'Search' },
-      { '<leader>w', group = 'Workspace' },
-      { '<leader>t', group = 'Toggle' },
-      { '<leader>h', group = 'Git hunk', mode = { 'n', 'v' } },
       { '<BS>'     , desc  = 'Decrement selection', mode = 'x' },
       { '<C-space>', desc  = 'Increment selection', mode = { 'x', 'n' } },
-      { '<leader>o', group = 'Overseer' },
+      { '<leader>c', group = 'Code', mode = { 'n', 'x' } },
+      { '<leader>d', group = 'Document', icon = '󰈙' },
+      { '<leader>r', group = 'Rename' },
+      { '<leader>s', group = 'Search' },
+      { '<leader>w', group = 'Workspace', icon = "" },
+      { '<leader>t', group = 'Toggle' },
+      { '<leader>h', group = 'Git hunk', mode = { 'n', 'v' } },
+      { '<leader>o', group = 'Tasks', icon = "" },
+      { '<leader>m', group = 'Multicursor', mode = { 'n', 'v' }, icon = "󰇀" },
+      { '<leader>g', group = 'Git' },
+      { '<leader>x', group = 'Diagnostic' },
+      { '<leader>b', group = 'Buffer' },
     },
   },
 }

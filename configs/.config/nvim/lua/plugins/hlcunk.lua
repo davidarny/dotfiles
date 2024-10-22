@@ -2,7 +2,7 @@ return {
   'shellRaining/hlchunk.nvim',
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
-    local colors = require('tokyonight.colors').setup {}
+    local colors = require('tokyonight.colors').setup()
 
     require('hlchunk').setup {
       chunk = {
