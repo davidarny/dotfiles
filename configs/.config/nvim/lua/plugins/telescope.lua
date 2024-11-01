@@ -1,3 +1,66 @@
+local ignore_patterns = {
+  '*.git/*',
+  '*build/*',
+  '*debug/*',
+  '*.pdf',
+  '*.ico',
+  '*.class',
+  '*~',
+  '~:',
+  '*.jar',
+  '*.node',
+  '*.lock',
+  '*.gz',
+  '*.zip',
+  '*.7z',
+  '*.rar',
+  '*.lzma',
+  '*.bz2',
+  '*.rlib',
+  '*.rmeta',
+  '*.DS_Store',
+  '*.cur',
+  -- '*.png',
+  -- '*.jpeg',
+  -- '*.jpg',
+  '*.gif',
+  '*.bmp',
+  '*.avif',
+  '*.heif',
+  '*.jxl',
+  '*.tif',
+  '*.tiff',
+  -- '*.ttf',
+  -- '*.otf',
+  -- '*.woff*',
+  '*.sfd',
+  '*.pcf',
+  -- '*.ico',
+  -- '*.svg',
+  '*.ser',
+  '*.wasm',
+  '*.pack',
+  '*.pyc',
+  '*.apk',
+  '*.bin',
+  '*.dll',
+  '*.pdb',
+  '*.db',
+  '*.so',
+  '*.spl',
+  '*.min.js',
+  '*.min.gzip.js',
+  '*.so',
+  '*.doc',
+  '*.swp',
+  '*.bak',
+  '*.ctags',
+  '*.doc',
+  '*.ppt',
+  '*.xls',
+  '*.pdf',
+}
+
 return { -- Fuzzy Finder (files, lsp, etc)
   'nvim-telescope/telescope.nvim',
   event = 'VimEnter',
@@ -78,7 +141,9 @@ return { -- Fuzzy Finder (files, lsp, etc)
     vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = 'Search keymaps' })
 
     vim.keymap.set('n', '<leader>sf', function()
-      require('telescope').extensions.smart_open.smart_open()
+      require('telescope').extensions.smart_open.smart_open {
+        ignore_patterns = ignore_patterns,
+      }
     end, { desc = 'Search files' })
 
     vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = 'Search select telescope' })

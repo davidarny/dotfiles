@@ -4,7 +4,8 @@ return {
   -- You can restore sessions when returning through the dashboard.
   {
     'folke/persistence.nvim',
-    event = { 'BufReadPre', 'BufNewFile' },
+    event = 'VeryLazy',
+    opts = {},
     -- stylua: ignore
     keys = {
       { '<leader>qs', function() require('persistence').load() end,               desc = 'Restore session' },
