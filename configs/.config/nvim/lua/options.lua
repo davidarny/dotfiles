@@ -77,3 +77,8 @@ for type, icon in pairs(signs) do
   local hl = 'DiagnosticSign' .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = '' })
 end
+
+vim.opt.tabstop = 2 -- Number of spaces that a <Tab> counts for
+vim.opt.shiftwidth = 2 -- Number of spaces used for each step of (auto)indent
+vim.opt.expandtab = true -- Convert tabs to spaces
+vim.opt.softtabstop = 2 -- Makes editing as if tabs are 2 spaces wide
