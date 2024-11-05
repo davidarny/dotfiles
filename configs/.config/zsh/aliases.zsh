@@ -8,6 +8,7 @@ alias dev="cd ~/Developer"
 
 alias zj="zellij"
 alias tm="tmux"
+alias yz="yazi"
 
 alias tms="tmux-sessionizer"
 alias zjs="zellij-sessionizer"
