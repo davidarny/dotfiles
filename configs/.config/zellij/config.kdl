@@ -122,13 +122,13 @@ keybinds {
         }
     }
     tmux {
-        bind "[" { SwitchToMode "Scroll"; }
+        bind "Enter" { SwitchToMode "Scroll"; }
         bind "Ctrl b" { Write 2; SwitchToMode "Normal"; }
-        bind "\"" { NewPane "Down"; SwitchToMode "Normal"; }
-        bind "%" { NewPane "Right"; SwitchToMode "Normal"; }
-        bind "z" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
+        bind "_" { NewPane "Down"; SwitchToMode "Normal"; }
+        bind "-" { NewPane "Right"; SwitchToMode "Normal"; }
+        bind "+" { ToggleFocusFullscreen; SwitchToMode "Normal"; }
         bind "c" { NewTab; SwitchToMode "Normal"; }
-        bind "," { SwitchToMode "RenameTab"; }
+        bind "r" { SwitchToMode "RenameTab"; }
         bind "p" { GoToPreviousTab; SwitchToMode "Normal"; }
         bind "n" { GoToNextTab; SwitchToMode "Normal"; }
         bind "Left" { MoveFocus "Left"; SwitchToMode "Normal"; }
@@ -278,7 +278,7 @@ plugins {
 
 // Choose the theme that is specified in the themes section.
 // Default: default
-//
+
 theme "tokyo-night"
 
 // The name of the default layout to load on startup
