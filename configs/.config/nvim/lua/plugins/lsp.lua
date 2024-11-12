@@ -195,7 +195,17 @@ return { -- LSP Plugins
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        vtsls = {},
+        vtsls = {
+          settings = {
+            typescript = {
+              format = { enable = false },
+            },
+            javascript = {
+              format = { enable = false },
+            },
+          },
+        },
+        shfmt = {},
         markdownlint = {},
 
         cssls = {},
@@ -220,13 +230,15 @@ return { -- LSP Plugins
           },
         },
 
+        prettier = {},
         eslint = {
           settings = {
             -- helps eslint find the eslintrc when it's placed in a subfolder instead of the cwd root
-            workingDirectories = { mode = 'auto' },
+            workingDirectoriy = { mode = 'auto' },
           },
         },
 
+        stylua = {},
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -254,10 +266,6 @@ return { -- LSP Plugins
       -- You can add other tools here that you want Mason to install
       -- for you, so that they are available from within Neovim.
       local ensure_installed = vim.tbl_keys(servers or {})
-      vim.list_extend(ensure_installed, {
-        'stylua', -- Used to format Lua code
-        'prettier',
-      })
 
       require('mason-tool-installer').setup {
         ensure_installed = ensure_installed,
