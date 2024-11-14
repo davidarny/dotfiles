@@ -43,8 +43,8 @@ return { -- Useful plugin to show you pending keybinds.
     -- Document existing key chains
     -- stylua: ignore
     spec = {
-      { '<BS>'     , desc  = 'Decrement selection', mode = 'x' },
-      { '<C-space>', desc  = 'Increment selection', mode = { 'x', 'n' } },
+      { '<BS>', desc = 'Decrement selection', mode = 'x' },
+      { '<C-space>', desc = 'Increment selection', mode = { 'x', 'n' } },
       { '<leader>c', group = 'Code', mode = { 'n', 'x' } },
       { '<leader>d', group = 'Document', icon = '󰈙' },
       { '<leader>r', group = 'Rename' },
@@ -58,6 +58,7 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>x', group = 'Diagnostic' },
       { '<leader>b', group = 'Buffer' },
       { '<leader>q', group = 'Session' },
+      { '<leader>-', group = "Open yazi in working directory", icon = '󰈙' }
     },
   },
 }
