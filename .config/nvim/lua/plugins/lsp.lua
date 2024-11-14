@@ -239,6 +239,16 @@ return { -- LSP Plugins
         },
 
         stylua = {},
+        bashls = {},
+        ['nil_ls'] = {
+          settings = {
+            ['nil'] = {
+              formatting = {
+                command = { 'nixfmt' },
+              },
+            },
+          },
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},

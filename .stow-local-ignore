@@ -1,0 +1,10 @@
+nix
+
+.git
+.gitignore
+
+LICENSE.md
+README.md
+
+install.sh
+uninstall.sh
