@@ -37,10 +37,12 @@ return { -- Autoformat
       lua = { 'stylua' },
       sh = { 'shfmt' },
 
+      json = { 'prettier' },
+      yml = { 'prettier' },
+      yaml = { 'prettier' },
       css = { 'prettier' },
       scss = { 'prettier' },
       html = { 'prettier' },
-
       javascript = { 'prettier' },
       typescript = { 'prettier' },
       javascriptreact = { 'prettier' },
