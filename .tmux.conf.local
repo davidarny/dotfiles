@@ -11,5 +11,6 @@ set -g @tokyo-night-tmux_netspeed_iface "en0"
 set -g @tokyo-night-tmux_netspeed_showip 0
 set -g @tokyo-night-tmux_netspeed_refresh 1
 
+setw -g mouse on
 # https://github.com/3rd/image.nvim
 set -gq allow-passthrough on
