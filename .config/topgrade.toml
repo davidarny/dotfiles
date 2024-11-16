@@ -15,10 +15,10 @@
 # sudo_command = "sudo"
 
 # Disable specific steps - same options as the command line flag
-disable = ["pnpm", "gem", "ruby_gems", "tmux"]
+disable = ["pnpm", "gem", "ruby_gems", "home_manager", "tmux"]
 
 # Ignore failures for these steps
-# ignore_failures = ["powershell"]
+ignore_failures = ["git_repos"]
 
 # List of remote machines with Topgrade installed on them
 # remote_topgrades = ["toothless", "pi", "parnas"]
@@ -48,7 +48,7 @@ disable = ["pnpm", "gem", "ruby_gems", "tmux"]
 # run_in_tmux = true
 
 # Cleanup temporary or old files (default: false)
-# cleanup = true
+cleanup = true
 
 # Send a notification for every step (default: false)
 # notify_each_step = false
@@ -89,6 +89,7 @@ disable = ["pnpm", "gem", "ruby_gems", "tmux"]
 [commands]
 # "Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 # "Custom command using interactive shell (unix)" = "-i vim_upgrade"
+"home_manager:fixed" = "-i home-manager switch --flake ~/.dotfiles/nix/flake.nix"
 
 
 [python]
