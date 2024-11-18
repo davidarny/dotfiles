@@ -1,20 +1,37 @@
 {
-  description = "Top level NixOS Flake";
+  #     _   ___         ______            ____
+  #    / | / (_)  __   / ____/___  ____  / __/____
+  #   /  |/ / / |/_/  / /   / __ \/ __ \/ /_/ ___/
+  #  / /|  / />  <   / /___/ /_/ / / / / __(__  )
+  # /_/ |_/_/_/|_|   \____/\____/_/ /_/_/ /____/
+  description = "Top level NixOS flake";
 
   inputs = {
     # Nixpkgs
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-
-    # Unstable Packages
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
-    # Home Manager
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    # Nix-darwin for macOS systems management
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Home manager
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    { nixpkgs, home-manager, ... }:
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      nix-darwin,
+      ...
+    }:
     {
       homeConfigurations = {
         "david_arutiunian" = home-manager.lib.homeManagerConfiguration {
@@ -22,5 +39,19 @@
           modules = [ ./home.nix ];
         };
       };
+
+      darwinConfigurations = {
+        "Davids-MacBook-Pro-16" = nix-darwin.lib.darwinSystem {
+          system = nixpkgs.legacyPackages.aarch64-darwin;
+          modules = [ ./darwin.nix ];
+          specialArgs = {
+            inherit self;
+            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          };
+        };
+      };
+
+      # Expose the package set, including overlays, for convenience.
+      darwinPackages = self.darwinConfigurations."Davids-MacBook-Pro-16".pkgs;
     };
 }

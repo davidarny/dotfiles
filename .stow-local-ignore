@@ -6,6 +6,7 @@ nix
 LICENSE.md
 README.md
 
+clean.sh
 install.sh
 uninstall.sh
 
