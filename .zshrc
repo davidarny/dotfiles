@@ -20,13 +20,6 @@ export PATH=/opt/homebrew/sbin:$PATH
 export PATH=/opt/homebrew/opt/python@3.10/libexec/bin:$PATH
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# Pyenv configuration
-PATH=$(pyenv root)/shims:$PATH
-export PYENV_ROOT="$HOME/.pyenv"
-command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init -)"
-source $(pyenv root)/completions/pyenv.zsh
-
 # Java and Android SDK configuration
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
 export ANDROID_SDK_ROOT="/opt/homebrew/share/android-commandlinetools"
