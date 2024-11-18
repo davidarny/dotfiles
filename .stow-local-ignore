@@ -10,5 +10,7 @@ README.md
 
 link.sh
 unlink.sh
+install.sh
+uninstall.sh
 
 Caddyfile
