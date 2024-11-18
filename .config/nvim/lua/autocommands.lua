@@ -12,9 +12,13 @@ vim.api.nvim_create_autocmd('TextYankPost', {
   end,
 })
 
+local disabled_filetypes = { 'oil' }
+
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = vim.api.nvim_create_augroup('kickstart-format-on-save', {}),
   callback = function()
-    vim.lsp.buf.format()
+    if not vim.tbl_contains(disabled_filetypes, vim.bo.filetype) then
+      vim.lsp.buf.format()
+    end
   end,
 })
