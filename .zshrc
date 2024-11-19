@@ -29,29 +29,14 @@ export PATH=$PATH:"$HOME/fvm/default/bin"
 export PATH="/Users/david_arutiunian/Library/Application Support/fnm:$PATH"
 
 # FZF configuration
-export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS \
-  --highlight-line \
-  --info=inline-right \
-  --ansi \
-  --layout=reverse \
-  --border=none
-  --color=bg+:#283457 \
-  --color=bg:#16161e \
-  --color=border:#27a1b9 \
-  --color=fg:#c0caf5 \
-  --color=gutter:#16161e \
-  --color=header:#ff9e64 \
-  --color=hl+:#2ac3de \
-  --color=hl:#2ac3de \
-  --color=info:#545c7e \
-  --color=marker:#ff007c \
-  --color=pointer:#ff007c \
-  --color=prompt:#2ac3de \
-  --color=query:#c0caf5:regular \
-  --color=scrollbar:#27a1b9 \
-  --color=separator:#ff9e64 \
-  --color=spinner:#ff007c \
-"
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:-1,fg+:#d0d0d0,bg:-1,bg+:#262626
+  --color=hl:#bb9af7,hl+:#5fd7ff,info:#7aa2f7,marker:#9ece6a
+  --color=prompt:#7dcfff,spinner:#9ece6a,pointer:#7dcfff,header:#9ece6a
+  --color=border:#262626,label:#aeaeae,query:#d9d9d9
+  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
+  --marker=">" --pointer="◆" --separator="─" --scrollbar="│"
+  --info="right"'
 
 # FZF commands for file and directory search
 export FZF_CTRL_T_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
