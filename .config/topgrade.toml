@@ -89,7 +89,7 @@ cleanup = true
 [commands]
 # "Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 # "Custom command using interactive shell (unix)" = "-i vim_upgrade"
-"home_manager:fixed" = "-i home-manager switch --flake ~/.dotfiles/nix/flake.nix"
+"home_manager:fixed" = "-i home-manager switch --flake ~/.dotfiles/nix"
 
 
 [python]
