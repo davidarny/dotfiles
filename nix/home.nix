@@ -5,7 +5,6 @@
   home.homeDirectory = "/Users/david_arutiunian";
 
   home.packages = [
-    pkgs.git
     pkgs.neovim
     pkgs.ripgrep
     pkgs.nixfmt-rfc-style # nix code formatter
