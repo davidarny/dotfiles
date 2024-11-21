@@ -10,6 +10,10 @@ setopt hist_save_no_dups
 setopt hist_ignore_dups
 setopt hist_find_no_dups
 
+# Default editor
+export EDITOR=nvim
+export VISUAL=code
+
 # Ignore EOF to prevent accidental shell exit
 set -o ignoreeof
 
