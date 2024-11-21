@@ -1,5 +1,5 @@
 # History settings
-HISTSIZE=5000
+HISTSIZE=10000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
 setopt appendhistory
@@ -71,6 +71,10 @@ zinit light zsh-users/zsh-autosuggestions
 # Load Oh My Zsh snippets
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
+zinit snippet OMZP::npm
+zinit snippet OMZP::yarn
+zinit snippet OMZP::brew
+zinit snippet OMZP::node
 zinit snippet OMZP::command-not-found
 
 # Load completions
