@@ -11,20 +11,20 @@ curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix 
 ```
 
 
-Then run the `install.sh` script as follows:
+Then run the `link.sh` script as follows:
 
 ```bash
-./install.sh
+./link.sh
 ```
 
 This will create symlinks to the dotfiles in your home directory using [GNU stow](https://www.gnu.org/software/stow/) and install packages using [Nix](https://nixos.org/).
 
 ## Uninstalling
 
-Run the `uninstall.sh` script as follows:
+Run the `unlink.sh` script as follows:
 
 ```bash
-./uninstall.sh
+./unlink.sh
 ```
 
-This will remove the symlinks created by the `install.sh` script.
+This will remove the symlinks created by the `link.sh` script.

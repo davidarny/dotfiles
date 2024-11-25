@@ -67,12 +67,13 @@ zinit light Aloxaf/fzf-tab
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
+zinit ice atload"zpcdreplay" atclone"./zplug.zsh" atpull"%atclone"
+zinit light g-plane/pnpm-shell-completion
 
 # Load Oh My Zsh snippets
 zinit snippet OMZP::git
 zinit snippet OMZP::sudo
 zinit snippet OMZP::npm
-zinit snippet OMZP::yarn
 zinit snippet OMZP::brew
 zinit snippet OMZP::node
 zinit snippet OMZP::command-not-found

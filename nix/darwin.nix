@@ -1,27 +1,60 @@
-{ self, ... }:
+{ self, localConfig, ... }:
 {
-  # Necessary for using flakes on this system.
-  nix.settings.experimental-features = "nix-command flakes";
-
-  # Set Git commit hash for darwin-version.
-  system.configurationRevision = self.rev or self.dirtyRev or null;
-
-  # Used for backwards compatibility, please read the changelog before changing.
-  #$ darwin-rebuild changelog
-  system.stateVersion = 5;
-
-  system.defaults = {
-    NSGlobalDomain.AppleICUForce24HourTime = true;
-    NSGlobalDomain.AppleShowAllExtensions = true;
-    loginwindow.GuestEnabled = false;
-    finder.FXPreferredViewStyle = "Nlsv";
+  nixpkgs = {
+    hostPlatform = "aarch64-darwin";
+    config = {
+      allowUnfree = true;
+      allowBroken = false;
+    };
   };
 
-  # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = "aarch64-darwin";
+  nix = {
+    optimise = {
+      automatic = true;
+    };
+    settings = {
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
+      trusted-users = [
+        "@admin"
+        localConfig.user.name
+      ];
+    };
+    gc = {
+      automatic = true;
+      options = "--delete-older-than 30d";
+    };
+  };
+
+  system = {
+    stateVersion = 5;
+    configurationRevision = self.rev or self.dirtyRev or null;
+    defaults = {
+      NSGlobalDomain = {
+        AppleICUForce24HourTime = true;
+        AppleShowAllExtensions = true;
+      };
+      loginwindow = {
+        GuestEnabled = false;
+      };
+      finder = {
+        FXPreferredViewStyle = "Nlsv";
+        ShowPathbar = true;
+        ShowStatusBar = true;
+      };
+    };
+  };
+
+  services.nix-daemon.enable = true;
+
+  users.users.${localConfig.user.name} = {
+    name = localConfig.user.name;
+    home = localConfig.user.home;
+  };
 
   system.activationScripts.postActivation.text = ''
-    # Create symlink for Caddyfile
-    sudo ln -sf /Users/david_arutiunian/.dotfiles/Caddyfile /opt/homebrew/etc/Caddyfile
+    sudo ln -sf ${localConfig.user.home}/.dotfiles/Caddyfile /opt/homebrew/etc/Caddyfile
   '';
 }
