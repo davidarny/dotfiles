@@ -18,7 +18,7 @@
 disable = ["pnpm", "gem", "ruby_gems", "home_manager", "tmux"]
 
 # Ignore failures for these steps
-ignore_failures = ["git_repos"]
+ignore_failures = ["git_repos", "containers"]
 
 # List of remote machines with Topgrade installed on them
 # remote_topgrades = ["toothless", "pi", "parnas"]
@@ -83,13 +83,14 @@ cleanup = true
 # Commands to run after anything
 [post_commands]
 # "Emacs Snapshot" = "rm -rf ~/.emacs.d/elpa.bak && cp -rl ~/.emacs.d/elpa ~/.emacs.d/elpa.bak"
+"nix-collect-garbage" = "-i nix-collect-garbage -d"
 
 
 # Custom commands
 [commands]
 # "Python Environment" = "~/dev/.env/bin/pip install -i https://pypi.python.org/simple -U --upgrade-strategy eager jupyter"
 # "Custom command using interactive shell (unix)" = "-i vim_upgrade"
-"home_manager:fixed" = "-i home-manager switch --flake ~/.dotfiles/nix"
+"darwin-rebuild" = "-i darwin-rebuild switch --flake ~/.dotfiles/nix"
 
 
 [python]

@@ -1,3 +1,5 @@
+.DS_Store
+
 nix
 
 .git
@@ -6,8 +8,7 @@ nix
 LICENSE.md
 README.md
 
-clean.sh
-install.sh
-uninstall.sh
+link.sh
+unlink.sh
 
 Caddyfile

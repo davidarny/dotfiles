@@ -14,4 +14,7 @@ alias yz="yazi"
 alias tms="tmux-sessionizer"
 alias zjs="zellij-sessionizer"
 
-alias zshsource="source ~/.zshrc"
+alias zs="source ~/.zshrc"
+
+alias dms="darwin-rebuild switch -v --flake ~/.dotfiles/nix"
+alias ngc="nix-collect-garbage -d"
