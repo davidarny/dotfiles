@@ -17,10 +17,10 @@ return {
           ['<C-p>'] = 'actions.preview',
           ['<C-c>'] = 'actions.close',
           ['<C-l>'] = 'actions.refresh',
-          -- ['-'] = 'actions.parent', -- NOTE: handled by yazi
-          -- ['_'] = 'actions.open_cwd', -- NOTE: handled by yazi
-          -- ['`'] = 'actions.cd',
-          -- ['~'] = { 'actions.cd', opts = { scope = 'tab' }, desc = ':tcd to the current oil directory', mode = 'n' },
+          ['-'] = 'actions.parent',
+          ['_'] = 'actions.open_cwd',
+          ['`'] = 'actions.cd',
+          ['~'] = { 'actions.cd', opts = { scope = 'tab' }, desc = ':tcd to the current oil directory', mode = 'n' },
           ['gs'] = 'actions.change_sort',
           ['gx'] = 'actions.open_external',
           ['g.'] = 'actions.toggle_hidden',

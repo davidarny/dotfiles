@@ -58,7 +58,7 @@ return { -- Useful plugin to show you pending keybinds.
       { '<leader>x', group = 'Diagnostic' },
       { '<leader>b', group = 'Buffer' },
       { '<leader>q', group = 'Session' },
-      { '<leader>-', group = "Open yazi in working directory", icon = '󰈙' }
+      { '<leader>z', group = "Open yazi in working directory", icon = '󰈙' }
     },
   },
 }

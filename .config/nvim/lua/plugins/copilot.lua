@@ -36,7 +36,7 @@ return {
 
   {
     'CopilotC-Nvim/CopilotChat.nvim',
-    branch = 'canary',
+    branch = 'main',
     event = 'VeryLazy',
     cmd = 'CopilotChat',
     opts = function()
