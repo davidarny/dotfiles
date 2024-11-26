@@ -30,14 +30,14 @@ return {
     keys = {
       -- 👇 in this section, choose your own keymappings!
       {
-        '-',
+        '<leader>zf',
         '<cmd>Yazi<cr>',
         mode = { 'n', 'x' },
         desc = 'Open yazi at the current file',
       },
       {
         -- Open in the current working directory
-        '<leader>-',
+        '<leader>zc',
         '<cmd>Yazi cwd<cr>',
         mode = { 'n', 'x' },
         desc = 'Open yazi in working directory',
@@ -46,7 +46,7 @@ return {
     ---@type YaziConfig
     opts = {
       open_multiple_tabs = true,
-      open_for_directories = true,
+      open_for_directories = false,
 
       keymaps = {
         show_help = '~',
