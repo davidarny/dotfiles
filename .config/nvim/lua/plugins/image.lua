@@ -5,10 +5,11 @@
 return {
   '3rd/image.nvim',
   event = 'VeryLazy',
-  dependencies = { 'vhyrro/luarocks.nvim' },
+  build = false,
   config = function()
     require('image').setup {
       backend = 'kitty',
+      processor = 'magick_cli',
       kitty_method = 'normal',
       integrations = {
         css = { enabled = false },
