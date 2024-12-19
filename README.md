@@ -4,12 +4,17 @@
 
 ## Installing
 
-First install [Nix](https://nixos.org/):
+First install [Lix](https://lix.systems/install):
 
 ```bash
-curl --proto '=https' --tlsv1.2 -sSf -L https://install.determinate.systems/nix | sh -s -- install
+curl -sSf -L https://install.lix.systems/lix | sh -s -- install
 ```
 
+Then install nix-darwin:
+
+```bash
+nix run nix-darwin -- switch --flake ~/.config/nix-darwin
+```
 
 Then run the `link.sh` script as follows:
 
