@@ -6,6 +6,7 @@ return {
   'folke/snacks.nvim',
   priority = 1000,
   lazy = false,
+  ---@type snacks.Config
   opts = {
     bigfile = { enabled = true },
     bufdelete = { enabled = true },
@@ -18,8 +19,10 @@ return {
     terminal = { enabled = true },
     words = { enabled = true },
     dashboard = { enabled = true },
+    styles = { enabled = true },
   },
   keys = {
+    -- Buffer Management
     {
       '<leader>bd',
       function()
@@ -34,6 +37,31 @@ return {
         require('oil').open()
       end,
       desc = 'Delete all buffers',
+    },
+
+    -- Terminal
+    {
+      '<c-/>',
+      function()
+        Snacks.terminal()
+      end,
+      desc = 'Toggle Terminal',
+    },
+    {
+      '<c-_>',
+      function()
+        Snacks.terminal()
+      end,
+      desc = 'which_key_ignore',
+    },
+
+    -- Rename
+    {
+      '<leader>cR',
+      function()
+        Snacks.rename.rename_file()
+      end,
+      desc = 'Rename File',
     },
   },
 }
