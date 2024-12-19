@@ -9,7 +9,7 @@ return {
   main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   keys = {
     { '<c-space>', desc = 'Increment Selection' },
-    { '<bs>',      desc = 'Decrement Selection', mode = 'x' },
+    { '<bs>', desc = 'Decrement Selection', mode = 'x' },
   },
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
