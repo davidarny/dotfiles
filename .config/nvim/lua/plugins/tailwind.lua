@@ -25,4 +25,13 @@ return {
       require('tailwindcss-colors').setup()
     end,
   },
+  --- Highlight colors for Neovim.
+  ---
+  --- See `:help nvim-highlight-colors` for more information.
+  --- GitHub: https://github.com/brenoprata10/nvim-highlight-colors
+  {
+    'brenoprata10/nvim-highlight-colors',
+    event = { 'BufReadPre', 'BufNewFile' },
+    opts = {},
+  },
 }
