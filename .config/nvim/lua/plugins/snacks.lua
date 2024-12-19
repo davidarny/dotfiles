@@ -21,19 +21,19 @@ return {
   },
   keys = {
     {
-      "<leader>bd",
+      '<leader>bd',
       function()
         Snacks.bufdelete()
       end,
-      desc = "Delete buffer",
+      desc = 'Delete buffer',
     },
     {
-      "<leader>ba",
+      '<leader>ba',
       function()
         Snacks.bufdelete.all()
         require('oil').open()
       end,
-      desc = "Delete all buffers"
+      desc = 'Delete all buffers',
     },
   },
 }

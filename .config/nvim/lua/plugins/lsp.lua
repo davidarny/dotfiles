@@ -10,16 +10,15 @@ return {
     dependencies = {
       -- Automatically install LSPs and related tools to stdpath for Neovim
       { 'williamboman/mason.nvim', config = true }, -- NOTE: Must be loaded before dependants
-      'williamboman/mason-lspconfig.nvim',
-      'WhoIsSethDaniel/mason-tool-installer.nvim',
+      { 'williamboman/mason-lspconfig.nvim' },
+      { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
 
       -- Useful status updates for LSP.
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       { 'j-hui/fidget.nvim', opts = {} },
 
-      -- Allows extra capabilities provided by nvim-cmp
-      'hrsh7th/cmp-nvim-lsp',
-      'onsails/lspkind.nvim',
+      -- Allows extra capabilities provided by blink.cmp
+      { 'saghen/blink.cmp' },
     },
     config = function()
       -- Brief aside: **What is LSP?**
@@ -161,10 +160,9 @@ return {
 
       -- LSP servers and clients are able to communicate to each other what features they support.
       --  By default, Neovim doesn't support everything that is in the LSP specification.
-      --  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
-      --  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
+      --  When you add blink.cmp, Neovim now has *more* capabilities.
+      --  So, we create new capabilities with blink.cmp, and then broadcast that to the servers.
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
@@ -176,41 +174,28 @@ return {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
-        -- gopls = {},
-        -- pyright = {},
-        -- rust_analyzer = {},
-        -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-        --
-        -- Some languages (like typescript) have entire language plugins that can be useful:
-        --    https://github.com/pmizio/typescript-tools.nvim
-        --
-        -- But for many setups, the LSP (`ts_ls`) will work just fine
+        ---@section TypeScript/JavaScript
         vtsls = {
           settings = {
-            typescript = {
-              format = { enable = false },
-            },
-            javascript = {
-              format = { enable = false },
-            },
+            typescript = { format = { enable = false } },
+            javascript = { format = { enable = false } },
           },
         },
-        shfmt = {},
-        markdownlint = {},
+        eslint = {
+          settings = {
+            -- helps eslint find the eslintrc when it's placed in a subfolder instead of the cwd root
+            workingDirectoriy = { mode = 'auto' },
+          },
+        },
 
+        ---@section CSS/SCSS/Styling
         cssls = {},
         css_variables = {},
         cssmodules_ls = {},
         somesass_ls = {},
         tailwindcss = {},
-
         stylelint_lsp = {
-          filetypes = {
-            'css',
-            'scss',
-            'postcss',
-          },
+          filetypes = { 'css', 'scss', 'postcss' },
           settings = {
             stylelintplus = {
               autoFixOnSave = true,
@@ -221,16 +206,18 @@ return {
           },
         },
 
+        ---@section Formatting
         prettier = {},
-        eslint = {
-          settings = {
-            -- helps eslint find the eslintrc when it's placed in a subfolder instead of the cwd root
-            workingDirectoriy = { mode = 'auto' },
-          },
-        },
-
         stylua = {},
+        shfmt = {},
+
+        ---@section Documentation
+        markdownlint = {},
+
+        ---@section Shell
         bashls = {},
+
+        ---@section Nix
         ['nil_ls'] = {
           settings = {
             ['nil'] = {
@@ -240,10 +227,9 @@ return {
             },
           },
         },
+
+        ---@section Lua
         lua_ls = {
-          -- cmd = {...},
-          -- filetypes = { ...},
-          -- capabilities = {},
           settings = {
             Lua = {
               completion = {
@@ -254,6 +240,12 @@ return {
             },
           },
         },
+
+        -- Available but disabled servers
+        -- clangd = {},      -- C/C++
+        -- gopls = {},       -- Go
+        -- pyright = {},     -- Python
+        -- rust_analyzer = {}, -- Rust
       }
 
       -- Ensure the servers and tools above are installed
