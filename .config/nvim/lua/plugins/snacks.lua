@@ -10,6 +10,8 @@ return {
     bigfile = { enabled = true },
     dashboard = { enabled = true },
     bufdelete = { enabled = true },
+    notify = { enabled = true },
+    notifier = { enabled = true },
   },
   -- stylua: ignore
   keys = {
