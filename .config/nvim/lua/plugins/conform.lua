@@ -38,15 +38,25 @@ return {
       }
     end,
     formatters_by_ft = {
+      -- Lua
       lua = { 'stylua' },
+
+      -- Shell
       sh = { 'shfmt' },
 
+      -- Config files
       json = { 'prettier' },
       yml = { 'prettier' },
       yaml = { 'prettier' },
+
+      -- Styles
       css = { 'prettier' },
       scss = { 'prettier' },
+
+      -- Markup
       html = { 'prettier' },
+
+      -- JavaScript/TypeScript
       javascript = { 'prettier' },
       typescript = { 'prettier' },
       javascriptreact = { 'prettier' },
