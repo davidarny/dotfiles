@@ -8,14 +8,25 @@ return {
   lazy = false,
   opts = {
     bigfile = { enabled = true },
-    dashboard = { enabled = true },
     bufdelete = { enabled = true },
     notify = { enabled = true },
     notifier = { enabled = true },
+    gitbrowse = { enabled = true },
+    scope = { enabled = true },
+    rename = { enabled = true },
+    statuscolumn = { enabled = true },
+    terminal = { enabled = true },
+    words = { enabled = true },
+    dashboard = { enabled = true },
   },
-  -- stylua: ignore
   keys = {
-    { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete buffer" },
+    {
+      "<leader>bd",
+      function()
+        Snacks.bufdelete()
+      end,
+      desc = "Delete buffer",
+    },
     {
       "<leader>ba",
       function()
