@@ -35,19 +35,9 @@ return {
     -- Adds other completion capabilities.
     --  nvim-cmp does not ship with all sources by default. They are split
     --  into multiple repos for maintenance purposes.
-    'copilot.lua',
     'hrsh7th/cmp-nvim-lsp',
     'hrsh7th/cmp-path',
     'roobert/tailwindcss-colorizer-cmp.nvim',
-    {
-      'zbirenbaum/copilot-cmp',
-      config = function()
-        require('copilot_cmp').setup {
-          event = { 'InsertEnter', 'LspAttach' },
-          fix_pairs = true,
-        }
-      end,
-    },
   },
   config = function()
     -- See `:help cmp`
@@ -59,10 +49,6 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       formatting = {
         format = lspkind.cmp_format {
-          symbol_map = {
-            Copilot = '',
-            Supermaven = '',
-          },
           mode = 'symbol_text',
           maxwidth = 50,
           ellipsis_char = '...',
@@ -139,10 +125,6 @@ return {
 
       -- stylua: ignore
       sources = {
-        -- Copilot source
-        { name = 'copilot'   , group_index = 2 },
-        -- Supermaven source
-        { name = 'supermaven', group_index = 2 },
         -- Other sources
         -- Set group index to 0 to skip loading LuaLS completions as lazydev recommends it
         { name = 'lazydev'   , group_index = 0 },
@@ -154,8 +136,6 @@ return {
       sorting = {
         priority_weight = 2,
         comparators = {
-          require('copilot_cmp.comparators').prioritize,
-
           -- Below is the default comparitor list and order for nvim-cmp
           cmp.config.compare.offset,
           -- cmp.config.compare.scopes, --this is commented in nvim-cmp too
