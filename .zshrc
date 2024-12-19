@@ -18,7 +18,6 @@ export VISUAL=code
 set -o ignoreeof
 
 # Set PATH for various tools and environments
-export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/sbin:$PATH
@@ -79,8 +78,8 @@ zinit snippet OMZP::brew
 zinit snippet OMZP::node
 zinit snippet OMZP::command-not-found
 
-# Load completions
-autoload -Uz compinit && compinit
+autoload -Uz compinit
+compinit
 
 # Replay Zinit commands quietly
 zinit cdreplay -q
