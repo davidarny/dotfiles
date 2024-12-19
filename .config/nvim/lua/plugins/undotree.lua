@@ -1,3 +1,7 @@
+--- A plugin for visualizing and navigating undo history.
+---
+--- See `:help undotree.vim` for more information.
+--- GitHub: https://github.com/mbbill/undotree
 return {
   'mbbill/undotree',
   event = 'VeryLazy',

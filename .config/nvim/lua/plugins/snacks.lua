@@ -1,3 +1,7 @@
+--- A collection of small QoL plugins for Neovim.
+---
+--- See `:help snacks.nvim` for more information.
+--- GitHub: https://github.com/folke/snacks.nvim
 return {
   'folke/snacks.nvim',
   priority = 1000,

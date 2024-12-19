@@ -1,5 +1,8 @@
----@type LazySpec
 return {
+  --- Find And Replace plugin for neovim.
+  ---
+  --- See `:help grug-far.nvim` for more information.
+  --- GitHub: https://github.com/MagicDuck/grug-far.nvim
   {
     'MagicDuck/grug-far.nvim',
     cmd = 'GrugFar',
@@ -24,6 +27,10 @@ return {
       },
     },
   },
+  --- A Neovim Plugin for the yazi terminal file manager
+  ---
+  --- See `:help yazi.nvim` for more information.
+  --- GitHub: https://github.com/mikavilpas/yazi.nvim
   {
     'mikavilpas/yazi.nvim',
     event = 'VeryLazy',
@@ -43,7 +50,6 @@ return {
         desc = 'Open yazi in working directory',
       },
     },
-    ---@type YaziConfig
     opts = {
       open_multiple_tabs = true,
       open_for_directories = false,

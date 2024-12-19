@@ -1,3 +1,8 @@
+--- Navigate your code with search labels, enhanced
+--- character motions and Treesitter integration.
+---
+---  See `:help flash.nvim` for more information.
+--- GitHub: https://github.com/folke/flash.nvim
 return {
   'folke/flash.nvim',
   event = 'VeryLazy',

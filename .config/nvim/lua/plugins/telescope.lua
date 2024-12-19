@@ -1,3 +1,8 @@
+--- Find, Filter, Preview, Pick. All lua, all the time.
+---
+--- See `:help telescope.nvim` for more information.
+--- GitHub: https://github.com/nvim-telescope/telescope.nvim
+
 local ignore_patterns = {
   '*.git/*',
   '*build/*',
@@ -86,8 +91,7 @@ return { -- Fuzzy Finder (files, lsp, etc)
     { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
   },
   config = function()
-    require 'utils.buffer_previewer'
-    local image_preview = telescope_image_preview()
+    local image_preview = require 'utils.telescope_image_preview'.telescope_image_preview()
 
     -- Telescope is a fuzzy finder that comes with a lot of different things that
     -- it can fuzzy find! It's more than just a "file finder", it can search

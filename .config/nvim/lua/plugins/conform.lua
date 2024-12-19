@@ -1,4 +1,8 @@
-return { -- Autoformat
+--- Lightweight yet powerful formatter plugin for Neovim.
+---
+--- See `:help conform.nvim` for more information.
+--- GitHub: https://github.com/stevearc/conform.nvim
+return {
   'stevearc/conform.nvim',
   event = 'BufWritePre',
   cmd = { 'ConformInfo' },

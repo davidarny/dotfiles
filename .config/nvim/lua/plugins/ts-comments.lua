@@ -1,3 +1,7 @@
+--- Tiny plugin to enhance Neovim's native comments.
+---
+--- See `:help ts-comments.nvim` for more information.
+--- GitHub: https://github.com/folke/ts-comments.nvim
 return {
   'folke/ts-comments.nvim',
   event = 'VeryLazy',

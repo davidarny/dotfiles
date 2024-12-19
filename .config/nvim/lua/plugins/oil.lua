@@ -1,3 +1,7 @@
+--- Neovim file explorer: edit your filesystem like a buffer.
+---
+--- See `:help oil.nvim` for more information.
+--- GitHub: https://github.com/stevearc/oil.nvim
 return {
   {
     'stevearc/oil.nvim',

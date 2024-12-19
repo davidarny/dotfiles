@@ -1,3 +1,7 @@
+--- Multiple cursors in Neovim which work how you expect.
+---
+--- See `:help multicursor.nvim` for more information.
+--- GitHub: https://github.com/jake-stewart/multicursor.nvim
 return {
   'jake-stewart/multicursor.nvim',
   branch = '1.0',

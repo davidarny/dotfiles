@@ -1,3 +1,9 @@
+--- Fully featured & enhanced replacement for copilot.vim
+--- complete with API for interacting with Github Copilot.
+---
+--- See `:help copilot.lua` for more information.
+--- GitHub: https://github.com/zbirenbaum/copilot.lua
+
 local M = {}
 
 ---@param kind string
@@ -32,8 +38,10 @@ return {
     end,
   },
 
+  -- Copilot Lualine
   { 'AndreM222/copilot-lualine' },
 
+  -- Copilot Chat
   {
     'CopilotC-Nvim/CopilotChat.nvim',
     branch = 'main',

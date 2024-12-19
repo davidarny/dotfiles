@@ -1,3 +1,8 @@
+--- A blazing fast and easy to configure
+--- neovim statusline plugin written in pure lua.
+---
+--- See `:help lualine.nvim` for more information.
+--- GitHub: https://github.com/nvim-lualine/lualine.nvim
 return {
   'nvim-lualine/lualine.nvim',
   event = { 'BufReadPre', 'BufNewFile' },

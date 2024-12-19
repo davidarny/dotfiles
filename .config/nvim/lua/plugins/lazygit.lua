@@ -1,3 +1,7 @@
+--- A plugin for lazygit in Neovim.
+---
+--- See `:help lazygit.nvim` for more information.
+--- GitHub: https://github.com/kdheepak/lazygit.nvim
 return {
   'kdheepak/lazygit.nvim',
   lazy = true,

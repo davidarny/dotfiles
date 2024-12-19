@@ -1,3 +1,7 @@
+--- A snazzy bufferline for Neovim.
+---
+--- See `:help bufferline.nvim` for more information.
+--- GitHub: https://github.com/akinsho/bufferline.nvim
 return {
   'akinsho/bufferline.nvim',
   event = { 'BufReadPre', 'BufNewFile' },

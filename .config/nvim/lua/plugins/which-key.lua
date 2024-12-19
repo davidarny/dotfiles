@@ -1,4 +1,10 @@
-return { -- Useful plugin to show you pending keybinds.
+--- Create key bindings that stick.
+--- WhichKey helps you remember your Neovim keymaps,
+--- by showing available keybindings in a popup as you type.
+---
+--- See `:help which-key.nvim` for more information.
+--- GitHub: https://github.com/folke/which-key.nvim
+return {
   'folke/which-key.nvim',
   event = 'VeryLazy',
   opts = {

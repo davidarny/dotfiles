@@ -1,3 +1,7 @@
+--- Super fast git decorations implemented purely in Lua.
+---
+--- See `:help gitsigns.nvim` for more information.
+--- GitHub: https://github.com/lewis6991/gitsigns.nvim
 return {
   'lewis6991/gitsigns.nvim',
   event = 'VeryLazy',

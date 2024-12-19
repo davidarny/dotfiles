@@ -1,3 +1,7 @@
+--- A Neovim plugin to add vscode-style TailwindCSS completion to nvim-cmp.
+---
+--- See `:help tailwindcss-colorizer-cmp.nvim` for more information.
+--- GitHub: https://github.com/roobert/tailwindcss-colorizer-cmp.nvim
 return {
   {
     'roobert/tailwindcss-colorizer-cmp.nvim',

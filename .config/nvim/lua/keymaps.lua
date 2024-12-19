@@ -1,6 +1,5 @@
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
-
 local map = vim.keymap.set
 
 -- Clear highlights on search when pressing <Esc> in normal mode
@@ -58,4 +57,3 @@ map('n', '<leader>qq', '<cmd>qa<cr>', { desc = 'Quit all' })
 -- Swap paste behavior
 map({ 'n', 'x' }, 'p', 'P')
 map({ 'n', 'x' }, 'P', 'p')
-map({ 'n', 'x' }, 'd', '"_d')
