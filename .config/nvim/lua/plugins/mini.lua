@@ -1,4 +1,8 @@
-return { -- Collection of various small independent plugins/modules
+--- Collection of various small independent plugins/modules.
+---
+--- See `:help mini.nvim` for more information.
+--- GitHub: https://github.com/echasnovski/mini.nvim
+return {
   'echasnovski/mini.nvim',
   lazy = false,
   priority = 1000,

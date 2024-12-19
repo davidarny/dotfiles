@@ -1,4 +1,8 @@
-return { -- LSP Plugins
+--- Quickstart configs for Nvim LSP.
+---
+--- See `:help nvim-lspconfig` for more information.
+--- GitHub: https://github.com/neovim/nvim-lspconfig
+return {
   {
     -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
     -- used for completion, annotations and signatures of Neovim apis

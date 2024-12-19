@@ -1,3 +1,7 @@
+--- A plugin for displaying a status line in Neovim.
+---
+--- See `:help incline.nvim` for more information.
+--- GitHub: https://github.com/b0o/incline.nvim
 return {
   'b0o/incline.nvim',
   event = 'VeryLazy',

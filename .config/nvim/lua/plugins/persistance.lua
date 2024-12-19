@@ -1,7 +1,10 @@
+--- Session management. This saves your session in the background,
+--- keeping track of open buffers, window arrangement, and more.
+--- You can restore sessions when returning through the dashboard.
+---
+--- See `:help persistence.nvim` for more information.
+--- GitHub: https://github.com/folke/persistence.nvim
 return {
-  -- Session management. This saves your session in the background,
-  -- keeping track of open buffers, window arrangement, and more.
-  -- You can restore sessions when returning through the dashboard.
   {
     'folke/persistence.nvim',
     event = 'VeryLazy',

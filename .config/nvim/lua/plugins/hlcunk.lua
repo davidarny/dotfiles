@@ -1,3 +1,7 @@
+--- Highlight chunks of code in Neovim.
+---
+--- See `:help hlchunk.nvim` for more information.
+--- GitHub: https://github.com/shellRaining/hlchunk.nvim
 return {
   'shellRaining/hlchunk.nvim',
   event = { 'BufReadPre', 'BufNewFile' },

@@ -1,4 +1,8 @@
-return { -- Autocompletion
+--- A completion plugin for neovim coded in Lua.
+---
+--- See `:help nvim-cmp` for more information.
+--- GitHub: https://github.com/hrsh7th/nvim-cmp
+return {
   'hrsh7th/nvim-cmp',
   event = 'InsertEnter',
   dependencies = {

@@ -1,3 +1,7 @@
+--- A plugin for easily managing diagnostics in Neovim.
+---
+--- See `:help trouble.nvim` for more information.
+--- GitHub: https://github.com/folke/trouble.nvim
 return {
   'folke/trouble.nvim',
   event = { 'BufReadPre', 'BufNewFile' },

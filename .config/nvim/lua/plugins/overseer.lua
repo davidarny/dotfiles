@@ -1,3 +1,7 @@
+--- A task runner and job management plugin for Neovim.
+---
+--- See `:help overseer.nvim` for more information.
+--- GitHub: https://github.com/stevearc/overseer.nvim
 return {
   'stevearc/overseer.nvim',
   event = 'VeryLazy',

@@ -1,3 +1,7 @@
+--- Render images in Neovim.
+---
+--- See `:help image.nvim` for more information.
+--- GitHub: https://github.com/3rd/image.nvim
 return {
   '3rd/image.nvim',
   event = 'VeryLazy',

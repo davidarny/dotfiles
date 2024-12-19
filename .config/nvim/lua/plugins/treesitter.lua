@@ -1,4 +1,8 @@
-return { -- Highlight, edit, and navigate code
+--- Highlight, edit, and navigate code.
+---
+--- See `:help nvim-treesitter` for more information.
+--- GitHub: https://github.com/nvim-treesitter/nvim-treesitter
+return {
   'nvim-treesitter/nvim-treesitter',
   build = ':TSUpdate',
   event = { 'BufReadPre', 'BufNewFile' },

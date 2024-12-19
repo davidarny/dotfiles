@@ -1,6 +1,8 @@
 -- https://github.com/3rd/image.nvim/issues/183#issuecomment-2284979815
 
-function telescope_image_preview()
+local M = {}
+
+function M.telescope_image_preview()
   local supported_images = { 'svg', 'png', 'jpg', 'jpeg', 'gif', 'webp', 'avif' }
   local from_entry = require 'telescope.from_entry'
   local Path = require 'plenary.path'
@@ -118,5 +120,10 @@ function telescope_image_preview()
     end
   end
 
-  return { buffer_previewer_maker = buffer_previewer_maker, file_previewer = file_previewer.new }
+  return {
+    file_previewer = file_previewer.new,
+    buffer_previewer_maker = buffer_previewer_maker,
+  }
 end
+
+return M
