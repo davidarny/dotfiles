@@ -9,36 +9,10 @@ return {
   main = 'nvim-treesitter.configs', -- Sets main module to use for opts
   keys = {
     { '<c-space>', desc = 'Increment Selection' },
-    { '<bs>', desc = 'Decrement Selection', mode = 'x' },
+    { '<bs>',      desc = 'Decrement Selection', mode = 'x' },
   },
   -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
   opts = {
-    ensure_installed = {
-      'bash',
-      'c',
-      'diff',
-      'html',
-      'javascript',
-      'jsdoc',
-      'json',
-      'jsonc',
-      'lua',
-      'luadoc',
-      'luap',
-      'markdown',
-      'markdown_inline',
-      'printf',
-      'python',
-      'query',
-      'regex',
-      'toml',
-      'tsx',
-      'typescript',
-      'vim',
-      'vimdoc',
-      'xml',
-      'yaml',
-    },
     -- Autoinstall languages that are not installed
     auto_install = true,
     highlight = {
