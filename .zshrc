@@ -18,6 +18,7 @@ export VISUAL=code
 set -o ignoreeof
 
 # Set PATH for various tools and environments
+export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/sbin:$PATH
