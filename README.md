@@ -1,6 +1,16 @@
 # dot.files
 
-Personal dotfiles managed with [GNU stow](https://www.gnu.org/software/stow/) and [nix-darwin](https://github.com/LnL7/nix-darwin).
+🌌 Elegant dotfiles for the modern developer | Powered by [nix-darwin](https://nix-community.github.io/nix-darwin/) & [GNU stow](https://www.gnu.org/software/stow/)
+
+🎨 A meticulously crafted development environment featuring:
+• 🚀 Blazing-fast ZSH setup with custom plugins
+• 🎯 Neovim config with LSP & treesitter
+• 🖥️ Beautiful terminal setup (Kitty, Tmux, Zellij)
+• 🎮 Git-centric workflow with LazyGit
+• 🌟 Tokyo Night theme across all tools
+• 🔧 Nix-managed packages & dependencies
+
+✨ Zero-friction setup for macOS development environment
 
 ## What's Included
 
