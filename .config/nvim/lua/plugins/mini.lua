@@ -7,6 +7,9 @@ return {
   lazy = false,
   priority = 1000,
   config = function()
+    require('mini.align').setup {}
+    require('mini.pairs').setup {}
+
     -- Better Around/Inside textobjects
     --
     -- Examples:
@@ -14,7 +17,6 @@ return {
     --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
     --  - ci'  - [C]hange [I]nside [']quote
     require('mini.ai').setup { n_lines = 500 }
-    require('mini.align').setup {}
 
     -- Add/delete/replace surroundings (brackets, quotes, etc.)
     --
