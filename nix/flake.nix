@@ -1,38 +1,35 @@
 {
-  #     _   ___         ______            ____
-  #    / | / (_)  __   / ____/___  ____  / __/____
-  #   /  |/ / / |/_/  / /   / __ \/ __ \/ /_/ ___/
-  #  / /|  / />  <   / /___/ /_/ / / / / __(__  )
-  # /_/ |_/_/_/|_|   \____/\____/_/ /_/_/ /____/
-  description = "Top level NixOS flake";
+  description = "NixOS configuration for macOS using nix-darwin";
 
+  # Inputs are external dependencies that this flake uses
   inputs = {
+    # Stable Nix Packages collection
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
 
+    # nix-darwin for macOS system configuration
     nix-darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # home-manager for user environment management
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    flake-utils.url = "github:numtide/flake-utils";
   };
 
   outputs =
     {
       self,
+      nixpkgs,
       home-manager,
       nix-darwin,
-      ...
     }:
     let
-      localConfig = {
-        system = "aarch64-darwin";
+      # System-wide configuration settings
+      systemConfig = {
+        system = "aarch64-darwin"; # Apple Silicon macOS
         hostname = "Davids-MacBook-Pro-16";
         user = {
           name = "david_arutiunian";
@@ -41,28 +38,32 @@
       };
     in
     {
+      # Darwin system configuration
       darwinConfigurations = {
-        ${localConfig.hostname} = nix-darwin.lib.darwinSystem {
-          system = localConfig.system;
+        ${systemConfig.hostname} = nix-darwin.lib.darwinSystem {
+          system = systemConfig.system;
 
+          # Pass special arguments to all modules
           specialArgs = {
-            inherit self localConfig;
+            inherit systemConfig;
           };
 
+          # System configuration modules
           modules = [
-            ./darwin.nix
+            # Base Darwin configuration
+            ./modules/darwin
+
+            # home-manager configuration
             home-manager.darwinModules.home-manager
             {
               home-manager = {
                 useGlobalPkgs = true;
                 useUserPackages = true;
-                users.${localConfig.user.name} = import ./home.nix;
+                users.${systemConfig.user.name} = import ./modules/home;
               };
             }
           ];
         };
       };
-
-      darwinPackages = self.darwinConfigurations.${localConfig.hostname}.pkgs;
     };
 }
