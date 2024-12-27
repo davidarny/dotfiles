@@ -33,9 +33,9 @@
   - `yazi/` - Yazi file manager configuration
   - `fastfetch/` - System information tool configuration
 - **Nix Configuration**
-  - `nix/darwin.nix` - nix-darwin system configuration
-  - `nix/home.nix` - Home Manager configuration
   - `nix/flake.nix` - Nix flake configuration
+  - `nix/modules/home/default.nix` - Home Manager configuration
+  - `nix/modules/darwin/default.nix` - nix-darwin system configuration
 
 ## Shell Customization
 
@@ -118,7 +118,6 @@ These are automatically installed via `home.nix`:
 
 - [Neovim](https://neovim.io/) - Text editor
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - Fast text search
-- [nixfmt-rfc-style](https://github.com/TawanScott/nixfmt-rfc-style) - Nix code formatter
 
 ## Installing
 
