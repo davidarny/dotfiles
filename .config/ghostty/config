@@ -7,9 +7,6 @@ cursor-style = block
 cursor-style-blink = true
 shell-integration-features = no-cursor
 
-custom-shader = "./ghostty-shaders/bloom.glsl"
-custom-shader-animation = true
-
 clipboard-read = allow
 clipboard-write = allow
 
