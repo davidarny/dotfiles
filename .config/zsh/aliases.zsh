@@ -1,4 +1,5 @@
-# Terminal Utilities
+# --- Terminal Utilities ---
+
 # Clear terminal screen
 # Example: c
 alias c="clear"
@@ -27,7 +28,12 @@ alias man="batman"
 #   -> press Enter to uninstall selected packages
 alias npmung="npm list -g --no-unicode | awk '/(\+|\`)--/ {print $2}' | cut -c5- | fzf --multi | cut -d'@' -f1 | xargs npm un -g"
 
-# Navigation
+# Display system information
+# Example: ff
+alias ff="fastfetch"
+
+# --- Navigation ---
+
 # Quick access to Developer directory
 # Example: dev
 alias dev="cd ~/Developer"
@@ -36,7 +42,8 @@ alias dev="cd ~/Developer"
 # Example: ..
 alias ..="cd .."
 
-# Terminal Multiplexers
+# --- Terminal Multiplexers ---
+
 # Launch Zellij terminal multiplexer
 # Example: zj
 alias zj="zellij"
@@ -63,17 +70,25 @@ alias tms="tmux-sessionizer"
 #   -> select directory to create/attach session
 alias zjs="zellij-sessionizer"
 
-# System Configuration
+# --- System Configuration ---
+
 # Reload ZSH configuration
 # Example: zs
 alias zs="source ~/.zshrc"
 
-# Development Tools
+# Reset macOS launchpad
+# Example: lprst
+# Note: This will reearrange launchpad apps
+alias lprst="sudo find 2>/dev/null /private/var/folders/ -type d -name com.apple.dock.launchpad -exec rm -rf {} +; killall Dock"
+
+# --- Development Tools ---
+
 # Open LazyGit TUI
 # Example: lg
 alias lg="lazygit"
 
-# Nix System Management
+# --- Nix System Management ---
+
 # Rebuild nix-darwin configuration
 # Example: dms
 # Note: This will apply changes from ~/.dotfiles/nix configuration
@@ -83,8 +98,3 @@ alias dms="darwin-rebuild switch -v --flake ~/.dotfiles/nix"
 # Example: ngc
 # Note: This will remove old generations that are older than 30 days
 alias ngc="nix-collect-garbage -d"
-
-# Reset macOS launchpad
-# Example: lprst
-# Note: This will reearrange launchpad apps
-alias lprst="sudo find 2>/dev/null /private/var/folders/ -type d -name com.apple.dock.launchpad -exec rm -rf {} +; killall Dock"
