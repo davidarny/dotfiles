@@ -13,5 +13,5 @@ custom-shader-animation = true
 clipboard-read = allow
 clipboard-write = allow
 
-background-opacity = 0.8
+background-opacity = 0.975
 background-blur-radius = 20
