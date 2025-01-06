@@ -4,5 +4,14 @@ font-size = 14
 font-family = "JetBrains Mono Nerd Font"
 
 cursor-style = block
-cursor-style-blink = false
+cursor-style-blink = true
 shell-integration-features = no-cursor
+
+custom-shader = "./ghostty-shaders/bloom.glsl"
+custom-shader-animation = true
+
+clipboard-read = allow
+clipboard-write = allow
+
+background-opacity = 0.8
+background-blur-radius = 20
