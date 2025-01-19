@@ -6,11 +6,8 @@
 
   # User packages to install
   home.packages = with pkgs; [
-    # Text editor
     neovim
-
-    # Search tools
-    ripgrep # Fast search tool (like grep but better)
+    ripgrep
   ];
 
   # Enable home-manager
