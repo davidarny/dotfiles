@@ -1,8 +1,4 @@
 local.dev {
 	tls internal
 	reverse_proxy localhost:3000
-	log {
-		output file /var/log/caddy/access.log
-	}
 }
-
