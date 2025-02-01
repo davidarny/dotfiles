@@ -131,3 +131,6 @@ eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
 # Key bindings
 bindkey -s ^f "tmux-sessionizer\n"
 bindkey -s ^z "zellij-sessionizer\n"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/david_arutiunian/.lmstudio/bin"
