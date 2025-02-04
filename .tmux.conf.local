@@ -10,6 +10,5 @@ set -g @tokyo-night-tmux_active_terminal_icon 
 set -g @tokyo-night-tmux_window_tidy_icons 0
 
 setw -g mouse on
-
-# https://github.com/3rd/image.nvim
+setw -g mode-keys vi
 set -gq allow-passthrough on
