@@ -12,7 +12,7 @@ setopt hist_find_no_dups
 
 # Default editor
 export EDITOR=nvim
-export VISUAL=code
+export VISUAL=cursor
 
 # Ignore EOF to prevent accidental shell exit
 set -o ignoreeof
@@ -31,6 +31,9 @@ export ANDROID_SDK_ROOT="/opt/homebrew/share/android-commandlinetools"
 # Flutter and fnm configuration
 export PATH=$PATH:"$HOME/fvm/default/bin"
 export PATH="/Users/david_arutiunian/Library/Application Support/fnm:$PATH"
+
+# Set config default directory to ~/.config
+export XDG_CONFIG_HOME="$HOME/.config"
 
 # FZF configuration
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
