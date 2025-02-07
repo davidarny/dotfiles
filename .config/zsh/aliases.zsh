@@ -78,7 +78,6 @@ alias zs="source ~/.zshrc"
 
 # Reset macOS launchpad
 # Example: lprst
-# Note: This will reearrange launchpad apps
 alias lprst="sudo find 2>/dev/null /private/var/folders/ -type d -name com.apple.dock.launchpad -exec rm -rf {} +; killall Dock"
 
 # --- Development Tools ---
@@ -98,3 +97,7 @@ alias dms="darwin-rebuild switch -v --flake ~/.dotfiles/nix"
 # Example: ngc
 # Note: This will remove old generations that are older than 30 days
 alias ngc="nix-collect-garbage -d"
+
+# Allow apps to run without quarantine
+# Example: allowapp <app>
+alias allowapp="sudo xattr -r -d com.apple.quarantine"
