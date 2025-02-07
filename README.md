@@ -6,7 +6,7 @@
 
 - 🚀 Blazing-fast ZSH setup with custom plugins
 - 🎯 Neovim config with LSP & treesitter
-- 🖥️ Beautiful terminal setup (Kitty, Tmux, Zellij)
+- 🖥️ Beautiful terminal setup (Kitty, Tmux)
 - 🎮 Git-centric workflow with LazyGit
 - 🌟 Tokyo Night theme across all tools
 - 🔧 Nix-managed packages & dependencies
@@ -29,7 +29,6 @@
   - `bat/` - Bat (cat alternative) configuration
   - `eza/` - Eza (ls alternative) configuration
   - `lazygit/` - LazyGit configuration
-  - `zellij/` - Zellij terminal multiplexer configuration
   - `yazi/` - Yazi file manager configuration
   - `fastfetch/` - System information tool configuration
 - **Nix Configuration**
@@ -57,8 +56,6 @@
 **Terminal Multiplexers**
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `zj` | `zellij` | Open Zellij |
-| `zjs` | `zellij-sessionizer` | Open Zellij session picker |
 | `tm` | `tmux` | Open Tmux |
 | `tms` | `tmux-sessionizer` | Open Tmux session picker |
 
@@ -108,7 +105,6 @@ These need to be installed manually:
 - [gh](https://cli.github.com/) - GitHub CLI
 - [git](https://git-scm.com/) - Version control
 - [lazygit](https://github.com/jesseduffield/lazygit) - Git TUI
-- [zellij](https://zellij.dev/) - Terminal workspace
 - [yazi](https://github.com/sxyazi/yazi) - Terminal file manager
 - [1Password CLI](https://1password.com/downloads/command-line/) - Password manager CLI
 
@@ -176,7 +172,7 @@ nix run nix-darwin -- switch --flake ~/.config/nix-darwin
 
 3. Install required dependencies:
    ```bash
-   brew install kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit zellij yazi
+   brew install kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit yazi
    ```
 
 ## Uninstalling
@@ -209,7 +205,7 @@ Remove all symlinks created by GNU stow:
    brew leaves
 
    # Remove specific packages
-   brew uninstall kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit zellij yazi
+   brew uninstall kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit yazi
    ```
 
 ### 3. Remove Configuration Files
@@ -224,7 +220,6 @@ rm -rf ~/.zshrc ~/.zsh_history ~/.zinit
 rm -rf ~/.config/kitty
 rm -rf ~/.config/nvim
 rm -rf ~/.config/tmux
-rm -rf ~/.config/zellij
 rm -rf ~/.config/yazi
 rm -rf ~/.config/starship.toml
 ```

@@ -44,10 +44,6 @@ alias ..="cd .."
 
 # --- Terminal Multiplexers ---
 
-# Launch Zellij terminal multiplexer
-# Example: zj
-alias zj="zellij"
-
 # Launch Tmux terminal multiplexer
 # Example: tm
 alias tm="tmux"
@@ -62,13 +58,6 @@ alias yz="yazi"
 #   -> opens fzf interface with available directories
 #   -> select directory to create/attach session
 alias tms="tmux-sessionizer"
-
-# Open Zellij session picker with fuzzy search
-# Example:
-#   zjs
-#   -> opens fzf interface with available directories
-#   -> select directory to create/attach session
-alias zjs="zellij-sessionizer"
 
 # --- System Configuration ---
 
