@@ -1,6 +1,6 @@
 # dot.files
 
-🌌 Elegant dotfiles for the modern developer | Powered by [nix-darwin](https://nix-community.github.io/nix-darwin/) & [GNU stow](https://www.gnu.org/software/stow/)
+🌌 Elegant dotfiles for the modern developer | [GNU stow](https://www.gnu.org/software/stow/)
 
 🎨 A meticulously crafted development environment featuring:
 
@@ -9,7 +9,6 @@
 - 🖥️ Beautiful terminal setup (Kitty, Tmux)
 - 🎮 Git-centric workflow with LazyGit
 - 🌟 Tokyo Night theme across all tools
-- 🔧 Nix-managed packages & dependencies
 
 ✨ Zero-friction setup for macOS development environment
 
@@ -31,10 +30,6 @@
   - `lazygit/` - LazyGit configuration
   - `yazi/` - Yazi file manager configuration
   - `fastfetch/` - System information tool configuration
-- **Nix Configuration**
-  - `nix/flake.nix` - Nix flake configuration
-  - `nix/modules/home/default.nix` - Home Manager configuration
-  - `nix/modules/darwin/default.nix` - nix-darwin system configuration
 
 ## Shell Customization
 
@@ -69,8 +64,6 @@
 | Alias | Command | Description |
 |-------|---------|-------------|
 | `zs` | `source ~/.zshrc` | Reload ZSH configuration |
-| `dms` | `darwin-rebuild switch -v --flake ~/.dotfiles/nix` | Rebuild nix-darwin configuration |
-| `ngc` | `nix-collect-garbage -d` | Clean up old Nix generations |
 
 ### Functions
 
@@ -83,7 +76,6 @@
 ### System Requirements
 
 - macOS
-- [Nix package manager](https://nixos.org/download.html)
 - [Homebrew](https://brew.sh)
 - [GNU stow](https://www.gnu.org/software/stow/)
 
@@ -107,11 +99,6 @@ These need to be installed manually:
 - [lazygit](https://github.com/jesseduffield/lazygit) - Git TUI
 - [yazi](https://github.com/sxyazi/yazi) - Terminal file manager
 - [1Password CLI](https://1password.com/downloads/command-line/) - Password manager CLI
-
-### Home Manager Packages
-
-These are automatically installed via `home.nix`:
-
 - [Neovim](https://neovim.io/) - Text editor
 - [ripgrep](https://github.com/BurntSushi/ripgrep) - Fast text search
 
@@ -126,54 +113,46 @@ Before installation, ensure you have:
 - [Homebrew](https://brew.sh) package manager
 - [GNU stow](https://www.gnu.org/software/stow/): `brew install stow`
 
-### 2. Install Nix via Lix
-
-[Lix](https://lix.systems) provides a user-friendly way to install and manage Nix:
-
-```bash
-# Install Lix
-curl -sSf -L https://install.lix.systems/lix | sh -s -- install
-
-# Configure nix-darwin
-nix run nix-darwin -- switch --flake ~/.config/nix-darwin
-```
-
-### 3. Clone and Link Dotfiles
+### 2. Clone and Link Dotfiles
 
 1. Clone this repository:
 
-   ```bash
-   git clone https://github.com/your-username/dot.files.git ~/.dotfiles
-   cd ~/.dotfiles
-   ```
+```bash
+git clone https://github.com/your-username/dot.files.git ~/.dotfiles
+cd ~/.dotfiles
+```
 
 2. Create symlinks using GNU stow:
-   ```bash
-   ./link.sh
-   ```
-   This will:
-   - Back up any existing dotfiles
-   - Create symbolic links in your home directory
-   - Set up all configurations (zsh, tmux, neovim, etc.)
 
-### 4. Post-Installation
+```bash
+./link.sh
+```
+
+This will:
+
+- Back up any existing dotfiles
+- Create symbolic links in your home directory
+- Set up all configurations (zsh, tmux, neovim, etc.)
+
+### 3. Post-Installation
 
 1. Reload your shell:
 
-   ```bash
-   source ~/.zshrc
-   ```
+```bash
+source ~/.zshrc
+```
 
 2. Install Zinit for ZSH plugin management:
 
-   ```bash
-   bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-   ```
+```bash
+bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
+```
 
 3. Install required dependencies:
-   ```bash
-   brew install kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit yazi
-   ```
+
+```bash
+brew install kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit yazi
+```
 
 ## Uninstalling
 
@@ -187,26 +166,15 @@ Remove all symlinks created by GNU stow:
 
 ### 2. Clean Up Package Managers
 
-1. Remove Nix-related configurations:
-
-   ```bash
-   # Remove nix-darwin
-   sudo rm -rf ~/.nix-defexpr
-   sudo rm -rf /etc/nix
-
-   # Remove Nix package manager
-   sudo rm -rf /nix
-   ```
-
 2. Remove Homebrew packages (optional):
 
-   ```bash
-   # List all installed packages first
-   brew leaves
+```bash
+# List all installed packages first
+brew leaves
 
-   # Remove specific packages
-   brew uninstall kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit yazi
-   ```
+# Remove specific packages
+brew uninstall kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit yazi ...
+```
 
 ### 3. Remove Configuration Files
 
@@ -222,4 +190,5 @@ rm -rf ~/.config/nvim
 rm -rf ~/.config/tmux
 rm -rf ~/.config/yazi
 rm -rf ~/.config/starship.toml
+...
 ```
