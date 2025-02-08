@@ -175,7 +175,4 @@ zsdoc/data
 /tests/_output/*
 !/tests/_output/.gitkeep
 
-# Nix
-flake.lock
-
 # End of https://www.toptal.com/developers/gitignore/api/vim,linux,macos,windows,lua,zsh
