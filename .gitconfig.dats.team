@@ -2,12 +2,9 @@
     email = d.arutyunyan@dats.team
 ;   signingkey = 5B403436EEA1AF8D70179A9598CD7D5263B189A5
     signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZdfiAIIendzx5OnCBawob/tRyxosDYjjEVr5fwUzJV8r5L8wk2ArxxKxuqeulvgUHG8lvtEv2DgLm+wOx6vXmVfizGjSrnn1Ivab4eHR15uzXL5JRErWYbJoPdQnNYycAOKnJHDu8ynsgyhmUxWpNhwAtOVJzuB1qQbWa6yozRErsoIW39Fj6ZinwEDcWZ+/Z1CPB5o3abs2cv6E79L7L0Uu7vYbgzIDpiC0SbRhv9d6ZtxSOmZjC7fCPLxcvFuWtGJWTwTyzy61R3eIRswiv/EWJ5J1oChuWJgEVQ8xX1PBlhtaeR0qtbZBztNPpD59bo19IwFRV4fyjJge80Oct
-
 [gpg]
     format = ssh
-
 [gpg "ssh"]
     program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
-
 [commit]
     gpgsign = true

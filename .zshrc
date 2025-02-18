@@ -135,3 +135,11 @@ bindkey -s ^f "tmux-sessionizer\n"
 
 # Added by LM Studio CLI (lms)
 export PATH="$PATH:/Users/david_arutiunian/.lmstudio/bin"
+
+# pnpm
+export PNPM_HOME="/Users/david_arutiunian/Library/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end

@@ -6,15 +6,18 @@ return {
     },
     picker = {
       sources = {
-        files = { hidden = true },
-        grep = { hidden = true },
+        files = {
+          hidden = true,
+          ignored = true,
+        },
+        grep = {
+          hidden = true,
+          ignored = true,
+        },
         explorer = {
           hidden = true,
-          layout = {
-            layout = {
-              position = "right",
-            },
-          },
+          ignored = true,
+          layout = { layout = { position = "right" } },
         },
       },
     },
