@@ -1,24 +1,18 @@
 [include]
     path = ~/.gitconfig.github.com
-
 [includeIf "gitdir:**/MWL/**"]
     path = ~/.gitconfig.dats.team
-
 [core]
     eol = lf
     editor = nvim
     autocrlf = false
-
 [user]
     name = David Arutyunyan
-
 [push]
     followTags = true
     autoSetupRemote = true
-
 [tag]
     forceSignAnnotated = false
-
 [alias]
     # Remove branches that have already been merged with main a.k.a. ‘delete merged’
     dm = "!f(){ git branch | grep -v "master" | grep -v ^* | xargs git branch -d; }; f"
@@ -49,3 +43,5 @@
     la = !git config -l | grep alias | cut -c 7-
     # List contributors
     contributors = git log --format='%aN' | sort -u
+[pull]
+	ff = only
