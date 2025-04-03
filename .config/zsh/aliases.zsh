@@ -90,3 +90,7 @@ alias ngc="nix-collect-garbage -d"
 # Allow apps to run without quarantine
 # Example: allowapp <app>
 alias allowapp="sudo xattr -r -d com.apple.quarantine"
+
+# Start/Stop Caddy web server
+alias cdr="caddy start --config ~/.dotfiles/Caddyfile"
+alias cds="caddy stop"
