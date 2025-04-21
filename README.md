@@ -1,6 +1,6 @@
 # dot.files
 
-🌌 Elegant dotfiles for the modern developer | [GNU stow](https://www.gnu.org/software/stow/)
+🌌 Elegant dotfiles for the modern developer | Powered by [GNU stow](https://www.gnu.org/software/stow/)
 
 🎨 A meticulously crafted development environment featuring:
 
