@@ -22,3 +22,8 @@ porngid.dev {
 	tls internal
 	reverse_proxy localhost:3000
 }
+
+dobro.local {
+	tls internal
+	reverse_proxy localhost:3000
+}

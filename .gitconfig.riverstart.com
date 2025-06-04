@@ -1,6 +1,7 @@
+
 [user]
-    email = arutiunian666@gmail.com
-    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGf6d4mihLXm97inbtY0vlhaTmJe3BzMfcq6lTRFnSdg
+    email = d.arutyunyan@riverstart.ru
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE1HOMjn3t6j+l9Kep93uNjLb6won5SCntbpptrERc2S
 
 [gpg]
     format = ssh

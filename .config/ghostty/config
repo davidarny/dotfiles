@@ -10,4 +10,3 @@ shell-integration-features = no-cursor
 clipboard-read = allow
 clipboard-write = allow
 macos-option-as-alt = true
-macos-icon = blueprint
