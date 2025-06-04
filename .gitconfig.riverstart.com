@@ -1,5 +1,6 @@
+
 [user]
-    email = d.arutyunyan@dats.team
+    email = david.arutyunyan.me@gmail.com
 
 [gpg]
     format = ssh
