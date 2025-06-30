@@ -14,7 +14,7 @@ alias rg="rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colo
 
 
 # Aliases: caddy
-alias cdr="caddy start --config ~/.dotfiles/Caddyfile"
+alias cdr="caddy start --config ~/.config/caddy/caddy.json"
 alias cds="caddy stop"
 
 # Aliases: dev

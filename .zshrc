@@ -146,3 +146,12 @@ esac
 
 # Disable Corepack auto-pin
 export COREPACK_ENABLE_AUTO_PIN=0
+
+# Pyenv configuration
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
+# PHP configuration
+export PATH="/opt/homebrew/opt/php@7.4/bin:$PATH"
+export PATH="/opt/homebrew/opt/php@7.4/sbin:$PATH"
