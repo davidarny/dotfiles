@@ -15,7 +15,7 @@
 # sudo_command = "sudo"
 
 # Disable specific steps - same options as the command line flag
-disable = ["pnpm", "gem", "ruby_gems", "home_manager", "tmux", "containers"]
+disable = ["pnpm", "gem", "ruby_gems", "home_manager", "tmux", "containers", "android_studio"]
 
 # Ignore failures for these steps
 ignore_failures = ["git_repos"]
