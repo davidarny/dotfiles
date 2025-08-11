@@ -54,6 +54,16 @@
                 }
               ],
               "terminal": true
+            },
+            {
+              "match": [{ "host": ["mostbet.local"] }],
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [{ "dial": "localhost:3000" }]
+                }
+              ],
+              "terminal": true
             }
           ]
         }

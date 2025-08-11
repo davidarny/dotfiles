@@ -15,10 +15,10 @@
 # sudo_command = "sudo"
 
 # Disable specific steps - same options as the command line flag
-disable = ["pnpm", "gem", "ruby_gems", "home_manager", "tmux", "containers", "android_studio"]
+disable = ["containers", "android_studio"]
 
 # Ignore failures for these steps
-ignore_failures = ["git_repos"]
+ignore_failures = ["git_repos", "tmux", "containers", "shell"]
 
 # List of remote machines with Topgrade installed on them
 # remote_topgrades = ["toothless", "pi", "parnas"]
@@ -42,7 +42,7 @@ ignore_failures = ["git_repos"]
 # assume_yes = true
 
 # Do not ask to retry failed steps (default: false)
-# no_retry = true
+no_retry = true
 
 # Run inside tmux (default: false)
 # run_in_tmux = true
@@ -105,17 +105,17 @@ cleanup = true
 # For the BrewCask step
 # If `Repo Cask Upgrade` exists, then use the `-a` option.
 # Otherwise, use the `--greedy` option.
-# greedy_cask = true
+greedy_cask = true
 
 # For the BrewCask step
 # If `Repo Cask Upgrade` does not exist, then use the `--greedy_latest` option.
 # NOTE: the above entry `greedy_cask` contains this entry, though you can enable
 # both of them, they won't clash with each other.
-# greedy_latest = true
+greedy_latest = true
 
 # For the BrewFormula step
 # Execute `brew autoremove` after the step.
-# autoremove = true
+autoremove = true
 
 # For the BrewFormula step
 # Upgrade formulae built from the HEAD branch; `brew upgrade --fetch-HEAD`
@@ -173,15 +173,22 @@ cleanup = true
 
 # Additional git repositories to pull
 repos = [
-  "~/Developer/*/",
-  "~/Developer/MWL/*"
+  "~/Developer/*",
+  "~/Developer/dats.team/*",
+  "~/Developer/dats.team/mostbet/*",
+  "~/Developer/dats.team/mwl/*",
+  "~/Developer/hobby/*",
+  "~/Developer/lib/*",
+  "~/Developer/riverstart/*",
+  "~/Developer/riverstart/DOBRO/*",
+  "~/Developer/viewtube/*"
 ]
 
 # Don't pull the predefined git repos
 # pull_predefined = false
 
 # Arguments to pass Git when pulling Repositories
-# arguments = "--rebase --autostash"
+arguments = "--rebase --autostash"
 
 
 [windows]
@@ -217,7 +224,7 @@ repos = [
 
 [firmware]
 # Offer to update firmware; if false just check for and display available updates
-# upgrade = true
+upgrade = false
 
 
 [vagrant]
