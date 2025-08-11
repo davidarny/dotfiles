@@ -3,7 +3,7 @@ alias e="$EDITOR"
 alias E="sudo -e"
 
 # Aliases: ls
-alias l='eza -1A --group-directories-first --color=always'
+alias l='eza -1A -l --group-directories-first --color=always --git-repos --git'
 alias t='l'
 alias ls='l'
 alias la='l -l --time-style="+%Y-%m-%d %H:%M" --no-permissions --octal-permissions'

@@ -12,3 +12,6 @@ set -g @tokyo-night-tmux_window_tidy_icons 0
 setw -g mouse on
 setw -g mode-keys vi
 set -gq allow-passthrough on
+
+# Initialize TPM (Tmux Plugin Manager)
+run '~/.tmux/plugins/tpm/tpm'
