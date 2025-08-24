@@ -14,6 +14,7 @@
     compression = 9
     fsync = none
     whitespace = error
+	  excludesfile = /Users/david_arutiunian/.gitignore_global
 
 [user]
     name = David Arutyunyan
@@ -96,7 +97,3 @@
 	  smudge = git-lfs smudge -- %f
 	  process = git-lfs filter-process
 	  required = true
-[gitbutler]
-	aiModelProvider = anthropic
-	aiLMStudioEndpoint = http://127.0.0.1:1234
-	aiLMStudioModelName = deepseek/deepseek-r1-0528-qwen3-8b
