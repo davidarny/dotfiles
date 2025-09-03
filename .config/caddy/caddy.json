@@ -46,6 +46,16 @@
               "terminal": true
             },
             {
+              "match": [{ "host": ["notifications.local"] }],
+              "handle": [
+                {
+                  "handler": "reverse_proxy",
+                  "upstreams": [{ "dial": "localhost:3000" }]
+                }
+              ],
+              "terminal": true
+            },
+            {
               "match": [{ "host": ["dobro.local"] }],
               "handle": [
                 {

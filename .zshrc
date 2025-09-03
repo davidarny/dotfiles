@@ -34,6 +34,10 @@ export ANDROID_SDK_ROOT="/opt/homebrew/share/android-commandlinetools"
 export PATH=$PATH:"$HOME/fvm/default/bin"
 export PATH="/Users/david_arutiunian/Library/Application Support/fnm:$PATH"
 
+# Bun
+export BUN_HOME="$HOME/.bun"
+export PATH="$BUN_HOME/bin:$PATH"
+
 # Set config default directory to ~/.config
 export XDG_CONFIG_HOME="$HOME/.config"
 

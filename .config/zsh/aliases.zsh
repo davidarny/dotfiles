@@ -12,7 +12,6 @@ alias tree='l --tree'
 # rg
 alias rg="rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
 
-
 # caddy
 alias cdr="caddy start --config ~/.config/caddy/caddy.json"
 alias cds="caddy stop"
