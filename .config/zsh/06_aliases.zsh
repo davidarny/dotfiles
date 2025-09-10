@@ -28,6 +28,7 @@ alias reload="source ~/.zshrc"
 alias lpreset="sudo find 2>/dev/null /private/var/folders/ -type d -name com.apple.dock.launchpad -exec rm -rf {} +; killall Dock"
 alias allowapp="sudo xattr -r -d com.apple.quarantine"
 alias dsclean="fd -H '^\.DS_Store$' -tf -X rm"
+alias lnclean="fd . --type l -x sh -c 'if [ ! -e \"\$1\" ]; then rm \"\$1\"; fi' --"
 
 # misc
 alias rf='trash'
