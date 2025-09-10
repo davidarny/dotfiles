@@ -1,0 +1,20 @@
+# Main Git configuration file
+# This file includes all the modular configuration files in the correct order
+
+[include]
+    path = ~/.config/git/01_includes.gitconfig
+
+[include]
+    path = ~/.config/git/02_core.gitconfig
+
+[include]
+    path = ~/.config/git/03_user.gitconfig
+
+[include]
+    path = ~/.config/git/04_appearance.gitconfig
+
+[include]
+    path = ~/.config/git/05_behavior.gitconfig
+
+[include]
+    path = ~/.config/git/06_tools.gitconfig

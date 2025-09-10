@@ -1,0 +1,13 @@
+# Main Zsh configuration file
+# This file sources all the modular configuration files in the correct order
+
+# Get the directory where this file is located
+ZSH_CONFIG_DIR="$(cd "$(dirname "${(%):-%x}")" && pwd)"
+
+# Source configuration modules in order (numbered files first)
+for config_file in "$ZSH_CONFIG_DIR"/*.zsh; do
+  # Skip the main zshrc file itself to avoid infinite loop
+  [[ "$config_file" != *"/zshrc" ]] && [[ -f "$config_file" ]] && source "$config_file"
+done
+
+# All .zsh files are automatically sourced by the loop above
