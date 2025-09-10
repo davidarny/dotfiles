@@ -1,0 +1,11 @@
+[push]
+    autoSetupRemote = true
+    default = current
+    followTags = true
+    gpgSign = false
+
+[pull]
+    rebase = true
+
+[rebase]
+    autoStash = true

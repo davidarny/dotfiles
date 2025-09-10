@@ -1,0 +1,8 @@
+[include]
+    path = ~/.config/git/domains/github.com.gitconfig
+
+[includeIf "gitdir:**/dats.team/**"]
+    path = ~/.config/git/domains/dats.team.gitconfig
+
+[includeIf "gitdir:**/riverstart/**"]
+    path = ~/.config/git/domains/riverstart.com.gitconfig

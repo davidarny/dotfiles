@@ -1,0 +1,8 @@
+[core]
+    eol = lf
+    editor = nvim
+    autocrlf = input
+    compression = 9
+    fsync = none
+    whitespace = error
+	excludesfile = /Users/david_arutiunian/.gitignore_global
