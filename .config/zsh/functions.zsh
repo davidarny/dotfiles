@@ -22,3 +22,34 @@ function nmg {
     | jq -r '.dependencies | to_entries[] | .key+"@"+.value.version' \
     | xargs npm i -g
 }
+
+# Z.ai Claude API wrapper function
+#
+# This function provides a convenient wrapper for interacting with the Z.ai
+# Claude API service. It sets up the necessary environment variables and
+# calls the claude command with the provided arguments.
+#
+# Usage:
+#   zai <prompt_or_query>
+#
+# Arguments:
+#   prompt_or_query - The text prompt or query to send to the Claude API
+#
+# Environment Variables Set:
+#   ANTHROPIC_BASE_URL - Points to Z.ai's Claude API endpoint
+#   ANTHROPIC_AUTH_TOKEN - Authentication token for Z.ai service
+#   ANTHROPIC_MODEL - Specifies the GLM-4.5 model to use
+#
+# Example:
+#   zai "Explain how to use Git branches"
+#   # -> Sends the prompt to Z.ai's Claude API using GLM-4.5 model
+#
+#   zai "Write a Python function to calculate fibonacci numbers"
+#   # -> Gets code generation help from the AI model
+#
+# Prerequisites:
+#   - claude command must be installed and available in PATH
+#   - Valid Z.ai API credentials (configured in the function)
+function zai {
+  ANTHROPIC_BASE_URL='https://api.z.ai/api/anthropic' ANTHROPIC_AUTH_TOKEN='d7e9265e08924310aaad5a3268d33c07.qtKs1uOs5rizPoAX' ANTHROPIC_MODEL='glm-4.5' claude $1
+}
