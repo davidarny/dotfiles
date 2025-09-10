@@ -13,8 +13,8 @@ alias tree='l --tree'
 alias rg="rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
 
 # caddy
-alias cdr="caddy start --config ~/.config/caddy/caddy.json"
-alias cds="caddy stop"
+alias caddystart="caddy start --config ~/.config/caddy/caddy.json"
+alias caddystop="caddy stop"
 
 # dev
 alias c="clear"
@@ -22,12 +22,12 @@ alias dev="cd ~/Developer"
 
 # tmux
 alias tm="tmux"
-alias tms="tmux-sessionizer"
 
 # macOS
-alias zs="source ~/.zshrc"
+alias reload="source ~/.zshrc"
+alias lpreset="sudo find 2>/dev/null /private/var/folders/ -type d -name com.apple.dock.launchpad -exec rm -rf {} +; killall Dock"
 alias allowapp="sudo xattr -r -d com.apple.quarantine"
-alias lprst="sudo find 2>/dev/null /private/var/folders/ -type d -name com.apple.dock.launchpad -exec rm -rf {} +; killall Dock"
+alias dsclean="fd -H '^\.DS_Store$' -tf -X rm"
 
 # misc
 alias rf='trash'
