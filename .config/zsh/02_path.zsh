@@ -1,7 +1,7 @@
 # Default tools
 export PAGER=bat
 export EDITOR=nvim
-export VISUAL=cursor
+export VISUAL=${VISUAL:-${commands[cursor]:-$EDITOR}}
 
 # Ignore EOF to prevent accidental shell exit
 set -o ignoreeof
