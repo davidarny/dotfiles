@@ -16,9 +16,6 @@ alias rg="rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colo
 alias caddystart="caddy start --config ~/.config/caddy/caddy.json"
 alias caddystop="caddy stop"
 
-# dev
-alias c="clear"
-alias dev="cd ~/Developer"
 
 # tmux
 alias tm="tmux"
@@ -31,6 +28,7 @@ alias dsclean="fd -H '^\.DS_Store$' -tf -X rm"
 alias lnclean="fd . --type l -x sh -c 'if [ ! -e \"\$1\" ]; then rm \"\$1\"; fi' --"
 
 # misc
+alias c="clear"
 alias rf='trash'
 alias man="batman"
 alias ff="fastfetch"
