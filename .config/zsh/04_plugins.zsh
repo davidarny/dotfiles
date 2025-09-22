@@ -25,7 +25,9 @@ if command -v zinit >/dev/null 2>&1; then
   zinit snippet OMZP::command-not-found
 
   autoload -Uz compinit
-  compinit
+  # Cache compinit to speed up shell startup
+  mkdir -p ~/.cache/zsh 2>/dev/null
+  compinit -C -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
 
   # Replay Zinit commands quietly
   zinit cdreplay -q
@@ -36,8 +38,8 @@ if command -v zinit >/dev/null 2>&1; then
   zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
   zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
   zstyle ':completion:*' menu no
-  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'ls --color $realpath'
-  zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'ls --color $realpath'
+  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
+  zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
   zstyle ':completion:*:make:*:targets' call-command true
   zstyle ':completion:*:*:make:*' tag-order 'targets'
   zstyle ':completion:*:*:docker:*' option-stacking yes
