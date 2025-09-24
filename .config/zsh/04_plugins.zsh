@@ -22,7 +22,6 @@ if command -v zinit >/dev/null 2>&1; then
   zinit snippet OMZP::npm
   zinit snippet OMZP::brew
   zinit snippet OMZP::node
-  zinit snippet OMZP::command-not-found
 
   autoload -Uz compinit
   # Cache compinit to speed up shell startup
