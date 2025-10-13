@@ -1,6 +1,6 @@
 [user]
     email = d.arutyunyan@dats.team
-    signingkey = ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCZdfiAIIendzx5OnCBawob/tRyxosDYjjEVr5fwUzJV8r5L8wk2ArxxKxuqeulvgUHG8lvtEv2DgLm+wOx6vXmVfizGjSrnn1Ivab4eHR15uzXL5JRErWYbJoPdQnNYycAOKnJHDu8ynsgyhmUxWpNhwAtOVJzuB1qQbWa6yozRErsoIW39Fj6ZinwEDcWZ+/Z1CPB5o3abs2cv6E79L7L0Uu7vYbgzIDpiC0SbRhv9d6ZtxSOmZjC7fCPLxcvFuWtGJWTwTyzy61R3eIRswiv/EWJ5J1oChuWJgEVQ8xX1PBlhtaeR0qtbZBztNPpD59bo19IwFRV4fyjJge80Oct
+    signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILH0MJ1J06s9W26aegbAGnGBsRkQZoppx3Ab09fnX/Po
 
 [gpg]
     format = ssh
