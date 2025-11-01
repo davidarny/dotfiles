@@ -5,4 +5,4 @@
     compression = 9
     fsync = none
     whitespace = error
-	excludesfile = /Users/david_arutiunian/.gitignore_global
+	excludesfile = ~/.gitignore_global
