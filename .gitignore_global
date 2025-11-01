@@ -1,0 +1,18 @@
+# AI
+.claude/
+.serena/
+.mcp.json
+CLAUDE.md
+WARP.md
+AGENTS.md
+GEMINI.md
+
+# Misc
+.DS_Store
+*.pem
+
+# IDE
+.idea/
+.vscode/
+.cursor/
+
