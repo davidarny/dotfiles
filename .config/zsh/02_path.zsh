@@ -1,3 +1,6 @@
+# Current user
+export CURRENT_USER=$(whoami)
+
 # Default tools
 export PAGER=bat
 export EDITOR=nvim
@@ -10,17 +13,10 @@ set -o ignoreeof
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
 export PATH=/opt/homebrew/sbin:$PATH
-export PATH=/opt/homebrew/opt/ruby/bin:$PATH
-export PATH=/opt/homebrew/opt/python@3.10/libexec/bin:$PATH
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
-# Java and Android SDK configuration
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
-export ANDROID_SDK_ROOT="/opt/homebrew/share/android-commandlinetools"
-
-# Flutter and fnm configuration
+# fnm configuration
 export PATH=$PATH:"$HOME/fvm/default/bin"
-export PATH="/Users/david_arutiunian/Library/Application Support/fnm:$PATH"
+export PATH="/Users/$CURRENT_USER/Library/Application Support/fnm:$PATH"
 
 # Bun
 export BUN_HOME="$HOME/.bun"
@@ -29,11 +25,8 @@ export PATH="$BUN_HOME/bin:$PATH"
 # Set config default directory to ~/.config
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/david_arutiunian/.lmstudio/bin"
-
 # PNPM configuration
-export PNPM_HOME="/Users/david_arutiunian/Library/pnpm"
+export PNPM_HOME="/Users/$CURRENT_USER/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
