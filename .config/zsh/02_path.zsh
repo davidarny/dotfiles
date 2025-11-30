@@ -38,3 +38,6 @@ export COREPACK_ENABLE_AUTO_PIN=0
 # Pyenv configuration
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
+
+# 1Password CLI
+export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"

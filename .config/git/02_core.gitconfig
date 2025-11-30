@@ -1,8 +1,8 @@
 [core]
-    eol = lf
-    editor = nvim
-    autocrlf = input
-    compression = 9
-    fsync = none
-    whitespace = error
-	excludesfile = ~/.gitignore_global
+  eol = lf
+  editor = nvim
+  autocrlf = input
+  compression = 9
+  fsync = none
+  whitespace = error
+  excludesfile = ~/.gitignore_global
