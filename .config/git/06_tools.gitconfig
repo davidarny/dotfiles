@@ -1,15 +1,15 @@
 [init]
-    defaultBranch = main
+  defaultBranch = main
 
 [submodule]
-    recurse = true
-    fetchJobs = 16
+  recurse = true
+  fetchJobs = 16
 
 [tag]
-    forceSignAnnotated = false
+  forceSignAnnotated = false
 
 [filter "lfs"]
-	  clean = git-lfs clean -- %f
-	  smudge = git-lfs smudge -- %f
-	  process = git-lfs filter-process
-	  required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
