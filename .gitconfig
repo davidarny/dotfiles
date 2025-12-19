@@ -2,4 +2,16 @@
 # This file includes the modular configuration from .config/git/
 
 [include]
-    path = ~/.config/git/gitconfig
+  path = ~/.config/git/core.gitconfig
+
+[include]
+  path = ~/.config/git/user.gitconfig
+
+[include]
+  path = ~/.config/git/appearance.gitconfig
+
+[include]
+  path = ~/.config/git/behavior.gitconfig
+
+[include]
+  path = ~/.config/git/tools.gitconfig

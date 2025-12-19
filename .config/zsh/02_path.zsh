@@ -41,3 +41,6 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 
 # 1Password CLI
 export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
+
+# Java
+export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
