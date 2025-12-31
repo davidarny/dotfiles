@@ -1,12 +1,12 @@
-# Main Zsh configuration entry point
-# This file sources the modular configuration from .config/zsh/
+# Main Zsh configuration file
+# This file sources all the modular configuration files in the correct order
 
-# Source the main configuration file
-if [[ -f "$HOME/.config/zsh/zshrc" ]]; then
-  source "$HOME/.config/zsh/zshrc"
-fi
+# Source configuration modules in order (numbered files first)
+for config_file in ~/.config/zsh/*.zsh; do
+  # Skip the main zshrc file itself to avoid infinite loop
+  [[ "$config_file" != *"/zshrc" ]] && [[ -f "$config_file" ]] && source "$config_file"
+done
 
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/david.arutyunyan/.lmstudio/bin"
-# End of LM Studio CLI section
-
+# Load completion-dependent tools after completion system is set up
+[[ $_OP_COMPLETION_AVAILABLE ]] && eval "$(op completion zsh)"
+[[ $_GH_COMPLETION_AVAILABLE ]] && eval "$(gh copilot alias -- zsh)"

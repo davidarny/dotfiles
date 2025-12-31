@@ -44,3 +44,7 @@ export SSH_AUTH_SOCK="$HOME/.1password/agent.sock"
 
 # Java
 export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:$HOME/.lmstudio/bin"
+# End of LM Studio CLI section
