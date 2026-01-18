@@ -11,6 +11,8 @@
   context = 3
   renames = copies
   interHunkContext = 10
+  algorithm = histogram
+  colorMoved = default
 
 [log]
   abbrevCommit = true

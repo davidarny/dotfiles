@@ -6,3 +6,7 @@
   fsync = loose-object
   whitespace = error
   excludesfile = ~/.gitignore_global
+
+[fetch]
+  prune = true
+  pruneTags = true
