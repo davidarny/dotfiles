@@ -11,9 +11,7 @@ fi
 # Load Zsh plugins using Zinit (only if zinit is available)
 if command -v zinit >/dev/null 2>&1; then
   zinit light Aloxaf/fzf-tab
-  zinit light zsh-users/zsh-syntax-highlighting
   zinit light zsh-users/zsh-completions
-  zinit light zsh-users/zsh-autosuggestions
   zinit light g-plane/pnpm-shell-completion
 
   # Load Oh My Zsh snippets
@@ -24,16 +22,59 @@ if command -v zinit >/dev/null 2>&1; then
   zinit snippet OMZP::node
 
   autoload -Uz compinit
-  # Cache compinit to speed up shell startup
-  mkdir -p ~/.cache/zsh 2>/dev/null
-  compinit -C -d ~/.cache/zsh/zcompdump-$ZSH_VERSION
+  # Lazy-load compinit on first completion to reduce startup time.
+  zsh_cache_dir="${ZSH_CACHE_DIR:-$HOME/.cache/zsh}"
+  mkdir -p "$zsh_cache_dir" 2>/dev/null
+  typeset -g _zsh_compinit_done=0
+  typeset -g -a _zsh_post_compinit_hooks=()
+  _zsh_run_post_compinit() {
+    local hook
+    for hook in "${_zsh_post_compinit_hooks[@]}"; do
+      eval "$hook"
+    done
+    _zsh_post_compinit_hooks=()
+  }
+  _zsh_compinit() {
+    (( _zsh_compinit_done )) && return
+    _zsh_compinit_done=1
+    compinit -C -d "$zsh_cache_dir/zcompdump-$ZSH_VERSION"
+    zinit cdreplay -q
+    _zsh_run_post_compinit
+  }
 
-  # Replay Zinit commands quietly
-  zinit cdreplay -q
-fi
+  if [[ -o interactive ]]; then
+    _zsh_lazy_compinit() {
+      _zsh_compinit
+      zle -A _zsh_orig_expand_or_complete expand-or-complete
+      zle -A _zsh_orig_complete_word complete-word
+      zle expand-or-complete
+    }
+    zle -A expand-or-complete _zsh_orig_expand_or_complete
+    zle -A complete-word _zsh_orig_complete_word
+    zle -N expand-or-complete _zsh_lazy_compinit
+    zle -N complete-word _zsh_lazy_compinit
 
-# Completion styling (only if zinit is available)
-if command -v zinit >/dev/null 2>&1; then
+    if (( $+widgets[zle-line-init] )); then
+      zle -A zle-line-init _zsh_orig_zle_line_init
+    fi
+    _zsh_line_init() {
+      _zsh_compinit
+      if (( $+widgets[_zsh_orig_zle_line_init] )); then
+        zle _zsh_orig_zle_line_init
+      fi
+    }
+    zle -N zle-line-init _zsh_line_init
+  else
+    _zsh_compinit
+  fi
+
+  # Defer UI-heavy plugins to reduce startup latency
+  zinit ice wait"0" lucid
+  zinit light zsh-users/zsh-autosuggestions
+  zinit ice wait"1" lucid
+  zinit light zsh-users/zsh-syntax-highlighting
+
+  # Completion styling
   zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
   zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
   zstyle ':completion:*' menu no
