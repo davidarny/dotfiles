@@ -9,3 +9,10 @@
 
 [rebase]
   autoStash = true
+  updateRefs = true
+
+[merge]
+  conflictstyle = zdiff3
+
+[rerere]
+  enabled = true

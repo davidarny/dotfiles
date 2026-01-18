@@ -1,6 +1,3 @@
-# Main Git configuration entry point
-# This file includes the modular configuration from .config/git/
-
 [include]
   path = ~/.config/git/core.gitconfig
 
