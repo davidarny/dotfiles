@@ -172,13 +172,13 @@ autoremove = true
 # max_concurrency = 5
 
 # Additional git repositories to pull
-repos = ["~/Developer/**/*"]
+# repos = []
 
 # Don't pull the predefined git repos
 # pull_predefined = false
 
 # Arguments to pass Git when pulling Repositories
-arguments = "--rebase --autostash"
+# arguments = "--rebase --autostash"
 
 
 [windows]
