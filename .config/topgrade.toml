@@ -15,10 +15,10 @@
 # sudo_command = "sudo"
 
 # Disable specific steps - same options as the command line flag
-disable = ["containers", "android_studio", "gem", "shell", "system", "ruby_gems"]
+disable = ["system", "git_repos"]
 
 # Ignore failures for these steps
-ignore_failures = ["git_repos"]
+# ignore_failures = []
 
 # List of remote machines with Topgrade installed on them
 # remote_topgrades = ["toothless", "pi", "parnas"]
