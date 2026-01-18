@@ -6,7 +6,7 @@
 
 - 🚀 Blazing-fast ZSH setup with custom plugins
 - 🎯 Neovim config with LSP & treesitter
-- 🖥️ Beautiful terminal setup (Kitty, Tmux)
+- 🖥️ Beautiful terminal setup (Ghostty, Tmux)
 - 🎮 Git-centric workflow with LazyGit
 - 🌟 Tokyo Night theme across all tools
 
@@ -23,53 +23,65 @@
   - `nvim/` - Neovim configuration
   - `.tmux.conf` - Tmux configuration
 - **Terminal Utilities**
-  - `kitty/` - Kitty terminal configuration
-  - `starship.toml` - Starship prompt configuration
-  - `bat/` - Bat (cat alternative) configuration
-  - `eza/` - Eza (ls alternative) configuration
-  - `lazygit/` - LazyGit configuration
-  - `yazi/` - Yazi file manager configuration
-  - `fastfetch/` - System information tool configuration
+  - `.config/ghostty/` - Ghostty terminal configuration
+  - `.config/starship.toml` - Starship prompt configuration
+  - `.config/bat/` - Bat (cat alternative) configuration
+  - `.config/eza/` - Eza (ls alternative) configuration
+  - `.config/lazygit/` - LazyGit configuration
+  - `.config/yazi/` - Yazi file manager configuration
+  - `.config/fastfetch/` - System information tool configuration
 
 ## Shell Customization
 
 ### Aliases
 
-**Terminal Utilities**
+**File Listing**
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `c` | `clear` | Clear terminal screen |
-| `t` | `eza --color=always --long --git --icons=always --no-time --group-directories-first` | List files with git info and icons |
-| `man` | `batman` | Open man pages with bat |
+| `l` | `eza -1A --group-directories-first --color=always` | List files |
+| `la` | `eza -la --git --git-repos --group-directories-first --color=always --octal-permissions --time-style=long-iso` | Detailed list with git info |
+| `tree` | `eza --tree --group-directories-first --color=always` | Tree view |
+| `ls` | `l` | Alias for list |
+| `t` | `l` | Short alias for list |
 
-**Navigation**
-| Alias | Command | Description |
-|-------|---------|-------------|
-| `dev` | `cd ~/Developer` | Navigate to Developer directory |
-| `..` | `cd ..` | Navigate to parent directory |
-
-**Terminal Multiplexers**
+**Tools**
 | Alias | Command | Description |
 |-------|---------|-------------|
 | `tm` | `tmux` | Open Tmux |
-| `tms` | `tmux-sessionizer` | Open Tmux session picker |
-
-**Development Tools**
-| Alias | Command | Description |
-|-------|---------|-------------|
 | `lg` | `lazygit` | Open LazyGit |
 | `yz` | `yazi` | Open Yazi file manager |
+| `ff` | `fastfetch` | System info |
+| `rg` | `rg --hidden --smart-case ...` | Ripgrep with defaults |
 
-**System Configuration**
+**System**
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `zs` | `source ~/.zshrc` | Reload ZSH configuration |
+| `reload` | `source ~/.zshrc` | Reload ZSH configuration |
+| `c` | `clear` | Clear terminal screen |
+| `man` | `batman` | Open man pages with bat |
+| `rf` | `trash` | Move to Trash |
+| `allowapp` | `sudo xattr -r -d com.apple.quarantine` | Remove quarantine |
+| `dsclean` | `fd -H '^\\.DS_Store$' -tf -X rm` | Remove .DS_Store files |
+| `lnclean` | `fd . --type l ...` | Remove broken symlinks |
+
+**Editors**
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `e` | `$EDITOR` | Open editor |
+| `E` | `sudo -e` | Open editor as root |
+
+**Services**
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `caddystart` | `caddy start --config ~/.config/caddy/caddy.json` | Start Caddy |
+| `caddystop` | `caddy stop` | Stop Caddy |
 
 ### Functions
 
-| Function | Description                                        | Usage         |
-| -------- | -------------------------------------------------- | ------------- |
-| `nmg`    | Migrate npm global packages to new Node.js version | `nmg version` |
+| Function | Description                                           | Usage                              |
+| -------- | ----------------------------------------------------- | ---------------------------------- |
+| `migrate_npm_globals` | Migrate npm global packages to a new Node.js version | `migrate_npm_globals 20` |
+| `zsh_refresh_init_cache` | Refresh cached init scripts for shell tools | `zsh_refresh_init_cache` |
 
 ## Prerequisites
 
@@ -85,7 +97,7 @@ These need to be installed manually:
 
 - [Zsh](https://www.zsh.org/) - Shell
 - [Zinit](https://github.com/zdharma-continuum/zinit) - Zsh plugin manager
-- [Kitty](https://sw.kovidgoyal.net/kitty/) - Terminal emulator
+- [Ghostty](https://ghostty.org/) - Terminal emulator
 - [Tmux](https://github.com/tmux/tmux) - Terminal multiplexer
 - [fzf](https://github.com/junegunn/fzf) - Fuzzy finder
 - [fd](https://github.com/sharkdp/fd) - File finder
@@ -94,8 +106,8 @@ These need to be installed manually:
 - [zoxide](https://github.com/ajeetdsouza/zoxide) - Smarter cd command
 - [starship](https://starship.rs/) - Cross-shell prompt
 - [fnm](https://github.com/Schniz/fnm) - Fast Node.js version manager
-- [gh](https://cli.github.com/) - GitHub CLI
 - [git](https://git-scm.com/) - Version control
+- [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) - Git diff enhancer
 - [lazygit](https://github.com/jesseduffield/lazygit) - Git TUI
 - [yazi](https://github.com/sxyazi/yazi) - Terminal file manager
 - [1Password CLI](https://1password.com/downloads/command-line/) - Password manager CLI
@@ -118,7 +130,7 @@ Before installation, ensure you have:
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/your-username/dot.files.git ~/.dotfiles
+git clone git@gitlab.com:waosdx/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 ```
 
@@ -151,7 +163,8 @@ bash -c "$(curl --fail --show-error --silent --location https://raw.githubuserco
 3. Install required dependencies:
 
 ```bash
-brew install kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit yazi
+brew install tmux fzf fd bat eza zoxide starship fnm lazygit yazi ripgrep diff-so-fancy
+brew install --cask ghostty
 ```
 
 ## Uninstalling
@@ -173,7 +186,8 @@ Remove all symlinks created by GNU stow:
 brew leaves
 
 # Remove specific packages
-brew uninstall kitty tmux fzf fd bat eza zoxide starship fnm gh lazygit yazi ...
+brew uninstall tmux fzf fd bat eza zoxide starship fnm lazygit yazi ripgrep diff-so-fancy ...
+brew uninstall --cask ghostty
 ```
 
 ### 3. Remove Configuration Files
@@ -185,7 +199,7 @@ Clean up remaining configuration files:
 rm -rf ~/.zshrc ~/.zsh_history ~/.zinit
 
 # Remove tool-specific configs
-rm -rf ~/.config/kitty
+rm -rf ~/.config/ghostty
 rm -rf ~/.config/nvim
 rm -rf ~/.config/tmux
 rm -rf ~/.config/yazi

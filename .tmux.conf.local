@@ -13,5 +13,5 @@ setw -g mouse on
 setw -g mode-keys vi
 set -gq allow-passthrough on
 
-# Initialize TPM (Tmux Plugin Manager)
-run '~/.tmux/plugins/tpm/tpm'
+# Initialize TPM (Tmux Plugin Manager) if installed
+if -b '[ -x ~/.tmux/plugins/tpm/tpm ]' 'run "~/.tmux/plugins/tpm/tpm"'
