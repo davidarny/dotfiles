@@ -3,6 +3,6 @@
   editor = nvim
   autocrlf = input
   compression = 9
-  fsync = none
+  fsync = loose-object
   whitespace = error
   excludesfile = ~/.gitignore_global
