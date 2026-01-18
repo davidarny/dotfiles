@@ -18,9 +18,13 @@ export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # ImageMagick configuration for image.nvim
-# Guard brew detection to avoid errors on systems without Homebrew
-if command -v brew >/dev/null 2>&1; then
-  export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:${DYLD_LIBRARY_PATH:-}"
+# Avoid running brew on every shell startup.
+if [[ -n "${HOMEBREW_PREFIX:-}" && -d "${HOMEBREW_PREFIX}/lib" ]]; then
+  export DYLD_LIBRARY_PATH="${HOMEBREW_PREFIX}/lib:${DYLD_LIBRARY_PATH:-}"
+elif [[ -d /opt/homebrew/lib ]]; then
+  export DYLD_LIBRARY_PATH="/opt/homebrew/lib:${DYLD_LIBRARY_PATH:-}"
+elif [[ -d /usr/local/lib ]]; then
+  export DYLD_LIBRARY_PATH="/usr/local/lib:${DYLD_LIBRARY_PATH:-}"
 fi
 
 # FZF custom path and directory generation
