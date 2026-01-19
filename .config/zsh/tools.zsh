@@ -113,6 +113,3 @@ if command -v op >/dev/null 2>&1; then
   # Store for later loading
   export _OP_COMPLETION_AVAILABLE=1
 fi
-
-# Kiro integration (safe to load early)
-[[ "$TERM_PROGRAM" == "kiro" ]] && command -v kiro >/dev/null 2>&1 && . "$(kiro --locate-shell-integration-path zsh)"

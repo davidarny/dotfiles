@@ -39,72 +39,79 @@ fi
 
 # Pretty startup timing output
 if [[ -o interactive && -n "${ZSH_STARTUP_EPOCH:-}" ]]; then
-  typeset _zsh_startup_ms _zsh_startup_s _zsh_startup_s_fmt _zsh_startup_ms_fmt
-  _zsh_startup_ms=$(( (EPOCHREALTIME - ZSH_STARTUP_EPOCH) * 1000.0 ))
-  if (( _zsh_startup_ms >= 1000 )); then
-    _zsh_startup_s=$(( _zsh_startup_ms / 1000.0 ))
-    _zsh_startup_s_fmt=$(printf "%.1f" "$_zsh_startup_s")
-    _zsh_startup_time="${_zsh_startup_s_fmt} s"
-  else
-    _zsh_startup_ms_fmt=$(printf "%.2f" "$_zsh_startup_ms")
-    _zsh_startup_time="${_zsh_startup_ms_fmt}ms"
-  fi
+  _zsh_print_startup_info() {
+    emulate -L zsh
+    setopt no_xtrace no_verbose
 
-  typeset _zsh_pagesize _zsh_free_pages _zsh_inactive_pages
-  typeset _zsh_mem_free_bytes _zsh_mem_free_human
-  _zsh_pagesize=$(sysctl -n hw.pagesize 2>/dev/null)
-  if [[ -n "$_zsh_pagesize" ]]; then
-    read -r _zsh_free_pages _zsh_inactive_pages < <(vm_stat 2>/dev/null | awk '
-      /Pages free/ {gsub("\\.","",$3); free=$3}
-      /Pages inactive/ {gsub("\\.","",$3); inactive=$3}
-      END {printf "%s %s", free, inactive}
-    ')
-    if [[ -n "$_zsh_free_pages" && -n "$_zsh_inactive_pages" ]]; then
-      _zsh_mem_free_bytes=$(( (_zsh_free_pages + _zsh_inactive_pages) * _zsh_pagesize ))
-      _zsh_mem_free_human=$(printf "%.1fG" $(( _zsh_mem_free_bytes / 1024.0 / 1024.0 / 1024.0 )))
-    fi
-  fi
-
-  typeset _zsh_cpu_model _zsh_cpu_cores _zsh_cpu_usage
-  _zsh_cpu_model=$(sysctl -n machdep.cpu.brand_string 2>/dev/null)
-  _zsh_cpu_cores=$(sysctl -n hw.ncpu 2>/dev/null)
-  _zsh_cpu_usage=$(ps -A -o %cpu= 2>/dev/null | awk '{s+=$1} END {printf "%.1f%%%%", s}')
-
-  typeset _zsh_boot_sec _zsh_uptime_sec _zsh_uptime
-  _zsh_boot_sec=$(sysctl -n kern.boottime 2>/dev/null | awk -F'[=,]' '{print $2}' | tr -d ' ')
-  if [[ -n "$_zsh_boot_sec" ]]; then
-    _zsh_uptime_sec=$(( EPOCHSECONDS - _zsh_boot_sec ))
-    typeset _zsh_uptime_days _zsh_uptime_hours _zsh_uptime_mins
-    _zsh_uptime_days=$(( _zsh_uptime_sec / 86400 ))
-    _zsh_uptime_hours=$(( (_zsh_uptime_sec % 86400) / 3600 ))
-    _zsh_uptime_mins=$(( (_zsh_uptime_sec % 3600) / 60 ))
-    if (( _zsh_uptime_days > 0 )); then
-      _zsh_uptime="${_zsh_uptime_days}d ${_zsh_uptime_hours}h ${_zsh_uptime_mins}m"
-    elif (( _zsh_uptime_hours > 0 )); then
-      _zsh_uptime="${_zsh_uptime_hours}h ${_zsh_uptime_mins}m"
+    local _zsh_startup_ms _zsh_startup_s _zsh_startup_s_fmt _zsh_startup_ms_fmt _zsh_startup_time
+    _zsh_startup_ms=$(( (EPOCHREALTIME - ZSH_STARTUP_EPOCH) * 1000.0 ))
+    if (( _zsh_startup_ms >= 1000 )); then
+      _zsh_startup_s=$(( _zsh_startup_ms / 1000.0 ))
+      _zsh_startup_s_fmt=$(printf "%.1f" "$_zsh_startup_s")
+      _zsh_startup_time="${_zsh_startup_s_fmt} s"
     else
-      _zsh_uptime="${_zsh_uptime_mins}m"
+      _zsh_startup_ms_fmt=$(printf "%.2f" "$_zsh_startup_ms")
+      _zsh_startup_time="${_zsh_startup_ms_fmt}ms"
     fi
-  fi
 
-  print -P "%F{cyan} Startup:%f %F{green}${_zsh_startup_time}%f"
-  if [[ -n "$_zsh_mem_free_human" ]]; then
-    print -P "%F{cyan}󰑭 Mem:%f %F{green}${_zsh_mem_free_human} free%f"
-  fi
-  if [[ -n "$_zsh_uptime" ]]; then
-    print -P "%F{cyan}󰅐 Uptime:%f %F{green}${_zsh_uptime}%f"
-  fi
-  if [[ -n "$_zsh_cpu_model" || -n "$_zsh_cpu_usage" ]]; then
-    typeset _zsh_cpu_line=""
-    [[ -n "$_zsh_cpu_model" ]] && _zsh_cpu_line="$_zsh_cpu_model"
-    if [[ -n "$_zsh_cpu_cores" ]]; then
-      [[ -n "$_zsh_cpu_line" ]] && _zsh_cpu_line+=" · "
-      _zsh_cpu_line+="${_zsh_cpu_cores} cores"
+    local _zsh_pagesize _zsh_free_pages _zsh_inactive_pages
+    local _zsh_mem_free_bytes _zsh_mem_free_human
+    _zsh_pagesize=$(sysctl -n hw.pagesize 2>/dev/null)
+    if [[ -n "$_zsh_pagesize" ]]; then
+      read -r _zsh_free_pages _zsh_inactive_pages < <(vm_stat 2>/dev/null | awk '
+        /Pages free/ {gsub("\\.","",$3); free=$3}
+        /Pages inactive/ {gsub("\\.","",$3); inactive=$3}
+        END {printf "%s %s", free, inactive}
+      ')
+      if [[ -n "$_zsh_free_pages" && -n "$_zsh_inactive_pages" ]]; then
+        _zsh_mem_free_bytes=$(( (_zsh_free_pages + _zsh_inactive_pages) * _zsh_pagesize ))
+        _zsh_mem_free_human=$(printf "%.1fG" $(( _zsh_mem_free_bytes / 1024.0 / 1024.0 / 1024.0 )))
+      fi
     fi
-    if [[ -n "$_zsh_cpu_usage" ]]; then
-      [[ -n "$_zsh_cpu_line" ]] && _zsh_cpu_line+=" · "
-      _zsh_cpu_line+="CPU ${_zsh_cpu_usage}"
+
+    local _zsh_cpu_model _zsh_cpu_cores _zsh_cpu_usage
+    _zsh_cpu_model=$(sysctl -n machdep.cpu.brand_string 2>/dev/null)
+    _zsh_cpu_cores=$(sysctl -n hw.ncpu 2>/dev/null)
+    _zsh_cpu_usage=$(ps -A -o %cpu= 2>/dev/null | awk '{s+=$1} END {printf "%.1f%%%%", s}')
+
+    local _zsh_boot_sec _zsh_uptime_sec _zsh_uptime
+    _zsh_boot_sec=$(sysctl -n kern.boottime 2>/dev/null | awk -F'[=,]' '{print $2}' | tr -d ' ')
+    if [[ -n "$_zsh_boot_sec" ]]; then
+      _zsh_uptime_sec=$(( EPOCHSECONDS - _zsh_boot_sec ))
+      local _zsh_uptime_days _zsh_uptime_hours _zsh_uptime_mins
+      _zsh_uptime_days=$(( _zsh_uptime_sec / 86400 ))
+      _zsh_uptime_hours=$(( (_zsh_uptime_sec % 86400) / 3600 ))
+      _zsh_uptime_mins=$(( (_zsh_uptime_sec % 3600) / 60 ))
+      if (( _zsh_uptime_days > 0 )); then
+        _zsh_uptime="${_zsh_uptime_days}d ${_zsh_uptime_hours}h ${_zsh_uptime_mins}m"
+      elif (( _zsh_uptime_hours > 0 )); then
+        _zsh_uptime="${_zsh_uptime_hours}h ${_zsh_uptime_mins}m"
+      else
+        _zsh_uptime="${_zsh_uptime_mins}m"
+      fi
     fi
-    print -P "%F{cyan}󰍛 CPU:%f %F{green}${_zsh_cpu_line}%f"
-  fi
+
+    print -P "%F{cyan} Startup:%f %F{green}${_zsh_startup_time}%f"
+    if [[ -n "$_zsh_mem_free_human" ]]; then
+      print -P "%F{cyan}󰑭 Mem:%f %F{green}${_zsh_mem_free_human} free%f"
+    fi
+    if [[ -n "$_zsh_uptime" ]]; then
+      print -P "%F{cyan}󰅐 Uptime:%f %F{green}${_zsh_uptime}%f"
+    fi
+    if [[ -n "$_zsh_cpu_model" || -n "$_zsh_cpu_usage" ]]; then
+      local _zsh_cpu_line=""
+      [[ -n "$_zsh_cpu_model" ]] && _zsh_cpu_line="$_zsh_cpu_model"
+      if [[ -n "$_zsh_cpu_cores" ]]; then
+        [[ -n "$_zsh_cpu_line" ]] && _zsh_cpu_line+=" · "
+        _zsh_cpu_line+="${_zsh_cpu_cores} cores"
+      fi
+      if [[ -n "$_zsh_cpu_usage" ]]; then
+        [[ -n "$_zsh_cpu_line" ]] && _zsh_cpu_line+=" · "
+        _zsh_cpu_line+="CPU ${_zsh_cpu_usage}"
+      fi
+      print -P "%F{cyan}󰍛 CPU:%f %F{green}${_zsh_cpu_line}%f"
+    fi
+  }
+
+  _zsh_print_startup_info
 fi

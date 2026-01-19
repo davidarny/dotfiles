@@ -1,7 +1,7 @@
-# History settings
 HISTSIZE=10000
 HISTFILE=~/.zsh_history
 SAVEHIST=$HISTSIZE
+
 setopt appendhistory
 setopt sharehistory
 setopt hist_ignore_space
