@@ -14,26 +14,27 @@ alias rg="command rg --hidden --smart-case --glob='!.git/' --no-search-zip --tri
 alias caddystart='caddy start --config ~/.config/caddy/caddy.json'
 alias caddystop='caddy stop'
 
-# tmux
-alias tm='tmux'
-
 # macOS
 alias reload='source ~/.zshrc'
 alias allowapp='sudo xattr -r -d com.apple.quarantine'
 alias dsclean='fd -H '^\.DS_Store$' -tf -X rm'
 alias lnclean="fd . --type l -x sh -c 'if [ ! -e \"\$1\" ]; then rm \"\$1\"; fi' --"
 
-# misc
+# tools
 alias t='l'
-alias ls='l'
+alias tm='tmux'
 alias c='clear'
 alias rf='trash'
 alias man='batman'
 alias ff='fastfetch'
 alias yz='yazi'
 alias lg='lazygit'
+alias lzd='lazydocker'
 
 # claude
 alias ccc='claude --dangerously-skip-permissions'
-alias cx='codex --dangerously-bypass-approvals-and-sandbox'
-alias claude-mem='bun "/Users/david.arutyunyan/.claude/plugins/marketplaces/thedotmack/plugin/scripts/worker-service.cjs"'
+alias cdx='codex --dangerously-bypass-approvals-and-sandbox'
+
+# vpn
+alias vpnc='gp-connect'
+alias vpnd='gp-disconnect'
