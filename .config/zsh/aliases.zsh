@@ -34,7 +34,3 @@ alias lzd='lazydocker'
 # claude
 alias ccc='claude --dangerously-skip-permissions'
 alias cdx='codex --dangerously-bypass-approvals-and-sandbox'
-
-# vpn
-alias vpnc='gp-connect'
-alias vpnd='gp-disconnect'
