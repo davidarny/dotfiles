@@ -8,11 +8,6 @@ if [[ -o interactive ]]; then
   ZSH_STARTUP_EPOCH=$EPOCHREALTIME
 fi
 
-# Fast startup for interactive -c runs (opt out with ZSH_FAST_STARTUP=0)
-if [[ -n "${ZSH_EXECUTION_STRING:-}" && -z "${ZSH_FAST_STARTUP:-}" ]]; then
-  export ZSH_FAST_STARTUP=1
-fi
-
 # Source configuration modules in order (numbered files first)
 for config_file in ~/.config/zsh/*.zsh; do
   # Skip the main zshrc file itself to avoid infinite loop

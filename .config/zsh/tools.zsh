@@ -7,11 +7,6 @@ mkdir -p "$zsh_cache_dir" 2>/dev/null
 cache_writable=0
 [[ -d "$zsh_cache_dir" && -w "$zsh_cache_dir" ]] && cache_writable=1
 
-# Skip heavy tool init for fast startup shells (interactive -c by default)
-if [[ -n "${ZSH_FAST_STARTUP:-}" ]]; then
-  return 0
-fi
-
 if [[ -r "$HOME/.fzf.zsh" ]]; then
   source "$HOME/.fzf.zsh"
 elif [[ -r /opt/homebrew/opt/fzf/shell/key-bindings.zsh ]]; then
