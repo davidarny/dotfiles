@@ -9,6 +9,16 @@ export VISUAL=${VISUAL:-${commands[cursor]:-$EDITOR}}
 # Ignore EOF to prevent accidental shell exit
 set -o ignoreeof
 
+# Keep PATH entries unique while preserving order
+typeset -U path
+
+# Shell behavior
+setopt auto_cd
+setopt auto_pushd
+setopt pushd_ignore_dups
+setopt correct
+setopt interactive_comments
+
 # Set PATH for various tools and environments
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH

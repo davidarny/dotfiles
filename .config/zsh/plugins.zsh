@@ -14,6 +14,7 @@ if command -v zinit >/dev/null 2>&1; then
   zinit light zsh-users/zsh-syntax-highlighting
   zinit light zsh-users/zsh-completions
   zinit light zsh-users/zsh-autosuggestions
+  zinit light zsh-users/zsh-history-substring-search
   zinit light g-plane/pnpm-shell-completion
 
   # Load Oh My Zsh snippets
@@ -47,3 +48,7 @@ if command -v zinit >/dev/null 2>&1; then
   zstyle ':completion:*:*:docker:*' option-stacking yes
   zstyle ':completion:*:*:docker-*:*' option-stacking yes
 fi
+
+# Keybindings (after plugins are loaded)
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
