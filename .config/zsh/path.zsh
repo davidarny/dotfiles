@@ -1,5 +1,5 @@
 # Current user
-export CURRENT_USER="${USER:-${LOGNAME:-}}"
+export CURRENT_USER=$(whoami)
 
 # Default tools
 export PAGER=bat
@@ -9,9 +9,6 @@ export VISUAL=${VISUAL:-${commands[cursor]:-$EDITOR}}
 # Ignore EOF to prevent accidental shell exit
 set -o ignoreeof
 
-# Keep PATH entries unique while preserving order
-typeset -U path
-
 # Set PATH for various tools and environments
 export PATH=$HOME/.local/bin:$PATH
 export PATH=/opt/homebrew/bin:$PATH
@@ -19,7 +16,7 @@ export PATH=/opt/homebrew/sbin:$PATH
 
 # fnm configuration
 export PATH=$PATH:"$HOME/fvm/default/bin"
-export PATH="$HOME/Library/Application Support/fnm:$PATH"
+export PATH="/Users/$CURRENT_USER/Library/Application Support/fnm:$PATH"
 
 # Bun
 export BUN_HOME="$HOME/.bun"
@@ -29,7 +26,7 @@ export PATH="$BUN_HOME/bin:$PATH"
 export XDG_CONFIG_HOME="$HOME/.config"
 
 # PNPM configuration
-export PNPM_HOME="$HOME/Library/pnpm"
+export PNPM_HOME="/Users/$CURRENT_USER/Library/pnpm"
 case ":$PATH:" in
   *":$PNPM_HOME:"*) ;;
   *) export PATH="$PNPM_HOME:$PATH" ;;
