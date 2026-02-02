@@ -16,8 +16,10 @@ typeset -U path
 setopt auto_cd
 setopt auto_pushd
 setopt pushd_ignore_dups
-setopt correct
 setopt interactive_comments
+
+# Delete path segments individually with Ctrl+W
+WORDCHARS='${WORDCHARS//[\/.]}'
 
 # Set PATH for various tools and environments
 export PATH=$HOME/.local/bin:$PATH

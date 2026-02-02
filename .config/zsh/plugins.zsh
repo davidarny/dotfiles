@@ -8,6 +8,9 @@ if command -v git >/dev/null 2>&1; then
   [ -f "${ZINIT_HOME}/zinit.zsh" ] && source "${ZINIT_HOME}/zinit.zsh"
 fi
 
+# Plugin configuration
+ZSH_AUTOSUGGEST_STRATEGY=(history completion)
+
 # Load Zsh plugins using Zinit (only if zinit is available)
 if command -v zinit >/dev/null 2>&1; then
   zinit light Aloxaf/fzf-tab
