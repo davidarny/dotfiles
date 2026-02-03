@@ -6,6 +6,7 @@ $directory\
 $git_branch\
 $git_state\
 $git_status\
+$nodejs\
 $cmd_duration\
 $line_break\
 $python\
@@ -13,7 +14,7 @@ $character"""
 
 [os]
 disabled = false
-format = "$symbol "
+format = "[$symbol ](#ffffff)"
 
 [os.symbols]
 Macos = ""
@@ -28,26 +29,30 @@ vimcmd_symbol = "[❮](green)"
 
 [git_branch]
 format = "[ $branch]($style)"
-style = "bright-black"
+style = "#F05032"
 
 [git_status]
-format = "[ $conflicted$untracked$modified$staged$renamed$deleted](218)[ $ahead_behind$stashed]($style)"
+format = "[[(*$conflicted$untracked$modified$staged$renamed$deleted)](#ffb86c) ($ahead_behind$stashed)]($style)"
 style = "cyan"
-conflicted = "󰘬"
-untracked = "◌"
-modified = "●"
-staged = ""
-renamed = ""
-deleted = "×"
-stashed = ""
+conflicted = "​"
+untracked = "​"
+modified = "​"
+staged = "​"
+renamed = "​"
+deleted = "​"
+stashed = "≡"
 
 [git_state]
 format = '\([$state( $progress_current/$progress_total)]($style)\) '
 style = "bright-black"
 
 [cmd_duration]
-format = "[$duration]($style) "
+format = "[ $duration]($style)"
 style = "yellow"
+
+[nodejs]
+format = "[  $version]($style)"
+style = "#84ba64"
 
 [python]
 format = "[$virtualenv]($style) "
