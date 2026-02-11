@@ -37,6 +37,10 @@ if command -v zinit >/dev/null 2>&1; then
 
   # Replay Zinit commands quietly
   zinit cdreplay -q
+
+  # Tool completions (must be after compinit)
+  command -v op >/dev/null 2>&1 && eval "$(op completion zsh)"
+  command -v opencode >/dev/null 2>&1 && eval "$(opencode completion zsh)"
 fi
 
 # Completion styling (only if zinit is available)
