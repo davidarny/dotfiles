@@ -31,6 +31,7 @@ alias yz='yazi'
 alias lg='lazygit'
 alias lzd='lazydocker'
 
-# claude
+# ai
 alias ccc='claude --dangerously-skip-permissions'
-alias cdx='codex --yolo'
+alias xxx='codex --yolo'
+alias ooo='opencode'
