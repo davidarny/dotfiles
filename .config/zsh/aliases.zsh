@@ -11,8 +11,8 @@ alias tree='eza -A --tree --group-directories-first --color=always --icons=alway
 alias rg="command rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
 
 # caddy
-alias caddystart='caddy start --config ~/.config/caddy/caddy.json'
-alias caddystop='caddy stop'
+alias cds='caddy start --config ~/.config/caddy/caddy.json'
+alias cdx='caddy stop'
 
 # macOS
 alias reload='source ~/.zshrc'
