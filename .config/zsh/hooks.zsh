@@ -1,5 +1,6 @@
 # Notify on long-running commands via noti
 NOTI_THRESHOLD=30
+_NOTI_IGNORE=(nvim vim vi neovim lazygit claude codex htop btop top less more man ssh tmux)
 
 _noti_preexec() {
   _noti_cmd="$1"
@@ -8,9 +9,10 @@ _noti_preexec() {
 
 _noti_precmd() {
   [[ -z "$_noti_start" ]] && return
+  local cmd="${_noti_cmd%% *}"
   local elapsed=$(( EPOCHSECONDS - _noti_start ))
-  if (( elapsed >= NOTI_THRESHOLD )); then
-    noti -t "${_noti_cmd%% *}" -m "Completed in ${elapsed}s" &>/dev/null &!
+  if (( elapsed >= NOTI_THRESHOLD )) && (( ! ${_NOTI_IGNORE[(Ie)$cmd]} )); then
+    noti -t "$cmd" -m "Completed in ${elapsed}s" &>/dev/null &!
   fi
   unset _noti_start _noti_cmd
 }
