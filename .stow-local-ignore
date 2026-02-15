@@ -3,6 +3,9 @@
 .git
 .gitignore
 
+AGENTS.md
+Brewfile
+CLAUDE.md
 LICENSE.md
 README.md
 
