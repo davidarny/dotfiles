@@ -28,7 +28,6 @@ if command -v zinit >/dev/null 2>&1; then
   zinit snippet OMZP::sudo
   zinit snippet OMZP::brew
   zinit snippet OMZP::extract
-  zinit snippet OMZP::copypath
   zinit snippet OMZP::docker
   zinit snippet OMZP::eza
 fi
