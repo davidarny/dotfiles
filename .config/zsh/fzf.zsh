@@ -17,11 +17,6 @@ show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always --icons=a
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always --icons=always {} | head -200'"
 
-# ImageMagick configuration for image.nvim
-if command -v brew >/dev/null 2>&1; then
-  export DYLD_LIBRARY_PATH="$(brew --prefix)/lib:${DYLD_LIBRARY_PATH:-}"
-fi
-
 # FZF custom path and directory generation
 _fzf_compgen_path() {
   fd --hidden --exclude .git . "$1"
