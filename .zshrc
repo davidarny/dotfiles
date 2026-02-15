@@ -8,4 +8,5 @@ source ~/.config/zsh/completions.zsh
 source ~/.config/zsh/fzf.zsh
 source ~/.config/zsh/keybindings.zsh
 source ~/.config/zsh/aliases.zsh
+source ~/.config/zsh/hooks.zsh
 source ~/.config/zsh/tools.zsh
