@@ -3,9 +3,9 @@ alias e="$EDITOR"
 alias E='sudo -e'
 
 # ls
-alias l='eza -1A --group-directories-first --color=always'
-alias la='eza -la --git --git-repos --group-directories-first --color=always --octal-permissions --time-style=long-iso'
-alias tree='eza --tree --group-directories-first --color=always'
+alias l='eza -1A --group-directories-first --color=always --icons=always --tree --level=1'
+alias la='eza -la --git --git-repos --group-directories-first --color=always --octal-permissions --time-style=long-iso --icons=always --tree --level=1'
+alias tree='eza --tree --group-directories-first --color=always --icons=always'
 
 # rg
 alias rg="command rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"

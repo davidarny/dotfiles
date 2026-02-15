@@ -48,8 +48,8 @@ if command -v zinit >/dev/null 2>&1; then
   zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
   zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
   zstyle ':completion:*' menu no
-  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
-  zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --tree --color=always $realpath | head -200'
+  zstyle ':fzf-tab:complete:cd:*' fzf-preview 'eza --tree --color=always --icons=always $realpath | head -200'
+  zstyle ':fzf-tab:complete:__zoxide_z:*' fzf-preview 'eza --tree --color=always --icons=always $realpath | head -200'
   zstyle ':completion:*:make:*:targets' call-command true
   zstyle ':completion:*:*:make:*' tag-order 'targets'
   zstyle ':completion:*:*:docker:*' option-stacking yes
