@@ -1,4 +1,8 @@
 # Source configuration modules in order
-for config_file in ~/.config/zsh/*.zsh; do
-  [[ "$config_file" != *"/zshrc" ]] && [[ -f "$config_file" ]] && source "$config_file"
-done
+source ~/.config/zsh/path.zsh
+source ~/.config/zsh/history.zsh
+source ~/.config/zsh/plugins.zsh
+source ~/.config/zsh/completions.zsh
+source ~/.config/zsh/fzf.zsh
+source ~/.config/zsh/aliases.zsh
+source ~/.config/zsh/tools.zsh
