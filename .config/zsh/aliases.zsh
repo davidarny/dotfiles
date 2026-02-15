@@ -30,6 +30,7 @@ alias rf='trash'
 alias man='batman'
 alias ff='fastfetch'
 alias yz='yazi'
+alias copypath='pwd | pbcopy'
 alias lg='lazygit'
 alias lzd='lazydocker'
 
