@@ -28,7 +28,3 @@ if command -v zinit >/dev/null 2>&1; then
   zinit snippet OMZP::node
 
 fi
-
-# Keybindings (after plugins are loaded)
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
