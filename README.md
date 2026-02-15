@@ -86,9 +86,10 @@
 
 ### Functions
 
-| Function | Description                                                                                     | Usage |
-| -------- | ----------------------------------------------------------------------------------------------- | ----- |
-| `tm`     | Smart tmux launcher — attaches to existing session, restores from resurrect save, or starts new | `tm`  |
+| Function | Description | Usage |
+|----------|-------------|-------|
+| `brew` | Wrapper that auto-syncs Brewfile after install/uninstall | `brew install <pkg>` |
+| `tm` | Smart tmux launcher — attaches to existing session, restores from resurrect save, or starts new | `tm` |
 
 ## Prerequisites
 
@@ -165,8 +166,7 @@ bash -c "$(curl --fail --show-error --silent --location https://raw.githubuserco
 3. Install required dependencies:
 
 ```bash
-brew install tmux fzf fd bat eza zoxide starship fnm lazygit yazi ripgrep diff-so-fancy noti
-brew install --cask ghostty
+just brew-install
 ```
 
 ## Uninstalling

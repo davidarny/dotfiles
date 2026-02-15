@@ -9,9 +9,11 @@ macOS dotfiles managed with **GNU stow**. All config files live in this repo and
 ## Commands
 
 ```bash
-just link      # stow --restow --adopt --target="$HOME" .
-just unlink    # stow --delete --target="$HOME" .
-source ~/.zshrc  # reload shell after changes
+just link          # stow --restow --adopt --target="$HOME" .
+just unlink        # stow --delete --target="$HOME" .
+just brew-install  # brew bundle --file=Brewfile
+just brew-dump     # brew bundle dump to Brewfile
+source ~/.zshrc    # reload shell after changes
 ```
 
 No tests or linting — this is a shell configuration repo.
@@ -20,7 +22,7 @@ No tests or linting — this is a shell configuration repo.
 
 The repo root mirrors `$HOME`. Running `just link` symlinks everything (except files in `.stow-local-ignore`) into the home directory. For example, `.config/zsh/aliases.zsh` becomes `~/.config/zsh/aliases.zsh`.
 
-Files excluded from stow: `.git`, `.gitignore`, `LICENSE.md`, `README.md`, `justfile`, `.DS_Store`.
+Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE.md`, `LICENSE.md`, `README.md`, `justfile`, `.DS_Store`.
 
 ## Architecture
 
@@ -37,7 +39,7 @@ Files excluded from stow: `.git`, `.gitignore`, `LICENSE.md`, `README.md`, `just
 7. **fzf.zsh** — FZF configuration and theme
 8. **keybindings.zsh** — Key bindings
 9. **aliases.zsh** — Shell aliases
-10. **functions.zsh** — Custom functions (e.g., `tm` for tmux)
+10. **functions.zsh** — Custom functions (`brew` wrapper for auto-syncing Brewfile, `tm` for tmux)
 11. **hooks.zsh** — Preexec/precmd hooks (noti notifications for long commands)
 12. **tools.zsh** — Tool initialization via `_evalcache` (fzf, zoxide, starship, fnm, pyenv)
 
