@@ -1,7 +1,7 @@
 # Default tools
 export PAGER=bat
 export EDITOR=nvim
-export VISUAL=${VISUAL:-${commands[cursor]:-$EDITOR}}
+export VISUAL=$EDITOR
 
 # XDG
 export XDG_CONFIG_HOME="$HOME/.config"
