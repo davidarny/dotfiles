@@ -1,6 +1,3 @@
-# Created by https://www.toptal.com/developers/gitignore/api/vim,linux,macos,windows,lua,zsh
-# Edit at https://www.toptal.com/developers/gitignore?templates=vim,linux,macos,windows,lua,zsh
-
 ### Linux ###
 *~
 
@@ -175,4 +172,6 @@ zsdoc/data
 /tests/_output/*
 !/tests/_output/.gitkeep
 
-# End of https://www.toptal.com/developers/gitignore/api/vim,linux,macos,windows,lua,zsh
+# Unignore agent instruction files (ignored globally in .gitignore_global)
+!AGENTS.md
+!CLAUDE.md
