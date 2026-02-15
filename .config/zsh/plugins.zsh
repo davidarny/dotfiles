@@ -31,5 +31,4 @@ if command -v zinit >/dev/null 2>&1; then
   zinit snippet OMZP::copypath
   zinit snippet OMZP::docker
   zinit snippet OMZP::eza
-  zinit snippet OMZP::tmux
 fi
