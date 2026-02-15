@@ -14,12 +14,14 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # Load Zsh plugins using Zinit (only if zinit is available)
 if command -v zinit >/dev/null 2>&1; then
   zinit light Aloxaf/fzf-tab
-  zinit light zsh-users/zsh-syntax-highlighting
+  zinit light zdharma-continuum/fast-syntax-highlighting
   zinit light zsh-users/zsh-completions
   zinit light zsh-users/zsh-autosuggestions
   zinit light zsh-users/zsh-history-substring-search
   zinit light g-plane/pnpm-shell-completion
   zinit light MichaelAquilina/zsh-you-should-use
+  zinit light mroth/evalcache
+  zinit light hlissner/zsh-autopair
 
   # Load Oh My Zsh snippets
   zinit snippet OMZP::git
