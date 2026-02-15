@@ -4,78 +4,7 @@
       "servers": {
         "srv0": {
           "listen": [":443"],
-          "routes": [
-            {
-              "match": [{ "host": ["banzai.local"] }],
-              "handle": [
-                {
-                  "handler": "reverse_proxy",
-                  "upstreams": [{ "dial": "localhost:3000" }]
-                }
-              ],
-              "terminal": true
-            },
-            {
-              "match": [{ "host": ["vivi.local"] }],
-              "handle": [
-                {
-                  "handler": "reverse_proxy",
-                  "upstreams": [{ "dial": "localhost:3000" }]
-                }
-              ],
-              "terminal": true
-            },
-            {
-              "match": [{ "host": ["evolut.local"] }],
-              "handle": [
-                {
-                  "handler": "reverse_proxy",
-                  "upstreams": [{ "dial": "localhost:3000" }]
-                }
-              ],
-              "terminal": true
-            },
-            {
-              "match": [{ "host": ["loyalty.local"] }],
-              "handle": [
-                {
-                  "handler": "reverse_proxy",
-                  "upstreams": [{ "dial": "localhost:3000" }]
-                }
-              ],
-              "terminal": true
-            },
-            {
-              "match": [{ "host": ["notifications.local"] }],
-              "handle": [
-                {
-                  "handler": "reverse_proxy",
-                  "upstreams": [{ "dial": "localhost:3000" }]
-                }
-              ],
-              "terminal": true
-            },
-            {
-              "match": [{ "host": ["dobro.local"] }],
-              "handle": [
-                {
-                  "handler": "reverse_proxy",
-                  "upstreams": [{ "dial": "localhost:3000" }]
-                }
-              ],
-              "terminal": true
-            },
-            {
-              "match": [{ "host": ["mostbet.local"] }],
-              "handle": [
-                {
-                  "handler": "reverse_proxy",
-                  "upstreams": [{ "dial": "localhost:3000" }]
-                }
-              ],
-              "terminal": true
-            }
-          ]
+          "routes": []
         }
       }
     }
