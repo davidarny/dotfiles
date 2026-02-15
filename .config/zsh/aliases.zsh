@@ -20,6 +20,9 @@ alias allowapp='sudo xattr -r -d com.apple.quarantine'
 alias dsclean='fd -H '^\.DS_Store$' -tf -X rm'
 alias lnclean="fd . --type l -x sh -c 'if [ ! -e \"\$1\" ]; then rm \"\$1\"; fi' --"
 
+# ssh (fix xterm-ghostty terminfo missing on remote servers)
+alias ssh='TERM=xterm-256color command ssh'
+
 # tools
 alias t='l'
 alias tm='tmux'
