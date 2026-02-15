@@ -19,12 +19,15 @@ if command -v zinit >/dev/null 2>&1; then
   zinit light zsh-users/zsh-autosuggestions
   zinit light zsh-users/zsh-history-substring-search
   zinit light g-plane/pnpm-shell-completion
+  zinit light MichaelAquilina/zsh-you-should-use
 
   # Load Oh My Zsh snippets
   zinit snippet OMZP::git
   zinit snippet OMZP::sudo
-  zinit snippet OMZP::npm
   zinit snippet OMZP::brew
-  zinit snippet OMZP::node
-
+  zinit snippet OMZP::extract
+  zinit snippet OMZP::copypath
+  zinit snippet OMZP::docker
+  zinit snippet OMZP::eza
+  zinit snippet OMZP::tmux
 fi
