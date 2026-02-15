@@ -25,7 +25,6 @@ alias ssh='TERM=xterm-256color command ssh'
 
 # tools
 alias t='l'
-alias tm='tmux'
 alias c='clear'
 alias rf='trash'
 alias man='batman'
