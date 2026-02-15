@@ -38,20 +38,21 @@
 **File Listing**
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `l` | `eza -1A --group-directories-first --color=always` | List files |
-| `la` | `eza -la --git --git-repos --group-directories-first --color=always --octal-permissions --time-style=long-iso` | Detailed list with git info |
-| `tree` | `eza --tree --group-directories-first --color=always` | Tree view |
-| `ls` | `l` | Alias for list |
+| `l` | `eza -1A --group-directories-first --icons=always --tree --level=1` | List files |
+| `la` | `eza -la --git --git-repos --group-directories-first --octal-permissions --time-style=long-iso --icons=always --tree --level=1` | Detailed list with git info |
+| `tree` | `eza -A --tree --group-directories-first --icons=always` | Tree view |
 | `t` | `l` | Short alias for list |
 
 **Tools**
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `tm` | `tmux` | Open Tmux |
 | `lg` | `lazygit` | Open LazyGit |
+| `lzd` | `lazydocker` | Open LazyDocker |
 | `yz` | `yazi` | Open Yazi file manager |
 | `ff` | `fastfetch` | System info |
 | `rg` | `rg --hidden --smart-case ...` | Ripgrep with defaults |
+| `copypath` | `pwd \| pbcopy` | Copy working directory to clipboard |
+| `ssh` | `TERM=xterm-256color command ssh` | SSH with compatible terminfo |
 
 **System**
 | Alias | Command | Description |
@@ -73,15 +74,21 @@
 **Services**
 | Alias | Command | Description |
 |-------|---------|-------------|
-| `caddystart` | `caddy start --config ~/.config/caddy/caddy.json` | Start Caddy |
-| `caddystop` | `caddy stop` | Stop Caddy |
+| `cds` | `caddy start --config ~/.config/caddy/caddy.json` | Start Caddy |
+| `cdx` | `caddy stop` | Stop Caddy |
+
+**AI**
+| Alias | Command | Description |
+|-------|---------|-------------|
+| `ccc` | `claude --dangerously-skip-permissions` | Claude Code |
+| `xxx` | `codex --yolo` | Codex |
+| `ooo` | `opencode` | OpenCode |
 
 ### Functions
 
-| Function | Description                                           | Usage                              |
-| -------- | ----------------------------------------------------- | ---------------------------------- |
-| `migrate_npm_globals` | Migrate npm global packages to a new Node.js version | `migrate_npm_globals 20` |
-| `zsh_refresh_init_cache` | Refresh cached init scripts for shell tools | `zsh_refresh_init_cache` |
+| Function | Description                                                                                     | Usage |
+| -------- | ----------------------------------------------------------------------------------------------- | ----- |
+| `tm`     | Smart tmux launcher — attaches to existing session, restores from resurrect save, or starts new | `tm`  |
 
 ## Prerequisites
 
@@ -124,6 +131,7 @@ Before installation, ensure you have:
 - Command Line Tools for Xcode: `xcode-select --install`
 - [Homebrew](https://brew.sh) package manager
 - [GNU stow](https://www.gnu.org/software/stow/): `brew install stow`
+- [just](https://github.com/casey/just): `brew install just`
 
 ### 2. Clone and Link Dotfiles
 
@@ -137,14 +145,8 @@ cd ~/.dotfiles
 2. Create symlinks using GNU stow:
 
 ```bash
-./link.sh
+just link
 ```
-
-This will:
-
-- Back up any existing dotfiles
-- Create symbolic links in your home directory
-- Set up all configurations (zsh, tmux, neovim, etc.)
 
 ### 3. Post-Installation
 
@@ -163,7 +165,7 @@ bash -c "$(curl --fail --show-error --silent --location https://raw.githubuserco
 3. Install required dependencies:
 
 ```bash
-brew install tmux fzf fd bat eza zoxide starship fnm lazygit yazi ripgrep diff-so-fancy
+brew install tmux fzf fd bat eza zoxide starship fnm lazygit yazi ripgrep diff-so-fancy noti
 brew install --cask ghostty
 ```
 
@@ -174,7 +176,7 @@ brew install --cask ghostty
 Remove all symlinks created by GNU stow:
 
 ```bash
-./unlink.sh
+just unlink
 ```
 
 ### 2. Clean Up Package Managers
