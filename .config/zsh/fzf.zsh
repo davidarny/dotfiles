@@ -13,9 +13,9 @@ export FZF_CTRL_T_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
 
 # FZF preview settings
-show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
+show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always --icons=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always --icons=always {} | head -200'"
 
 # ImageMagick configuration for image.nvim
 if command -v brew >/dev/null 2>&1; then
@@ -36,7 +36,7 @@ _fzf_comprun() {
   shift
 
   case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
+    cd)           fzf --preview 'eza --tree --color=always --icons=always {} | head -200' "$@" ;;
     export|unset) fzf --preview 'printenv {}'               "$@" ;;
     ssh)          fzf --preview 'dig {}'                    "$@" ;;
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
