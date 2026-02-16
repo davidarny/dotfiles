@@ -1,6 +1,7 @@
 # AI
 .claude/
 .codex/
+.agents/
 .serena/
 .mcp.json
 CLAUDE.md

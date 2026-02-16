@@ -34,6 +34,9 @@ alias copypath='pwd | pbcopy'
 alias lg='lazygit'
 alias lzd='lazydocker'
 
+# bun (use as fast npm alternative without polluting the project with bun.lock)
+alias buni='bun install --no-save && rm -f bun.lock'
+
 # ai
 alias ccc='claude --dangerously-skip-permissions'
 alias xxx='codex --yolo'
