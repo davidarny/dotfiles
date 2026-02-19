@@ -27,6 +27,13 @@ return {
         end,
         desc = "Find Files - fff (cwd)",
       },
+      {
+        "<leader>sg",
+        function()
+          require("fff").live_grep()
+        end,
+        desc = "Live Grep - fff",
+      },
     },
   },
 }
