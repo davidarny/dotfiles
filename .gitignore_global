@@ -3,6 +3,7 @@
 .codex/
 .agents/
 .serena/
+.dmux/
 .mcp.json
 CLAUDE.md
 WARP.md
