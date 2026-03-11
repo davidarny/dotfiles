@@ -4,6 +4,7 @@
 .agents/
 .serena/
 .dmux/
+.factory/
 .mcp.json
 CLAUDE.md
 WARP.md
