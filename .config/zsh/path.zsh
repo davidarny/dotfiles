@@ -1,5 +1,5 @@
 # Keep PATH entries unique while preserving order
-typeset -U path
+typeset -U path PATH
 
 # Local binaries
 export PATH="$HOME/.local/bin:$PATH"
