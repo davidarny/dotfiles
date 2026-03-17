@@ -8,21 +8,6 @@
             "complex_modifications": {
                 "rules": [
                     {
-                        "description": "Delete to Launchpad",
-                        "manipulators": [
-                            {
-                                "from": { "key_code": "delete_forward" },
-                                "to": [
-                                    {
-                                        "key_code": "l",
-                                        "modifiers": ["left_control", "left_command"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
-                    },
-                    {
                         "description": "Shift + Esc to ` Grave Accent",
                         "manipulators": [
                             {
