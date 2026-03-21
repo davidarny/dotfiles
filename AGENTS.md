@@ -48,6 +48,7 @@ Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE
 ### Git Configuration (Modular)
 
 `.gitconfig` uses `[include]` to compose from `~/.config/git/`:
+
 - `core.gitconfig` — Editor, EOL, compression
 - `user.gitconfig` — Author identity
 - `appearance.gitconfig` — Colors, diff, blame
@@ -69,7 +70,6 @@ LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses fo
 - **Tool initialization uses `_evalcache`** (from mroth/evalcache zinit plugin) to cache eval output and speed up shell startup. Use `_evalcache <tool> <args>` instead of `eval "$(<tool> <args>)"` in tools.zsh.
 - **Guard all tool usage** with `command -v <tool> >/dev/null 2>&1` before referencing it.
 - **SSH uses 1Password agent** — `SSH_AUTH_SOCK` points to `~/.1password/agent.sock`.
-- **Use fff MCP tools** (`fff_find_files`, `fff_grep`, `fff_multi_grep`) for all file search operations instead of default tools.
 
 ## Adding New Configuration
 
