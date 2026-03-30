@@ -1,7 +1,9 @@
 theme = "tokyonight"
+macos-icon = "custom"
+macos-custom-icon = "~/.config/ghostty/tokyo-night.icns"
 
 font-size = 14
-font-family = "JetBrains Mono Nerd Font"
+font-family = "JetBrainsMono Nerd Font"
 
 cursor-style = block
 cursor-style-blink = true
