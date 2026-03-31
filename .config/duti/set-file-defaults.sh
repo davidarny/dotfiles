@@ -27,8 +27,6 @@ extensions=(
   go
   h
   hpp
-  htm
-  html
   ini
   java
   js
