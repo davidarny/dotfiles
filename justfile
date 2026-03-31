@@ -31,3 +31,8 @@ brew-install:
 [group('brew')]
 brew-dump:
     brew bundle dump --file=Brewfile --force --no-vscode --no-go --no-cargo
+
+# Apply the repo's default macOS file associations
+[group('macos')]
+file-defaults:
+    ./.config/duti/set-file-defaults.sh

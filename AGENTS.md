@@ -70,6 +70,7 @@ LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses fo
 - **Tool initialization uses `_evalcache`** (from mroth/evalcache zinit plugin) to cache eval output and speed up shell startup. Use `_evalcache <tool> <args>` instead of `eval "$(<tool> <args>)"` in tools.zsh.
 - **Guard all tool usage** with `command -v <tool> >/dev/null 2>&1` before referencing it.
 - **SSH uses 1Password agent** — `SSH_AUTH_SOCK` points to `~/.1password/agent.sock`.
+- **Use Conventional Commits for every commit** — format commit messages like `feat: ...`, `fix: ...`, `chore: ...`, `docs: ...`, etc. Do not create non-conventional commit messages.
 
 ## Adding New Configuration
 
