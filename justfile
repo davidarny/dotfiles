@@ -1,3 +1,7 @@
+# Show available recipes by default
+default:
+	@just --list
+
 # Symlink dotfiles to home directory
 [group('stow')]
 link:
