@@ -21,16 +21,10 @@ extensions=(
   cpp
   css
   csv
-  cts
   cxx
   dart
   diff
-  editorconfig
-  env
-  fish
   go
-  gql
-  graphql
   h
   hpp
   htm
@@ -39,12 +33,8 @@ extensions=(
   java
   js
   json
-  json5
-  jsonc
-  jsx
   kt
   kts
-  less
   log
   lua
   m
@@ -55,17 +45,12 @@ extensions=(
   mts
   php
   plist
-  properties
-  psql
   py
   rb
   rs
-  sass
   scala
-  scss
   sh
   sql
-  svelte
   svg
   swift
   tex
@@ -74,10 +59,7 @@ extensions=(
   tsv
   tsx
   txt
-  vue
   xml
-  xsd
-  xsl
   yaml
   yml
   zsh
@@ -100,11 +82,3 @@ if [ "${#applied_extensions[@]}" -eq 0 ]; then
   echo "No file associations were updated." >&2
   exit 1
 fi
-
-printf 'Updated defaults for: %s\n' "${applied_extensions[*]}"
-
-if [ "${#skipped_extensions[@]}" -gt 0 ]; then
-  printf 'Skipped unsupported extensions: %s\n' "${skipped_extensions[*]}" >&2
-fi
-
-echo "Default file associations were updated."
