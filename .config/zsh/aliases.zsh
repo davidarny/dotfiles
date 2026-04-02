@@ -32,6 +32,7 @@ alias yz='yazi'
 alias copypath='pwd | pbcopy'
 alias lg='lazygit'
 alias lzd='lazydocker'
+alias tm='tmux'
 
 # bun (use as fast npm alternative without polluting the project with bun.lock)
 alias buni='bun install --no-save && bun pm trust --all && rm -f bun.lock'
