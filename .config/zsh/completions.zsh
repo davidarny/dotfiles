@@ -20,7 +20,6 @@ compinit -C -d "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump-${ZSH_VERSION}"
 command -v zinit >/dev/null 2>&1 && zinit cdreplay -q
 
 # Tool completions
-command -v op >/dev/null 2>&1 && eval "$(op completion zsh)"
 command -v opencode >/dev/null 2>&1 && eval "$(opencode completion zsh)"
 [[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] && source "$HOME/.openclaw/completions/openclaw.zsh"
 
