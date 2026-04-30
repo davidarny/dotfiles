@@ -1,6 +1,16 @@
 # Default tools
-export PAGER=bat
-export EDITOR=nvim
+if command -v bat >/dev/null 2>&1; then
+  export PAGER=bat
+else
+  export PAGER=less
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+  export EDITOR=nvim
+else
+  export EDITOR=vim
+fi
+
 export VISUAL=$EDITOR
 
 # XDG
