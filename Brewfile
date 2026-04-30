@@ -1,6 +1,7 @@
 tap "oven-sh/bun"
 brew "ast-grep"
 brew "bat"
+brew "bat-extras"
 brew "btop"
 brew "caddy"
 brew "cmake"

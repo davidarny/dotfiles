@@ -32,6 +32,7 @@ _alias_if_exists ssh 'ssh=TERM=xterm-256color command ssh'
 # tools
 (( ${+aliases[l]} )) && alias t='l'
 alias c='clear'
+_alias_if_exists batman 'man=batman'
 _alias_if_exists trash 'rf=trash'
 _alias_if_exists fastfetch 'ff=fastfetch'
 _alias_if_exists yazi 'yz=yazi'
