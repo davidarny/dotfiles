@@ -34,7 +34,7 @@ Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE
 2. **options.zsh** — Shell options
 3. **path.zsh** — PATH additions (fnm, bun, pnpm, pyenv, Java)
 4. **history.zsh** — History settings
-5. **plugins.zsh** — Zinit plugin manager and all ZSH plugins
+5. **plugins.zsh** — Antidote plugin manager; plugin lists live in `antidote-plugins.txt` and `antidote-post-completion-plugins.txt`
 6. **completions.zsh** — Completion system
 7. **fzf.zsh** — FZF configuration and theme
 8. **keybindings.zsh** — Key bindings

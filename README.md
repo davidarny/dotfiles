@@ -104,7 +104,7 @@
 These need to be installed manually:
 
 - [Zsh](https://www.zsh.org/) - Shell
-- [Zinit](https://github.com/zdharma-continuum/zinit) - Zsh plugin manager
+- [Antidote](https://antidote.sh/) - Zsh plugin manager
 - [Ghostty](https://ghostty.org/) - Terminal emulator
 - [Tmux](https://github.com/tmux/tmux) - Terminal multiplexer
 - [fzf](https://github.com/junegunn/fzf) - Fuzzy finder
@@ -151,22 +151,16 @@ just link
 
 ### 3. Post-Installation
 
-1. Reload your shell:
-
-```bash
-source ~/.zshrc
-```
-
-2. Install Zinit for ZSH plugin management:
-
-```bash
-bash -c "$(curl --fail --show-error --silent --location https://raw.githubusercontent.com/zdharma-continuum/zinit/HEAD/scripts/install.sh)"
-```
-
-3. Install required dependencies:
+1. Install required dependencies:
 
 ```bash
 just brew-install
+```
+
+2. Reload your shell:
+
+```bash
+source ~/.zshrc
 ```
 
 ## Uninstalling
@@ -198,7 +192,7 @@ Clean up remaining configuration files:
 
 ```bash
 # Remove ZSH configuration
-rm -rf ~/.zshrc ~/.zsh_history ~/.zinit
+rm -rf ~/.zshrc ~/.zsh_history ~/.cache/antidote ~/.cache/zsh/antidote-plugins.zsh ~/.cache/zsh/antidote-post-completion-plugins.zsh
 
 # Remove tool-specific configs
 rm -rf ~/.config/ghostty
