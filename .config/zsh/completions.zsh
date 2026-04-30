@@ -11,7 +11,7 @@ compinit -C -d "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump-${ZSH_VERSION}"
 # Load plugins that require compinit first.
 if command -v antidote >/dev/null 2>&1 && (( ${+functions[_antidote_load_bundle]} )); then
   _antidote_load_bundle \
-    "${XDG_CONFIG_HOME:-${HOME}/.config}/zsh/antidote-post-completion-plugins.txt" \
+    "${XDG_CONFIG_HOME:-${HOME}/.config}/antidote/post-completion-plugins.txt" \
     "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/antidote-post-completion-plugins.zsh"
   unfunction _antidote_load_bundle
 fi
