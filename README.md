@@ -20,8 +20,8 @@
 - **Development Tools**
   - `.gitconfig` - Git configuration
   - `.vimrc` - Vim configuration
-  - `nvim/` - Neovim configuration
-  - `.tmux.conf` - Tmux configuration
+  - `.config/nvim/` - Neovim configuration
+  - `.config/tmux/tmux.conf` - Tmux configuration
 - **Terminal Utilities**
   - `.config/ghostty/` - Ghostty terminal configuration
   - `.config/starship.toml` - Starship prompt configuration
