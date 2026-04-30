@@ -41,9 +41,9 @@ Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE
 9. **aliases.zsh** — Shell aliases
 10. **functions.zsh** — Custom functions (`brew` wrapper for auto-syncing Brewfile, `tm` for tmux)
 11. **hooks.zsh** — Preexec/precmd hooks (noti notifications for long commands)
-12. **tools.zsh** — Tool initialization via `_evalcache` (fzf, zoxide, starship, fnm, pyenv)
+12. **tools.zsh** — Tool initialization via `eval` (fzf, zoxide, starship, fnm, pyenv)
 
-**Order matters** — plugins.zsh must load before completions.zsh, and tools.zsh must come last because it depends on `_evalcache` from the Zinit plugins.
+**Order matters** — plugins.zsh must load before completions.zsh, and tools.zsh comes last to initialize tools after plugins are loaded.
 
 ### Git Configuration (Modular)
 
@@ -67,7 +67,6 @@ LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses fo
 ## Conventions
 
 - **Tokyo Night theme** is applied consistently across all tools (ghostty, neovim, tmux, fzf, bat, eza, lazygit, starship).
-- **Tool initialization uses `_evalcache`** (from mroth/evalcache zinit plugin) to cache eval output and speed up shell startup. Use `_evalcache <tool> <args>` instead of `eval "$(<tool> <args>)"` in tools.zsh.
 - **Guard all tool usage** with `command -v <tool> >/dev/null 2>&1` before referencing it.
 - **SSH uses 1Password agent** — `SSH_AUTH_SOCK` points to `~/.1password/agent.sock`.
 - **Use Conventional Commits for every commit** — format commit messages like `feat: ...`, `fix: ...`, `chore: ...`, `docs: ...`, etc. Do not create non-conventional commit messages.
