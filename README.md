@@ -48,6 +48,7 @@
 |-------|---------|-------------|
 | `lg` | `lazygit` | Open LazyGit |
 | `lzd` | `lazydocker` | Open LazyDocker |
+| `tm` | `tmux` | Open Tmux |
 | `yz` | `yazi` | Open Yazi file manager |
 | `ff` | `fastfetch` | System info |
 | `rg` | `rg --hidden --smart-case ...` | Ripgrep with defaults |
@@ -89,7 +90,6 @@
 | Function | Description | Usage |
 |----------|-------------|-------|
 | `brew` | Wrapper that auto-syncs Brewfile after install/uninstall | `brew install <pkg>` |
-| `tm` | Smart tmux launcher — attaches to existing session, restores from resurrect save, or starts new | `tm` |
 
 ## Prerequisites
 

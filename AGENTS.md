@@ -61,7 +61,7 @@ LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses fo
 
 ### Tmux
 
-`.config/tmux/tmux.conf` — TPM-managed plugins, vim-style navigation, tmux-resurrect/continuum for session persistence.
+`.config/tmux/tmux.conf` — TPM-managed plugins, vim-style navigation, and Tokyo Night status styling.
 
 ## Conventions
 
