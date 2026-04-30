@@ -8,4 +8,4 @@ setopt pushd_ignore_dups
 setopt interactive_comments
 
 # Delete path segments individually with Ctrl+W
-WORDCHARS='${WORDCHARS//[\/.]}'
+WORDCHARS=${WORDCHARS//[\/.]}
