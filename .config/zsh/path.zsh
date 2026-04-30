@@ -10,7 +10,6 @@ _path_prepend "$HOME/.local/bin"
 
 # fnm
 _path_prepend "$HOME/Library/Application Support/fnm"
-_path_prepend "$HOME/fvm/default/bin"
 
 # Bun
 export BUN_HOME="$HOME/.bun"
