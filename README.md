@@ -110,6 +110,7 @@ These need to be installed manually:
 - [fzf](https://github.com/junegunn/fzf) - Fuzzy finder
 - [fd](https://github.com/sharkdp/fd) - File finder
 - [bat](https://github.com/sharkdp/bat) - Cat clone with syntax highlighting
+- [bat-extras](https://github.com/eth-p/bat-extras) - Bat-powered man page viewer
 - [eza](https://github.com/eza-community/eza) - Modern ls replacement
 - [zoxide](https://github.com/ajeetdsouza/zoxide) - Smarter cd command
 - [starship](https://starship.rs/) - Cross-shell prompt
