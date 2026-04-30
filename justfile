@@ -36,6 +36,13 @@ brew-install:
 brew-dump:
     brew bundle dump --file=Brewfile --force --no-vscode --no-go --no-cargo
 
+# Verify shell config, Brewfile dependencies, and whitespace
+[group('check')]
+check:
+    for file in .zshrc .config/zsh/*.zsh; do zsh -n "$file" || exit $?; done
+    brew bundle check --file=Brewfile
+    git diff --check
+
 # Apply the repo's default macOS file associations
 [group('macos')]
 file-defaults:
