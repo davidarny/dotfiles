@@ -1,6 +1,20 @@
 # Initialize various tools (only if available)
-command -v fzf >/dev/null 2>&1 && eval "$(fzf --zsh)"
-command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
-command -v starship >/dev/null 2>&1 && eval "$(starship init zsh --print-full-init)"
-command -v fnm >/dev/null 2>&1 && eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
-command -v pyenv >/dev/null 2>&1 && eval "$(pyenv init --no-rehash -)"
+if command -v fzf >/dev/null 2>&1; then
+  eval "$(fzf --zsh)"
+fi
+
+if command -v zoxide >/dev/null 2>&1; then
+  eval "$(zoxide init zsh)"
+fi
+
+if command -v starship >/dev/null 2>&1; then
+  eval "$(starship init zsh --print-full-init)"
+fi
+
+if command -v fnm >/dev/null 2>&1; then
+  eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
+fi
+
+if command -v pyenv >/dev/null 2>&1; then
+  eval "$(pyenv init --no-rehash -)"
+fi
