@@ -1,43 +1,51 @@
+_alias_if_exists() {
+  local command_name="$1"
+  shift
+  command -v "$command_name" >/dev/null 2>&1 && alias "$@"
+}
+
 # editor
 alias e="$EDITOR"
 alias E='sudo -e'
 
 # ls
-alias l='eza -1A --group-directories-first --color=always --icons=always --tree --level=1'
-alias la='eza -la --git --git-repos --group-directories-first --color=always --octal-permissions --time-style=long-iso --icons=always --tree --level=1'
-alias tree='eza -A --tree --group-directories-first --color=always --icons=always'
+_alias_if_exists eza 'l=eza -1A --group-directories-first --color=always --icons=always --tree --level=1'
+_alias_if_exists eza 'la=eza -la --git --git-repos --group-directories-first --color=always --octal-permissions --time-style=long-iso --icons=always --tree --level=1'
+_alias_if_exists eza 'tree=eza -A --tree --group-directories-first --color=always --icons=always'
 
 # rg
-alias rg="command rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
+_alias_if_exists rg "rg=command rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
 
 # caddy
-alias cds='caddy start --config ~/.config/caddy/caddy.json'
-alias cdx='caddy stop'
+_alias_if_exists caddy 'cds=caddy start --config ~/.config/caddy/caddy.json'
+_alias_if_exists caddy 'cdx=caddy stop'
 
 # macOS
 alias reload='source ~/.zshrc'
-alias allowapp='sudo xattr -r -d com.apple.quarantine'
-alias dsclean='fd -H '^\.DS_Store$' -tf -X rm'
-alias lnclean="fd . --type l -x sh -c 'if [ ! -e \"\$1\" ]; then rm \"\$1\"; fi' --"
+_alias_if_exists xattr 'allowapp=sudo xattr -r -d com.apple.quarantine'
+_alias_if_exists fd "dsclean=fd -H '^\\.DS_Store$' -tf -X rm"
+_alias_if_exists fd "lnclean=fd . --type l -x sh -c 'if [ ! -e \"\$1\" ]; then rm \"\$1\"; fi' --"
 
 # ssh (fix xterm-ghostty terminfo missing on remote servers)
-alias ssh='TERM=xterm-256color command ssh'
+_alias_if_exists ssh 'ssh=TERM=xterm-256color command ssh'
 
 # tools
-alias t='l'
+(( ${+aliases[l]} )) && alias t='l'
 alias c='clear'
-alias rf='trash'
-alias ff='fastfetch'
-alias yz='yazi'
-alias copypath='pwd | pbcopy'
-alias lg='lazygit'
-alias lzd='lazydocker'
-alias tm='tmux'
+_alias_if_exists trash 'rf=trash'
+_alias_if_exists fastfetch 'ff=fastfetch'
+_alias_if_exists yazi 'yz=yazi'
+_alias_if_exists pbcopy 'copypath=pwd | pbcopy'
+_alias_if_exists lazygit 'lg=lazygit'
+_alias_if_exists lazydocker 'lzd=lazydocker'
+_alias_if_exists tmux 'tm=tmux'
 
 # bun (use as fast npm alternative without polluting the project with bun.lock)
-alias buni='bun install --no-save && bun pm trust --all && rm -f bun.lock'
+_alias_if_exists bun 'buni=bun install --no-save && bun pm trust --all && rm -f bun.lock'
 
 # ai
-alias ccc='claude --dangerously-skip-permissions'
-alias xxx='codex --yolo'
-alias ooo='opencode'
+_alias_if_exists claude 'ccc=claude --dangerously-skip-permissions'
+_alias_if_exists codex 'xxx=codex --yolo'
+_alias_if_exists opencode 'ooo=opencode'
+
+unfunction _alias_if_exists
