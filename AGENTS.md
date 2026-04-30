@@ -13,6 +13,7 @@ just link          # stow --restow --adopt --target="$HOME" .
 just unlink        # stow --delete --target="$HOME" .
 just brew-install  # brew bundle --file=Brewfile
 just brew-dump     # brew bundle dump to Brewfile
+just check         # zsh syntax, Brewfile, and whitespace checks
 source ~/.zshrc    # reload shell after changes
 ```
 
@@ -67,6 +68,7 @@ LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses fo
 - **Tokyo Night theme** is applied consistently across all tools (ghostty, neovim, tmux, fzf, bat, eza, lazygit, starship).
 - **Guard all tool usage** with `command -v <tool> >/dev/null 2>&1` before referencing it.
 - **SSH uses 1Password agent** — `SSH_AUTH_SOCK` points to `~/.1password/agent.sock`.
+- **Run `just check` before committing shell/config changes**.
 - **Use Conventional Commits for every commit** — format commit messages like `feat: ...`, `fix: ...`, `chore: ...`, `docs: ...`, etc. Do not create non-conventional commit messages.
 
 ## Adding New Configuration
