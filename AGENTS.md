@@ -28,7 +28,7 @@ Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE
 
 ### ZSH Configuration (Modular)
 
-`.zshrc` sources 11 modules from `~/.config/zsh/` in a specific order:
+`.zshrc` sources 10 modules from `~/.config/zsh/` in a specific order:
 
 1. **env.zsh** — Environment variables (`EDITOR=nvim`, `PAGER=bat`, 1Password SSH, XDG)
 2. **options.zsh** — Shell options
@@ -39,8 +39,7 @@ Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE
 7. **fzf.zsh** — FZF configuration and theme
 8. **aliases.zsh** — Shell aliases
 9. **functions.zsh** — Custom functions (`brew` wrapper for auto-syncing Brewfile, `tm` for tmux)
-10. **hooks.zsh** — Preexec/precmd hooks (noti notifications for long commands)
-11. **tools.zsh** — Tool initialization via `eval` (fzf, zoxide, starship, fnm, pyenv)
+10. **tools.zsh** — Tool initialization via `eval` (fzf, zoxide, starship, fnm, pyenv)
 
 **Order matters** — plugins.zsh must load before completions.zsh, and tools.zsh comes last to initialize tools after plugins are loaded.
 
