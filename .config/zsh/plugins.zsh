@@ -32,6 +32,6 @@ ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 # Load Zsh plugins using Antidote.
 if command -v antidote >/dev/null 2>&1; then
   _antidote_load_bundle \
-    "${XDG_CONFIG_HOME:-${HOME}/.config}/zsh/antidote-plugins.txt" \
+    "${XDG_CONFIG_HOME:-${HOME}/.config}/antidote/plugins.txt" \
     "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/antidote-plugins.zsh"
 fi
