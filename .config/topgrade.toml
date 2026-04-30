@@ -15,10 +15,10 @@
 # sudo_command = "sudo"
 
 # Disable specific steps - same options as the command line flag
-disable = ["system", "git_repos", "gem", "ruby_gems"]
+disable = ["system", "git_repos", "gem", "ruby_gems", "pi"]
 
 # Ignore failures for these steps
-# ignore_failures = []
+ignore_failures = ["colima", "containers"]
 
 # List of remote machines with Topgrade installed on them
 # remote_topgrades = ["toothless", "pi", "parnas"]
