@@ -1,27 +1,30 @@
 # Keep PATH entries unique while preserving order
 typeset -U path PATH
 
+_path_prepend() {
+  [[ -d "$1" ]] && path=("$1" $path)
+}
+
 # Local binaries
-export PATH="$HOME/.local/bin:$PATH"
+_path_prepend "$HOME/.local/bin"
 
 # fnm
-export PATH="$HOME/Library/Application Support/fnm:$PATH"
-export PATH="$HOME/fvm/default/bin:$PATH"
+_path_prepend "$HOME/Library/Application Support/fnm"
+_path_prepend "$HOME/fvm/default/bin"
 
 # Bun
 export BUN_HOME="$HOME/.bun"
-export PATH="$BUN_HOME/bin:$PATH"
+_path_prepend "$BUN_HOME/bin"
 
 # PNPM
 export PNPM_HOME="$HOME/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
+_path_prepend "$PNPM_HOME"
 
 # Pyenv
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+_path_prepend "$PYENV_ROOT/bin"
 
 # Java
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+_path_prepend "/opt/homebrew/opt/openjdk/bin"
+
+unfunction _path_prepend
