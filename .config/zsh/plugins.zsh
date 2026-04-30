@@ -20,7 +20,6 @@ if command -v zinit >/dev/null 2>&1; then
   zinit light zsh-users/zsh-history-substring-search
   zinit light g-plane/pnpm-shell-completion
   zinit light MichaelAquilina/zsh-you-should-use
-  zinit light mroth/evalcache
   zinit light hlissner/zsh-autopair
 
   # Load Oh My Zsh snippets
