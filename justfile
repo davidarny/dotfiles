@@ -36,6 +36,15 @@ brew-install:
 brew-dump:
     brew bundle dump --file=Brewfile --force --no-vscode --no-go --no-cargo
 
+# Remove packages not listed in Brewfile
+[group('brew')]
+brew-cleanup:
+    brew bundle cleanup --file=Brewfile --force
+
+# Install Brewfile packages and remove extras
+[group('brew')]
+brew-sync: brew-install brew-cleanup
+
 # Verify shell config, Brewfile dependencies, and whitespace
 [group('check')]
 check:
