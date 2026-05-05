@@ -1,2 +1,3 @@
+Aloxaf/fzf-tab
 hlissner/zsh-autopair
 zdharma-continuum/fast-syntax-highlighting
