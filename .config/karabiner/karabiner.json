@@ -1,8 +1,5 @@
 {
-    "global": {
-        "enable_notification_window": false,
-        "show_in_menu_bar": false
-    },
+    "global": { "show_in_menu_bar": false },
     "profiles": [
         {
             "complex_modifications": {
@@ -100,28 +97,12 @@
                 {
                     "identifiers": {
                         "is_keyboard": true,
-                        "product_id": 4137,
-                        "vendor_id": 39658
-                    },
-                    "simple_modifications": [
-                        {
-                            "from": { "key_code": "left_command" },
-                            "to": [{ "key_code": "left_option" }]
-                        },
-                        {
-                            "from": { "key_code": "left_option" },
-                            "to": [{ "key_code": "left_command" }]
-                        }
-                    ]
-                },
-                {
-                    "identifiers": {
-                        "is_keyboard": true,
                         "is_pointing_device": true,
                         "product_id": 20519,
                         "vendor_id": 12625
                     },
-                    "ignore": false
+                    "ignore": false,
+                    "manipulate_caps_lock_led": false
                 },
                 {
                     "identifiers": {
@@ -134,10 +115,7 @@
             ],
             "name": "Default profile",
             "selected": true,
-            "virtual_hid_keyboard": {
-                "indicate_sticky_modifier_keys_state": false,
-                "keyboard_type_v2": "ansi"
-            }
+            "virtual_hid_keyboard": { "keyboard_type_v2": "ansi" }
         }
     ]
 }
