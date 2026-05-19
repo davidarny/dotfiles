@@ -7,12 +7,12 @@ if ! command -v duti >/dev/null 2>&1; then
   exit 1
 fi
 
-if ! open -Ra "CotEditor"; then
-  echo "CotEditor is not installed." >&2
+if ! open -Ra "Zed"; then
+  echo "Zed is not installed." >&2
   exit 1
 fi
 
-bundle_id="com.coteditor.CotEditor"
+bundle_id="dev.zed.Zed"
 extensions=(
   bash
   c
@@ -67,7 +67,7 @@ applied_extensions=()
 skipped_extensions=()
 
 for extension in "${extensions[@]}"; do
-  printf 'Setting .%s -> CotEditor\n' "$extension"
+  printf 'Setting .%s -> Zed\n' "$extension"
 
   if duti -s "$bundle_id" ".$extension" all; then
     applied_extensions+=("$extension")
