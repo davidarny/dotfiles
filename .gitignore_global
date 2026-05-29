@@ -6,6 +6,7 @@
 .dmux/
 .factory/
 .antigravitycli/
+.codegraph/
 .mcp.json
 CLAUDE.md
 WARP.md
