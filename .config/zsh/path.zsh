@@ -26,4 +26,7 @@ _path_prepend "$PYENV_ROOT/bin"
 # Java
 _path_prepend "/opt/homebrew/opt/openjdk/bin"
 
+# MimoCode
+_path_prepend "$HOME/.mimocode/bin"
+
 unfunction _path_prepend
