@@ -1,3 +1,4 @@
+tap "modem-dev/tap"
 tap "oven-sh/bun", trusted: true
 # Plugin manager for zsh, inspired by antigen and antibody
 brew "antidote"
@@ -115,50 +116,22 @@ brew "zig"
 brew "zoxide"
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
-# Password manager that keeps all passwords secure behind one password
-cask "1password"
-# Command-line interface for 1Password
-cask "1password-cli"
-# Chromium based browser
-cask "arc"
 # Display management tool
 cask "betterdisplay"
-# Test localhost and staging websites
-cask "browserstacklocal"
-# OpenAI's official ChatGPT desktop app
-cask "chatgpt"
-# Write, edit, and chat about your code with AI
-cask "cursor"
-# Collaborative team software
-cask "figma"
 cask "font-jetbrains-mono-nerd-font"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "gcloud-cli"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
-# Web browser
-cask "google-chrome"
-# Chromium-based web browser
-cask "helium-browser"
 # Keyboard customiser
 cask "karabiner-elements"
-# Software for Logitech devices
-cask "logi-options+"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
-# Client program for the OpenVPN Access Server
-cask "openvpn-connect"
 # Utility to uninstall apps and remove leftover files from old/uninstalled apps
 cask "pearcleaner"
 # Control your tools with a few keystrokes
 cask "raycast"
-# Official desktop client for Rocket.Chat
-cask "rocket-chat"
 # Open source virtual/remote desktop application
 cask "rustdesk"
 # Messaging app with a focus on speed and security
 cask "telegram"
-# Rust-based terminal
-cask "warp"
-# Gecko based web browser
-cask "zen"
