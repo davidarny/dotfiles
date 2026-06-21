@@ -45,7 +45,7 @@ _alias_if_exists tmux 'tm=tmux'
 _alias_if_exists bun 'buni=bun install --no-save && bun pm trust --all && rm -f bun.lock'
 
 # ai
-_alias_if_exists claude 'cc=claude --setting-sources user,local --permission-mode bypassPermissions'
+_alias_if_exists claude 'cc=claude --setting-sources user,local --allow-dangerously-skip-permissions --dangerously-skip-permissions'
 _alias_if_exists codex 'cx=codex --yolo'
 _alias_if_exists opencode 'oc=opencode'
 

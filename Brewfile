@@ -1,4 +1,4 @@
-tap "modem-dev/tap"
+tap "modem-dev/tap", trusted: { formulae: ["hunk"] }
 tap "oven-sh/bun", trusted: true
 # Plugin manager for zsh, inspired by antigen and antibody
 brew "antidote"
