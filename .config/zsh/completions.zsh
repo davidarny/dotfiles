@@ -22,7 +22,6 @@ fi
 
 # Tool completions
 command -v opencode >/dev/null 2>&1 && eval "$(opencode completion zsh)"
-[[ -f "$HOME/.openclaw/completions/openclaw.zsh" ]] && source "$HOME/.openclaw/completions/openclaw.zsh"
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
