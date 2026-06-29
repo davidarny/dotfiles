@@ -1,0 +1,26 @@
+[alias]
+	# Fetch origin and reset every local branch to its upstream.
+	# Diverged branches (e.g. after a rebase in GitLab) are force-reset to origin/*.
+	# Branches checked out in a worktree are skipped; the current branch is only fast-forwarded.
+	sync-branches = "!f() { \
+		git fetch --all --prune || return 1; \
+		wt=\"$(git worktree list --porcelain | sed -n 's#^branch refs/heads/##p')\"; \
+		git for-each-ref --format='%(refname:short) %(upstream:short)' refs/heads/ | while read -r br up; do \
+			[ -z \"$up\" ] && continue; \
+			case \" $wt \" in *\" $br \"*) continue ;; esac; \
+			git rev-parse -q --verify \"$up\" >/dev/null || continue; \
+			[ \"$(git rev-parse \"$br\")\" = \"$(git rev-parse \"$up\")\" ] && continue; \
+			echo \"updated $br -> $up\"; \
+			git branch -f \"$br\" \"$up\"; \
+		done; \
+		git symbolic-ref -q HEAD >/dev/null && git merge --ff-only @{u} 2>/dev/null; \
+		true; \
+	}; f"
+
+	# Delete local MST branches already merged into origin/master (safe: git branch -d keeps unmerged ones).
+	prune-merged = "!f() { \
+		git fetch -q origin master; \
+		git branch --merged origin/master | grep '^  MST-' | sed 's/^[ *]*//' | while read -r b; do \
+			git branch -d \"$b\"; \
+		done; \
+	}; f"

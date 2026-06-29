@@ -14,4 +14,7 @@
   path = ~/.config/git/tools.gitconfig
 
 [include]
+  path = ~/.config/git/aliases.gitconfig
+
+[include]
   path = ~/.config/git/credentials.gitconfig
