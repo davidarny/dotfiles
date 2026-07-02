@@ -92,8 +92,6 @@ brew "pyenv"
 brew "python@3.13"
 # Reverse engineering framework
 brew "radare2"
-# Command-line interface for Render
-brew "render"
 # Non-interactive SSH password auth
 brew "sshpass"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
