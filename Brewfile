@@ -1,3 +1,4 @@
+tap "514-labs/tap"
 tap "modem-dev/tap", trusted: { formulae: ["hunk"] }
 tap "oven-sh/bun", trusted: true
 # Plugin manager for zsh, inspired by antigen and antibody
@@ -112,8 +113,12 @@ brew "yazi"
 brew "zig"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Global DNS propagation checker TUI — watch a DNS record propagate across 34 public resolvers worldwide, on a world map in your terminal
+brew "514-labs/tap/dnsglobe", trusted: true
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
+# Command-line interface for 1Password
+cask "1password-cli"
 # Display management tool
 cask "betterdisplay"
 cask "font-jetbrains-mono-nerd-font"
