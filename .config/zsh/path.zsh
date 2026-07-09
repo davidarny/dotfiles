@@ -19,10 +19,6 @@ _path_prepend "$BUN_HOME/bin"
 export PNPM_HOME="$HOME/Library/pnpm"
 _path_prepend "$PNPM_HOME"
 
-# Pyenv
-export PYENV_ROOT="$HOME/.pyenv"
-_path_prepend "$PYENV_ROOT/bin"
-
 # Java
 _path_prepend "/opt/homebrew/opt/openjdk/bin"
 
