@@ -14,7 +14,3 @@ fi
 if command -v fnm >/dev/null 2>&1; then
   eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
 fi
-
-if command -v pyenv >/dev/null 2>&1; then
-  eval "$(pyenv init --no-rehash -)"
-fi
