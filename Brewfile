@@ -1,4 +1,5 @@
 tap "514-labs/tap"
+tap "dmtrkovalenko/fff", "https://github.com/dmtrKovalenko/homebrew-fff"
 tap "modem-dev/tap", trusted: { formulae: ["hunk"] }
 tap "oven-sh/bun", trusted: true
 # Plugin manager for zsh, inspired by antigen and antibody
@@ -18,7 +19,7 @@ brew "cloudflared"
 # Cross-platform make
 brew "cmake"
 # Container runtimes on MacOS (and Linux) with minimal setup
-brew "colima"
+brew "colima", restart_service: :changed
 # GNU File, Shell, and Text utilities
 brew "coreutils"
 # Good-lookin' diffs with diff-highlight and more
@@ -87,10 +88,6 @@ brew "opencode"
 brew "openjdk"
 # Fast, disk space efficient package manager
 brew "pnpm"
-# Python version management
-brew "pyenv"
-# Interpreted, interactive, object-oriented programming language
-brew "python@3.13"
 # Reverse engineering framework
 brew "radare2"
 # Non-interactive SSH password auth
@@ -115,12 +112,22 @@ brew "zig"
 brew "zoxide"
 # Global DNS propagation checker TUI — watch a DNS record propagate across 34 public resolvers worldwide, on a world map in your terminal
 brew "514-labs/tap/dnsglobe", trusted: true
+# Fast file search toolkit for AI agents (MCP server)
+brew "dmtrkovalenko/fff/fff-mcp", trusted: true
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
+# Password manager that keeps all passwords secure behind one password
+cask "1password"
 # Command-line interface for 1Password
 cask "1password-cli"
 # Display management tool
 cask "betterdisplay"
+# OpenAI's official ChatGPT desktop app
+cask "chatgpt"
+# Terminal-based AI coding assistant
+cask "claude-code"
+# OpenAI's coding agent that runs in your terminal
+cask "codex"
 cask "font-jetbrains-mono-nerd-font"
 # Set of tools to manage resources and applications hosted on Google Cloud
 cask "gcloud-cli"
@@ -138,3 +145,5 @@ cask "raycast"
 cask "rustdesk"
 # Messaging app with a focus on speed and security
 cask "telegram"
+uv "graphifyy"
+uv "repowise"
