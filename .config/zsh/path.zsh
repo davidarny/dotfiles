@@ -12,12 +12,10 @@ _path_prepend "$HOME/.local/bin"
 _path_prepend "$HOME/Library/Application Support/fnm"
 
 # Bun
-export BUN_HOME="$HOME/.bun"
-_path_prepend "$BUN_HOME/bin"
+_path_prepend "$HOME/.bun/bin"
 
 # PNPM
-export PNPM_HOME="$HOME/Library/pnpm"
-_path_prepend "$PNPM_HOME"
+_path_prepend "$HOME/Library/pnpm"
 
 # Java
 _path_prepend "/opt/homebrew/opt/openjdk/bin"
