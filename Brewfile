@@ -2,6 +2,8 @@ tap "514-labs/tap"
 tap "dmtrkovalenko/fff", "https://github.com/dmtrKovalenko/homebrew-fff"
 tap "modem-dev/tap", trusted: { formulae: ["hunk"] }
 tap "oven-sh/bun", trusted: true
+# Open-source, cross-platform JavaScript runtime environment
+brew "node"
 # Browser automation CLI for AI agents
 brew "agent-browser"
 # Plugin manager for zsh, inspired by antigen and antibody
@@ -76,8 +78,6 @@ brew "mcp-grafana"
 brew "mole"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# Open-source, cross-platform JavaScript runtime environment
-brew "node"
 # Netlify command-line tool
 brew "netlify-cli"
 # Selects the right Node package manager based on lockfiles
@@ -90,10 +90,10 @@ brew "opencode"
 brew "openjdk"
 # Reverse engineering framework
 brew "radare2"
-# Non-interactive SSH password auth
-brew "sshpass"
 # Open agent skills ecosystem
 brew "skills"
+# Non-interactive SSH password auth
+brew "sshpass"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
 # Official tldr client written in Rust
@@ -102,7 +102,7 @@ brew "tlrc"
 brew "tmux"
 # Upgrade all the things
 brew "topgrade"
-# Language Server Protocol implementation for TypeScript
+# Language Server Protocol implementation for TypeScript wrapping tsserver
 brew "typescript-language-server"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
@@ -133,8 +133,6 @@ cask "claude-code"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
 cask "font-jetbrains-mono-nerd-font"
-# Set of tools to manage resources and applications hosted on Google Cloud
-cask "gcloud-cli"
 # Terminal emulator that uses platform-native UI and GPU acceleration
 cask "ghostty"
 # Keyboard customiser
