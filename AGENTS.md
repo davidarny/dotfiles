@@ -33,7 +33,7 @@ Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE
 
 1. **env.zsh** — Environment variables (`EDITOR=nvim`, `PAGER=bat`, 1Password SSH, XDG)
 2. **options.zsh** — Shell options
-3. **path.zsh** — PATH additions (fnm, bun, pnpm, pyenv, Java)
+3. **path.zsh** — PATH additions (fnm, bun, pyenv, Java)
 4. **history.zsh** — History settings
 5. **plugins.zsh** — Antidote plugin manager; plugin lists live in `.config/antidote/`
 6. **completions.zsh** — Completion system
