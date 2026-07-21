@@ -14,16 +14,44 @@ if (!path) {
 }
 
 const lock = (await Bun.file(path).json()) as SkillLock;
+const skills = Object.entries(lock.skills);
 
-for (const [name, skill] of Object.entries(lock.skills)) {
-  console.log(`Installing ${name}`);
+function status(message: string) {
+  Bun.spawnSync(["gum", "style", "--bold", message], {
+    stdout: "inherit",
+    stderr: "inherit",
+  });
+}
 
+status(`Syncing ${skills.length} global skills`);
+
+for (const [name, skill] of skills) {
   const task = Bun.spawn(
-    ["skills", "add", skill.source, "--global", "--agent", ...agents, "--skill", name, "--yes"],
-    { stdout: "ignore", stderr: "inherit" },
+    [
+      "gum",
+      "spin",
+      "--title",
+      `Installing ${name}`,
+      "--show-error",
+      "--",
+      "skills",
+      "add",
+      skill.source,
+      "--global",
+      "--agent",
+      ...agents,
+      "--skill",
+      name,
+      "--yes",
+    ],
+    { stdout: "inherit", stderr: "inherit" },
   );
 
   if (await task.exited) {
     throw new Error(`Failed to install skill: ${name}`);
   }
+
+  status(`✓ ${name}`);
 }
+
+status("✓ Global skills synced");

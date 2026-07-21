@@ -8,4 +8,6 @@ manifest="$HOME/.bun/install/global/package.json"
 packages=("${(@f)$(bun ./bin/bun-global-packages.ts "$manifest")}")
 (( ${#packages} )) || exit 0
 
-bun install --global --frozen-lockfile "${packages[@]}"
+gum spin --title "Syncing ${#packages} global Bun packages" --show-error -- \
+  bun install --global --frozen-lockfile "${packages[@]}"
+gum style --bold '✓ Global Bun packages synced'
