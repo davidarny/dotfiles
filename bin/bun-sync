@@ -1,0 +1,11 @@
+#!/usr/bin/env zsh
+
+set -euo pipefail
+
+manifest="$HOME/.bun/install/global/package.json"
+[[ -f "$manifest" ]] || { print -u2 "Missing global Bun manifest: $manifest"; exit 1; }
+
+packages=("${(@f)$(bun ./bin/bun-global-packages.ts "$manifest")}")
+(( ${#packages} )) || exit 0
+
+bun install --global --frozen-lockfile "${packages[@]}"

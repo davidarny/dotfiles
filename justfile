@@ -45,6 +45,11 @@ brew-cleanup:
 [group('brew')]
 brew-sync: brew-install brew-cleanup
 
+# Restore global Bun packages declared in the stowed manifest.
+[group('bun')]
+bun-sync:
+    ./bin/bun-sync
+
 # Verify shell config, Brewfile dependencies, and whitespace
 [group('check')]
 check:

@@ -3,6 +3,7 @@
 .git
 .repowise
 .gitignore
+bin
 
 AGENTS.md
 Brewfile
