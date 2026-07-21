@@ -66,9 +66,9 @@ extensions=(
 applied_extensions=()
 skipped_extensions=()
 
-for extension in "${extensions[@]}"; do
-  printf 'Setting .%s -> Zed\n' "$extension"
+gum style --bold "Setting Zed as default for ${#extensions[@]} extensions"
 
+for extension in "${extensions[@]}"; do
   if duti -s "$bundle_id" ".$extension" all; then
     applied_extensions+=("$extension")
   else
@@ -80,3 +80,8 @@ if [ "${#applied_extensions[@]}" -eq 0 ]; then
   echo "No file associations were updated." >&2
   exit 1
 fi
+
+printf 'Applied,%s,%s\nSkipped,%s,%s\n' \
+  "${#applied_extensions[@]}" "${applied_extensions[*]}" \
+  "${#skipped_extensions[@]}" "${skipped_extensions[*]}" |
+  gum table --print --columns "Status,Count,Extensions"

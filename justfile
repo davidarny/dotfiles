@@ -5,6 +5,7 @@ default:
 # Symlink dotfiles to home directory
 [group('stow')]
 link:
+    gum confirm "Link dotfiles to $HOME?" || exit 0; \
     repo_root="$(pwd)"; \
     config_target="$HOME/.config"; \
     repo_config="$repo_root/.config"; \
@@ -19,27 +20,29 @@ link:
     fi; \
     fi; \
     mkdir -p "$config_target"; \
-    stow --restow --adopt --target="$HOME" .
+    gum spin --title "Linking dotfiles" --show-error -- stow --restow --adopt --target="$HOME" .
 
 # Remove dotfiles symlinks from home directory
 [group('stow')]
 unlink:
-    stow --delete --target="$HOME" .
+    gum confirm "Remove dotfiles symlinks?" || exit 0; \
+    gum spin --title "Removing dotfiles links" --show-error -- stow --delete --target="$HOME" .
 
 # Install packages from Brewfile
 [group('brew')]
 brew-install:
-    brew bundle --file=Brewfile
+    gum spin --title "Installing Brewfile packages" --show-error -- brew bundle --file=Brewfile
 
 # Dump installed packages to Brewfile
 [group('brew')]
 brew-dump:
-    brew bundle dump --file=Brewfile --force --force --brews --casks --taps
+    gum spin --title "Syncing Brewfile" --show-error -- brew bundle dump --file=Brewfile --force --force --brews --casks --taps
 
 # Remove packages not listed in Brewfile
 [group('brew')]
 brew-cleanup:
-    brew bundle cleanup --file=Brewfile --force
+    gum confirm "Remove packages not in Brewfile?" || exit 0; \
+    gum spin --title "Removing unmanaged packages" --show-error -- brew bundle cleanup --file=Brewfile --force
 
 # Install Brewfile packages and remove extras
 [group('brew')]
@@ -58,11 +61,13 @@ skills-sync:
 # Verify shell config, Brewfile dependencies, and whitespace
 [group('check')]
 check:
-    for file in .zshrc .config/zsh/*.zsh; do zsh -n "$file" || exit $?; done
-    brew bundle check --file=Brewfile
-    git diff --check
+    gum spin --title "Checking shell syntax" --show-error -- zsh -n .zshrc .config/zsh/*.zsh
+    gum spin --title "Checking Brewfile" --show-error -- brew bundle check --file=Brewfile
+    gum spin --title "Checking whitespace" --show-error -- git diff --check
+    gum style --bold "✓ Checks passed"
 
 # Apply the repo's default macOS file associations
 [group('macos')]
 file-defaults:
+    gum confirm "Set Zed as the default editor?" || exit 0; \
     ./.config/duti/set-file-defaults.sh
