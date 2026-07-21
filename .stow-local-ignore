@@ -1,6 +1,7 @@
 .DS_Store
 
 .git
+.repowise
 .gitignore
 
 AGENTS.md
