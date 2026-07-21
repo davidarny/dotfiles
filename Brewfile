@@ -147,5 +147,3 @@ cask "raycast"
 cask "rustdesk"
 # Messaging app with a focus on speed and security
 cask "telegram"
-uv "graphifyy"
-uv "repowise"
