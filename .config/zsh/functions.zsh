@@ -6,7 +6,7 @@ function brew() {
   local brew_status=$?
 
   if (( brew_status == 0 )) && [[ "$1" =~ ^(install|uninstall|remove|rmtree)$ ]]; then
-    command brew bundle dump --file="$_dotfiles_brewfile" --force --no-vscode --no-go --no-cargo --no-npm
+    command brew bundle dump --file="$_dotfiles_brewfile" --force --brews --casks --taps
   fi
 
   return $brew_status
