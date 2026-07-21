@@ -2,6 +2,8 @@ tap "514-labs/tap"
 tap "dmtrkovalenko/fff", "https://github.com/dmtrKovalenko/homebrew-fff"
 tap "modem-dev/tap", trusted: { formulae: ["hunk"] }
 tap "oven-sh/bun", trusted: true
+# Browser automation CLI for AI agents
+brew "agent-browser"
 # Plugin manager for zsh, inspired by antigen and antibody
 brew "antidote"
 # Code searching, linting, rewriting
@@ -22,7 +24,6 @@ brew "cmake"
 brew "colima", restart_service: :changed
 # GNU File, Shell, and Text utilities
 brew "coreutils"
-# Good-lookin' diffs with diff-highlight and more
 # Pack, ship and run any application as a lightweight container
 brew "docker"
 # Docker CLI plugin for extended build capabilities with BuildKit
@@ -31,6 +32,8 @@ brew "docker-buildx"
 brew "docker-compose"
 # Select default apps for documents and URL schemes on macOS
 brew "duti"
+# AST-based pattern checker for JavaScript
+brew "eslint"
 # Modern, maintained replacement for ls
 brew "eza"
 # Like neofetch, but much faster because written mostly in C
@@ -89,6 +92,8 @@ brew "openjdk"
 brew "radare2"
 # Non-interactive SSH password auth
 brew "sshpass"
+# Open agent skills ecosystem
+brew "skills"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
 brew "stow"
 # Official tldr client written in Rust
@@ -97,6 +102,8 @@ brew "tlrc"
 brew "tmux"
 # Upgrade all the things
 brew "topgrade"
+# Language Server Protocol implementation for TypeScript
+brew "typescript-language-server"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
 # JavaScript package manager
