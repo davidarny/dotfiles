@@ -2,6 +2,7 @@
 
 .git
 .repowise
+.codegraph
 .gitignore
 bin
 
