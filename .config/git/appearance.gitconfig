@@ -24,9 +24,11 @@
   showStash = true
   showUntrackedFiles = all
 
+[core]
+  pager = hunk pager
+
 [pager]
   branch = false
-  diff = diff-so-fancy | $PAGER
 
 [color "blame"]
   highlightRecent = black bold,1 year ago,white,1 month ago,default,7 days ago,blue
@@ -45,8 +47,4 @@
   whitespace = yellow reverse
 
 [interactive]
-  diffFilter = diff-so-fancy --patch
   singlekey = true
-
-[diff-so-fancy]
-  markEmptyLines = false

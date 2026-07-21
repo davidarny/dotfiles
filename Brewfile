@@ -23,7 +23,6 @@ brew "colima", restart_service: :changed
 # GNU File, Shell, and Text utilities
 brew "coreutils"
 # Good-lookin' diffs with diff-highlight and more
-brew "diff-so-fancy"
 # Pack, ship and run any application as a lightweight container
 brew "docker"
 # Docker CLI plugin for extended build capabilities with BuildKit
@@ -50,12 +49,12 @@ brew "fzf"
 brew "gh"
 # Interpreter for PostScript and PDF
 brew "ghostscript"
-# Syntax-highlighting pager for git and diff output
-brew "git-delta"
 # Open-source GitLab command-line tool
 brew "glab"
 # User-friendly cURL replacement (command-line HTTP client)
 brew "httpie"
+# Review-first terminal diff viewer for agent-authored changesets
+brew "hunk"
 # Create and extract MS Windows icons and cursors
 brew "icoutils"
 # Tools and libraries to manipulate images in select formats
