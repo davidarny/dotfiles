@@ -56,6 +56,8 @@ brew "gh"
 brew "ghostscript"
 # Open-source GitLab command-line tool
 brew "glab"
+# Tool for glamorous shell scripts
+brew "gum"
 # User-friendly cURL replacement (command-line HTTP client)
 brew "httpie"
 # Review-first terminal diff viewer for agent-authored changesets
