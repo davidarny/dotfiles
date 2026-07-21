@@ -14,9 +14,6 @@ _path_prepend "$HOME/Library/Application Support/fnm"
 # Bun
 _path_prepend "$HOME/.bun/bin"
 
-# PNPM
-_path_prepend "$HOME/Library/pnpm"
-
 # Java
 _path_prepend "/opt/homebrew/opt/openjdk/bin"
 

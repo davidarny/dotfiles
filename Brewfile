@@ -86,8 +86,6 @@ brew "ripgrep"
 brew "opencode"
 # Development kit for the Java programming language
 brew "openjdk"
-# Fast, disk space efficient package manager
-brew "pnpm"
 # Reverse engineering framework
 brew "radare2"
 # Non-interactive SSH password auth
