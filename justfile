@@ -34,7 +34,7 @@ brew-install:
 # Dump installed packages to Brewfile
 [group('brew')]
 brew-dump:
-    brew bundle dump --file=Brewfile --force --no-vscode --no-go --no-cargo --no-npm
+    brew bundle dump --file=Brewfile --force --force --brews --casks --taps
 
 # Remove packages not listed in Brewfile
 [group('brew')]
