@@ -147,6 +147,11 @@ $RECYCLE.BIN/
 # Zsh history
 .zsh_history
 
+# Track the global Skills manifest, but not installed skill files.
+!.agents/
+.agents/*
+!.agents/.skill-lock.json
+
 # Zsh sessions
 .zsh_sessions
 

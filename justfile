@@ -50,6 +50,11 @@ brew-sync: brew-install brew-cleanup
 bun-sync:
     ./bin/bun-sync
 
+# Restore global skills declared in the stowed lockfile.
+[group('skills')]
+skills-sync:
+    bun ./bin/skills-sync.ts "$HOME/.agents/.skill-lock.json"
+
 # Verify shell config, Brewfile dependencies, and whitespace
 [group('check')]
 check:
