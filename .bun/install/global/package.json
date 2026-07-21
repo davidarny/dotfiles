@@ -1,0 +1,14 @@
+{
+  "trustedDependencies": [
+    "@google/genai",
+    "agent-browser",
+    "bun",
+    "koffi",
+    "protobufjs",
+    "remodex"
+  ],
+  "dependencies": {
+    "@colbymchenry/codegraph": "^1.4.1",
+    "@earendil-works/pi-coding-agent": "^0.80.10"
+  }
+}
