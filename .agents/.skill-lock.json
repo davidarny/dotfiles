@@ -158,15 +158,6 @@
       "skillFolderHash": "a25db2d96e95cfd1e6c1831296fe12ba52960ff9",
       "installedAt": "2026-07-22T06:05:42.229Z",
       "updatedAt": "2026-07-22T06:05:42.229Z"
-    },
-    "graphify": {
-      "source": "safishamsi/graphify",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/safishamsi/graphify.git",
-      "skillPath": "graphify/SKILL.md",
-      "skillFolderHash": "c03fc4462db4ca589b725774b43eb1be4627db65",
-      "installedAt": "2026-07-22T06:06:37.923Z",
-      "updatedAt": "2026-07-22T06:06:37.923Z"
     }
   },
   "dismissed": {
