@@ -1,7 +1,6 @@
 .DS_Store
 
 .git
-.repowise
 .codegraph
 .gitignore
 bin
