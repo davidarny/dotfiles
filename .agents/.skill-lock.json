@@ -47,15 +47,6 @@
       "installedAt": "2026-07-11T11:29:12.301Z",
       "updatedAt": "2026-07-21T11:07:34.364Z"
     },
-    "graphify": {
-      "source": "safishamsi/graphify",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/safishamsi/graphify.git",
-      "skillPath": "graphify/SKILL.md",
-      "skillFolderHash": "5e8eb8f657560e84a0bd2c6b534a952f98cde1e0",
-      "installedAt": "2026-07-20T04:18:39.513Z",
-      "updatedAt": "2026-07-21T11:07:40.845Z"
-    },
     "web-design-guidelines": {
       "source": "vercel-labs/agent-skills",
       "sourceType": "github",
@@ -122,15 +113,6 @@
       "installedAt": "2026-07-20T05:16:39.520Z",
       "updatedAt": "2026-07-21T11:09:19.316Z"
     },
-    "humanizer": {
-      "source": "blader/humanizer",
-      "sourceType": "github",
-      "sourceUrl": "https://github.com/blader/humanizer.git",
-      "skillPath": "SKILL.md",
-      "skillFolderHash": "1b48564898e999219882660237fde01bf4843a0f",
-      "installedAt": "2026-07-20T05:19:31.024Z",
-      "updatedAt": "2026-07-21T11:09:02.118Z"
-    },
     "code-review": {
       "source": "mattpocock/skills",
       "sourceType": "github",
@@ -167,6 +149,24 @@
       "skillFolderHash": "7e9663cb1d15ca0aff369d35a31348b7e8cf5e95",
       "installedAt": "2026-07-21T10:25:11.293Z",
       "updatedAt": "2026-07-21T11:09:36.458Z"
+    },
+    "humanizer": {
+      "source": "blader/humanizer",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/blader/humanizer.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "a25db2d96e95cfd1e6c1831296fe12ba52960ff9",
+      "installedAt": "2026-07-22T06:05:42.229Z",
+      "updatedAt": "2026-07-22T06:05:42.229Z"
+    },
+    "graphify": {
+      "source": "safishamsi/graphify",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/safishamsi/graphify.git",
+      "skillPath": "graphify/SKILL.md",
+      "skillFolderHash": "c03fc4462db4ca589b725774b43eb1be4627db65",
+      "installedAt": "2026-07-22T06:06:37.923Z",
+      "updatedAt": "2026-07-22T06:06:37.923Z"
     }
   },
   "dismissed": {
