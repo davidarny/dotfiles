@@ -70,6 +70,7 @@ LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses fo
 - **SSH uses 1Password agent** — `SSH_AUTH_SOCK` points to `~/.1password/agent.sock`.
 - **Run `just check` before committing shell/config changes**.
 - **Use Conventional Commits for every commit** — format commit messages like `feat: ...`, `fix: ...`, `chore: ...`, `docs: ...`, etc. Do not create non-conventional commit messages.
+- **Do not add documentation to the repository unless the user explicitly requests it.**
 
 ## Adding New Configuration
 
