@@ -45,9 +45,12 @@ _alias_if_exists tmux 'tm=tmux'
 _alias_if_exists bun 'buni=bun install --no-save && bun pm trust --all && rm -f bun.lock'
 _alias_if_exists bun 'bunup=bun update -g --latest && bun pm trust --all -g'
 
+# uv
+_alias_if_exists uv 'uvup=uv tool upgrade --all'
+
 # package updates
 _alias_if_exists brew 'brewup=brew upgrade --greedy-latest && brew cleanup --prune=all && brew autoremove'
-(( ${+commands[brew]} && ${+commands[bun]} )) && alias toolsup='brewup && bunup'
+(( ${+commands[brew]} && ${+commands[bun]} && ${+commands[uv]} )) && alias toolsup='brewup && bunup && uvup'
 
 # ai
 _alias_if_exists claude 'cc=claude --setting-sources user,local,project --allow-dangerously-skip-permissions --dangerously-skip-permissions'
