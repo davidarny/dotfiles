@@ -7,10 +7,7 @@
 .factory/
 .antigravitycli/
 .codegraph/
-.repowise/
 .worktrees/
-.codebase-memory/
-graphify-out/
 .mcp.json
 CLAUDE.md
 WARP.md
