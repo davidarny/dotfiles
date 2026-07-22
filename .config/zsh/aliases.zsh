@@ -28,6 +28,7 @@ _alias_if_exists fd "lnclean=fd . --type l -x sh -c 'if [ ! -e \"\$1\" ]; then r
 
 # ssh (fix xterm-ghostty terminfo missing on remote servers)
 _alias_if_exists ssh 'ssh=TERM=xterm-256color command ssh'
+_alias_if_exists ssh 'sshp=TERM=xterm-256color command ssh -o PreferredAuthentications=password -o PubkeyAuthentication=no'
 
 # tools
 (( ${+aliases[l]} )) && alias t='l'
