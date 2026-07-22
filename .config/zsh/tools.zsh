@@ -1,5 +1,5 @@
 # Initialize various tools (only if available)
-if command -v fzf >/dev/null 2>&1; then
+if [[ -t 0 ]] && command -v fzf >/dev/null 2>&1; then
   eval "$(fzf --zsh)"
 fi
 
