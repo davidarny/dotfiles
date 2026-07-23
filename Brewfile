@@ -120,30 +120,10 @@ brew "514-labs/tap/dnsglobe", trusted: true
 brew "dmtrkovalenko/fff/fff-mcp", trusted: true
 # Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
 brew "oven-sh/bun/bun"
-# Password manager that keeps all passwords secure behind one password
-cask "1password"
 # Command-line interface for 1Password
 cask "1password-cli"
-# Display management tool
-cask "betterdisplay"
-# OpenAI's official ChatGPT desktop app
-cask "chatgpt"
-# Terminal-based AI coding assistant
-cask "claude-code"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
 cask "font-jetbrains-mono-nerd-font"
-# Terminal emulator that uses platform-native UI and GPU acceleration
-cask "ghostty"
-# Keyboard customiser
-cask "karabiner-elements"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
-# Utility to uninstall apps and remove leftover files from old/uninstalled apps
-cask "pearcleaner"
-# Control your tools with a few keystrokes
-cask "raycast"
-# Open source virtual/remote desktop application
-cask "rustdesk"
-# Messaging app with a focus on speed and security
-cask "telegram"
