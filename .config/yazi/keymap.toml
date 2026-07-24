@@ -1,0 +1,5 @@
+[[mgr.prepend_keymap]]
+on = "T"
+run = 'shell --orphan -- "$HOME/.config/yazi/open-in-ghostty.sh" %h'
+desc = "Open in horizontal Ghostty split"
+for = "macos"

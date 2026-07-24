@@ -1,2 +1,3 @@
-plugins/
+plugins/*
+!plugins/git-repos.yazi/
 package.toml
