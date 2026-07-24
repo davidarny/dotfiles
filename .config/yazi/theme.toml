@@ -1,0 +1,11 @@
+#:schema https://yazi-rs.github.io/schemas/theme.json
+
+[mode]
+normal_main = { fg = "#1a1b26", bg = "#7aa2f7", bold = true }
+normal_alt = { fg = "#7aa2f7", bg = "#24283b" }
+
+select_main = { fg = "#1a1b26", bg = "#f7768e", bold = true }
+select_alt = { fg = "#f7768e", bg = "#24283b" }
+
+unset_main = { fg = "#1a1b26", bg = "#e0af68", bold = true }
+unset_alt = { fg = "#e0af68", bg = "#24283b" }
