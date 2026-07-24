@@ -129,7 +129,7 @@ local function setup(st, opts)
 	st.repos = {}
 	opts = opts or {}
 
-	local master = ui.Style():fg("darkgray")
+	local default_branch = ui.Style():fg("darkgray")
 	local branch = ui.Style():fg("cyan")
 	local signs = {
 		{ "untracked", "?", ui.Style():fg("magenta") },
@@ -151,7 +151,8 @@ local function setup(st, opts)
 		end
 
 		local plain = info.branch
-		local chunks = { " ", ui.Span(info.branch):style(info.branch == "master" and master or branch) }
+		local is_default = info.branch == "master" or info.branch == "main"
+		local chunks = { " ", ui.Span(info.branch):style(is_default and default_branch or branch) }
 		for _, sign in ipairs(signs) do
 			if info[sign[1]] and not (sign[1] == "updated" and info.modified) then
 				plain = plain .. " " .. sign[2]
