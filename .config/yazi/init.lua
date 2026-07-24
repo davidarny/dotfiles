@@ -14,4 +14,5 @@
 -- THEME.git.updated_sign = "❖"
 
 require("git"):setup()
+require("git-repos"):setup { order = 1600 }
 require("full-border"):setup()
