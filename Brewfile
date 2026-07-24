@@ -18,6 +18,8 @@ brew "bat-extras"
 brew "btop"
 # Powerful, enterprise-ready, open source web server with automatic HTTPS
 brew "caddy"
+# Wrap Gemini CLI, Codex, Claude Code, Qwen Code as an API service
+brew "cliproxyapi", restart_service: :changed
 # Cloudflare Tunnel client (formerly Argo Tunnel)
 brew "cloudflared"
 # Cross-platform make

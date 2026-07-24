@@ -9,6 +9,7 @@
   ],
   "dependencies": {
     "@colbymchenry/codegraph": "^1.5.0",
-    "@earendil-works/pi-coding-agent": "^0.81.1"
+    "@earendil-works/pi-coding-agent": "^0.81.1",
+    "ccstatusline": "2.2.25"
   }
 }
