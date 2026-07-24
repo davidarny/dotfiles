@@ -36,7 +36,7 @@ brew-install:
 # Dump installed packages to Brewfile
 [group('brew')]
 brew-dump:
-    @gum spin --title "Syncing Brewfile" --show-error -- brew bundle dump --file=Brewfile --force --force --brews --casks --taps
+    @gum spin --title "Syncing Brewfile" --show-error -- brew bundle dump --file=Brewfile --force --force --brews --casks --cargo --uv --taps
 
 # Remove packages not listed in Brewfile
 [group('brew')]

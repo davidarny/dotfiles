@@ -7,7 +7,7 @@ function brew() {
 
   if (( brew_status == 0 )) && [[ "$1" =~ ^(install|uninstall|remove|rmtree)$ ]]; then
     gum spin --title "Syncing Brewfile" --show-error -- \
-      brew bundle dump --file="$_dotfiles_brewfile" --force --brews --casks --taps
+      brew bundle dump --file="$_dotfiles_brewfile" --force --brews --casks --cargo --uv --taps
   fi
 
   return $brew_status
