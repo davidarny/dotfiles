@@ -17,15 +17,6 @@ local function has_git_marker(url)
 	return cha and (cha.is_dir or is_git_file(dotgit))
 end
 
-local function find_repo_root(cwd)
-	repeat
-		if has_git_marker(cwd) then
-			return tostring(cwd)
-		end
-		cwd = cwd.parent
-	until not cwd
-end
-
 local function add_status(info, status)
 	if status == "M" or status == "T" or status == "R" then
 		info.modified = true
@@ -178,15 +169,6 @@ local function fetch(_, job)
 	local parent_url = first.url.base or first.url.parent
 	local parent = tostring(parent_url)
 	local updates, state = {}, {}
-
-	if find_repo_root(parent_url) then
-		for i, file in ipairs(job.files) do
-			updates[tostring(file.url)] = false
-			state[i] = true
-		end
-		apply(parent, updates)
-		return state
-	end
 
 	for i, file in ipairs(job.files) do
 		local url = tostring(file.url)
