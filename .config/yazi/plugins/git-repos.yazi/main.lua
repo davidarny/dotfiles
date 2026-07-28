@@ -30,11 +30,15 @@ local function add_status(info, status)
 end
 
 local function parse_status(stdout)
-	local branch, oid
+	local branch, oid, ahead, behind
 	local info = {}
 	for line in stdout:gmatch("[^\r\n]+") do
 		branch = branch or line:match("^# branch%.head (.+)$")
 		oid = oid or line:match("^# branch%.oid (.+)$")
+
+		local ahead_count, behind_count = line:match("^# branch%.ab %+(%d+) %-(%d+)$")
+		ahead = ahead or tonumber(ahead_count)
+		behind = behind or tonumber(behind_count)
 
 		local kind = line:sub(1, 1)
 		if kind == "?" then
@@ -59,6 +63,8 @@ local function parse_status(stdout)
 	end
 
 	info.branch = branch
+	info.ahead = ahead and ahead > 0
+	info.behind = behind and behind > 0
 	return info
 end
 
@@ -70,7 +76,6 @@ local function inspect_repo(url)
 			"status",
 			"--porcelain=v2",
 			"--branch",
-			"--no-ahead-behind",
 			"--untracked-files=normal",
 			"--no-renames",
 			"--ignore-submodules=dirty",
@@ -100,6 +105,8 @@ local apply = ya.sync(function(st, parent, updates)
 			end
 		elseif not old
 			or old.branch ~= info.branch
+			or old.ahead ~= info.ahead
+			or old.behind ~= info.behind
 			or old.untracked ~= info.untracked
 			or old.modified ~= info.modified
 			or old.added ~= info.added
@@ -123,6 +130,8 @@ local function setup(st, opts)
 	local default_branch = ui.Style():fg("darkgray")
 	local branch = ui.Style():fg("cyan")
 	local signs = {
+		{ "ahead", "↑", ui.Style():fg("green") },
+		{ "behind", "↓", ui.Style():fg("cyan") },
 		{ "untracked", "?", ui.Style():fg("magenta") },
 		{ "modified", "", ui.Style():fg("yellow") },
 		{ "added", "", ui.Style():fg("green") },
