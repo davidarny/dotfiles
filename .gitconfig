@@ -4,6 +4,9 @@
 [include]
   path = ~/.config/git/user.gitconfig
 
+[includeIf "gitdir:~/Developer/dats.team/"]
+  path = ~/.config/git/dats-team.gitconfig
+
 [include]
   path = ~/.config/git/appearance.gitconfig
 
