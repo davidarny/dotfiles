@@ -63,8 +63,8 @@ local function parse_status(stdout)
 	end
 
 	info.branch = branch
-	info.ahead = ahead and ahead > 0
-	info.behind = behind and behind > 0
+	info.ahead = ahead and ahead > 0 and ahead or nil
+	info.behind = behind and behind > 0 and behind or nil
 	return info
 end
 
@@ -154,10 +154,12 @@ local function setup(st, opts)
 		local is_default = info.branch == "master" or info.branch == "main"
 		local chunks = { " ", ui.Span(info.branch):style(is_default and default_branch or branch) }
 		for _, sign in ipairs(signs) do
-			if info[sign[1]] and not (sign[1] == "updated" and info.modified) then
-				plain = plain .. " " .. sign[2]
+			local value = info[sign[1]]
+			if value and not (sign[1] == "updated" and info.modified) then
+				local label = sign[2] .. (type(value) == "number" and value or "")
+				plain = plain .. " " .. label
 				chunks[#chunks + 1] = " "
-				chunks[#chunks + 1] = ui.Span(sign[2]):style(sign[3])
+				chunks[#chunks + 1] = ui.Span(label):style(sign[3])
 			end
 		end
 
