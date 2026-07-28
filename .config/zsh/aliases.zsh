@@ -12,6 +12,7 @@ alias E='sudo -e'
 _alias_if_exists eza 'l=eza -1A --group-directories-first --color=always --icons=always --tree --level=1'
 _alias_if_exists eza 'la=eza -la --git --git-repos --group-directories-first --color=always --octal-permissions --time-style=long-iso --icons=always --tree --level=1'
 _alias_if_exists eza 'tree=eza -A --tree --group-directories-first --color=always --icons=always'
+_alias_if_exists eza 'tt=eza -lA --tree --level=1 --git --git-repos --group-directories-first --color=always --icons=always --no-permissions --no-filesize --no-user --no-time'
 
 # rg
 _alias_if_exists rg "rg=command rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
