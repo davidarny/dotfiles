@@ -108,10 +108,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "054e998574ed64e21f162bb4d8250d5506b0790e",
-      "pluginName": "jira",
+      "skillFolderHash": "bb8213fea788962fdce6675d12c808c7d7c31799",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-07-21T11:09:19.316Z"
+      "updatedAt": "2026-07-27T06:42:52.599Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
@@ -137,9 +136,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/modem-dev/hunk.git",
       "skillPath": "skills/hunk-review/SKILL.md",
-      "skillFolderHash": "f955a7b7c2808b57cb72c5facd3fa9579af1ca1c",
+      "skillFolderHash": "dd9938367f3e6c6bce3a3873059106041cd7a005",
       "installedAt": "2026-07-21T09:33:40.812Z",
-      "updatedAt": "2026-07-21T11:09:12.576Z"
+      "updatedAt": "2026-07-27T06:42:59.694Z"
     },
     "typescript-advanced-types": {
       "source": "wshobson/agents",
@@ -155,9 +154,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/blader/humanizer.git",
       "skillPath": "SKILL.md",
-      "skillFolderHash": "a25db2d96e95cfd1e6c1831296fe12ba52960ff9",
+      "skillFolderHash": "523374dee72d67c7b2b5f858ea0094ffda49c3ac",
       "installedAt": "2026-07-22T06:05:42.229Z",
-      "updatedAt": "2026-07-22T06:05:42.229Z"
+      "updatedAt": "2026-07-27T06:43:03.247Z"
     },
     "grill-me": {
       "source": "mattpocock/skills",
@@ -168,6 +167,60 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-07-24T07:52:15.781Z",
       "updatedAt": "2026-07-24T07:52:15.781Z"
+    },
+    "gitlab-cli-skills": {
+      "source": "vince-winkintel/gitlab-cli-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
+      "skillPath": "gitlab-cli-skills/SKILL.md",
+      "skillFolderHash": "23fa224c6f71ee413a0b6b284c28492ab642039f",
+      "installedAt": "2026-07-28T03:30:53.832Z",
+      "updatedAt": "2026-07-28T03:30:53.832Z"
+    },
+    "playwright-cli": {
+      "source": "microsoft/playwright-cli",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
+      "skillPath": "skills/playwright-cli/SKILL.md",
+      "skillFolderHash": "ef9a12fdadfb2ad4b67d512a10e840979f162c3a",
+      "installedAt": "2026-07-28T04:12:45.458Z",
+      "updatedAt": "2026-07-28T04:12:45.458Z"
+    },
+    "glab-mr": {
+      "source": "vince-winkintel/gitlab-cli-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
+      "skillPath": "glab-mr/SKILL.md",
+      "skillFolderHash": "2e71bcfb4468ee6c43e86ec8fa394d289f5af738",
+      "installedAt": "2026-07-28T07:38:02.466Z",
+      "updatedAt": "2026-07-28T07:38:02.466Z"
+    },
+    "glab-api": {
+      "source": "vince-winkintel/gitlab-cli-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
+      "skillPath": "glab-api/SKILL.md",
+      "skillFolderHash": "9e6765c7b34613d2a460082033071f0e36929769",
+      "installedAt": "2026-07-28T07:38:33.261Z",
+      "updatedAt": "2026-07-28T07:38:33.261Z"
+    },
+    "glab-ci": {
+      "source": "vince-winkintel/gitlab-cli-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
+      "skillPath": "glab-ci/SKILL.md",
+      "skillFolderHash": "64143a1675ea77ce31f35e91a67cea8f329d71e1",
+      "installedAt": "2026-07-28T07:39:44.326Z",
+      "updatedAt": "2026-07-28T07:39:44.326Z"
+    },
+    "glab-job": {
+      "source": "vince-winkintel/gitlab-cli-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
+      "skillPath": "glab-job/SKILL.md",
+      "skillFolderHash": "9d16e05854998e9516b046298bc12299cd2e7011",
+      "installedAt": "2026-07-28T07:40:15.039Z",
+      "updatedAt": "2026-07-28T07:40:15.039Z"
     }
   },
   "dismissed": {
