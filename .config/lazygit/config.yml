@@ -28,3 +28,23 @@ gui:
       - "#db4b4b"
     defaultFgColor:
       - "#c0caf5"
+
+customCommands:
+  - key: "<c-i>"
+    context: global
+    command: "git submodule update --init --recursive"
+    description: "Initialize and update submodules"
+    loadingText: "Initializing submodules"
+    output: terminal
+  - key: "<c-u>"
+    context: global
+    command: "git submodule update --remote --recursive"
+    description: "Update submodules from remotes"
+    loadingText: "Updating submodules"
+    output: terminal
+  - key: "<c-p>"
+    context: global
+    command: "git submodule foreach --recursive 'git pull --ff-only'"
+    description: "Pull all submodules"
+    loadingText: "Pulling submodules"
+    output: terminal
