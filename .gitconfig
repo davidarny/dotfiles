@@ -7,6 +7,9 @@
 [includeIf "gitdir/i:~/developer/dats.team/"]
   path = ~/.config/git/dats-team.gitconfig
 
+[includeIf "gitdir/i:~/developer/hobby/"]
+  path = ~/.config/git/hobby.gitconfig
+
 [include]
   path = ~/.config/git/appearance.gitconfig
 
