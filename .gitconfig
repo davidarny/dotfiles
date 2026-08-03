@@ -4,7 +4,7 @@
 [include]
   path = ~/.config/git/user.gitconfig
 
-[includeIf "gitdir:~/Developer/dats.team/"]
+[includeIf "gitdir/i:~/developer/dats.team/"]
   path = ~/.config/git/dats-team.gitconfig
 
 [include]
