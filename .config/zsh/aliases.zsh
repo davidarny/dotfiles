@@ -59,8 +59,4 @@ _alias_if_exists claude 'cc=claude --setting-sources user,local,project --allow-
 _alias_if_exists codex 'cx=codex --dangerously-bypass-approvals-and-sandbox'
 _alias_if_exists opencode 'oc=opencode'
 
-# Codex profiles
-_alias_if_exists codex 'cxp=CODEX_HOME=$HOME/.codex command codex --dangerously-bypass-approvals-and-sandbox'
-_alias_if_exists codex 'cxw=CODEX_HOME=$HOME/.codex-work command codex --dangerously-bypass-approvals-and-sandbox'
-
 unfunction _alias_if_exists
