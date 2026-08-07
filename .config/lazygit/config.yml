@@ -80,3 +80,30 @@ customCommands:
     description: "Prune merged MST branches"
     loadingText: "Pruning merged MST branches"
     output: log
+  - key: "<c-g>"
+    context: "commits, subCommits"
+    command: |
+      sh "$HOME/.config/lazygit/regenerate-commits.sh" \
+        {{.SelectedCommitRange.From | quote}} \
+        {{.SelectedCommitRange.To | quote}} \
+        {{.Form.AuthorName | quote}} \
+        {{.Form.AuthorEmail | quote}}
+    description: "Regenerate commit author and committer"
+    loadingText: "Regenerating commit identities"
+    output: log
+    prompts:
+      - type: input
+        title: "New author name"
+        key: "AuthorName"
+        initialValue: '{{ runCommand "git config --get user.name" }}'
+        suggestions:
+          preset: "authors"
+      - type: input
+        title: "New author email"
+        key: "AuthorEmail"
+        initialValue: '{{ runCommand "git config --get user.email" }}'
+        suggestions:
+          command: "git log --format='%ae' | sort -u"
+      - type: confirm
+        title: "Rewrite history"
+        body: "Rewrite all commits, or the selected commit range, with this identity?"
