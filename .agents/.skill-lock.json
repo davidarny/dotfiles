@@ -33,10 +33,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
-      "skillFolderHash": "bce229692e60dff3462e49bc5e774e83bef348e6",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "6a971d1f5b109ac817e18c0f0419c2a32d60f26a",
       "installedAt": "2026-07-11T11:29:01.938Z",
-      "updatedAt": "2026-07-21T11:07:30.552Z"
+      "updatedAt": "2026-08-09T06:04:45.898Z"
     },
     "improve": {
       "source": "shadcn/improve",
@@ -79,10 +78,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/codebase-design/SKILL.md",
-      "skillFolderHash": "7347168e8de2de105e2e55f07ecb33d25fd56f44",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "20b7cd1dd1fe5b0bd37ba72649f3a29375574b5b",
       "installedAt": "2026-07-20T04:38:30.984Z",
-      "updatedAt": "2026-07-21T11:08:25.830Z"
+      "updatedAt": "2026-08-09T06:04:47.821Z"
     },
     "frontend-design": {
       "source": "anthropics/skills",
@@ -108,28 +106,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "1125e956a119ced41a84a67dfe410a9ca08a03d3",
+      "skillFolderHash": "3f30c38432add10cf59856644b0f69585ea6f9f4",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-08-03T03:57:55.150Z"
+      "updatedAt": "2026-08-09T06:04:54.437Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/engineering/code-review/SKILL.md",
-      "skillFolderHash": "474a27d46efb1eff9724a29ae1edc9cd8a75d911",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "7a2057dcc514dc024d4e6bf8ad78021b97f229ae",
       "installedAt": "2026-07-20T10:28:24.961Z",
-      "updatedAt": "2026-07-21T11:08:20.410Z"
+      "updatedAt": "2026-08-09T06:04:49.854Z"
     },
     "hallmark": {
       "source": "nutlope/hallmark",
       "sourceType": "github",
       "sourceUrl": "https://github.com/nutlope/hallmark.git",
       "skillPath": "skills/hallmark/SKILL.md",
-      "skillFolderHash": "3943c7eb8106e9352f9b164ec81f9bb262d2951b",
+      "skillFolderHash": "747c924c4767b4d5fa6f1c59985c87a21c918334",
       "installedAt": "2026-07-20T14:08:49.189Z",
-      "updatedAt": "2026-07-21T11:08:55.762Z"
+      "updatedAt": "2026-08-09T06:04:58.484Z"
     },
     "hunk-review": {
       "source": "modem-dev/hunk",
@@ -173,9 +170,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "gitlab-cli-skills/SKILL.md",
-      "skillFolderHash": "23fa224c6f71ee413a0b6b284c28492ab642039f",
+      "skillFolderHash": "f70743bf02265f7250ec339fd5e3d9077df9c6c1",
       "installedAt": "2026-07-28T03:30:53.832Z",
-      "updatedAt": "2026-07-28T03:30:53.832Z"
+      "updatedAt": "2026-08-09T06:05:00.845Z"
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",
@@ -191,9 +188,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "glab-mr/SKILL.md",
-      "skillFolderHash": "69ff898efa2e24039781abb774fae5b00908f702",
+      "skillFolderHash": "33206a94848a9abc7ad0ad0657af8234c0f098b5",
       "installedAt": "2026-07-28T07:38:02.466Z",
-      "updatedAt": "2026-08-03T03:58:00.781Z"
+      "updatedAt": "2026-08-09T06:05:03.273Z"
     },
     "glab-api": {
       "source": "vince-winkintel/gitlab-cli-skills",
@@ -227,10 +224,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/grilling/SKILL.md",
-      "skillFolderHash": "10b0db61f9b3869243db8a1a0ee84f862139b94e",
-      "pluginName": "mattpocock-skills",
+      "skillFolderHash": "fd99bcbb818f7ef766b83656fb5fac0b58e223ad",
       "installedAt": "2026-07-29T07:04:26.965Z",
-      "updatedAt": "2026-07-29T07:04:26.965Z"
+      "updatedAt": "2026-08-09T06:04:51.906Z"
     }
   },
   "dismissed": {
