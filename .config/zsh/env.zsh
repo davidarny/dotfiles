@@ -33,6 +33,3 @@ for homebrew_lib_dir in /opt/homebrew/lib /usr/local/lib; do
   fi
 done
 unset homebrew_lib_dir
-
-# Disable FFF timeout
-export FFF_MCP_IDLE_TIMEOUT_SECS=0
