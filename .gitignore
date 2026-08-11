@@ -158,10 +158,6 @@ $RECYCLE.BIN/
 # Zsh zcalc history
 .zcalc_history
 
-# A popular plugin manager's files
-._zinit
-.zinit_lstupd
-
 # zdharma/zshelldoc tool's files
 zsdoc/data
 
