@@ -202,10 +202,6 @@ autoremove = true
 # use_sudo = true
 
 
-[yarn]
-# Run `yarn global upgrade` with `sudo`
-# use_sudo = true
-
 
 [vim]
 # For `vim-plug`, execute `PlugUpdate!` instead of `PlugUpdate`
