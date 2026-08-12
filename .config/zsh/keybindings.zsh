@@ -1,6 +1,4 @@
 # Match macOS text editing: Option+Arrow moves by word and Shift selects.
-# Keep Escape responsive while preserving Option-based Meta bindings.
-KEYTIMEOUT=10
 
 _zle_select_left() {
   (( REGION_ACTIVE )) || zle set-mark-command
@@ -42,6 +40,14 @@ _zle_select_line_end() {
   zle end-of-line
 }
 
+_zle_backspace() {
+  if (( REGION_ACTIVE )); then
+    zle kill-region
+  else
+    zle autopair-delete
+  fi
+}
+
 zle -N _zle_select_left
 zle -N _zle_select_right
 zle -N _zle_select_up
@@ -50,6 +56,7 @@ zle -N _zle_select_word_left
 zle -N _zle_select_word_right
 zle -N _zle_select_line_start
 zle -N _zle_select_line_end
+zle -N _zle_backspace
 
 bindkey '\e[1;2D' _zle_select_left
 bindkey '\e[1;2C' _zle_select_right
@@ -62,6 +69,8 @@ bindkey '\e[1;10C' _zle_select_line_end
 bindkey '\e[1;5D' undefined-key
 bindkey '\e[1;5C' undefined-key
 bindkey -M emacs '\e' deactivate-region
+bindkey -M emacs '^?' _zle_backspace
+bindkey -M emacs '^H' _zle_backspace
 
 # Edit the current command in $EDITOR with Ctrl-X.
 autoload -Uz edit-command-line
