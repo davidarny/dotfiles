@@ -48,6 +48,10 @@ _zle_backspace() {
   fi
 }
 
+_zle_insert_newline() {
+  LBUFFER+=$'\n'
+}
+
 zle -N _zle_select_left
 zle -N _zle_select_right
 zle -N _zle_select_up
@@ -57,6 +61,7 @@ zle -N _zle_select_word_right
 zle -N _zle_select_line_start
 zle -N _zle_select_line_end
 zle -N _zle_backspace
+zle -N _zle_insert_newline
 
 bindkey '\e[1;2D' _zle_select_left
 bindkey '\e[1;2C' _zle_select_right
@@ -71,6 +76,7 @@ bindkey '\e[1;5C' undefined-key
 bindkey -M emacs '\e' deactivate-region
 bindkey -M emacs '^?' _zle_backspace
 bindkey -M emacs '^H' _zle_backspace
+bindkey -M emacs '\e[27;2;13~' _zle_insert_newline
 
 # Edit the current command in $EDITOR with Ctrl-X.
 autoload -Uz edit-command-line
