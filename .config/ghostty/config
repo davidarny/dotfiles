@@ -12,3 +12,7 @@ shell-integration-features = no-cursor
 clipboard-read = allow
 clipboard-write = allow
 macos-option-as-alt = true
+
+# Send ZLE-compatible sequences for Command-Shift line selection.
+keybind = cmd+shift+arrow_left=csi:1;10D
+keybind = cmd+shift+arrow_right=csi:1;10C
