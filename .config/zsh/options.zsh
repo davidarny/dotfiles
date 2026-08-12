@@ -7,5 +7,8 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 setopt interactive_comments
 
+# Set the primary keymap before plugins register their bindings.
+bindkey -e
+
 # Delete path segments individually with Ctrl+W
 WORDCHARS=${WORDCHARS//[\/.]}
