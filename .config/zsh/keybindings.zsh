@@ -30,6 +30,7 @@ bindkey '\e[1;4D' _zle_select_word_left
 bindkey '\e[1;4C' _zle_select_word_right
 bindkey '\e[1;5D' undefined-key
 bindkey '\e[1;5C' undefined-key
+bindkey -M emacs '\e' deactivate-region
 
 # Edit the current command in $EDITOR with Ctrl-X.
 autoload -Uz edit-command-line
