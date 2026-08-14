@@ -133,4 +133,6 @@ cask "codex"
 cask "font-jetbrains-mono-nerd-font"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
+# Agentic development environment for command-line workflows
+cask "warp-agent-cli"
 uv "cloakbrowser"
