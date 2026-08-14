@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if ! command -v git >/dev/null 2>&1; then
+  echo "git is required" >&2
+  exit 1
+fi
+
+if ! command -v codex >/dev/null 2>&1; then
+  echo "codex is required" >&2
+  exit 1
+fi
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root"
+
+if git diff --cached --quiet; then
+  echo "No staged changes to summarize" >&2
+  exit 1
+fi
+
+pending_message="$(git rev-parse --git-path LAZYGIT_PENDING_COMMIT)"
+prompt='Write a Git commit message from the repository history and staged diff provided in stdin.
+
+Return only the raw commit message. Include a concise imperative subject (maximum 72 characters), one blank line, and a short required body describing the actual changes. Match the language and convention demonstrated by <recent_commit_subjects>. If that block is empty, prefer Conventional Commits format: type(scope): subject. Do not invent ticket numbers, behavior, rationale, tests, or details not present in the diff. Do not use Markdown, quotes, commentary, or a code fence. Do not inspect the repository or run tools; use only the provided history and diff.'
+
+{
+  printf '%s\n' '<recent_commit_subjects>'
+  git log -n 20 --format='%s'
+  printf '%s\n' '</recent_commit_subjects>'
+  printf '%s\n' '<staged_diff>'
+  git diff --cached --no-ext-diff
+  printf '%s\n' '</staged_diff>'
+} | codex exec \
+  --ephemeral \
+  --sandbox read-only \
+  --model gpt-5.6-luna \
+  --config 'model_reasoning_effort="max"' \
+  --output-last-message "$pending_message" \
+  "$prompt"
+
+if [[ ! -s "$pending_message" ]]; then
+  echo "Codex returned an empty commit message" >&2
+  exit 1
+fi

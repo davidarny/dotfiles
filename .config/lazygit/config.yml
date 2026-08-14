@@ -28,6 +28,12 @@ gui:
       - bold
 
 customCommands:
+  - key: "<c-g>"
+    context: files
+    command: "lazygit-ai-commit"
+    description: "Generate commit message with Codex"
+    loadingText: "Generating commit message with GPT-5.6 Luna"
+    output: none
   - key: "<c-i>"
     context: global
     command: "git submodule update --init --recursive"
