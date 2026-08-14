@@ -1,0 +1,9 @@
+[settings]
+idiomatic_version_file_enable_tools = ["node"]
+
+[tools]
+bun = "1.3.14"
+go = "1.26.6"
+java = "26.0.2"
+node = "26.7.0"
+zig = "0.16.0"

@@ -1,9 +1,6 @@
 tap "514-labs/tap"
 tap "dmtrkovalenko/fff", "https://github.com/dmtrKovalenko/homebrew-fff"
 tap "modem-dev/tap", trusted: { formulae: ["hunk"] }
-tap "oven-sh/bun", trusted: true
-# Open-source, cross-platform JavaScript runtime environment
-brew "node"
 # Browser automation CLI for AI agents
 brew "agent-browser"
 # Automate deployment, configuration, and upgrading
@@ -56,8 +53,6 @@ brew "gh"
 brew "ghostscript"
 # Open-source GitLab command-line tool
 brew "glab"
-# Open source programming language to build simple/reliable/efficient software
-brew "go"
 # Tool for glamorous shell scripts
 brew "gum"
 # User-friendly cURL replacement (command-line HTTP client)
@@ -80,20 +75,18 @@ brew "lazygit"
 brew "lazyssh"
 # MCP server for Grafana
 brew "mcp-grafana"
+# Polyglot runtime manager (asdf rust clone)
+brew "mise"
 # Deep clean and optimize your Mac
 brew "mole"
 # Ambitious Vim-fork focused on extensibility and agility
 brew "neovim"
-# Netlify command-line tool
-brew "netlify-cli"
 # Selects the right Node package manager based on lockfiles
 brew "ni"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # AI coding agent, built for the terminal
 brew "opencode"
-# Development kit for the Java programming language
-brew "openjdk"
 # Reverse engineering framework
 brew "radare2"
 # Open agent skills ecosystem
@@ -114,16 +107,12 @@ brew "typescript-language-server"
 brew "uv"
 # Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
-# Programming language designed for robustness, optimality, and clarity
-brew "zig"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
 # Global DNS propagation checker TUI — watch a DNS record propagate across 34 public resolvers worldwide, on a world map in your terminal
 brew "514-labs/tap/dnsglobe", trusted: true
 # Fast file search toolkit for AI agents (MCP server)
 brew "dmtrkovalenko/fff/fff-mcp", trusted: true
-# Incredibly fast JavaScript runtime, bundler, transpiler and package manager - all in one.
-brew "oven-sh/bun/bun"
 # Command-line interface for 1Password
 cask "1password-cli"
 # OpenAI's coding agent that runs in your terminal
