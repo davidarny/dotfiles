@@ -33,14 +33,14 @@ Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE
 
 1. **env.zsh** — Environment variables (`EDITOR=nvim`, `PAGER=bat`, 1Password SSH, XDG)
 2. **options.zsh** — Shell options
-3. **path.zsh** — PATH additions (fnm, bun, pyenv, Java)
+3. **path.zsh** — PATH additions (bun, pyenv, Java)
 4. **history.zsh** — History settings
 5. **plugins.zsh** — Antidote plugin manager; plugin lists live in `.config/antidote/`
 6. **completions.zsh** — Completion system
 7. **fzf.zsh** — FZF configuration and theme
 8. **aliases.zsh** — Shell aliases
 9. **functions.zsh** — Custom functions (`brew` wrapper for auto-syncing Brewfile, `tm` for tmux)
-10. **tools.zsh** — Tool initialization via `eval` (fzf, zoxide, starship, fnm, pyenv)
+10. **tools.zsh** — Tool initialization via `eval` (fzf, zoxide, starship, pyenv)
 
 **Order matters** — plugins.zsh must load before completions.zsh, and tools.zsh comes last to initialize tools after plugins are loaded.
 

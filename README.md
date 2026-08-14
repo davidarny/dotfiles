@@ -114,7 +114,6 @@ These need to be installed manually:
 - [eza](https://github.com/eza-community/eza) - Modern ls replacement
 - [zoxide](https://github.com/ajeetdsouza/zoxide) - Smarter cd command
 - [starship](https://starship.rs/) - Cross-shell prompt
-- [fnm](https://github.com/Schniz/fnm) - Fast Node.js version manager
 - [git](https://git-scm.com/) - Version control
 - [diff-so-fancy](https://github.com/so-fancy/diff-so-fancy) - Git diff enhancer
 - [lazygit](https://github.com/jesseduffield/lazygit) - Git TUI
@@ -183,7 +182,7 @@ just unlink
 brew leaves
 
 # Remove specific packages
-brew uninstall tmux fzf fd bat eza zoxide starship fnm lazygit yazi ripgrep diff-so-fancy ...
+brew uninstall tmux fzf fd bat eza zoxide starship lazygit yazi ripgrep diff-so-fancy ...
 brew uninstall --cask ghostty
 ```
 

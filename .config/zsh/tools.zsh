@@ -10,7 +10,3 @@ fi
 if command -v starship >/dev/null 2>&1; then
   eval "$(starship init zsh --print-full-init)"
 fi
-
-if command -v fnm >/dev/null 2>&1; then
-  eval "$(fnm env --use-on-cd --version-file-strategy=recursive)"
-fi
