@@ -6,6 +6,8 @@ tap "oven-sh/bun", trusted: true
 brew "node"
 # Browser automation CLI for AI agents
 brew "agent-browser"
+# Automate deployment, configuration, and upgrading
+brew "ansible"
 # Plugin manager for zsh, inspired by antigen and antibody
 brew "antidote"
 # Code searching, linting, rewriting
@@ -18,8 +20,6 @@ brew "bat-extras"
 brew "btop"
 # Powerful, enterprise-ready, open source web server with automatic HTTPS
 brew "caddy"
-# Wrap Gemini CLI, Codex, Claude Code, Qwen Code as an API service
-brew "cliproxyapi", restart_service: :changed
 # Cloudflare Tunnel client (formerly Argo Tunnel)
 brew "cloudflared"
 # Cross-platform make
@@ -58,10 +58,14 @@ brew "gh"
 brew "ghostscript"
 # Open-source GitLab command-line tool
 brew "glab"
+# Open source programming language to build simple/reliable/efficient software
+brew "go"
 # Tool for glamorous shell scripts
 brew "gum"
 # User-friendly cURL replacement (command-line HTTP client)
 brew "httpie"
+# HTTP request visualizer with phase-by-phase timing breakdown
+brew "httptap"
 # Review-first terminal diff viewer for agent-authored changesets
 brew "hunk"
 # Create and extract MS Windows icons and cursors
@@ -129,3 +133,4 @@ cask "codex"
 cask "font-jetbrains-mono-nerd-font"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
+uv "cloakbrowser"
