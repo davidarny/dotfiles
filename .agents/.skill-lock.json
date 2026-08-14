@@ -97,18 +97,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
       "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
-      "skillFolderHash": "3d66a0486c1000e6da51da67b0cb917be22ea8dd",
+      "skillFolderHash": "5cca2c41be4f7a85c3d8ff95e9bd42de9486745e",
       "installedAt": "2026-07-20T04:39:50.295Z",
-      "updatedAt": "2026-08-03T03:57:50.847Z"
+      "updatedAt": "2026-08-14T08:32:40.162Z"
     },
     "jira-syntax": {
       "source": "netresearch/jira-skill",
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "3f30c38432add10cf59856644b0f69585ea6f9f4",
+      "skillFolderHash": "4ee18fac0b45f0867cd242f1fa0d5369cde6f253",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-08-09T06:04:54.437Z"
+      "updatedAt": "2026-08-14T08:32:44.995Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
@@ -161,9 +161,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "gitlab-cli-skills/SKILL.md",
-      "skillFolderHash": "f70743bf02265f7250ec339fd5e3d9077df9c6c1",
+      "skillFolderHash": "afecf862c636578f18ef368ac6a49515fb10b7b2",
       "installedAt": "2026-07-28T03:30:53.832Z",
-      "updatedAt": "2026-08-09T06:05:00.845Z"
+      "updatedAt": "2026-08-14T08:32:50.395Z"
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",
@@ -179,18 +179,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "glab-mr/SKILL.md",
-      "skillFolderHash": "33206a94848a9abc7ad0ad0657af8234c0f098b5",
+      "skillFolderHash": "3fc5faf0922e840017898ecfb72f5ecfde7c1592",
       "installedAt": "2026-07-28T07:38:02.466Z",
-      "updatedAt": "2026-08-09T06:05:03.273Z"
+      "updatedAt": "2026-08-14T08:32:55.015Z"
     },
     "glab-api": {
       "source": "vince-winkintel/gitlab-cli-skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "glab-api/SKILL.md",
-      "skillFolderHash": "43667a3cf5c98bc65ad310b3114a962a4f0cfaa7",
+      "skillFolderHash": "1df60fdd6ac6c9dc61e27027088dc9762d7aa03c",
       "installedAt": "2026-07-28T07:38:33.261Z",
-      "updatedAt": "2026-08-03T03:58:05.275Z"
+      "updatedAt": "2026-08-14T08:32:59.917Z"
     },
     "glab-ci": {
       "source": "vince-winkintel/gitlab-cli-skills",
