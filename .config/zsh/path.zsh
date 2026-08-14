@@ -8,9 +8,6 @@ _path_prepend() {
 # Local binaries
 _path_prepend "$HOME/.local/bin"
 
-# fnm
-_path_prepend "$HOME/Library/Application Support/fnm"
-
 # Bun
 _path_prepend "$HOME/.bun/bin"
 
