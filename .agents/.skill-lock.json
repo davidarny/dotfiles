@@ -106,9 +106,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "4ee18fac0b45f0867cd242f1fa0d5369cde6f253",
+      "skillFolderHash": "15d5bfb6bded9f7d707af7196c44c82b678a3a29",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-08-14T08:32:44.995Z"
+      "updatedAt": "2026-08-14T11:56:04.389Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
