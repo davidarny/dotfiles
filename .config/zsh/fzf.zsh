@@ -1,16 +1,7 @@
 # FZF configuration
-if [[ -z "${FZF_BASE_DEFAULT_OPTS+x}" ]]; then
-  export FZF_BASE_DEFAULT_OPTS="${FZF_DEFAULT_OPTS:-}"
+if [[ -r "$HOME/.config/fzf/luna.sh" ]]; then
+  source "$HOME/.config/fzf/luna.sh"
 fi
-
-export FZF_DEFAULT_OPTS=$FZF_BASE_DEFAULT_OPTS'
-  --color=fg:-1,fg+:#d0d0d0,bg:-1,bg+:#262626
-  --color=hl:#bb9af7,hl+:#5fd7ff,info:#7aa2f7,marker:#9ece6a
-  --color=prompt:#7dcfff,spinner:#9ece6a,pointer:#7dcfff,header:#9ece6a
-  --color=border:#262626,label:#aeaeae,query:#d9d9d9
-  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
-  --marker=">" --pointer="◆" --separator="─" --scrollbar="│"
-  --info="right"'
 
 # FZF commands for file and directory search
 if command -v fd >/dev/null 2>&1; then
