@@ -1,4 +1,4 @@
-theme = "tokyonight"
+theme = "luna"
 macos-icon = "custom"
 macos-custom-icon = "~/.config/ghostty/tokyo-night.icns"
 
