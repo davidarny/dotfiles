@@ -87,6 +87,8 @@ brew "ni"
 brew "ripgrep"
 # AI coding agent, built for the terminal
 brew "opencode"
+# Python interface to Tcl/Tk
+brew "python-tk@3.14"
 # Reverse engineering framework
 brew "radare2"
 # Open agent skills ecosystem
