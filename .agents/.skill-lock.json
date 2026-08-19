@@ -236,6 +236,16 @@
       "skillFolderHash": "871e88cbe9b167670c170c53c8173c68609a2ae9",
       "installedAt": "2026-08-12T08:53:29.643Z",
       "updatedAt": "2026-08-12T08:53:29.643Z"
+    },
+    "jira-communication": {
+      "source": "netresearch/jira-skill",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/netresearch/jira-skill.git",
+      "skillPath": "skills/jira-communication/SKILL.md",
+      "skillFolderHash": "f15c5d7ada6749ad127942df837f2292065e5362",
+      "pluginName": "jira",
+      "installedAt": "2026-08-17T07:03:44.926Z",
+      "updatedAt": "2026-08-17T07:03:44.926Z"
     }
   },
   "dismissed": {
