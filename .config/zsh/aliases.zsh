@@ -43,19 +43,17 @@ _alias_if_exists lazygit 'lg=lazygit'
 _alias_if_exists lazydocker 'lzd=lazydocker'
 _alias_if_exists tmux 'tm=tmux'
 
-# bun (use as fast npm alternative without polluting the project with bun.lock)
+# bun
 _alias_if_exists bun 'buni=bun install --no-save && bun pm trust --all && rm -f bun.lock'
+
+# upgrade commands
 _alias_if_exists bun 'bunup=bun update -g --latest && bun pm trust --all -g'
-
-# uv
 _alias_if_exists uv 'uvup=uv tool upgrade --all'
-
-# package updates
+_alias_if_exists skills 'skillsup=skills update --global --yes'
+_alias_if_exists pi 'piup=pi update && pi update --extensions'
 _alias_if_exists brew 'brewup=brew upgrade --greedy-latest && brew cleanup --prune=all && brew autoremove'
 _alias_if_exists mise 'miseup=mise upgrade --yes'
-if (( ${+commands[brew]} && ${+commands[mise]} && ${+commands[bun]} && ${+commands[uv]} )); then
-  alias toolsup='brewup && miseup && bunup && uvup'
-fi
+alias toolsup='brewup & miseup & bunup & uvup & skillsup && piup'
 
 # ai
 _alias_if_exists claude 'cc=claude --setting-sources user,local,project --allow-dangerously-skip-permissions --dangerously-skip-permissions'
