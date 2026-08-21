@@ -174,26 +174,32 @@ end
 local function fetch(_, job)
 	local first = job.files[1]
 	if not first then
-		return true
+		return ya.co(function() end)
 	end
 
 	local parent_url = first.url.base or first.url.parent
 	local parent = tostring(parent_url)
-	local updates, state = {}, {}
+	local updates = {}
 
-	for i, file in ipairs(job.files) do
+	for _, file in ipairs(job.files) do
 		local url = tostring(file.url)
 		if file.cha.is_dir and has_git_marker(file.url) then
 			updates[url] = inspect_repo(file.url) or false
-			state[i] = false
 		else
 			updates[url] = false
-			state[i] = true
 		end
 	end
 
 	apply(parent, updates)
-	return state
+
+	-- v26.8.15 fetcher contract: return a coroutine yielding every file exactly
+	-- once. `retry = true` keeps git status refreshing on directory re-listing,
+	-- matching the official git.yazi plugin.
+	return ya.co(function()
+		for _, file in ipairs(job.files) do
+			coroutine.yield(file, { retry = true })
+		end
+	end)
 end
 
 return { setup = setup, fetch = fetch }
