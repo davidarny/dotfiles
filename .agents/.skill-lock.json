@@ -214,9 +214,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/mattpocock/skills.git",
       "skillPath": "skills/productivity/grilling/SKILL.md",
-      "skillFolderHash": "0d40d978f1a588971a11ea7ae85b208e78102dc3",
+      "skillFolderHash": "f0732035b8b1b60ae39454e4191caef32fa91903",
       "installedAt": "2026-07-29T07:04:26.965Z",
-      "updatedAt": "2026-08-20T04:56:11.282Z"
+      "updatedAt": "2026-08-22T09:27:43.316Z"
     },
     "humanizer": {
       "source": "blader/humanizer",
@@ -242,9 +242,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-communication/SKILL.md",
-      "skillFolderHash": "029be61bfc376ca203038afbcd31f552e8c825a7",
+      "skillFolderHash": "d8eb8c3ea062e7b08a63d5a99189b8c7b812806d",
       "installedAt": "2026-08-17T07:03:44.926Z",
-      "updatedAt": "2026-08-20T04:56:20.658Z"
+      "updatedAt": "2026-08-22T09:27:45.886Z"
+    },
+    "unslop": {
+      "source": "cursor/plugins",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cursor/plugins.git",
+      "skillPath": "pstack/skills/unslop/SKILL.md",
+      "skillFolderHash": "6161508c5c7959b156ff0e4e10b510863b51f9cc",
+      "installedAt": "2026-08-22T09:33:54.114Z",
+      "updatedAt": "2026-08-22T09:33:54.114Z"
     }
   },
   "dismissed": {
