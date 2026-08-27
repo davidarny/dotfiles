@@ -7,6 +7,8 @@ brew "agent-browser"
 brew "ansible"
 # Plugin manager for zsh, inspired by antigen and antibody
 brew "antidote"
+# Aquarium animation in ASCII art
+brew "asciiquarium"
 # Code searching, linting, rewriting
 brew "ast-grep"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -22,7 +24,7 @@ brew "cloudflared"
 # Cross-platform make
 brew "cmake"
 # Container runtimes on MacOS (and Linux) with minimal setup
-brew "colima", restart_service: :changed
+brew "colima"
 # GNU File, Shell, and Text utilities
 brew "coreutils"
 # Pack, ship and run any application as a lightweight container
@@ -124,4 +126,5 @@ cask "font-jetbrains-mono-nerd-font"
 cask "ngrok"
 # Agentic development environment for command-line workflows
 cask "warp-agent-cli"
+uv "browser-use"
 uv "cloakbrowser"

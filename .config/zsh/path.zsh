@@ -7,6 +7,7 @@ _path_prepend() {
 
 # Local binaries
 _path_prepend "$HOME/.local/bin"
+_path_prepend "$HOME/.dory/bin"
 
 # mise-managed tools
 if command -v mise >/dev/null 2>&1; then
