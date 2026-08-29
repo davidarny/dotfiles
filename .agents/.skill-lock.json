@@ -24,9 +24,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel-labs/agent-browser.git",
       "skillPath": "skills/agent-browser/SKILL.md",
-      "skillFolderHash": "037e8078db4b20b4aa25c04f21c6de7d335ec449",
+      "skillFolderHash": "82def67855a0d2aad7794207951820fa5422fdb0",
       "installedAt": "2026-07-09T04:26:38.593Z",
-      "updatedAt": "2026-07-21T11:07:25.908Z"
+      "updatedAt": "2026-08-29T04:10:23.215Z"
     },
     "improve-codebase-architecture": {
       "source": "mattpocock/skills",
@@ -106,9 +106,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "db736fa62f1f71db9e766275f044290fedf501f0",
+      "skillFolderHash": "d2e388eedaf7af89420b9f702e304495199d2262",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-08-20T04:56:15.997Z"
+      "updatedAt": "2026-08-29T04:10:25.999Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
@@ -178,9 +178,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "glab-mr/SKILL.md",
-      "skillFolderHash": "bd1b15a2c6fa455483459b5231ca8744e205f76c",
+      "skillFolderHash": "5a186313b74ad75e94cb9b21637c44f5d6fe3680",
       "installedAt": "2026-07-28T07:38:02.466Z",
-      "updatedAt": "2026-08-20T04:56:36.276Z"
+      "updatedAt": "2026-08-29T04:10:31.173Z"
     },
     "glab-api": {
       "source": "vince-winkintel/gitlab-cli-skills",
@@ -196,9 +196,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "glab-ci/SKILL.md",
-      "skillFolderHash": "b94e90c606f0fbc2f208e710767f55eef2c47119",
+      "skillFolderHash": "26690da204d64c24927a58e4b753ca93952f65d9",
       "installedAt": "2026-07-28T07:39:44.326Z",
-      "updatedAt": "2026-08-03T03:58:10.224Z"
+      "updatedAt": "2026-08-29T04:10:33.593Z"
     },
     "glab-job": {
       "source": "vince-winkintel/gitlab-cli-skills",
@@ -242,9 +242,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-communication/SKILL.md",
-      "skillFolderHash": "d8eb8c3ea062e7b08a63d5a99189b8c7b812806d",
+      "skillFolderHash": "5806cb9ab78fad28d0987eac452ceda8a0f3f3e7",
       "installedAt": "2026-08-17T07:03:44.926Z",
-      "updatedAt": "2026-08-22T09:27:45.886Z"
+      "updatedAt": "2026-08-29T04:10:28.794Z"
     },
     "unslop": {
       "source": "cursor/plugins",
