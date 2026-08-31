@@ -66,7 +66,7 @@ extensions=(
 applied_extensions=()
 skipped_extensions=()
 
-gum style --bold "Setting Zed as default for ${#extensions[@]} extensions"
+echo "Setting Zed as default for ${#extensions[@]} extensions"
 
 for extension in "${extensions[@]}"; do
   if duti -s "$bundle_id" ".$extension" all; then
@@ -81,7 +81,9 @@ if [ "${#applied_extensions[@]}" -eq 0 ]; then
   exit 1
 fi
 
-printf 'Applied,%s,%s\nSkipped,%s,%s\n' \
-  "${#applied_extensions[@]}" "${applied_extensions[*]}" \
-  "${#skipped_extensions[@]}" "${skipped_extensions[*]}" |
-  gum table --print --columns "Status,Count,Extensions"
+if [ "${#skipped_extensions[@]}" -eq 0 ]; then
+  echo "Applied: ${#applied_extensions[@]} extensions (${applied_extensions[*]})"
+else
+  echo "Applied: ${#applied_extensions[@]} extensions (${applied_extensions[*]})"
+  echo "Skipped: ${#skipped_extensions[@]} extensions (${skipped_extensions[*]})"
+fi
