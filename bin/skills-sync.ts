@@ -17,10 +17,7 @@ const lock = (await Bun.file(path).json()) as SkillLock;
 const skills = Object.entries(lock.skills);
 
 function status(message: string) {
-  Bun.spawnSync(["gum", "style", "--bold", message], {
-    stdout: "inherit",
-    stderr: "inherit",
-  });
+  console.log(message);
 }
 
 status(`Syncing ${skills.length} global skills`);
@@ -28,12 +25,6 @@ status(`Syncing ${skills.length} global skills`);
 for (const [name, skill] of skills) {
   const task = Bun.spawn(
     [
-      "gum",
-      "spin",
-      "--title",
-      `Installing ${name}`,
-      "--show-error",
-      "--",
       "skills",
       "add",
       skill.source,
