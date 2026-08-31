@@ -8,6 +8,7 @@
     "remodex"
   ],
   "dependencies": {
+    "@bitkyc08/opencodex": "^2.37.0",
     "@colbymchenry/codegraph": "^1.6.0",
     "@earendil-works/pi-coding-agent": "0.84.4",
     "ccstatusline": "2.2.27"

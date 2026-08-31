@@ -133,9 +133,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/modem-dev/hunk.git",
       "skillPath": "skills/hunk-review/SKILL.md",
-      "skillFolderHash": "8c78e66fe408c6a9ca156be8d4b109668e1fe690",
+      "skillFolderHash": "a1c5638dec5611780963bd68a347231f8baf9c62",
       "installedAt": "2026-07-21T09:33:40.812Z",
-      "updatedAt": "2026-08-20T04:56:31.658Z"
+      "updatedAt": "2026-08-31T04:02:11.549Z"
     },
     "typescript-advanced-types": {
       "source": "wshobson/agents",
@@ -242,9 +242,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-communication/SKILL.md",
-      "skillFolderHash": "5806cb9ab78fad28d0987eac452ceda8a0f3f3e7",
+      "skillFolderHash": "24edc6808cbbd872e64627796f5ead63c1b4ab26",
       "installedAt": "2026-08-17T07:03:44.926Z",
-      "updatedAt": "2026-08-29T04:10:28.794Z"
+      "updatedAt": "2026-08-31T04:02:07.200Z"
     },
     "unslop": {
       "source": "cursor/plugins",
