@@ -2,8 +2,10 @@
 
 .git
 .codegraph
+.pi
 .gitignore
 bin
+
 
 AGENTS.md
 Brewfile
