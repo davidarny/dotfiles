@@ -254,6 +254,15 @@
       "skillFolderHash": "6161508c5c7959b156ff0e4e10b510863b51f9cc",
       "installedAt": "2026-08-22T09:33:54.114Z",
       "updatedAt": "2026-08-22T09:33:54.114Z"
+    },
+    "unlazy": {
+      "source": "leonxlnx/unlazy",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/leonxlnx/unlazy.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "473d4b80421c36d733042434cd4b938f81a19ef1",
+      "installedAt": "2026-08-31T12:07:46.824Z",
+      "updatedAt": "2026-08-31T12:07:46.824Z"
     }
   },
   "dismissed": {
