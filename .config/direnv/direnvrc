@@ -1,0 +1,44 @@
+# Load regular files and 1Password Environment FIFOs.
+_load_dotenv_path() {
+  local path=$1
+
+  if [[ -p "$path" ]]; then
+    eval "$("$direnv" dotenv bash "$path")"
+    return
+  fi
+
+  [[ -f "$path" ]] || return 1
+  watch_file "$path"
+  eval "$("$direnv" dotenv bash "$path")"
+}
+
+_dotenv_path() {
+  local path=${1:-"$PWD/.env"}
+
+  if [[ -d "$path" ]]; then
+    path="$path/.env"
+  fi
+
+  expand_path "$path"
+}
+
+dotenv_if_exists() {
+  local path
+  path=$(_dotenv_path "${1:-}")
+  _load_dotenv_path "$path" || true
+}
+
+dotenv() {
+  local path local_path
+  path=$(_dotenv_path "${1:-}")
+
+  if ! _load_dotenv_path "$path"; then
+    log_error ".env at $path not found"
+    return 1
+  fi
+
+  if [[ $(basename "$path") == .env ]]; then
+    local_path="$(dirname "$path")/.env.local"
+    dotenv_if_exists "$local_path"
+  fi
+}
