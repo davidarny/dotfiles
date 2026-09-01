@@ -47,6 +47,8 @@ brew "fd"
 brew "ffmpeg"
 # User-friendly command-line shell for UNIX-like operating systems
 brew "fish"
+# Tiny, open, embeddable, native coding agent
+brew "fx-agent"
 # Command-line fuzzy finder written in Go
 brew "fzf"
 # GitHub command-line tool
