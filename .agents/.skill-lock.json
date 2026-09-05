@@ -87,28 +87,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/anthropics/skills.git",
       "skillPath": "skills/frontend-design/SKILL.md",
-      "skillFolderHash": "0d5b74a14bdf3ebcd64f352d06376a2ef05ed296",
-      "pluginName": "example-skills",
+      "skillFolderHash": "d79e2a5bb4df4a386c2adcdd9ab8709bba28c3f6",
       "installedAt": "2026-07-20T04:39:02.263Z",
-      "updatedAt": "2026-07-21T11:08:33.951Z"
+      "updatedAt": "2026-09-04T01:13:44.665Z"
     },
     "ui-ux-pro-max": {
       "source": "nextlevelbuilder/ui-ux-pro-max-skill",
       "sourceType": "github",
       "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
       "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
-      "skillFolderHash": "5cca2c41be4f7a85c3d8ff95e9bd42de9486745e",
+      "skillFolderHash": "76f049947e39a5ded8eeebf3d72912345433a84d",
       "installedAt": "2026-07-20T04:39:50.295Z",
-      "updatedAt": "2026-08-14T08:32:40.162Z"
+      "updatedAt": "2026-09-03T14:10:53.934Z"
     },
     "jira-syntax": {
       "source": "netresearch/jira-skill",
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "d2e388eedaf7af89420b9f702e304495199d2262",
+      "skillFolderHash": "dac770cd480858eae38afcdad9e240c5be990fa2",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-08-29T04:10:25.999Z"
+      "updatedAt": "2026-09-05T07:35:44.089Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
@@ -160,36 +159,36 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "gitlab-cli-skills/SKILL.md",
-      "skillFolderHash": "afecf862c636578f18ef368ac6a49515fb10b7b2",
+      "skillFolderHash": "f2d2757197481b47526afa5200d8def4eccb9536",
       "installedAt": "2026-07-28T03:30:53.832Z",
-      "updatedAt": "2026-08-14T08:32:50.395Z"
+      "updatedAt": "2026-09-03T14:10:59.565Z"
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "skillFolderHash": "ef9a12fdadfb2ad4b67d512a10e840979f162c3a",
+      "skillFolderHash": "fe74b7fb02fe5d0697d1e1359cb44e1f48d1fc54",
       "installedAt": "2026-07-28T04:12:45.458Z",
-      "updatedAt": "2026-07-28T04:12:45.458Z"
+      "updatedAt": "2026-09-03T14:11:07.190Z"
     },
     "glab-mr": {
       "source": "vince-winkintel/gitlab-cli-skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "glab-mr/SKILL.md",
-      "skillFolderHash": "5a186313b74ad75e94cb9b21637c44f5d6fe3680",
+      "skillFolderHash": "d573bcea5fb08920e1f91d06a29ce0026608ee64",
       "installedAt": "2026-07-28T07:38:02.466Z",
-      "updatedAt": "2026-08-29T04:10:31.173Z"
+      "updatedAt": "2026-09-03T14:11:02.324Z"
     },
     "glab-api": {
       "source": "vince-winkintel/gitlab-cli-skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "glab-api/SKILL.md",
-      "skillFolderHash": "1df60fdd6ac6c9dc61e27027088dc9762d7aa03c",
+      "skillFolderHash": "9323badf3e9cef70b4af0c790c58269a4d19fb2e",
       "installedAt": "2026-07-28T07:38:33.261Z",
-      "updatedAt": "2026-08-14T08:32:59.917Z"
+      "updatedAt": "2026-09-03T14:11:05.165Z"
     },
     "glab-ci": {
       "source": "vince-winkintel/gitlab-cli-skills",
@@ -242,27 +241,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-communication/SKILL.md",
-      "skillFolderHash": "24edc6808cbbd872e64627796f5ead63c1b4ab26",
+      "skillFolderHash": "e1a943dab35b173fdd1823c3a76c913fb4783fe4",
       "installedAt": "2026-08-17T07:03:44.926Z",
-      "updatedAt": "2026-08-31T04:02:07.200Z"
+      "updatedAt": "2026-09-05T07:35:47.288Z"
     },
     "unslop": {
       "source": "cursor/plugins",
       "sourceType": "github",
       "sourceUrl": "https://github.com/cursor/plugins.git",
       "skillPath": "pstack/skills/unslop/SKILL.md",
-      "skillFolderHash": "6161508c5c7959b156ff0e4e10b510863b51f9cc",
+      "skillFolderHash": "35153230eaaf0aa02437e7004bc319b33c5fbe1f",
       "installedAt": "2026-08-22T09:33:54.114Z",
-      "updatedAt": "2026-08-22T09:33:54.114Z"
+      "updatedAt": "2026-09-03T14:11:10.154Z"
     },
     "unlazy": {
       "source": "leonxlnx/unlazy",
       "sourceType": "github",
       "sourceUrl": "https://github.com/leonxlnx/unlazy.git",
       "skillPath": "SKILL.md",
-      "skillFolderHash": "473d4b80421c36d733042434cd4b938f81a19ef1",
+      "skillFolderHash": "16671491f6679ad9378f52604d3bc2415b4120c7",
       "installedAt": "2026-08-31T12:07:46.824Z",
-      "updatedAt": "2026-08-31T12:07:46.824Z"
+      "updatedAt": "2026-09-03T14:11:12.859Z"
     }
   },
   "dismissed": {
