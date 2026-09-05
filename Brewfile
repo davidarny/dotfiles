@@ -33,8 +33,6 @@ brew "docker"
 brew "docker-buildx"
 # Isolated development environments using Docker
 brew "docker-compose"
-# Load and unload environment variables based on the current directory
-brew "direnv"
 # Select default apps for documents and URL schemes on macOS
 brew "duti"
 # AST-based pattern checker for JavaScript

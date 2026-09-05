@@ -12,6 +12,37 @@ function brew() {
   return $brew_status
 }
 
+# Parse dotenv data with Bun; never evaluate it as shell code.
+typeset -g _dotfiles_dotenv_script="${${(%):-%x}:A:h:h:h}/bin/dotenv-export.mjs"
+
+function dotenv() {
+  command -v bun >/dev/null 2>&1 || {
+    print -u2 'dotenv: bun is required'
+    return 1
+  }
+
+  local _dotenv_data _dotenv_key _dotenv_value
+  _dotenv_data=$(command bun --no-env-file --install=force "$_dotfiles_dotenv_script" "$@") || return $?
+
+  while IFS= read -r -d '' _dotenv_key && IFS= read -r -d '' _dotenv_value; do
+    if [[ "$_dotenv_key" == _dotenv_* ]]; then
+      print -u2 'dotenv: cannot overwrite a reserved shell variable'
+      return 1
+    fi
+    case "${parameters[$_dotenv_key]-}" in
+      ''|scalar|scalar-export) ;;
+      *)
+        print -u2 'dotenv: cannot overwrite a typed or reserved shell variable'
+        return 1
+        ;;
+    esac
+  done <<< "$_dotenv_data"
+
+  while IFS= read -r -d '' _dotenv_key && IFS= read -r -d '' _dotenv_value; do
+    export "$_dotenv_key=$_dotenv_value" || return $?
+  done <<< "$_dotenv_data"
+}
+
 # Print git remotes for every immediate git subdirectory
 function grall() {
   local dir found=0
