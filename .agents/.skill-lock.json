@@ -96,18 +96,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
       "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
-      "skillFolderHash": "76f049947e39a5ded8eeebf3d72912345433a84d",
+      "skillFolderHash": "f0415e89eeadda8933a49a3f432acae52fa542aa",
       "installedAt": "2026-07-20T04:39:50.295Z",
-      "updatedAt": "2026-09-03T14:10:53.934Z"
+      "updatedAt": "2026-09-09T02:59:59.858Z"
     },
     "jira-syntax": {
       "source": "netresearch/jira-skill",
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "dac770cd480858eae38afcdad9e240c5be990fa2",
+      "skillFolderHash": "c2c11cec06dc10b7d03b9998ccbccb6515246672",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-09-05T07:35:44.089Z"
+      "updatedAt": "2026-09-09T03:00:04.333Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
@@ -132,10 +132,10 @@
       "source": "modem-dev/hunk",
       "sourceType": "github",
       "sourceUrl": "https://github.com/modem-dev/hunk.git",
-      "skillPath": "skills/hunk-review/SKILL.md",
-      "skillFolderHash": "a1c5638dec5611780963bd68a347231f8baf9c62",
+      "skillPath": "packages/hunk/skills/hunk-review/SKILL.md",
+      "skillFolderHash": "e4d154cec8bca19c256a3894c254f449aaedcf62",
       "installedAt": "2026-07-21T09:33:40.812Z",
-      "updatedAt": "2026-08-31T04:02:11.549Z"
+      "updatedAt": "2026-09-09T03:00:18.460Z"
     },
     "typescript-advanced-types": {
       "source": "wshobson/agents",
@@ -223,37 +223,37 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/blader/humanizer.git",
       "skillPath": "SKILL.md",
-      "skillFolderHash": "e2e92e7b4b8229253ed5c8e81dc65463fdeddda5",
+      "skillFolderHash": "9862685f575c65a8247f90369951df1b3416e3d6",
       "pluginName": "humanizer",
       "installedAt": "2026-08-11T11:03:04.286Z",
-      "updatedAt": "2026-08-20T04:56:40.791Z"
+      "updatedAt": "2026-09-09T03:00:21.429Z"
     },
     "i-have-adhd": {
       "source": "ayghri/i-have-adhd",
       "sourceType": "github",
       "sourceUrl": "https://github.com/ayghri/i-have-adhd.git",
       "skillPath": "skills/i-have-adhd/SKILL.md",
-      "skillFolderHash": "871e88cbe9b167670c170c53c8173c68609a2ae9",
+      "skillFolderHash": "88c570cdd38e1e3881545e6dce91bf3f6468eec7",
       "installedAt": "2026-08-12T08:53:29.643Z",
-      "updatedAt": "2026-08-12T08:53:29.643Z"
+      "updatedAt": "2026-09-10T11:43:15.756Z"
     },
     "jira-communication": {
       "source": "netresearch/jira-skill",
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-communication/SKILL.md",
-      "skillFolderHash": "e1a943dab35b173fdd1823c3a76c913fb4783fe4",
+      "skillFolderHash": "07887c14577095bfd43a00ce9c09bcb1e4ab9ef1",
       "installedAt": "2026-08-17T07:03:44.926Z",
-      "updatedAt": "2026-09-05T07:35:47.288Z"
+      "updatedAt": "2026-09-09T03:00:09.577Z"
     },
     "unslop": {
       "source": "cursor/plugins",
       "sourceType": "github",
       "sourceUrl": "https://github.com/cursor/plugins.git",
       "skillPath": "pstack/skills/unslop/SKILL.md",
-      "skillFolderHash": "35153230eaaf0aa02437e7004bc319b33c5fbe1f",
+      "skillFolderHash": "e19dcc9c531f4609df38bc86c62cf0e8b6d8f444",
       "installedAt": "2026-08-22T09:33:54.114Z",
-      "updatedAt": "2026-09-03T14:11:10.154Z"
+      "updatedAt": "2026-09-09T03:00:26.967Z"
     },
     "unlazy": {
       "source": "leonxlnx/unlazy",
@@ -352,6 +352,60 @@
       "pluginName": "mattpocock-skills",
       "installedAt": "2026-09-05T09:10:18.506Z",
       "updatedAt": "2026-09-05T09:10:18.506Z"
+    },
+    "caveman": {
+      "source": "juliusbrussee/caveman",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/juliusbrussee/caveman.git",
+      "skillPath": "skills/caveman/SKILL.md",
+      "skillFolderHash": "efae5ae14e1ace5f456e895abb9e5643925a754c",
+      "installedAt": "2026-09-08T14:16:51.033Z",
+      "updatedAt": "2026-09-08T14:16:51.033Z"
+    },
+    "caveman-commit": {
+      "source": "juliusbrussee/caveman",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/juliusbrussee/caveman.git",
+      "skillPath": "skills/caveman-commit/SKILL.md",
+      "skillFolderHash": "7b600195c1d3cdd277dc608c56384c86afb7ec11",
+      "installedAt": "2026-09-08T14:17:22.839Z",
+      "updatedAt": "2026-09-08T14:17:22.839Z"
+    },
+    "caveman-review": {
+      "source": "juliusbrussee/caveman",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/juliusbrussee/caveman.git",
+      "skillPath": "skills/caveman-review/SKILL.md",
+      "skillFolderHash": "515d07fbd383fb9a15ad94647d133f681dc56197",
+      "installedAt": "2026-09-08T14:17:53.643Z",
+      "updatedAt": "2026-09-08T14:17:53.643Z"
+    },
+    "blast-radius": {
+      "source": "cursor/plugins",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cursor/plugins.git",
+      "skillPath": "pstack/skills/blast-radius/SKILL.md",
+      "skillFolderHash": "f29ef2afd47676964c01bf73a9c5f31df29dd0b2",
+      "installedAt": "2026-09-08T14:33:24.569Z",
+      "updatedAt": "2026-09-08T14:33:24.569Z"
+    },
+    "skill-doctor": {
+      "source": "warpdotdev/common-skills",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/warpdotdev/common-skills.git",
+      "skillPath": ".agents/skills/skill-doctor/SKILL.md",
+      "skillFolderHash": "badadf2917be1dc322df39aef20f4cef86e6af35",
+      "installedAt": "2026-09-08T14:34:17.744Z",
+      "updatedAt": "2026-09-08T14:34:17.744Z"
+    },
+    "thermo-nuclear-code-quality-review": {
+      "source": "cursor/plugins",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/cursor/plugins.git",
+      "skillPath": "cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md",
+      "skillFolderHash": "d9c8935dd560b3b6f5941247d04a1843f8c7cc35",
+      "installedAt": "2026-09-08T14:38:25.447Z",
+      "updatedAt": "2026-09-08T14:38:25.447Z"
     }
   },
   "dismissed": {

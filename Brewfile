@@ -11,6 +11,8 @@ brew "antidote"
 brew "asciiquarium"
 # Code searching, linting, rewriting
 brew "ast-grep"
+# Bourne-Again SHell, a UNIX command interpreter
+brew "bash"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Bash scripts that integrate bat with various command-line tools
