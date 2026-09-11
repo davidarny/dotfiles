@@ -113,6 +113,8 @@ brew "topgrade"
 brew "typescript-language-server"
 # Extremely fast Python package installer and resolver, written in Rust
 brew "uv"
+# Tools for the WireGuard secure network tunnel
+brew "wireguard-tools"
 # Blazing fast terminal file manager written in Rust, based on async I/O
 brew "yazi"
 # Shell extension to navigate your filesystem faster
