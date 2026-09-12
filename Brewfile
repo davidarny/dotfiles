@@ -93,6 +93,8 @@ brew "ni"
 brew "ripgrep"
 # AI coding agent, built for the terminal
 brew "opencode"
+# Object-relational database system
+brew "postgresql@18", link: true
 # Python interface to Tcl/Tk
 brew "python-tk@3.14"
 # Reverse engineering framework
