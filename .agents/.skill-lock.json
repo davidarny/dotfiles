@@ -406,6 +406,15 @@
       "skillFolderHash": "d9c8935dd560b3b6f5941247d04a1843f8c7cc35",
       "installedAt": "2026-09-08T14:38:25.447Z",
       "updatedAt": "2026-09-08T14:38:25.447Z"
+    },
+    "jira-cli": {
+      "source": "code-and-sorts/awesome-copilot-agents",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/code-and-sorts/awesome-copilot-agents.git",
+      "skillPath": "skills/jira-cli/SKILL.md",
+      "skillFolderHash": "d5fe6c4458139af3f45a521824224b9a8afc9f6a",
+      "installedAt": "2026-09-14T05:19:12.000Z",
+      "updatedAt": "2026-09-14T05:19:12.000Z"
     }
   },
   "dismissed": {
@@ -413,14 +422,13 @@
   },
   "lastSelectedAgents": [
     "amp",
-    "antigravity",
-    "antigravity-cli",
     "cline",
     "codex",
     "cursor",
-    "deepagents",
+    "droid",
     "gemini-cli",
     "github-copilot",
+    "kilo",
     "kimi-code-cli",
     "opencode",
     "warp",

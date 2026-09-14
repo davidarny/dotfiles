@@ -71,6 +71,8 @@ brew "hunk"
 brew "icoutils"
 # Tools and libraries to manipulate images in select formats
 brew "imagemagick"
+# Feature-rich interactive Jira CLI
+brew "jira-cli"
 # Handy way to save and run project-specific commands
 brew "just"
 # Lazier way to manage everything docker

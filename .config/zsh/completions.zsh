@@ -9,7 +9,14 @@ fi
 # Initialize completion system
 mkdir -p "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh"
 autoload -Uz compinit
-compinit -C -d "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump-${ZSH_VERSION}"
+local zdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump-${ZSH_VERSION}"
+# compinit -C replays the cached dump without scanning fpath, so rebuild the
+# dump when any completion file in fpath is newer than it (brew install/upgrade).
+if [[ ! -s $zdump ]] || [[ -n $(find $fpath -name '_*' -newer "$zdump" 2>/dev/null | head -1) ]]; then
+  compinit -d "$zdump"
+else
+  compinit -C -d "$zdump"
+fi
 
 # Load plugins that require compinit first.
 if command -v antidote >/dev/null 2>&1 && (( ${+functions[_antidote_load_bundle]} )); then
@@ -20,8 +27,10 @@ if command -v antidote >/dev/null 2>&1 && (( ${+functions[_antidote_load_bundle]
   unfunction _antidote_load_bundle
 fi
 
-# Tool completions
-command -v opencode >/dev/null 2>&1 && eval "$(opencode completion zsh)"
+# Tool completions not shipped into fpath by their package manager
+command -v lazygit >/dev/null 2>&1 && eval "$(lazygit completion zsh)"
+command -v lazyssh >/dev/null 2>&1 && eval "$(lazyssh completion zsh)"
+command -v ngrok >/dev/null 2>&1 && eval "$(ngrok completion)"
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
