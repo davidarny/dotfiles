@@ -33,3 +33,8 @@ for homebrew_lib_dir in /opt/homebrew/lib /usr/local/lib; do
   fi
 done
 unset homebrew_lib_dir
+
+# MCP secrets resolved from 1Password (see `just mcp-secrets`)
+if [[ -f "$XDG_CONFIG_HOME/mcp/mcp-secrets.env" ]]; then
+  source "$XDG_CONFIG_HOME/mcp/mcp-secrets.env"
+fi

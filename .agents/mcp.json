@@ -1,0 +1,29 @@
+{
+  "mcpServers": {
+    "hindsight": {
+      "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
+      "headers": {"Authorization": "Bearer ${HINDSIGHT_MCP_TOKEN}"},
+      "directTools": true
+    },
+    "context7": {
+      "command": "bunx",
+      "args": ["-y", "@upstash/context7-mcp@latest"],
+      "directTools": true,
+      "env": {
+        "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+      }
+    },
+    "exa": {
+      "url": "https://mcp.exa.ai/mcp",
+      "headers": {
+        "x-api-key": "${EXA_API_KEY}"
+      },
+      "directTools": true
+    },
+    "codegraph": {
+      "command": "codegraph",
+      "args": ["serve", "--mcp"],
+      "directTools": true
+    }
+  }
+}

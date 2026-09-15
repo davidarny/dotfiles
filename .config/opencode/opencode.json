@@ -1,0 +1,53 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "hindsight": {
+      "type": "remote",
+      "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
+      "headers": {"Authorization": "Bearer {env:HINDSIGHT_MCP_TOKEN}"},
+      "oauth": false,
+      "enabled": true
+    },
+    "context7": {
+      "type": "local",
+      "command": ["bunx", "-y", "@upstash/context7-mcp@latest"],
+      "enabled": true,
+      "environment": {
+        "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
+      }
+    },
+    "exa": {
+      "type": "remote",
+      "url": "https://mcp.exa.ai/mcp",
+      "headers": {
+        "x-api-key": "{env:EXA_API_KEY}"
+      },
+      "enabled": true
+    },
+    "codegraph": {
+      "type": "local",
+      "command": ["codegraph", "serve", "--mcp"],
+      "enabled": true
+    },
+    "fff": {
+      "enabled": true,
+      "type": "local",
+      "command": ["/opt/homebrew/bin/fff-mcp"]
+    }
+  },
+  "provider": {
+    "Dats.Team AI": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Dats.AI",
+      "options": {
+        "baseURL": "https://llm.dats.services/v1",
+        "apiKey": "{env:DATS_TEAM_AI_API_KEY}"
+      },
+      "models": {
+        "coding-agent-default": {
+          "name": "Dats Coding Agent"
+        }
+      }
+    }
+  }
+}

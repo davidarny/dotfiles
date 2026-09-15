@@ -67,3 +67,9 @@ check:
 [group('macos')]
 file-defaults:
     @./.config/duti/set-file-defaults.sh
+
+# Resolve 1Password secret references into the sourced MCP env file
+[group('mcp')]
+mcp-secrets:
+    op inject --in-file .config/mcp/mcp-secrets.env.tpl --out-file .config/mcp/mcp-secrets.env
+    chmod 600 .config/mcp/mcp-secrets.env

@@ -173,6 +173,13 @@ zsdoc/data
 /tests/_output/*
 !/tests/_output/.gitkeep
 
-# Unignore agent instruction files (ignored globally in .gitignore_global)
+# Unignore agent instruction file
 !AGENTS.md
 !CLAUDE.md
+!.config/opencode/*
+!.codex/
+!.agents/*
+!.pi/
+
+# Generated MCP secrets — resolved from .config/mcp/mcp-secrets.env.tpl via `just mcp-secrets`
+.config/mcp/mcp-secrets.env
