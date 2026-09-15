@@ -4,7 +4,7 @@
     "hindsight": {
       "type": "remote",
       "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
-      "headers": {"Authorization": "Bearer {env:HINDSIGHT_MCP_TOKEN}"},
+      "headers": { "Authorization": "Bearer {env:HINDSIGHT_MCP_TOKEN}" },
       "oauth": false,
       "enabled": true
     },
@@ -36,7 +36,7 @@
     }
   },
   "provider": {
-    "Dats.Team AI": {
+    "dats.team": {
       "npm": "@ai-sdk/openai-compatible",
       "name": "Dats.AI",
       "options": {
@@ -45,7 +45,7 @@
       },
       "models": {
         "coding-agent-default": {
-          "name": "Dats Coding Agent"
+          "name": "coding-agent"
         }
       }
     }
