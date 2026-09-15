@@ -21,8 +21,6 @@ brew "bat-extras"
 brew "btop"
 # Powerful, enterprise-ready, open source web server with automatic HTTPS
 brew "caddy"
-# Cloudflare Tunnel client (formerly Argo Tunnel)
-brew "cloudflared"
 # Cross-platform make
 brew "cmake"
 # Container runtimes on MacOS (and Linux) with minimal setup
@@ -97,8 +95,6 @@ brew "opencode"
 brew "postgresql@18", link: true
 # Python interface to Tcl/Tk
 brew "python-tk@3.14"
-# Reverse engineering framework
-brew "radare2"
 # Open agent skills ecosystem
 brew "skills"
 # Non-interactive SSH password auth
@@ -134,8 +130,6 @@ cask "codex"
 cask "font-jetbrains-mono-nerd-font"
 # Homebrew's official GUI
 cask "homebrew-app"
-# Reverse proxy, secure introspectable tunnels to localhost
-cask "ngrok"
 # Agentic development environment for command-line workflows
 cask "warp-agent-cli"
 uv "browser-use"
