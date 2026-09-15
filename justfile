@@ -73,6 +73,13 @@ file-defaults:
 mcp-secrets:
     op inject --force --in-file .config/mcp/mcp-secrets.env.tpl --out-file .config/mcp/mcp-secrets.env
     chmod 600 .config/mcp/mcp-secrets.env
+    .local/bin/mcp-secrets-launchctl
+
+# Load the login agent that publishes MCP secrets to GUI apps (run after just link)
+[group('mcp')]
+mcp-launchagent:
+    launchctl bootout gui/$(id -u)/com.davidarutyunyan.mcp-secrets-env 2>/dev/null || true
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.davidarutyunyan.mcp-secrets-env.plist
 
 # Snapshot user-scope MCP servers from live configs into the repo
 [group('mcp')]
