@@ -124,7 +124,7 @@ brew "dmtrkovalenko/fff/fff-mcp", trusted: true
 # Command-line interface for 1Password
 cask "1password-cli"
 # Terminal-based AI coding assistant
-cask "claude-code"
+cask "claude-code@latest"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
 cask "font-jetbrains-mono-nerd-font"

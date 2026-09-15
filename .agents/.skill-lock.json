@@ -60,9 +60,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/emilkowalski/skills.git",
       "skillPath": "skills/apple-design/SKILL.md",
-      "skillFolderHash": "e9f5b472dfb28d8cf29f64001b6c01ef94b8168b",
+      "skillFolderHash": "2ab9d8cdb75fc445847102f1f312518380801b38",
       "installedAt": "2026-07-20T04:25:10.057Z",
-      "updatedAt": "2026-07-21T11:07:51.954Z"
+      "updatedAt": "2026-09-15T14:14:40.470Z"
     },
     "refactor": {
       "source": "github/awesome-copilot",
@@ -160,27 +160,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "gitlab-cli-skills/SKILL.md",
-      "skillFolderHash": "f2d2757197481b47526afa5200d8def4eccb9536",
+      "skillFolderHash": "b23a8a01dfd90d04d292b3ab48ddff9f36c77a57",
       "installedAt": "2026-07-28T03:30:53.832Z",
-      "updatedAt": "2026-09-03T14:10:59.565Z"
+      "updatedAt": "2026-09-15T14:14:43.251Z"
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "skillFolderHash": "fe74b7fb02fe5d0697d1e1359cb44e1f48d1fc54",
+      "skillFolderHash": "10104bd92881e5ca5688f0a2cd1372e3c0e413a9",
       "installedAt": "2026-07-28T04:12:45.458Z",
-      "updatedAt": "2026-09-03T14:11:07.190Z"
+      "updatedAt": "2026-09-15T14:14:48.101Z"
     },
     "glab-mr": {
       "source": "vince-winkintel/gitlab-cli-skills",
       "sourceType": "github",
       "sourceUrl": "https://github.com/vince-winkintel/gitlab-cli-skills.git",
       "skillPath": "glab-mr/SKILL.md",
-      "skillFolderHash": "d573bcea5fb08920e1f91d06a29ce0026608ee64",
+      "skillFolderHash": "01f49db703c6bc1f0792897cb4ea9c039737bfb7",
       "installedAt": "2026-07-28T07:38:02.466Z",
-      "updatedAt": "2026-09-03T14:11:02.324Z"
+      "updatedAt": "2026-09-15T14:14:45.869Z"
     },
     "glab-api": {
       "source": "vince-winkintel/gitlab-cli-skills",
@@ -358,9 +358,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/juliusbrussee/caveman.git",
       "skillPath": "skills/caveman/SKILL.md",
-      "skillFolderHash": "efae5ae14e1ace5f456e895abb9e5643925a754c",
+      "skillFolderHash": "02b646b008b9d1e5b67e5f65fab56fd7073d9212",
       "installedAt": "2026-09-08T14:16:51.033Z",
-      "updatedAt": "2026-09-08T14:16:51.033Z"
+      "updatedAt": "2026-09-15T14:15:01.734Z"
     },
     "caveman-commit": {
       "source": "juliusbrussee/caveman",
