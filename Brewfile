@@ -49,8 +49,6 @@ brew "fd"
 brew "ffmpeg"
 # User-friendly command-line shell for UNIX-like operating systems
 brew "fish"
-# Tiny, open, embeddable, native coding agent
-brew "fx-agent"
 # Command-line fuzzy finder written in Go
 brew "fzf"
 # GitHub command-line tool
@@ -129,9 +127,13 @@ brew "514-labs/tap/dnsglobe", trusted: true
 brew "dmtrkovalenko/fff/fff-mcp", trusted: true
 # Command-line interface for 1Password
 cask "1password-cli"
+# Terminal-based AI coding assistant
+cask "claude-code"
 # OpenAI's coding agent that runs in your terminal
 cask "codex"
 cask "font-jetbrains-mono-nerd-font"
+# Homebrew's official GUI
+cask "homebrew-app"
 # Reverse proxy, secure introspectable tunnels to localhost
 cask "ngrok"
 # Agentic development environment for command-line workflows

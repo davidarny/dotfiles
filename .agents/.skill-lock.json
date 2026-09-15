@@ -105,9 +105,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "c2c11cec06dc10b7d03b9998ccbccb6515246672",
+      "skillFolderHash": "fae85607d7e986290e5b565d5f498f56ea075a03",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-09-09T03:00:04.333Z"
+      "updatedAt": "2026-09-14T09:36:22.535Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
@@ -133,9 +133,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/modem-dev/hunk.git",
       "skillPath": "packages/hunk/skills/hunk-review/SKILL.md",
-      "skillFolderHash": "e4d154cec8bca19c256a3894c254f449aaedcf62",
+      "skillFolderHash": "6f018e1100adad770c86dfcf64a03151b51d6251",
       "installedAt": "2026-07-21T09:33:40.812Z",
-      "updatedAt": "2026-09-09T03:00:18.460Z"
+      "updatedAt": "2026-09-14T09:36:38.275Z"
     },
     "typescript-advanced-types": {
       "source": "wshobson/agents",
@@ -233,18 +233,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/ayghri/i-have-adhd.git",
       "skillPath": "skills/i-have-adhd/SKILL.md",
-      "skillFolderHash": "88c570cdd38e1e3881545e6dce91bf3f6468eec7",
+      "skillFolderHash": "72dc6e3e9d0f8d906579a235edb7b2a402d7b8e1",
       "installedAt": "2026-08-12T08:53:29.643Z",
-      "updatedAt": "2026-09-10T11:43:15.756Z"
+      "updatedAt": "2026-09-14T09:36:42.186Z"
     },
     "jira-communication": {
       "source": "netresearch/jira-skill",
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-communication/SKILL.md",
-      "skillFolderHash": "07887c14577095bfd43a00ce9c09bcb1e4ab9ef1",
+      "skillFolderHash": "0e47bda323cdbe5f4b617fce32bccf69827352ba",
       "installedAt": "2026-08-17T07:03:44.926Z",
-      "updatedAt": "2026-09-09T03:00:09.577Z"
+      "updatedAt": "2026-09-14T09:36:27.092Z"
     },
     "unslop": {
       "source": "cursor/plugins",

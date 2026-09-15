@@ -2,9 +2,10 @@
 idiomatic_version_file_enable_tools = ["node"]
 
 [tools]
-bun = "1.4.0"
+bun = "1.4.2"
 go = "1.27.1"
 java = "27.0.0"
-node = "26.8.1"
+node = "26.8.2"
 rust = "1.98.1"
+yarn = "latest"
 zig = "0.16.0"

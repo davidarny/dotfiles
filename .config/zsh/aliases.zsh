@@ -52,7 +52,7 @@ _alias_if_exists uv 'uvup=uv tool upgrade --all'
 _alias_if_exists skills 'skillsup=skills update --global --yes'
 _alias_if_exists pi 'piup=pi update && pi update --extensions'
 _alias_if_exists brew 'brewup=brew upgrade --greedy-latest && brew cleanup --prune=all && brew autoremove'
-_alias_if_exists mise 'miseup=mise upgrade --yes'
+_alias_if_exists mise 'miseup=mise upgrade --yes --bump'
 alias toolsup='brewup & miseup & bunup & uvup & skillsup && piup'
 
 # ai
