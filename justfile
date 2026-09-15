@@ -71,5 +71,31 @@ file-defaults:
 # Resolve 1Password secret references into the sourced MCP env file
 [group('mcp')]
 mcp-secrets:
-    op inject --in-file .config/mcp/mcp-secrets.env.tpl --out-file .config/mcp/mcp-secrets.env
+    op inject --force --in-file .config/mcp/mcp-secrets.env.tpl --out-file .config/mcp/mcp-secrets.env
     chmod 600 .config/mcp/mcp-secrets.env
+
+# Snapshot user-scope MCP servers from live configs into the repo
+[group('mcp')]
+claude-dump:
+    mkdir -p .claude
+    jq '.mcpServers // {}' ~/.claude.json > .claude/mcp-servers.json
+
+[group('mcp')]
+codex-dump:
+    mkdir -p .codex
+    awk '/^[ \t]*\[/ { in_mcp = ($0 ~ /^\[mcp_servers[.\]]/) } in_mcp { print }' ~/.codex/config.toml > .codex/mcp-servers.toml
+
+# Restore MCP servers from the repo snapshots (close the respective app first)
+[group('mcp')]
+claude-restore:
+    tmp=$(mktemp); \
+    jq --slurpfile mcp .claude/mcp-servers.json '.mcpServers = $mcp[0]' ~/.claude.json > $tmp && \
+    mv $tmp ~/.claude.json
+
+[group('mcp')]
+codex-restore:
+    tmp=$(mktemp); \
+    awk '/^[ \t]*\[/ { in_mcp = ($0 ~ /^\[mcp_servers[.\]]/) } !in_mcp { print }' ~/.codex/config.toml > $tmp && \
+    printf '\n' >> $tmp && \
+    cat .codex/mcp-servers.toml >> $tmp && \
+    mv $tmp ~/.codex/config.toml

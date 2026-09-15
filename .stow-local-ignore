@@ -14,3 +14,7 @@
 /LICENSE\.md$
 /README\.md$
 /justfile$
+
+# Generated MCP snapshots (just claude-dump / codex-dump) — never stow material
+/\.claude\/mcp-servers\.json$
+/\.codex\/mcp-servers\.toml$

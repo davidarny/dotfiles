@@ -1,0 +1,130 @@
+[mcp_servers]
+
+[mcp_servers.codegraph]
+command = "codegraph"
+args = ["serve", "--mcp"]
+
+[mcp_servers.fff]
+command = "/opt/homebrew/bin/fff-mcp"
+
+[mcp_servers.fff.env]
+FFF_MCP_IDLE_TIMEOUT_SECS = "0"
+
+[mcp_servers.context7]
+env_vars = ["CONTEXT7_API_KEY"]
+command = "bunx"
+args = ["-y", "@upstash/context7-mcp@latest"]
+
+[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp"
+env_http_headers = { x-api-key = "EXA_API_KEY" }
+
+[mcp_servers.atlassian-confluence-dc]
+env_vars = ["CONFLUENCE_API_TOKEN"]
+command = "bunx"
+args = ["-y", "@atlassian-dc-mcp/confluence@latest"]
+startup_timeout_sec = 120.0
+
+[mcp_servers.atlassian-confluence-dc.env]
+CONFLUENCE_HOST = "confluence.dats.tech"
+
+[mcp_servers.atlassian-jira-dc]
+env_vars = ["JIRA_API_TOKEN"]
+command = "bunx"
+args = ["-y", "@atlassian-dc-mcp/jira@latest"]
+startup_timeout_sec = 120.0
+
+[mcp_servers.atlassian-jira-dc.env]
+JIRA_HOST = "jira.dats.tech"
+
+[mcp_servers.grafana]
+env_vars = ["GRAFANA_API_KEY"]
+command = "${HOME}/Developer/Personal/mcp-grafana/dist/mcp-grafana"
+startup_timeout_sec = 120.0
+
+[mcp_servers.grafana.env]
+GRAFANA_URL = "https://grafana.dats.services"
+
+[mcp_servers.elasticsearch-main]
+env_vars = ["ELASTICSEARCH_PASSWORD"]
+command = "uvx"
+args = ["--python", "3.12", "elasticsearch-mcp-server@latest"]
+
+[mcp_servers.elasticsearch-main.env]
+DISABLE_HIGH_RISK_OPERATIONS = "true"
+ELASTICSEARCH_HOSTS = "https://elastic-logs-htzn-2.infra.dats.host:9200,https://elastic-logs-htzn-3.infra.dats.host:9200,https://elastic-logs-htzn-4.infra.dats.host:9200"
+ELASTICSEARCH_USERNAME = "d.arutyunyan"
+VERIFY_CERTS = "false"
+
+[mcp_servers.mostbet-elasticsearch]
+env_vars = ["ELASTICSEARCH_PASSWORD"]
+command = "uvx"
+args = ["--python", "3.12", "elasticsearch-mcp-server@latest"]
+
+[mcp_servers.mostbet-elasticsearch.env]
+DISABLE_HIGH_RISK_OPERATIONS = "true"
+ELASTICSEARCH_HOSTS = "https://elastic-logs-mostbet-frnx-1.prod.dats.host:9200"
+ELASTICSEARCH_USERNAME = "d.arutyunyan"
+VERIFY_CERTS = "false"
+
+[mcp_servers.testrail]
+env_vars = ["TESTRAIL_API_KEY"]
+command = "uvx"
+args = ["testrail-mcp@latest"]
+
+[mcp_servers.testrail.env]
+TESTRAIL_URL = "http://media.test8bit.com/testrail"
+TESTRAIL_USERNAME = "readonly@8bitov.com"
+
+[mcp_servers.openai-developer-docs]
+url = "https://developers.openai.com/mcp"
+
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "${HOME}/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+CODEX_HOME = "${HOME}/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.908.40834"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"${HOME}/.codex/plugins/cache/openai-bundled/browser/26.908.40834/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_SERVICE_PATH = "${HOME}/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+
+[mcp_servers.computer-use]
+command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
+args = ["mcp"]
+cwd = "."
+enabled = false
+
+[mcp_servers.proxyman]
+command = "/Applications/Proxyman.app/Contents/MacOS/mcp-server"
+enabled = false
+
+[mcp_servers.claude-agent-broker]
+url = "http://127.0.0.1:8765/mcp"
+
+[mcp_servers.minio]
+env_vars = ["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"]
+command = "node"
+args = ["${HOME}/.local/share/minio-mcp/dist/index.js"]
+
+[mcp_servers.minio.env]
+ALLOW_WRITE = "false"
+AWS_ENDPOINT_URL = "https://minio-synthetic-tests-perf.infra.dats.host"
+AWS_REGION = "eu-west-1"
+
+[mcp_servers.hindsight]
+url = "https://api.hindsight.vectorize.io/mcp/shared-memory/"
+bearer_token_env_var = "HINDSIGHT_MCP_TOKEN"
+

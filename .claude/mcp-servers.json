@@ -1,0 +1,133 @@
+{
+  "minio": {
+    "type": "stdio",
+    "command": "node",
+    "args": [
+      "${HOME}/.local/share/minio-mcp/dist/index.js"
+    ],
+    "env": {
+      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+      "AWS_ENDPOINT_URL": "https://minio-synthetic-tests-perf.infra.dats.host",
+      "AWS_REGION": "eu-west-1",
+      "ALLOW_WRITE": "false"
+    }
+  },
+  "codegraph": {
+    "args": [
+      "serve",
+      "--mcp"
+    ],
+    "command": "codegraph",
+    "type": "stdio"
+  },
+  "fff": {
+    "type": "stdio",
+    "command": "/opt/homebrew/bin/fff-mcp",
+    "args": [],
+    "env": {}
+  },
+  "grafana": {
+    "args": [],
+    "command": "${HOME}/Developer/Personal/mcp-grafana/dist/mcp-grafana",
+    "timeout": 120000,
+    "env": {
+      "GRAFANA_URL": "https://grafana.dats.services",
+      "GRAFANA_API_KEY": "${GRAFANA_API_KEY}"
+    },
+    "type": "stdio"
+  },
+  "context7": {
+    "args": [
+      "-y",
+      "@upstash/context7-mcp@latest"
+    ],
+    "command": "bunx",
+    "env": {
+      "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+    },
+    "type": "stdio"
+  },
+  "mostbet-elasticsearch": {
+    "args": [
+      "--python",
+      "3.12",
+      "elasticsearch-mcp-server@latest"
+    ],
+    "command": "uvx",
+    "env": {
+      "DISABLE_HIGH_RISK_OPERATIONS": "true",
+      "ELASTICSEARCH_HOSTS": "https://elastic-logs-mostbet-frnx-1.prod.dats.host:9200",
+      "ELASTICSEARCH_PASSWORD": "${ELASTICSEARCH_PASSWORD}",
+      "ELASTICSEARCH_USERNAME": "d.arutyunyan",
+      "VERIFY_CERTS": "false"
+    }
+  },
+  "atlassian-jira-dc": {
+    "timeout": 120000,
+    "args": [
+      "-y",
+      "@atlassian-dc-mcp/jira@latest"
+    ],
+    "command": "bunx",
+    "env": {
+      "JIRA_API_TOKEN": "${JIRA_API_TOKEN}",
+      "JIRA_HOST": "jira.dats.tech"
+    },
+    "type": "stdio"
+  },
+  "elasticsearch-main": {
+    "args": [
+      "--python",
+      "3.12",
+      "elasticsearch-mcp-server@latest"
+    ],
+    "command": "uvx",
+    "env": {
+      "DISABLE_HIGH_RISK_OPERATIONS": "true",
+      "ELASTICSEARCH_HOSTS": "https://elastic-logs-htzn-2.infra.dats.host:9200,https://elastic-logs-htzn-3.infra.dats.host:9200,https://elastic-logs-htzn-4.infra.dats.host:9200",
+      "ELASTICSEARCH_PASSWORD": "${ELASTICSEARCH_PASSWORD}",
+      "ELASTICSEARCH_USERNAME": "d.arutyunyan",
+      "VERIFY_CERTS": "false"
+    }
+  },
+  "atlassian-confluence-dc": {
+    "timeout": 120000,
+    "args": [
+      "-y",
+      "@atlassian-dc-mcp/confluence@latest"
+    ],
+    "command": "bunx",
+    "env": {
+      "CONFLUENCE_API_TOKEN": "${CONFLUENCE_API_TOKEN}",
+      "CONFLUENCE_HOST": "confluence.dats.tech"
+    },
+    "type": "stdio"
+  },
+  "exa": {
+    "headers": {
+      "x-api-key": "${EXA_API_KEY}"
+    },
+    "type": "http",
+    "url": "https://mcp.exa.ai/mcp"
+  },
+  "testrail": {
+    "args": [
+      "testrail-mcp@latest"
+    ],
+    "command": "uvx",
+    "env": {
+      "TESTRAIL_API_KEY": "${TESTRAIL_API_KEY}",
+      "TESTRAIL_URL": "http://media.test8bit.com/testrail",
+      "TESTRAIL_USERNAME": "readonly@8bitov.com"
+    },
+    "type": "stdio"
+  },
+  "hindsight": {
+    "type": "http",
+    "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
+    "headers": {
+      "Authorization": "Bearer ${HINDSIGHT_MCP_TOKEN}"
+    }
+  }
+}
