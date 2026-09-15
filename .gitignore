@@ -176,9 +176,10 @@ zsdoc/data
 # Unignore agent instruction file
 !AGENTS.md
 !CLAUDE.md
-!.config/opencode/*
+!.config/opencode/
 !.codex/
-!.agents/*
+!.claude/
+!.agents/
 !.pi/
 
 # Generated MCP secrets — resolved from .config/mcp/mcp-secrets.env.tpl via `just mcp-secrets`
