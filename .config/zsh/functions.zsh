@@ -43,15 +43,33 @@ function dotenv() {
   done <<< "$_dotenv_data"
 }
 
+# Pad text to a column width and assign it to <var>
+# Values wider than the column keep their full length (they shift the row, never get cut)
+# Usage: _dotfiles_pad <var> <width> <text> [l]   # l = right-align, default left-align
+function _dotfiles_pad() {
+  local -i w=$2
+  local t=$3
+  if (( ${#t} >= w )); then
+    typeset -g "$1=$t"
+  elif [[ $4 == l ]]; then
+    typeset -g "$1=${(l:w:)t}"
+  else
+    typeset -g "$1=${(r:w:)t}"
+  fi
+}
+
 # Git repos overview in eza --git-repos style for every immediate git subdirectory
 # One line per repo: folder, dirty status, branch, remotes, unpushed commits
 # (unpushed counted from local remote refs, no fetch; needs a Nerd Font)
 function gsall() {
-  local dir l remotes unpushed oid branch stmark rem_joined st_disp br_disp rem_disp num_disp i
-  local -a dirs lines sts branches remotes_col unpushed_col
-  integer width=0 maxbranch=0 maxremote=0 maxnum=0 dirty brw
+  local dir l remotes unpushed oid branch stmark rem_joined st_disp br_disp rem_disp num_disp
+  local br_pad rem_pad num_pad
+  local -a dirs lines
+  integer width=0 dirty
+  # fixed column widths: rows print as each repo is read, nothing is buffered
+  integer wbranch=16 wremote=12 wnum=2 wbranchdash=18  # dash rows have no icon: wbranch + 2
 
-  for dir in */; do
+  for dir in */(N); do
     [[ -d "$dir/.git" ]] || continue
     dirs+=("$dir")
     (( ${#dir} > width )) && width=${#dir}
@@ -92,37 +110,29 @@ function gsall() {
     rem_joined=${remotes//$'\n'/, }
     [[ -z $rem_joined ]] && rem_joined='no remote'
 
-    sts+=("$stmark")
-    branches+=("$branch")
-    remotes_col+=("$rem_joined")
-    unpushed_col+=("$unpushed")
-    (( ${#branch} > maxbranch )) && maxbranch=${#branch}
-    (( ${#rem_joined} > maxremote )) && maxremote=${#rem_joined}
-    (( ${#unpushed} > maxnum )) && maxnum=${#unpushed}
-  done
-
-  brw=$(( maxbranch + 2 ))  # dash rows have no icon, pad to icon+branch width
-  for (( i=1; i<=${#dirs}; i++ )); do
-    dir=${dirs[i]}
-    case ${sts[i]} in
+    case $stmark in
       +) st_disp="$C_DIRTY+$C_R" ;;
       -) st_disp="$C_GREY-$C_R" ;;
       *) st_disp="$C_GREEN|$C_R" ;;
     esac
-    if [[ ${branches[i]} == '-' ]]; then
-      br_disp="$C_GREY${(r:brw:)${branches[i]}}$C_R"
+    if [[ $branch == '-' ]]; then
+      _dotfiles_pad br_pad $wbranchdash "$branch"
+      br_disp="$C_GREY${br_pad}$C_R"
     else
-      br_disp="$C_GREEN$ico_branch ${(r:maxbranch:)${branches[i]}}$C_R"
+      _dotfiles_pad br_pad $wbranch "$branch"
+      br_disp="$C_GREEN$ico_branch ${br_pad}$C_R"
     fi
-    if [[ ${remotes_col[i]} == 'no remote' ]]; then
-      rem_disp="$C_RED$ico_remote ${(r:maxremote:)${remotes_col[i]}}$C_R"
+    _dotfiles_pad rem_pad $wremote "$rem_joined"
+    if [[ $rem_joined == 'no remote' ]]; then
+      rem_disp="$C_RED$ico_remote ${rem_pad}$C_R"
     else
-      rem_disp="$C_GREEN$ico_remote ${(r:maxremote:)${remotes_col[i]}}$C_R"
+      rem_disp="$C_GREEN$ico_remote ${rem_pad}$C_R"
     fi
-    if (( ${unpushed_col[i]} > 0 )); then
-      num_disp="$C_YEL↑${(l:maxnum:)${unpushed_col[i]}}$C_R"
+    _dotfiles_pad num_pad $wnum "$unpushed" l
+    if (( unpushed > 0 )); then
+      num_disp="$C_YEL↑${num_pad}$C_R"
     else
-      num_disp="$C_DIM↑${(l:maxnum:)${unpushed_col[i]}}$C_R"
+      num_disp="$C_DIM↑${num_pad}$C_R"
     fi
 
     print -r -- "$C_ICON$icon$C_R $C_DIR${(r:width:)dir}$C_R $st_disp $br_disp   $rem_disp   $num_disp"
@@ -132,11 +142,11 @@ function gsall() {
 # Fetch + ff-only pull for every immediate git subdirectory
 # One line per repo with the result; skips repos without remote/upstream
 function gpall() {
-  local dir remotes fetch_out pull_out upd up_from up_to commits files cw fw detail summary i res
-  local -a dirs kinds details
+  local dir remotes fetch_out pull_out upd up_from up_to commits files cw fw detail summary row
+  local -a dirs
   integer width=0 nff=0 nok=0 nerr=0 nskip=0
 
-  for dir in */; do
+  for dir in */(N); do
     [[ -d "$dir/.git" ]] || continue
     dirs+=("$dir")
     (( ${#dir} > width )) && width=${#dir}
@@ -147,38 +157,41 @@ function gpall() {
   local icon=$'\uf07b' ico_ok=$'\uf00c' ico_err=$'\uf00d'
 
   for dir in $dirs; do
+    row="$C_ICON$icon$C_R $C_DIR${(r:width:)dir}$C_R "
+
     remotes=$(git -C "$dir" remote)
     if [[ -z $remotes ]]; then
-      kinds+=('skip'); details+=('no remote'); (( nskip++ ))
+      print -r -- "$row $C_DIM·$C_R $C_DIM"'no remote'"$C_R"
+      (( nskip++ ))
       continue
     fi
     if ! git -C "$dir" rev-parse -q --abbrev-ref '@{u}' >/dev/null 2>&1; then
-      kinds+=('skip'); details+=('no upstream'); (( nskip++ ))
+      print -r -- "$row $C_DIM·$C_R $C_DIM"'no upstream'"$C_R"
+      (( nskip++ ))
       continue
     fi
 
     fetch_out=$(git -C "$dir" fetch --all --prune --tags 2>&1)
     if (( $? != 0 )); then
-      kinds+=('err')
       detail=${${(M)${(f)fetch_out}:#(fatal|error|warning):*}[1]}
       [[ -n $detail ]] || detail='fetch failed'
-      details+=("$detail")
+      print -r -- "$row $C_RED$ico_err$C_R $C_RED${detail}$C_R"
       (( nerr++ ))
       continue
     fi
 
     pull_out=$(git -C "$dir" pull --ff-only 2>&1)
     if (( $? != 0 )); then
-      kinds+=('err')
       detail=${${(M)${(f)pull_out}:#(fatal|error|warning):*}[1]}
       [[ -n $detail ]] || detail='pull failed'
-      details+=("$detail")
+      print -r -- "$row $C_RED$ico_err$C_R $C_RED${detail}$C_R"
       (( nerr++ ))
       continue
     fi
 
     if [[ $pull_out == *'Already up to date'* ]]; then
-      kinds+=('ok'); details+=('up to date'); (( nok++ ))
+      print -r -- "$row $C_GREEN$ico_ok$C_R $C_DIM"'up to date'"$C_R"
+      (( nok++ ))
       continue
     fi
 
@@ -201,18 +214,8 @@ function gpall() {
       detail+=" · ${files} ${fw}"
     fi
 
-    kinds+=('ff'); details+=("$detail"); (( nff++ ))
-  done
-
-  for (( i=1; i<=${#dirs}; i++ )); do
-    dir=${dirs[i]}
-    case ${kinds[i]} in
-      ok)  res="$C_GREEN$ico_ok$C_R $C_DIM${details[i]}$C_R" ;;
-      ff)  res="$C_GREEN$ico_ok$C_R $C_GREEN${details[i]}$C_R" ;;
-      err) res="$C_RED$ico_err$C_R $C_RED${details[i]}$C_R" ;;
-      *)   res="$C_DIM·$C_R $C_DIM${details[i]}$C_R" ;;
-    esac
-    print -r -- "$C_ICON$icon$C_R $C_DIR${(r:width:)dir}$C_R  $res"
+    print -r -- "$row $C_GREEN$ico_ok$C_R $C_GREEN${detail}$C_R"
+    (( nff++ ))
   done
 
   summary=''
@@ -220,6 +223,97 @@ function gpall() {
   (( nff )) && summary+="$C_GREEN${nff} updated$C_R · "
   (( nerr )) && summary+="$C_RED${nerr} failed$C_R · "
   (( nskip )) && summary+="$C_DIM${nskip} skipped$C_R · "
+  summary=${summary% · }
+  if [[ -n $summary ]]; then
+    print -r -- "$C_DIM──$C_R  $summary"
+  fi
+}
+
+# CodeGraph init (first time) or full reindex for every immediate git subdirectory
+# One line per repo with the result; needs the codegraph CLI
+function cgall() {
+  setopt localoptions extendedglob
+  local dir status_json out detail res summary files nodes fw nw word t0 secs kind
+  local word_pad files_pad fw_pad nodes_pad nw_pad secs_pad
+  local -a dirs
+  integer width=0 ninit=0 nidx=0 nerr=0
+  # fixed column widths: results stream as each repo finishes, nothing is buffered
+  integer wword=11 wfiles=4 wfw=5 wnodes=5 wnw=7 wsecs=5
+
+  if ! command -v codegraph >/dev/null 2>&1; then
+    print -u2 'cgall: codegraph is required'
+    return 1
+  fi
+  zmodload -F zsh/datetime b:strftime p:EPOCHREALTIME 2>/dev/null
+
+  for dir in */(N); do
+    [[ -d "$dir/.git" ]] || continue
+    dirs+=("$dir")
+    (( ${#dir} > width )) && width=${#dir}
+  done
+  (( ${#dirs} )) || { print -P "%F{240}no git repos found in $PWD%f"; return }
+
+  local C_DIR=$'\e[1;34m' C_ICON=$'\e[34m' C_GREEN=$'\e[32m' C_RED=$'\e[31m' C_DIM=$'\e[38;5;240m' C_R=$'\e[0m'
+  local icon=$'' ico_ok=$'' ico_err=$''
+
+  for dir in $dirs; do
+    status_json=$(codegraph --no-color status --json "$dir" 2>/dev/null)
+    if [[ $status_json == *'"initialized":true'* ]]; then
+      kind='index'
+    else
+      kind='init'
+    fi
+
+    t0=$EPOCHREALTIME
+    if [[ $kind == 'init' ]]; then
+      out=$(codegraph --no-color init -y "$dir" 2>&1)
+    else
+      out=$(codegraph --no-color index -q "$dir" 2>&1)
+    fi
+    if (( $? != 0 )); then
+      detail=${${(M)${(f)out}:#*([Ee]rror|[Ff]atal|failed)*}[1]}
+      [[ -n $detail ]] || detail=${${(f)out}[-1]}
+      detail=${${detail##[[:space:]│┃╭╰┌└─]##}%%[[:space:]]##}
+      [[ -n $detail ]] || detail="${kind} failed"
+      (( ${#detail} > 60 )) && detail="${detail[1,59]}…"
+      print -r -- "$C_ICON$icon$C_R $C_DIR${(r:width:)dir}$C_R  $C_RED$ico_err$C_R $C_RED${detail}$C_R"
+      (( nerr++ ))
+      continue
+    fi
+    printf -v secs '%.1fs' $(( EPOCHREALTIME - t0 ))
+
+    status_json=$(codegraph --no-color status --json "$dir" 2>/dev/null)
+    files=${${status_json##*\"fileCount\":}%%,*}
+    nodes=${${status_json##*\"nodeCount\":}%%,*}
+    [[ $files == <-> ]] || files=0
+    [[ $nodes == <-> ]] || nodes=0
+    (( files == 1 )) && fw=file || fw=files
+    (( nodes == 1 )) && nw=symbol || nw=symbols
+    if [[ $kind == 'init' ]]; then
+      word='initialized'; (( ninit++ ))
+    else
+      word='reindexed'; (( nidx++ ))
+    fi
+
+    _dotfiles_pad word_pad $wword "$word"
+    _dotfiles_pad files_pad $wfiles "$files" l
+    _dotfiles_pad fw_pad $wfw "$fw"
+    _dotfiles_pad nodes_pad $wnodes "$nodes" l
+    _dotfiles_pad nw_pad $wnw "$nw"
+    _dotfiles_pad secs_pad $wsecs "$secs" l
+    detail="${word_pad} · ${files_pad} ${fw_pad} · ${nodes_pad} ${nw_pad} · ${secs_pad}"
+    if [[ $kind == 'init' ]]; then
+      res="$C_GREEN$ico_ok$C_R $C_GREEN${detail}$C_R"
+    else
+      res="$C_GREEN$ico_ok$C_R $C_DIM${detail}$C_R"
+    fi
+    print -r -- "$C_ICON$icon$C_R $C_DIR${(r:width:)dir}$C_R  $res"
+  done
+
+  summary=''
+  (( ninit )) && summary+="$C_GREEN${ninit} initialized$C_R · "
+  (( nidx )) && summary+="$C_GREEN${nidx} reindexed$C_R · "
+  (( nerr )) && summary+="$C_RED${nerr} failed$C_R · "
   summary=${summary% · }
   if [[ -n $summary ]]; then
     print -r -- "$C_DIM──$C_R  $summary"
