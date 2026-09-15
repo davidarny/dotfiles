@@ -1,16 +1,16 @@
+# Junk files: ignore anywhere (basename match, no /)
 .DS_Store
+\.gitignore
 
-.git
-.codegraph
-.pi
-.gitignore
-bin
-
-
-AGENTS.md
-Brewfile
-CLAUDE.md
-LICENSE.md
-README.md
-
-justfile
+# Regexes containing / match full paths, so these ignore only repo-root entries.
+# Nested same-named files stay stowed (e.g. .local/bin/*).
+/\.git$
+/\.codegraph$
+/\.pi\/tasks$
+/bin$
+/AGENTS\.md$
+/Brewfile$
+/CLAUDE\.md$
+/LICENSE\.md$
+/README\.md$
+/justfile$

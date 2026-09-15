@@ -72,6 +72,14 @@ LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses fo
 - **Use Conventional Commits for every commit** — format commit messages like `feat: ...`, `fix: ...`, `chore: ...`, `docs: ...`, etc. Do not create non-conventional commit messages.
 - **Do not add documentation to the repository unless the user explicitly requests it.**
 
+## Secrets
+
+The repo is public — never commit plaintext API keys or tokens. Agent/MCP secrets flow through 1Password:
+
+- `.config/mcp/mcp-secrets.env.tpl` (tracked) holds the `op://` references; `just mcp-secrets` resolves them into `~/.config/mcp/mcp-secrets.env` (gitignored, `chmod 600`, one TouchID prompt), which `env.zsh` sources on shell startup.
+- Configs reference variables, not values: `${VAR}` in Pi `mcp.json` (`~/.pi/agent/mcp.json`, `~/.agents/mcp.json`), `{env:VAR}` in OpenCode config.
+- Adding or rotating a secret: update the reference in the template, run `just mcp-secrets`. If a config fails auth with an empty variable, the generated file is stale or missing — regenerate it there; never paste the secret value into the config.
+
 ## Adding New Configuration
 
 1. Place files in the repo mirroring their `$HOME` location (e.g., `.config/toolname/config`)

@@ -10,12 +10,11 @@
 .worktrees/
 .pi/
 .mcp.json
+skills-lock.json
 CLAUDE.md
 WARP.md
 AGENTS.md
 GEMINI.md
-opencode.json
-skills-lock.json
 
 # Misc
 .DS_Store
