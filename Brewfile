@@ -97,6 +97,8 @@ brew "postgresql@18", link: true
 brew "python-tk@3.14"
 # Open agent skills ecosystem
 brew "skills"
+# Compressed read-only file system for Linux
+brew "squashfs"
 # Non-interactive SSH password auth
 brew "sshpass"
 # Organize software neatly under a single directory tree (e.g. /usr/local)
