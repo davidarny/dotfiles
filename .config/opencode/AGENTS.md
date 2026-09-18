@@ -60,6 +60,12 @@
 ## File deletion
 
 - Never run `rm -rf`. To delete files or directories, always use `rf` (trash alias); if it is unavailable, stop and ask the user.
+- Exception: task-owned temporary secret files created under [1password-handoff](skills/1password-handoff/SKILL.md) must be removed with `rm --` on exact verified paths, then `rmdir` for the empty private directory. Do not put these credentials in Trash. This exception does not authorize recursive deletion or removal of original 1Password sources.
+
+## Temporary 1Password handoff
+
+- For multi-step work requiring secrets, use [1password-handoff](skills/1password-handoff/SKILL.md): acquire the required `op://` references and/or managed 1Password env/FIFO data once while the user is available, then reuse a private task-scoped snapshot. This temporary storage is authorized for the current task's required secrets; do not ask for separate permission for each run or copy unrelated credentials.
+- Follow the skill for source handling, private temporary storage, expiry, log masking, and verified cleanup on completion, cancellation, or expiry. Keep original files/FIFOs and other tasks' snapshots intact. Ask again only for a missing required source or an actual unlock/refresh failure.
 
 ## Agent machine configuration
 
@@ -69,6 +75,12 @@ Applies only when setting up or changing Claude, Codex, OpenCode, Pi, their MCPs
 - Common global instruction paths, when present: Claude `~/.claude/CLAUDE.md`; Codex `~/.codex/AGENTS.md`; OpenCode `~/.config/opencode/AGENTS.md`; Pi `~/.pi/agent/AGENTS.md`.
 - Common runtime config paths, when present: Claude `~/.claude/settings.json` plus user MCP state in `~/.claude.json`; Codex `~/.codex/config.toml`; OpenCode `~/.config/opencode/opencode.json`; Pi `~/.pi/agent/mcp.json`.
 - Verify registrations with `claude mcp list`, `codex mcp list`, OpenCode config key inspection, and for Pi `pi list` plus `mcp.json` server-name inspection.
+
+### Secrets in agent configs
+
+- Never put plaintext API keys or tokens in agent runtime configs (`opencode.json`, `mcp.json`, provider blocks); the dotfiles repo is public. Reference environment variables instead: `{env:VAR}` in OpenCode config, `${VAR}` in Pi `mcp.json` headers/env.
+- The dotfiles provision these variables: `.config/mcp/mcp-secrets.env` is generated from the `op://` references in `.config/mcp/mcp-secrets.env.tpl` via `just mcp-secrets` (dotfiles repo) and sourced by zsh on shell startup.
+- When a variable is empty or a key rotates, update the template and regenerate there. Do not paste secret values into configs to work around a missing variable.
 
 ### Cross-agent portability
 
@@ -87,6 +99,7 @@ Applies only when setting up or changing Claude, Codex, OpenCode, Pi, their MCPs
 
 - These registration rules cover personal shared skills. Built-in and plugin-managed skills retain their vendor-managed locations and update mechanism.
 - Treat remote skills as upstream-managed: do not edit their contents or metadata for local customization. Only `mostbet`, `mostbet-*`, and `dats-team-*` skills may be customized locally. Put overrides and integration rules in this shared AGENTS.md or those local skills so remote updates preserve them.
+- Locally authored skills such as `1password-handoff` are also maintained in their canonical `~/.agents/skills/` directory; the upstream-management restriction applies to imported skills.
 - Create every skill in `~/.agents/skills/<skill-name>/`, with `SKILL.md` and all supporting files kept there as the single source of truth. Edit existing skills at their canonical location.
 - Link each skill into all four harnesses using relative directory symlinks: `~/.codex/skills/<skill-name>` and `~/.claude/skills/<skill-name>` point to `../../.agents/skills/<skill-name>`; `~/.pi/agent/skills/<skill-name>` and `~/.config/opencode/skills/<skill-name>` point to `../../../.agents/skills/<skill-name>`.
 - Inspect existing destinations before linking. Preserve conflicting files or directories and resolve their contents before replacing them; keep no independent harness-specific copies.
