@@ -134,5 +134,6 @@ cask "font-jetbrains-mono-nerd-font"
 cask "homebrew-app"
 # Agentic development environment for command-line workflows
 cask "warp-agent-cli"
+uv "browser-harness"
 uv "browser-use"
 uv "cloakbrowser"

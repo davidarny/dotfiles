@@ -424,6 +424,15 @@
       "skillFolderHash": "6668536a547bdae7482192f65babc3e6988b5ecd",
       "installedAt": "2026-09-19T06:43:26.611Z",
       "updatedAt": "2026-09-19T06:43:26.611Z"
+    },
+    "browser-harness": {
+      "source": "browser-use/browser-harness",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/browser-use/browser-harness.git",
+      "skillPath": "SKILL.md",
+      "skillFolderHash": "afbcc381b963040c19627d788e40c7e7663171ee",
+      "installedAt": "2026-09-19T07:14:11.506Z",
+      "updatedAt": "2026-09-19T07:14:11.506Z"
     }
   },
   "dismissed": {
