@@ -105,9 +105,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-syntax/SKILL.md",
-      "skillFolderHash": "bad470f1eca01042dc80363a1bc46a67751c58ff",
+      "skillFolderHash": "aec417ef8c57d32424333f9b60953c9c5a024950",
       "installedAt": "2026-07-20T05:16:39.520Z",
-      "updatedAt": "2026-09-18T10:39:01.582Z"
+      "updatedAt": "2026-09-19T06:44:01.910Z"
     },
     "code-review": {
       "source": "mattpocock/skills",
@@ -169,9 +169,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "skillFolderHash": "10104bd92881e5ca5688f0a2cd1372e3c0e413a9",
+      "skillFolderHash": "4b040465accc10048d4b16479bb54d6d1d3bdeb6",
       "installedAt": "2026-07-28T04:12:45.458Z",
-      "updatedAt": "2026-09-15T14:14:48.101Z"
+      "updatedAt": "2026-09-19T06:44:08.216Z"
     },
     "glab-mr": {
       "source": "vince-winkintel/gitlab-cli-skills",
@@ -242,9 +242,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/netresearch/jira-skill.git",
       "skillPath": "skills/jira-communication/SKILL.md",
-      "skillFolderHash": "da1da64934adad40bad0ccdcdcafb5beb4d14a03",
+      "skillFolderHash": "21504998448c1de63d5e5f098f7d10ef7248143a",
       "installedAt": "2026-08-17T07:03:44.926Z",
-      "updatedAt": "2026-09-18T10:39:06.978Z"
+      "updatedAt": "2026-09-19T06:44:05.982Z"
     },
     "unslop": {
       "source": "cursor/plugins",
@@ -415,6 +415,15 @@
       "skillFolderHash": "d5fe6c4458139af3f45a521824224b9a8afc9f6a",
       "installedAt": "2026-09-14T05:19:12.000Z",
       "updatedAt": "2026-09-14T05:19:12.000Z"
+    },
+    "browser-use": {
+      "source": "browser-use/browser-use",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/browser-use/browser-use.git",
+      "skillPath": "skills/browser-use/SKILL.md",
+      "skillFolderHash": "6668536a547bdae7482192f65babc3e6988b5ecd",
+      "installedAt": "2026-09-19T06:43:26.611Z",
+      "updatedAt": "2026-09-19T06:43:26.611Z"
     }
   },
   "dismissed": {
