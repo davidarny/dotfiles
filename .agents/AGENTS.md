@@ -172,6 +172,15 @@ Use `ast-grep` for code shape search/rewrite. Use FFF for literal text and `rg` 
 
 Patterns are code: `$VAR` one node, `$$$` variadic nodes, repeated metavariable must match same node. `ast-grep -p '<pattern>' <paths>` searches. `-r '<rewrite>'` previews; apply flag required to write. `--json` for machine output; `ast-grep scan` for YAML rules.
 
+### Browser automation
+
+`agent-browser` and `browser-use` both drive Chrome over CDP. Route by where the browser runs.
+
+- Local browser work goes to `agent-browser`: the user's logged-in Chrome, page inspection, screenshots, form flows, exploratory QA. This stays true for the local mode of `browser-use`.
+- Cloud browsers go to `browser-use`, started with `start_remote_daemon(<name>)`: parallel isolated sessions, bot-protected or captcha-walled sites, residential proxies, and hosts without a usable local Chrome.
+
+A remote daemon bills until `stop_remote_daemon(<name>)` or its timeout; stop it when its task ends.
+
 ## Web
 
 For general public web research, **always use Exa first**: `web_search_exa` for discovery and `web_fetch_exa` for known URLs or full content. Do not use built-in web search/open/fetch unless Exa is absent, errors, or remains insufficient after one focused retry; state the fallback reason. Purpose-built/private connectors and mandated official-doc tools take precedence over Exa.

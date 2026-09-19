@@ -3,6 +3,7 @@
 export HINDSIGHT_MCP_TOKEN='op://Hobby/Vectorize/API key'
 export CONTEXT7_API_KEY='op://Personal/Context7/API key'
 export EXA_API_KEY='op://Hobby/Exa/API key'
+export BROWSER_USE_API_KEY='op://Hobby/Browser Use/API key'
 export CONFLUENCE_API_TOKEN='op://Dats.Team/Confluence/API key'
 export JIRA_API_TOKEN='op://Dats.Team/Jira/API key'
 export GRAFANA_API_KEY='op://Dats.Team/Grafana/API token'
