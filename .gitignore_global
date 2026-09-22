@@ -16,6 +16,9 @@ WARP.md
 AGENTS.md
 GEMINI.md
 
+# Mise
+mise.toml
+
 # Misc
 .DS_Store
 *.pem
