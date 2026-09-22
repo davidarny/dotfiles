@@ -358,9 +358,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/juliusbrussee/caveman.git",
       "skillPath": "skills/caveman/SKILL.md",
-      "skillFolderHash": "02b646b008b9d1e5b67e5f65fab56fd7073d9212",
+      "skillFolderHash": "2d9a159619205a175577d6540b1ed64fd73d83b1",
       "installedAt": "2026-09-08T14:16:51.033Z",
-      "updatedAt": "2026-09-15T14:15:01.734Z"
+      "updatedAt": "2026-09-21T02:49:19.503Z"
     },
     "caveman-commit": {
       "source": "juliusbrussee/caveman",

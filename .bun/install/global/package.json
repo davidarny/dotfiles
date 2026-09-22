@@ -11,7 +11,7 @@
   "dependencies": {
     "@bitkyc08/opencodex": "2.59.0",
     "@colbymchenry/codegraph": "^1.6.0",
-    "@earendil-works/pi-coding-agent": "0.85.1",
+    "@earendil-works/pi-coding-agent": "0.86.1",
     "ccstatusline": "2.2.30"
   }
 }
