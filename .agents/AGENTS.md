@@ -117,7 +117,7 @@ Applies only when setting up or changing Claude, Codex, OpenCode, Pi, their MCPs
 
 Applies to Dats.Team projects, normally located under `~/Developer/Dats.Team`. Ignore this entire section for unrelated projects.
 
-- Task branch: exact Jira key only, e.g. `MST-185094`, `INFRASTRUC-79752`. Derive the key from the issue, current branch, or MR; ask only when creating a task branch requires an unknown key. Existing release branches use the exact supplied release name through `mostbet-release-update`. Read-only work needs no new branch or invented key.
+- Task branch: the exact Jira key, e.g. `MST-185094`, `INFRASTRUC-79752`. When one task needs several branches at once, suffix the key in kebab-case: `<KEY>-<suffix>`, e.g. `MST-207625-sidebar`. Commits still carry `[<KEY>]`. Derive the key from the issue, current branch, or MR; ask only when creating a task branch requires an unknown key. Existing release branches use the exact supplied release name through `mostbet-release-update`. Read-only work needs no new branch or invented key.
 - Commit: `type: [KEY] imperative lowercase description`, no period. Types: `feat`, `fix`, `chore`, `refactor`, `docs`, `test`, `perf`, `style`, `ci`, `build`.
 - Forge: GitLab at `gitlab.dats.tech`. Use authenticated `glab`, never `gh`. Run `glab` from the target repository checkout; outside one, `glab` targets `gitlab.com`, so pass `--hostname gitlab.dats.tech` to `glab api` and `-R gitlab.dats.tech/<group>/<project>` to other commands. Treat a GitLab `401` as a token problem only after confirming the request went to `gitlab.dats.tech`.
 - MR: follow [dats-team-mr-create](skills/dats-team-mr-create/SKILL.md) for title, Russian body, assignee, reviewers, duplicate handling, and publication. Prefer a description file for multiline text; use `master` for task MRs unless the requested workflow specifies another target.
@@ -126,7 +126,7 @@ Applies to Dats.Team projects, normally located under `~/Developer/Dats.Team`. I
 - Browser: `glab mr view <id> -w`
 - Say MR, not PR, for GitLab.
 - Write code comments, JSDoc, Jira comments, and GitLab MR review comments in Russian.
-- `mostbet-next` worktree: when isolation is needed, create `.worktrees/<KEY>` using branch `<KEY>` from the current task base, normally `origin/master`, or attach the existing branch. Follow current repository provisioning instructions for environment and locale assets. Inspect `.env.local` metadata first; it may be a FIFO or symlink. Prepare dependencies only when required for checks or hooks, using `mise`. A source-only review/rebase does not require copying secrets or starting a runtime. If the Jira hook stamps the wrong key on a task-created commit, correct it before publication.
+- Dats.Team task worktree: for `mostbet-next`, follow [mostbet-worktrees](skills/mostbet-worktrees/SKILL.md); it selects the layout supported by the task base, provisions the checkout, and validates Jira-labelled commits. For other repositories, when isolation is needed, create a direct sibling at `<repo-parent>/<repo-name>-<KEY>` using branch `<KEY>` from the current task base, normally `origin/master`, or attach the existing branch. Follow current repository provisioning instructions, inspect `.env.local` metadata before touching it, and use `mise` when dependencies are required.
 
 ## dats.team cleanup
 
