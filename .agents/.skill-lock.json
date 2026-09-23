@@ -96,9 +96,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git",
       "skillPath": ".claude/skills/ui-ux-pro-max/SKILL.md",
-      "skillFolderHash": "f0415e89eeadda8933a49a3f432acae52fa542aa",
+      "skillFolderHash": "d2b30f833c2b2aa6d64c70e817bcfb049f147542",
       "installedAt": "2026-07-20T04:39:50.295Z",
-      "updatedAt": "2026-09-09T02:59:59.858Z"
+      "updatedAt": "2026-09-23T01:17:51.663Z"
     },
     "jira-syntax": {
       "source": "netresearch/jira-skill",
