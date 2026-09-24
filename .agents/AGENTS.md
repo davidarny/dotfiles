@@ -73,12 +73,12 @@ Applies only when setting up or changing Claude, Codex, OpenCode, Pi, their MCPs
 
 - Verify the active config with the agent CLI before editing; a plausible file path is not proof that the agent reads it.
 - Common global instruction paths, when present: Claude `~/.claude/CLAUDE.md`; Codex `~/.codex/AGENTS.md`; OpenCode `~/.config/opencode/AGENTS.md`; Pi `~/.pi/agent/AGENTS.md`.
-- Common runtime config paths, when present: Claude `~/.claude/settings.json` plus user MCP state in `~/.claude.json`; Codex `~/.codex/config.toml`; OpenCode `~/.config/opencode/opencode.json`; Pi `~/.pi/agent/mcp.json`.
+- Common runtime config paths, when present: Claude `~/.claude/settings.json` plus user MCP state in `~/.claude.json`; Codex `~/.codex/config.toml`; OpenCode `~/.config/opencode/opencode.json`; Pi `~/.agents/mcp.json` (shared MCP config) plus optional overrides in `~/.pi/agent/mcp.json`. In the dotfiles repo, MCP servers for all four agents come from `mcp/servers.toml` via `just mcp-sync`; change them there.
 - Verify registrations with `claude mcp list`, `codex mcp list`, OpenCode config key inspection, and for Pi `pi list` plus `mcp.json` server-name inspection.
 
 ### Secrets in agent configs
 
-- Never put plaintext API keys or tokens in agent runtime configs (`opencode.json`, `mcp.json`, provider blocks); the dotfiles repo is private, but secrets in git history are hard to purge. Reference environment variables instead: `{env:VAR}` in OpenCode config, `${VAR}` in Pi `mcp.json` headers/env.
+- Never put plaintext API keys or tokens in agent runtime configs (`opencode.json`, `mcp.json`, provider blocks); the dotfiles repo is private, but secrets in git history are hard to purge. Reference environment variables instead: `${VAR}` in `mcp/servers.toml`, which `just mcp-sync` converts for each agent.
 - The dotfiles provision these variables: `.config/mcp/mcp-secrets.env` is generated from the `op://` references in `.config/mcp/mcp-secrets.env.tpl` via `just mcp-secrets` (dotfiles repo) and sourced by zsh on shell startup.
 - When a variable is empty or a key rotates, update the template and regenerate there. Do not paste secret values into configs to work around a missing variable.
 

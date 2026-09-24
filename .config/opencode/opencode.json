@@ -1,20 +1,36 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "mcp": {
-    "hindsight": {
-      "type": "remote",
-      "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
-      "headers": { "Authorization": "Bearer {env:HINDSIGHT_MCP_TOKEN}" },
-      "oauth": false,
+    "codegraph": {
+      "type": "local",
+      "command": [
+        "codegraph",
+        "serve",
+        "--mcp"
+      ],
+      "enabled": true
+    },
+    "fff": {
+      "type": "local",
+      "command": [
+        "/opt/homebrew/bin/fff-mcp"
+      ],
+      "environment": {
+        "FFF_MCP_IDLE_TIMEOUT_SECS": "0"
+      },
       "enabled": true
     },
     "context7": {
       "type": "local",
-      "command": ["bunx", "-y", "@upstash/context7-mcp@latest"],
-      "enabled": true,
+      "command": [
+        "bunx",
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
       "environment": {
         "CONTEXT7_API_KEY": "{env:CONTEXT7_API_KEY}"
-      }
+      },
+      "enabled": true
     },
     "exa": {
       "type": "remote",
@@ -22,17 +38,17 @@
       "headers": {
         "x-api-key": "{env:EXA_API_KEY}"
       },
+      "oauth": false,
       "enabled": true
     },
-    "codegraph": {
-      "type": "local",
-      "command": ["codegraph", "serve", "--mcp"],
+    "hindsight": {
+      "type": "remote",
+      "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
+      "headers": {
+        "Authorization": "Bearer {env:HINDSIGHT_MCP_TOKEN}"
+      },
+      "oauth": false,
       "enabled": true
-    },
-    "fff": {
-      "enabled": true,
-      "type": "local",
-      "command": ["/opt/homebrew/bin/fff-mcp"]
     }
   },
   "provider": {

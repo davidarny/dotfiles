@@ -11,13 +11,14 @@ macOS (Apple Silicon) dotfiles. The repo root mirrors `$HOME`; `just link` runs 
 
 ## Copied, not linked
 
-- `.claude/{settings,mcp-servers}.json`, `.codex/{settings,mcp-servers}.toml`, and `.pi/agent/settings.json` are snapshots of live agent configs. The live file is the source: change it, then run `just <agent>-dump`. `just <agent>-restore` writes the snapshot back and needs the app closed. Dumps replace the home prefix with `${HOME}/`; restore expands it. Keys the user toggles often stay machine-local through `LOCAL_KEYS` in `bin/claude-config.ts` and `bin/pi-config.ts`; machine-local Codex tables are listed in `bin/codex-config.ts`.
+- MCP servers for all four agents are defined only in `mcp/servers.toml`. `just mcp-sync` renders `.claude/mcp-servers.json`, `.codex/mcp-servers.toml`, the `mcp` block of `.config/opencode/opencode.json`, and `.agents/mcp.json` (Pi); never edit those by hand. `just check` fails when they are stale. Write secrets as `${VAR}`; the renderer converts them per agent.
+- `.claude/settings.json`, `.codex/settings.toml`, and `.pi/agent/settings.json` are snapshots of live agent settings. The live file is the source: change it, then run `just <agent>-dump`. `just <agent>-restore` writes the snapshot back and needs the app closed. Dumps replace the home prefix with `${HOME}/`; restore expands it. Keys the user toggles often stay machine-local through `LOCAL_KEYS` in `bin/claude-config.ts` and `bin/pi-config.ts`; machine-local Codex tables are listed in `bin/codex-config.ts`.
 - Locally authored skills live in `.agents/skills/<name>/`; create new ones there. External skills are listed in `.agents/skills.json`, which the `skills` zsh function updates on add, remove, and update. `just skills-sync` installs and links both into all four harnesses.
 - The `brew` zsh function rewrites `Brewfile` after install and uninstall. The Brewfile holds command line tools only; the user installs desktop apps by hand.
 
 ## Secrets
 
-The repo is private, and secrets still stay out of it because git history outlives any access setting. `.config/mcp/mcp-secrets.env.tpl` holds `op://` references; `just mcp-secrets` resolves them into the untracked `~/.config/mcp/mcp-secrets.env`, which `env.zsh` sources and a LaunchAgent exports to GUI apps. Configs reference variables: `${VAR}` in Pi `mcp.json` and the Claude snapshot, `env_vars` / `bearer_token_env_var` in the Codex snapshot, `{env:VAR}` in OpenCode. For an empty variable or a rotated key, edit the template and rerun `just mcp-secrets`.
+The repo is private, and secrets still stay out of it because git history outlives any access setting. `.config/mcp/mcp-secrets.env.tpl` holds `op://` references; `just mcp-secrets` resolves them into the untracked `~/.config/mcp/mcp-secrets.env`, which `env.zsh` sources and a LaunchAgent exports to GUI apps. Configs reference variables by name, never values. For an empty variable or a rotated key, edit the template and rerun `just mcp-secrets`.
 
 ## Shell
 

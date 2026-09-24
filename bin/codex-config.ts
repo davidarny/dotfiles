@@ -1,10 +1,11 @@
 /**
  * Splits `~/.codex/config.toml` into tracked snapshots and machine-local entries.
  *
- * - `dump` writes the portable settings to `settings.toml` and the MCP servers
- *   to `mcp-servers.toml`, with the home prefix replaced by `${HOME}/`.
- * - `restore` rebuilds the live config from both snapshots plus the entries
- *   that stay on this machine.
+ * - `dump` writes the portable settings to `settings.toml`, with the home
+ *   prefix replaced by `${HOME}/`. MCP servers come from `mcp/servers.toml`
+ *   instead (`just mcp-sync` renders `mcp-servers.toml`).
+ * - `restore` rebuilds the live config from `settings.toml`,
+ *   `mcp-servers.toml`, and the entries that stay on this machine.
  *
  * The file is split into text blocks instead of parsed and re-serialized, so
  * comments, key order, and formatting survive a round trip.
@@ -172,14 +173,13 @@ async function writeConfig(path: string, text: string): Promise<void> {
  * Saves the portable parts of the live config into the snapshot directory.
  *
  * @param configPath - Live `config.toml`.
- * @param snapshotDir - Directory for `settings.toml` and `mcp-servers.toml`.
+ * @param snapshotDir - Directory for `settings.toml`.
  */
 async function dump(configPath: string, snapshotDir: string): Promise<void> {
   const live = await load(configPath);
   const settings = [render(only(live.top, "settings"), "\n"), render(only(live.tables, "settings"))];
 
   await writeSnapshot(`${snapshotDir}/settings.toml`, settings.join("\n\n"));
-  await writeSnapshot(`${snapshotDir}/mcp-servers.toml`, render(only(live.tables, "mcp")));
 }
 
 /**

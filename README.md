@@ -33,7 +33,8 @@ If `just link` stops because stow adopted files from `$HOME` (a default `~/.zshr
 
 Edit files in `~/.dotfiles`. Most files in `$HOME` are symlinks, so edits in either place show up in git. Two groups of files are copies instead:
 
-- Claude Code and Codex settings and MCP servers, and Pi settings, live in `.claude/`, `.codex/`, and `.pi/agent/settings.json` as snapshots. After changing them in the app, run `just claude-dump`, `just codex-dump`, or `just pi-dump`. The matching `*-restore` recipe writes them back; close the app first. Effort and model choices stay on each machine.
+- Claude Code, Codex, and Pi settings live in `.claude/`, `.codex/`, and `.pi/agent/settings.json` as snapshots. After changing them in the app, run `just claude-dump`, `just codex-dump`, or `just pi-dump`. The matching `*-restore` recipe writes them back; close the app first. Effort and model choices stay on each machine.
+- MCP servers for all four agents are defined in `mcp/servers.toml`. After editing it, run `just mcp-sync`, then `just claude-restore` and `just codex-restore`. OpenCode and Pi read their generated files through the symlinks.
 - Skills written here live in `.agents/skills/<name>/`. Skills from other repositories are listed in `.agents/skills.json`. `just skills-sync` installs and links both.
 
 The `brew` and `skills` shell functions update the Brewfile and `.agents/skills.json` after every install or removal.

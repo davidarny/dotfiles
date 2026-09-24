@@ -1,0 +1,116 @@
+# MCP servers for Claude Code, Codex, OpenCode, and Pi.
+#
+# This file is the only place to change them: `just mcp-sync` writes every
+# agent's config from it, and `just claude-restore` / `just codex-restore`
+# install the Claude and Codex snapshots.
+#
+# Per server:
+#   command, args  local (stdio) server
+#   url            remote (HTTP) server
+#   env            environment; "${VAR}" passes a variable from mcp-secrets.env
+#   headers        HTTP headers; values may use "${VAR}"
+#   timeout        startup and tool timeout in seconds
+#   enabled        false keeps the entry but does not start it
+#   agents         agents that get the server; all four when omitted
+
+[codegraph]
+command = "codegraph"
+args = ["serve", "--mcp"]
+
+[fff]
+# Pi uses the @ff-labs/pi-fff extension instead.
+agents = ["claude", "codex", "opencode"]
+command = "/opt/homebrew/bin/fff-mcp"
+env = { FFF_MCP_IDLE_TIMEOUT_SECS = "0" }
+
+[context7]
+command = "bunx"
+args = ["-y", "@upstash/context7-mcp@latest"]
+env = { CONTEXT7_API_KEY = "${CONTEXT7_API_KEY}" }
+
+[exa]
+url = "https://mcp.exa.ai/mcp"
+headers = { x-api-key = "${EXA_API_KEY}" }
+
+[hindsight]
+url = "https://api.hindsight.vectorize.io/mcp/shared-memory/"
+headers = { Authorization = "Bearer ${HINDSIGHT_MCP_TOKEN}" }
+
+[atlassian-jira-dc]
+agents = ["claude", "codex"]
+command = "bunx"
+args = ["-y", "@atlassian-dc-mcp/jira@latest"]
+env = { JIRA_HOST = "jira.dats.tech", JIRA_API_TOKEN = "${JIRA_API_TOKEN}" }
+timeout = 120
+
+[atlassian-confluence-dc]
+agents = ["claude", "codex"]
+command = "bunx"
+args = ["-y", "@atlassian-dc-mcp/confluence@latest"]
+env = { CONFLUENCE_HOST = "confluence.dats.tech", CONFLUENCE_API_TOKEN = "${CONFLUENCE_API_TOKEN}" }
+timeout = 120
+
+[grafana]
+agents = ["claude", "codex"]
+command = "/opt/homebrew/bin/mcp-grafana"
+env = { GRAFANA_URL = "https://grafana.dats.services", GRAFANA_API_KEY = "${GRAFANA_API_KEY}" }
+timeout = 120
+
+[elasticsearch-main]
+agents = ["claude", "codex"]
+command = "uvx"
+args = ["--python", "3.12", "elasticsearch-mcp-server@latest"]
+
+[elasticsearch-main.env]
+ELASTICSEARCH_HOSTS = "https://elastic-logs-htzn-2.infra.dats.host:9200,https://elastic-logs-htzn-3.infra.dats.host:9200,https://elastic-logs-htzn-4.infra.dats.host:9200"
+ELASTICSEARCH_USERNAME = "d.arutyunyan"
+ELASTICSEARCH_PASSWORD = "${ELASTICSEARCH_PASSWORD}"
+DISABLE_HIGH_RISK_OPERATIONS = "true"
+VERIFY_CERTS = "false"
+
+[mostbet-elasticsearch]
+agents = ["claude", "codex"]
+command = "uvx"
+args = ["--python", "3.12", "elasticsearch-mcp-server@latest"]
+
+[mostbet-elasticsearch.env]
+ELASTICSEARCH_HOSTS = "https://elastic-logs-mostbet-frnx-1.prod.dats.host:9200"
+ELASTICSEARCH_USERNAME = "d.arutyunyan"
+ELASTICSEARCH_PASSWORD = "${ELASTICSEARCH_PASSWORD}"
+DISABLE_HIGH_RISK_OPERATIONS = "true"
+VERIFY_CERTS = "false"
+
+[testrail]
+agents = ["claude", "codex"]
+command = "uvx"
+args = ["testrail-mcp@latest"]
+
+[testrail.env]
+TESTRAIL_URL = "http://media.test8bit.com/testrail"
+TESTRAIL_USERNAME = "readonly@8bitov.com"
+TESTRAIL_API_KEY = "${TESTRAIL_API_KEY}"
+
+[minio]
+agents = ["claude", "codex"]
+command = "bunx"
+args = ["-y", "github:chenchiwei/s3-mcp-server#ceebf773d6881fb6cd3abc80709088d4792518c6"]
+
+[minio.env]
+AWS_ENDPOINT_URL = "https://minio-synthetic-tests-perf.infra.dats.host"
+AWS_REGION = "eu-west-1"
+AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY_ID}"
+AWS_SECRET_ACCESS_KEY = "${AWS_SECRET_ACCESS_KEY}"
+ALLOW_WRITE = "false"
+
+[openai-developer-docs]
+agents = ["codex"]
+url = "https://developers.openai.com/mcp"
+
+[claude-agent-broker]
+agents = ["codex"]
+url = "http://127.0.0.1:8765/mcp"
+
+[proxyman]
+agents = ["codex"]
+command = "/Applications/Proxyman.app/Contents/MacOS/mcp-server"
+enabled = false

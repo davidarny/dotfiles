@@ -97,11 +97,12 @@ bun-sync:
 skills-sync:
     @bun ./bin/skills-sync.ts .agents/skills.json
 
-# Verify shell config, Brewfile dependencies, and whitespace
+# Verify shell config, Brewfile dependencies, generated MCP configs, and whitespace
 [group('check')]
 check:
     @zsh -n .zshrc .config/zsh/*.zsh
     @brew bundle check --no-upgrade --file=Brewfile
+    @bun ./bin/mcp-sync.ts --check
     @git diff --check
     @echo "✓ Checks passed"
 
@@ -134,7 +135,12 @@ mcp-launchagent:
     launchctl bootout gui/$(id -u)/com.davidarutyunyan.mcp-secrets-env 2>/dev/null || true
     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.davidarutyunyan.mcp-secrets-env.plist
 
-# Snapshot agent settings and user-scope MCP servers into the repo (home paths become ${HOME})
+# Write every agent's MCP config from mcp/servers.toml; then restore Claude and Codex
+[group('mcp')]
+mcp-sync:
+    @bun ./bin/mcp-sync.ts
+
+# Snapshot agent settings into the repo (home paths become ${HOME}); MCP servers live in mcp/servers.toml
 [group('mcp')]
 claude-dump:
     @bun ./bin/claude-config.ts dump .claude

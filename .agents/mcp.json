@@ -1,17 +1,23 @@
 {
   "mcpServers": {
-    "hindsight": {
-      "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
-      "headers": {"Authorization": "Bearer ${HINDSIGHT_MCP_TOKEN}"},
+    "codegraph": {
+      "command": "codegraph",
+      "args": [
+        "serve",
+        "--mcp"
+      ],
       "directTools": true
     },
     "context7": {
       "command": "bunx",
-      "args": ["-y", "@upstash/context7-mcp@latest"],
-      "directTools": true,
+      "args": [
+        "-y",
+        "@upstash/context7-mcp@latest"
+      ],
       "env": {
         "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
-      }
+      },
+      "directTools": true
     },
     "exa": {
       "url": "https://mcp.exa.ai/mcp",
@@ -20,9 +26,11 @@
       },
       "directTools": true
     },
-    "codegraph": {
-      "command": "codegraph",
-      "args": ["serve", "--mcp"],
+    "hindsight": {
+      "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
+      "headers": {
+        "Authorization": "Bearer ${HINDSIGHT_MCP_TOKEN}"
+      },
       "directTools": true
     }
   }

@@ -1,4 +1,123 @@
 {
+  "codegraph": {
+    "type": "stdio",
+    "command": "codegraph",
+    "args": [
+      "serve",
+      "--mcp"
+    ]
+  },
+  "fff": {
+    "type": "stdio",
+    "command": "/opt/homebrew/bin/fff-mcp",
+    "env": {
+      "FFF_MCP_IDLE_TIMEOUT_SECS": "0"
+    }
+  },
+  "context7": {
+    "type": "stdio",
+    "command": "bunx",
+    "args": [
+      "-y",
+      "@upstash/context7-mcp@latest"
+    ],
+    "env": {
+      "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
+    }
+  },
+  "exa": {
+    "type": "http",
+    "url": "https://mcp.exa.ai/mcp",
+    "headers": {
+      "x-api-key": "${EXA_API_KEY}"
+    }
+  },
+  "hindsight": {
+    "type": "http",
+    "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
+    "headers": {
+      "Authorization": "Bearer ${HINDSIGHT_MCP_TOKEN}"
+    }
+  },
+  "atlassian-jira-dc": {
+    "type": "stdio",
+    "command": "bunx",
+    "args": [
+      "-y",
+      "@atlassian-dc-mcp/jira@latest"
+    ],
+    "env": {
+      "JIRA_HOST": "jira.dats.tech",
+      "JIRA_API_TOKEN": "${JIRA_API_TOKEN}"
+    },
+    "timeout": 120000
+  },
+  "atlassian-confluence-dc": {
+    "type": "stdio",
+    "command": "bunx",
+    "args": [
+      "-y",
+      "@atlassian-dc-mcp/confluence@latest"
+    ],
+    "env": {
+      "CONFLUENCE_HOST": "confluence.dats.tech",
+      "CONFLUENCE_API_TOKEN": "${CONFLUENCE_API_TOKEN}"
+    },
+    "timeout": 120000
+  },
+  "grafana": {
+    "type": "stdio",
+    "command": "/opt/homebrew/bin/mcp-grafana",
+    "env": {
+      "GRAFANA_URL": "https://grafana.dats.services",
+      "GRAFANA_API_KEY": "${GRAFANA_API_KEY}"
+    },
+    "timeout": 120000
+  },
+  "elasticsearch-main": {
+    "type": "stdio",
+    "command": "uvx",
+    "args": [
+      "--python",
+      "3.12",
+      "elasticsearch-mcp-server@latest"
+    ],
+    "env": {
+      "ELASTICSEARCH_HOSTS": "https://elastic-logs-htzn-2.infra.dats.host:9200,https://elastic-logs-htzn-3.infra.dats.host:9200,https://elastic-logs-htzn-4.infra.dats.host:9200",
+      "ELASTICSEARCH_USERNAME": "d.arutyunyan",
+      "ELASTICSEARCH_PASSWORD": "${ELASTICSEARCH_PASSWORD}",
+      "DISABLE_HIGH_RISK_OPERATIONS": "true",
+      "VERIFY_CERTS": "false"
+    }
+  },
+  "mostbet-elasticsearch": {
+    "type": "stdio",
+    "command": "uvx",
+    "args": [
+      "--python",
+      "3.12",
+      "elasticsearch-mcp-server@latest"
+    ],
+    "env": {
+      "ELASTICSEARCH_HOSTS": "https://elastic-logs-mostbet-frnx-1.prod.dats.host:9200",
+      "ELASTICSEARCH_USERNAME": "d.arutyunyan",
+      "ELASTICSEARCH_PASSWORD": "${ELASTICSEARCH_PASSWORD}",
+      "DISABLE_HIGH_RISK_OPERATIONS": "true",
+      "VERIFY_CERTS": "false"
+    }
+  },
+  "testrail": {
+    "type": "stdio",
+    "command": "uvx",
+    "args": [
+      "testrail-mcp@latest"
+    ],
+    "env": {
+      "TESTRAIL_URL": "http://media.test8bit.com/testrail",
+      "TESTRAIL_USERNAME": "readonly@8bitov.com",
+      "TESTRAIL_API_KEY": "${TESTRAIL_API_KEY}"
+    }
+  },
   "minio": {
     "type": "stdio",
     "command": "bunx",
@@ -7,128 +126,11 @@
       "github:chenchiwei/s3-mcp-server#ceebf773d6881fb6cd3abc80709088d4792518c6"
     ],
     "env": {
-      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
-      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
       "AWS_ENDPOINT_URL": "https://minio-synthetic-tests-perf.infra.dats.host",
       "AWS_REGION": "eu-west-1",
+      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
+      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
       "ALLOW_WRITE": "false"
-    }
-  },
-  "codegraph": {
-    "args": [
-      "serve",
-      "--mcp"
-    ],
-    "command": "codegraph",
-    "type": "stdio"
-  },
-  "fff": {
-    "type": "stdio",
-    "command": "/opt/homebrew/bin/fff-mcp",
-    "args": [],
-    "env": {}
-  },
-  "grafana": {
-    "args": [],
-    "command": "/opt/homebrew/bin/mcp-grafana",
-    "timeout": 120000,
-    "env": {
-      "GRAFANA_URL": "https://grafana.dats.services",
-      "GRAFANA_API_KEY": "${GRAFANA_API_KEY}"
-    },
-    "type": "stdio"
-  },
-  "context7": {
-    "args": [
-      "-y",
-      "@upstash/context7-mcp@latest"
-    ],
-    "command": "bunx",
-    "env": {
-      "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
-    },
-    "type": "stdio"
-  },
-  "mostbet-elasticsearch": {
-    "args": [
-      "--python",
-      "3.12",
-      "elasticsearch-mcp-server@latest"
-    ],
-    "command": "uvx",
-    "env": {
-      "DISABLE_HIGH_RISK_OPERATIONS": "true",
-      "ELASTICSEARCH_HOSTS": "https://elastic-logs-mostbet-frnx-1.prod.dats.host:9200",
-      "ELASTICSEARCH_PASSWORD": "${ELASTICSEARCH_PASSWORD}",
-      "ELASTICSEARCH_USERNAME": "d.arutyunyan",
-      "VERIFY_CERTS": "false"
-    }
-  },
-  "atlassian-jira-dc": {
-    "timeout": 120000,
-    "args": [
-      "-y",
-      "@atlassian-dc-mcp/jira@latest"
-    ],
-    "command": "bunx",
-    "env": {
-      "JIRA_API_TOKEN": "${JIRA_API_TOKEN}",
-      "JIRA_HOST": "jira.dats.tech"
-    },
-    "type": "stdio"
-  },
-  "elasticsearch-main": {
-    "args": [
-      "--python",
-      "3.12",
-      "elasticsearch-mcp-server@latest"
-    ],
-    "command": "uvx",
-    "env": {
-      "DISABLE_HIGH_RISK_OPERATIONS": "true",
-      "ELASTICSEARCH_HOSTS": "https://elastic-logs-htzn-2.infra.dats.host:9200,https://elastic-logs-htzn-3.infra.dats.host:9200,https://elastic-logs-htzn-4.infra.dats.host:9200",
-      "ELASTICSEARCH_PASSWORD": "${ELASTICSEARCH_PASSWORD}",
-      "ELASTICSEARCH_USERNAME": "d.arutyunyan",
-      "VERIFY_CERTS": "false"
-    }
-  },
-  "atlassian-confluence-dc": {
-    "timeout": 120000,
-    "args": [
-      "-y",
-      "@atlassian-dc-mcp/confluence@latest"
-    ],
-    "command": "bunx",
-    "env": {
-      "CONFLUENCE_API_TOKEN": "${CONFLUENCE_API_TOKEN}",
-      "CONFLUENCE_HOST": "confluence.dats.tech"
-    },
-    "type": "stdio"
-  },
-  "exa": {
-    "headers": {
-      "x-api-key": "${EXA_API_KEY}"
-    },
-    "type": "http",
-    "url": "https://mcp.exa.ai/mcp"
-  },
-  "testrail": {
-    "args": [
-      "testrail-mcp@latest"
-    ],
-    "command": "uvx",
-    "env": {
-      "TESTRAIL_API_KEY": "${TESTRAIL_API_KEY}",
-      "TESTRAIL_URL": "http://media.test8bit.com/testrail",
-      "TESTRAIL_USERNAME": "readonly@8bitov.com"
-    },
-    "type": "stdio"
-  },
-  "hindsight": {
-    "type": "http",
-    "url": "https://api.hindsight.vectorize.io/mcp/shared-memory/",
-    "headers": {
-      "Authorization": "Bearer ${HINDSIGHT_MCP_TOKEN}"
     }
   }
 }

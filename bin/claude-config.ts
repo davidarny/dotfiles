@@ -1,20 +1,21 @@
 /**
- * Snapshots Claude Code's user settings and MCP servers into the repo and
- * restores them.
+ * Snapshots Claude Code's user settings into the repo and restores them
+ * together with the MCP servers.
  *
  * - `dump` writes `~/.claude/settings.json` to `settings.json` (without the
- *   often toggled effort and model keys) and the `mcpServers` of
- *   `~/.claude.json` to `mcp-servers.json`, with the home prefix replaced by
- *   `${HOME}/`.
- * - `restore` writes both back, keeping the live effort and model and the
- *   rest of `~/.claude.json` (projects, caches, account state).
+ *   often toggled effort and model keys), with the home prefix replaced by
+ *   `${HOME}/`. MCP servers come from `mcp/servers.toml` instead
+ *   (`just mcp-sync` renders `mcp-servers.json`).
+ * - `restore` writes the settings and `mcp-servers.json` back, keeping the
+ *   live effort and model and the rest of `~/.claude.json` (projects, caches,
+ *   account state).
  *
  * Usage: `bun claude-config.ts dump|restore <snapshot dir>`
  */
 import { join } from "node:path";
 import { writeAtomic } from "./lib/fs";
 import { ok, runMain } from "./lib/log";
-import { fromPortable, HOME, toPortable } from "./lib/paths";
+import { fromPortable, HOME } from "./lib/paths";
 import { dumpSettings, formatJson, readJsonObject, restoreSettings, type SettingsFile } from "./lib/settings";
 
 /** Claude Code's global state, which holds the user-scope `mcpServers`. */
@@ -37,16 +38,11 @@ function settingsFile(snapshotDir: string): SettingsFile {
 }
 
 /**
- * Saves the live settings and MCP servers into the snapshot directory.
+ * Saves the live settings into the snapshot directory.
  *
- * @param snapshotDir - Directory for `settings.json` and `mcp-servers.json`.
+ * @param snapshotDir - Directory for `settings.json`.
  */
 async function dump(snapshotDir: string): Promise<void> {
-  const serversPath = join(snapshotDir, "mcp-servers.json");
-  const { mcpServers = {} } = await readJsonObject(STATE_PATH);
-  await Bun.write(serversPath, toPortable(formatJson(mcpServers)));
-  ok("Dumped", serversPath);
-
   const settings = settingsFile(snapshotDir);
   await dumpSettings(settings);
   ok("Dumped", settings.snapshot);
