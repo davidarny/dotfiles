@@ -23,7 +23,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "jq -c '.tool_response | strings | capture(\"exceeds maximum allowed tokens. Output has been saved to (?<p>[^[:space:]]+)\") | (.p | rtrimstr(\".\")) as $p | {hookSpecificOutput: {hookEventName: \"PostToolUse\", additionalContext: (\"The result above was saved to \" + $p + \" because it exceeded the inline output limit; the call itself succeeded. Read all of it before your next step. JSON is often a single line that Read offset/limit cannot chunk: probe its structure with jq (type, length, keys), then extract every record with jq; slice plain text with python. State how much you read, for example 87/87 records, before relying on it.\")}}' || true"
+            "command": "jq -c '.tool_response | strings | capture(\"(?:exceeds maximum allowed tokens. Output has been saved to|Full output saved to:) (?<p>[^[:space:]]+)\") | (.p | rtrimstr(\".\")) as $p | {hookSpecificOutput: {hookEventName: \"PostToolUse\", additionalContext: (\"The result above was saved to \" + $p + \" because it exceeded the inline output limit; the call itself succeeded. Read all of it before your next step. JSON is often a single line that Read offset/limit cannot chunk: probe its structure with jq (type, length, keys), then extract every record with jq; slice plain text with python. State how much you read, for example 87/87 records, before relying on it.\")}}' || true"
           }
         ]
       }
