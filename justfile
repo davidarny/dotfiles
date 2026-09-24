@@ -55,8 +55,8 @@ link:
       git status --short --no-branch >&2
       exit 1
     fi
-    # Karabiner rewrites its config and needs the whole directory linked, not single files.
-    bun ./bin/link-dir.ts .config/karabiner
+    # Karabiner and Zed replace their config files, so their directories are linked whole.
+    bun ./bin/link-dirs.ts
 
 # Remove dotfiles symlinks from home directory
 [group('stow')]

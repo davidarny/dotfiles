@@ -10,6 +10,14 @@ export const HOME = Bun.env.HOME!;
 /** The dotfiles repo root (this file lives in `bin/lib`). */
 export const REPO = resolve(import.meta.dir, "../..");
 
+/**
+ * Directories linked as a whole instead of stowed file by file, for apps that
+ * replace their config files rather than writing through a symlink. Paths
+ * are the same relative to the repo and to `$HOME`; `.stow-local-ignore`
+ * excludes them from stow.
+ */
+export const DIRECTORY_LINKS = [".config/karabiner", ".config/zed"];
+
 const HOME_PREFIX = `${HOME}/`;
 const PLACEHOLDER = "${HOME}/";
 

@@ -15,8 +15,10 @@
 /README\.md$
 /justfile$
 
-# Karabiner rewrites its config and needs the whole directory linked (just link does it)
+# Apps that replace their config files get the whole directory linked
+# (DIRECTORY_LINKS in bin/lib/paths.ts; just link does it)
 /\.config\/karabiner$
+/\.config\/zed$
 
 # Generated agent snapshots (just claude-dump / codex-dump / pi-dump) — copied by restore, never stowed
 /\.pi\/agent\/settings\.json$

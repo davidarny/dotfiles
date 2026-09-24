@@ -188,5 +188,8 @@ zsdoc/data
 # Karabiner writes backups next to its config, which is linked into the repo
 .config/karabiner/automatic_backups/
 
+# Zed keeps its prompt library database next to its settings, also linked into the repo
+.config/zed/prompts/
+
 # Generated MCP secrets — resolved from .config/mcp/mcp-secrets.env.tpl via `just mcp-secrets`
 .config/mcp/mcp-secrets.env

@@ -1,18 +1,19 @@
 /**
- * Links a whole repo directory into the home directory, for apps that break on
- * the per-file symlinks stow creates (Karabiner-Elements rewrites its config).
+ * Links whole repo directories into the home directory, for apps that replace
+ * their config files instead of writing through the per-file symlinks stow
+ * creates (Karabiner-Elements, Zed). The list is `DIRECTORY_LINKS`.
  *
  * A home directory that holds only per-file links into the repo, as left by
- * `stow --no-folding`, is replaced; any other content stops the script so no
- * user file is lost.
+ * `stow --no-folding`, or nothing at all is replaced; any other content stops
+ * that link so no user file is lost.
  *
- * Usage: `bun link-dir.ts <path relative to the repo and $HOME>`
+ * Usage: `bun link-dirs.ts` (run from `just link`).
  */
 import { lstat, readdir, realpath, rmdir, unlink } from "node:fs/promises";
 import { join } from "node:path";
 import { isSymlink, link } from "./lib/fs";
 import { fail, ok, runMain } from "./lib/log";
-import { HOME, REPO, tilde } from "./lib/paths";
+import { DIRECTORY_LINKS, HOME, REPO, tilde } from "./lib/paths";
 
 /**
  * Removes a real directory that contains only symlinks into `source`.
@@ -42,8 +43,9 @@ async function removeStowFileLinks(target: string, source: string): Promise<stri
  * Links `$HOME/<relativePath>` to `<repo>/<relativePath>`.
  *
  * @param relativePath - Directory path, the same relative to the repo and to `$HOME`.
+ * @returns Whether the link is in place.
  */
-async function main(relativePath: string): Promise<void> {
+async function linkDirectory(relativePath: string): Promise<boolean> {
   const source = join(REPO, relativePath);
   const target = join(HOME, relativePath);
 
@@ -52,17 +54,19 @@ async function main(relativePath: string): Promise<void> {
     const others = await removeStowFileLinks(target, source);
     if (others.length) {
       fail(`${tilde(target)} has files that are not repo links`, [...others, "move them away and rerun just link"]);
-      process.exitCode = 1;
-      return;
+      return false;
     }
   }
 
   await link(target, source);
   ok("Linked", tilde(target));
+  return true;
 }
 
 await runMain(async () => {
-  const relativePath = Bun.argv[2];
-  if (!relativePath) throw new Error("Usage: bun link-dir.ts <path>");
-  await main(relativePath);
+  let failures = 0;
+  for (const path of DIRECTORY_LINKS) {
+    if (!(await linkDirectory(path))) failures++;
+  }
+  process.exitCode = failures ? 1 : 0;
 });

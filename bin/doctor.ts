@@ -13,7 +13,7 @@ import { readdir, readlink, realpath } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { isSymlink, readText } from "./lib/fs";
 import { fail, ok, runMain, step, summary } from "./lib/log";
-import { HOME, REPO, tilde } from "./lib/paths";
+import { DIRECTORY_LINKS, HOME, REPO, tilde } from "./lib/paths";
 import { CANONICAL_SKILLS_DIR, HARNESS_SKILL_DIRS, listLocalSkills, readSkills } from "./lib/skills";
 
 /** A named check and the problems it found; no problems means it passed. */
@@ -102,16 +102,18 @@ async function checkBrokenLinks(): Promise<CheckResult> {
   return { label: "No broken repo symlinks", problems };
 }
 
-/** `~/.config/karabiner` links to the repo directory as a whole. */
-async function checkKarabiner(): Promise<CheckResult> {
-  const path = join(HOME, ".config/karabiner");
-  const target = await realpath(path).catch(() => "");
-  const linked = (await isSymlink(path)) && target === join(REPO, ".config/karabiner");
+/** Every directory in `DIRECTORY_LINKS` links to the repo as a whole. */
+async function checkDirectoryLinks(): Promise<CheckResult> {
+  const problems: string[] = [];
+  for (const relativePath of DIRECTORY_LINKS) {
+    const path = join(HOME, relativePath);
+    const target = await realpath(path).catch(() => "");
+    if (!(await isSymlink(path)) || target !== join(REPO, relativePath)) {
+      problems.push(`${tilde(path)} is not a directory symlink → run just link`);
+    }
+  }
 
-  return {
-    label: "Karabiner config directory linked",
-    problems: linked ? [] : ["~/.config/karabiner is not a directory symlink → run just link"],
-  };
+  return { label: "Config directories linked", problems };
 }
 
 /** Every variable from the secrets template has a non-empty resolved value. */
@@ -234,7 +236,7 @@ async function checkYaziPlugins(): Promise<CheckResult> {
 const CHECKS = [
   checkStowLinks,
   checkBrokenLinks,
-  checkKarabiner,
+  checkDirectoryLinks,
   checkMcpSecrets,
   checkBrewfile,
   checkMcpCommands,
