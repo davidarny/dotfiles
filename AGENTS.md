@@ -6,7 +6,7 @@ macOS (Apple Silicon) dotfiles. The repo root mirrors `$HOME`; `just link` runs 
 
 - `.stow-local-ignore` entries containing `/` are anchored regexes that match repo-root paths only, e.g. `/README\.md$`; entries without `/` match a basename anywhere.
 - `just link` requires a clean tree because `stow --adopt` moves existing home files into the repo. When it stops after adopting, inspect `git diff` and restore the repo version with `git checkout -- <file>` unless the user wants the adopted content.
-- Apps that replace their config file instead of writing through a symlink (Karabiner, Zed) get the whole directory linked. List such a directory in `DIRECTORY_LINKS` (`bin/lib/paths.ts`) and exclude it in `.stow-local-ignore`.
+- Apps that replace their config file instead of writing through a symlink (Karabiner, Zed) get the whole directory linked. List such a directory in `DIRECTORY_LINKS` (`bin/lib/paths.ts`) and exclude it in `.stow-local-ignore`. These apps keep git-ignored state in the repo tree (Zed's prompt library, Karabiner's backups), so never run `git clean -x` here.
 - `.agents/AGENTS.md` is the global instruction file for Claude, Codex, OpenCode, and Pi; `.claude/CLAUDE.md` and the other harness files are symlinks to it. Edit `.agents/AGENTS.md` itself.
 
 ## Copied, not linked
