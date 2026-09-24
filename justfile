@@ -19,7 +19,16 @@ link:
     fi; \
     fi; \
     mkdir -p "$config_target"; \
-    stow --restow --adopt --no-folding --target="$HOME" . && \
+    if [ -n "$(git status --porcelain)" ]; then \
+    echo "✗ Commit or stash repo changes first: stow --adopt moves existing home files into the repo" >&2; \
+    git status --short --no-branch >&2; exit 1; \
+    fi; \
+    stow --restow --adopt --no-folding --target="$HOME" . || exit 1; \
+    if [ -n "$(git status --porcelain)" ]; then \
+    echo "✗ stow --adopt pulled these files from \$HOME into the repo; review with git diff," >&2; \
+    echo "  then keep them with a commit or restore the repo version with git checkout -- <file>:" >&2; \
+    git status --short --no-branch >&2; exit 1; \
+    fi; \
     just _link-dir .config/karabiner
 
 # Link a whole directory for apps that break on per-file symlinks (e.g. Karabiner rewrites its config)
