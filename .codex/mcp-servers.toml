@@ -26,6 +26,7 @@ command = "bunx"
 args = ["-y", "@atlassian-dc-mcp/jira@0.35.0"]
 env_vars = ["JIRA_API_TOKEN"]
 startup_timeout_sec = 120.0
+tool_timeout_sec = 120.0
 
 [mcp_servers.atlassian-jira-dc.env]
 JIRA_HOST = "jira.dats.tech"
@@ -35,6 +36,7 @@ command = "bunx"
 args = ["-y", "@atlassian-dc-mcp/confluence@0.35.0"]
 env_vars = ["CONFLUENCE_API_TOKEN"]
 startup_timeout_sec = 120.0
+tool_timeout_sec = 120.0
 
 [mcp_servers.atlassian-confluence-dc.env]
 CONFLUENCE_HOST = "confluence.dats.tech"
@@ -43,6 +45,7 @@ CONFLUENCE_HOST = "confluence.dats.tech"
 command = "/opt/homebrew/bin/mcp-grafana"
 env_vars = ["GRAFANA_API_KEY"]
 startup_timeout_sec = 120.0
+tool_timeout_sec = 120.0
 
 [mcp_servers.grafana.env]
 GRAFANA_URL = "https://grafana.dats.services"

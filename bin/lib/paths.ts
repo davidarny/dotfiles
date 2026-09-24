@@ -5,7 +5,7 @@
 import { resolve } from "node:path";
 
 /** The current user's home directory, without a trailing slash. */
-export const HOME = Bun.env.HOME!;
+export const HOME = Bun.env.HOME!.replace(/\/+$/, "");
 
 /** The dotfiles repo root (this file lives in `bin/lib`). */
 export const REPO = resolve(import.meta.dir, "../..");
@@ -18,8 +18,21 @@ export const REPO = resolve(import.meta.dir, "../..");
  */
 export const DIRECTORY_LINKS = [".config/karabiner", ".config/zed"];
 
+/** The home directory with its trailing slash, as it starts paths under it. */
 const HOME_PREFIX = `${HOME}/`;
+
+/** Stands for the home prefix in tracked snapshots. */
 const PLACEHOLDER = "${HOME}/";
+
+/** The home prefix with regex metacharacters escaped. */
+const HOME_PREFIX_PATTERN = HOME_PREFIX.replace(/[.*+?^$(){}|[\]\\]/g, "\\$&");
+
+/**
+ * The home prefix where a path starts: at the beginning of the text or after
+ * a character that cannot be part of a path, so `/Volumes/x/Users/me/` is left
+ * alone.
+ */
+const HOME_PATH = new RegExp(`(^|[^\\w./-])${HOME_PREFIX_PATTERN}`, "gm");
 
 /**
  * Replaces this machine's home prefix with the `${HOME}/` placeholder.
@@ -27,7 +40,7 @@ const PLACEHOLDER = "${HOME}/";
  * @param text - Snapshot content about to be written to the repo.
  */
 export function toPortable(text: string): string {
-  return text.replaceAll(HOME_PREFIX, PLACEHOLDER);
+  return text.replace(HOME_PATH, (_match, lead: string) => `${lead}${PLACEHOLDER}`);
 }
 
 /**

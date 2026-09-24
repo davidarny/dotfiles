@@ -2,8 +2,11 @@
  * File helpers shared by the bin scripts: optional reads, atomic writes, and
  * symlinks that never overwrite user data.
  */
-import { chmod, lstat, mkdir, readlink, rename, stat, symlink, unlink } from "node:fs/promises";
+import { chmod, lstat, mkdir, readlink, rename, stat, symlink, unlink, writeFile } from "node:fs/promises";
 import { dirname, relative } from "node:path";
+
+/** Permissions of a file `writeAtomic` creates: agent configs hold tokens. */
+const PRIVATE_MODE = 0o600;
 
 /**
  * Reads a text file that may not exist.
@@ -18,17 +21,20 @@ export async function readText(path: string): Promise<string | undefined> {
 
 /**
  * Replaces a file through a temporary sibling and a rename, so a crash never
- * leaves it half written. Parent directories are created as needed. The
- * existing file's permissions are kept, so a private (0600) config stays private.
+ * leaves it half written. The temporary file is created private (0600), so the
+ * content is never readable by others, then given the existing file's
+ * permissions; a new file stays private. Parent directories are created as
+ * needed. (`node:fs` because `Bun.write` cannot set the mode on creation.)
  *
  * @param path - File to replace.
  * @param text - New content.
  */
 export async function writeAtomic(path: string, text: string): Promise<void> {
   const tmp = `${path}.tmp-${process.pid}`;
-  const mode = (await stat(path).catch(() => null))?.mode;
-  await Bun.write(tmp, text);
-  if (mode !== undefined) await chmod(tmp, mode & 0o777);
+  const mode = ((await stat(path).catch(() => null))?.mode ?? PRIVATE_MODE) & 0o777;
+  await mkdir(dirname(path), { recursive: true });
+  await writeFile(tmp, text, { mode: PRIVATE_MODE });
+  if (mode !== PRIVATE_MODE) await chmod(tmp, mode);
   await rename(tmp, path);
 }
 

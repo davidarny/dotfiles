@@ -11,10 +11,12 @@ import { $ } from "bun";
 import { existsSync } from "node:fs";
 import { readdir, readlink, realpath } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
-import { isSymlink, readText } from "./lib/fs";
+import { isSymlink } from "./lib/fs";
+import { canonicalJson, readJson } from "./lib/json";
 import { fail, ok, runMain, step, summary } from "./lib/log";
 import { DIRECTORY_LINKS, fromPortable, HOME, REPO, tilde } from "./lib/paths";
 import { CANONICAL_SKILLS_DIR, HARNESS_SKILL_DIRS, listLocalSkills, readSkills } from "./lib/skills";
+import { readToml } from "./lib/toml";
 import { findDrift, readSettings } from "./macos-defaults";
 
 /** Label of the LaunchAgent that publishes MCP secrets to GUI apps (see the justfile). */
@@ -37,6 +39,9 @@ interface CheckResult {
   problems: string[];
 }
 
+/** One health check. */
+type Check = () => Promise<CheckResult>;
+
 /** An MCP server entry as Claude Code and Codex store it. */
 interface McpServer {
   /** Executable name or path; absent for HTTP servers. */
@@ -45,6 +50,8 @@ interface McpServer {
   enabled?: boolean;
   /** Codex: working directory that relative commands resolve against. */
   cwd?: string;
+  /** Command arguments. */
+  args?: string[];
 }
 
 /** The part of Claude Code's `~/.claude.json` that holds user-scope MCP servers. */
@@ -78,25 +85,19 @@ interface YaziDependency {
 }
 
 /**
- * Reads and parses a JSON file.
+ * Turns a tool's failure into a problem line when its output held none of
+ * the lines a check looks for, so a missing or broken tool never reads as a
+ * pass.
  *
- * @param path - File to read.
- * @returns The parsed value, or `undefined` when the file does not exist.
+ * @param tool - Tool name for the message.
+ * @param exitCode - The tool's exit code.
+ * @param stderr - The tool's error output.
+ * @param problems - Problems parsed from the output.
  */
-async function readJson<T>(path: string): Promise<T | undefined> {
-  const text = await readText(path);
-  return text === undefined ? undefined : (JSON.parse(text) as T);
-}
-
-/**
- * Reads and parses a TOML file.
- *
- * @param path - File to read.
- * @returns The parsed value, or `undefined` when the file does not exist.
- */
-async function readToml<T>(path: string): Promise<T | undefined> {
-  const text = await readText(path);
-  return text === undefined ? undefined : (Bun.TOML.parse(text) as T);
+function toolFailure(tool: string, exitCode: number, stderr: string, problems: string[]): string[] {
+  if (exitCode === 0 || problems.length) return problems;
+  const reason = stderr.trim().split("\n").at(-1) || `exited with ${exitCode}`;
+  return [`${tool} failed: ${reason}`];
 }
 
 /**
@@ -117,13 +118,13 @@ async function trackedDirs(): Promise<string[]> {
  * files. A dry run of `stow` lists each missing link as `LINK:`.
  */
 async function checkStowLinks(): Promise<CheckResult> {
-  const { stdout, stderr } = await $`stow --no --verbose --no-folding --target=${HOME} .`.cwd(REPO).quiet().nothrow();
+  const { stdout, stderr, exitCode } = await $`stow --no --verbose --no-folding --target=${HOME} .`.cwd(REPO).quiet().nothrow();
   const problems = `${stdout}${stderr}`
     .split("\n")
     .filter((line) => /^LINK|conflict|existing target/.test(line))
     .map((line) => `${line.trim()} → run just link`);
 
-  return { label: "Stow links in place", problems };
+  return { label: "Stow links in place", problems: toolFailure("stow", exitCode, stderr.toString(), problems) };
 }
 
 /** No symlink into the repo points at a file that no longer exists. */
@@ -183,13 +184,14 @@ async function checkMcpSecrets(): Promise<CheckResult> {
 
 /** Everything in the Brewfile is installed. */
 async function checkBrewfile(): Promise<CheckResult> {
-  const output = await $`brew bundle check --file=Brewfile --verbose --no-upgrade`.cwd(REPO).quiet().nothrow().text();
-  const problems = output
+  const { stdout, stderr, exitCode } = await $`brew bundle check --file=Brewfile --verbose --no-upgrade`.cwd(REPO).quiet().nothrow();
+  const problems = stdout
+    .toString()
     .split("\n")
     .filter((line) => line.startsWith("→"))
     .map((line) => `${line.slice(1).trim()} → run just brew-install`);
 
-  return { label: "Brewfile dependencies installed", problems };
+  return { label: "Brewfile dependencies installed", problems: toolFailure("brew", exitCode, stderr.toString(), problems) };
 }
 
 /**
@@ -200,25 +202,13 @@ async function checkBrewfile(): Promise<CheckResult> {
  * @param server - Server entry.
  * @returns A problem line, or `undefined` when the command exists.
  */
-function missingCommand(agent: string, name: string, { command }: McpServer): string | undefined {
-  if (!command) return undefined;
+function missingCommand(agent: string, name: string, { command, args = [] }: McpServer): string | undefined {
+  // mcp-sync wraps a Codex server in `/bin/sh -c '... exec "$0" "$@"' <command>` to rename variables.
+  const real = command === "/bin/sh" && args[0] === "-c" ? args[2] : command;
+  if (!real) return undefined;
 
-  const found = command.includes("/") ? existsSync(command) : Bun.which(command) !== null;
-  return found ? undefined : `${agent} ${name}: ${command} not found → reinstall it or run just ${agent}-restore`;
-}
-
-/**
- * Serializes a value with object keys sorted, so key order does not affect a
- * comparison.
- *
- * @param value - Value to serialize.
- */
-function canonicalJson(value: unknown): string {
-  return JSON.stringify(value, (_key, item) =>
-    item && typeof item === "object" && !Array.isArray(item)
-      ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a.localeCompare(b)))
-      : item,
-  );
+  const found = real.includes("/") ? existsSync(real) : Bun.which(real) !== null;
+  return found ? undefined : `${agent} ${name}: ${real} not found → reinstall it or run just mcp-restore`;
 }
 
 /**
@@ -246,7 +236,7 @@ async function checkMcpRestored(): Promise<CheckResult> {
   const problems: string[] = [];
 
   if (canonicalJson(claude?.mcpServers ?? {}) !== canonicalJson(JSON.parse(claudeSnapshot))) {
-    problems.push("Claude Code MCP servers differ from mcp/servers.toml → quit Claude and run just claude-restore");
+    problems.push("Claude Code MCP servers differ from mcp/servers.toml → quit Claude and run just mcp-restore");
   }
 
   const codexServers = (Bun.TOML.parse(codexSnapshot) as CodexConfig).mcp_servers ?? {};
@@ -254,7 +244,7 @@ async function checkMcpRestored(): Promise<CheckResult> {
     (name) => canonicalJson(codex?.mcp_servers?.[name]) !== canonicalJson(codexServers[name]),
   );
   if (stale.length) {
-    problems.push(`Codex MCP servers differ from mcp/servers.toml: ${stale.join(", ")} → quit Codex and run just codex-restore`);
+    problems.push(`Codex MCP servers differ from mcp/servers.toml: ${stale.join(", ")} → quit Codex and run just mcp-restore`);
   }
 
   return { label: "Agent MCP configs restored", problems };
@@ -364,8 +354,10 @@ async function checkSshAgent(): Promise<CheckResult> {
 
 /** gh is signed in, so it can clone and call the GitHub API. */
 async function checkGhAuth(): Promise<CheckResult> {
+  const label = "gh signed in";
+  if (!Bun.which("gh")) return { label, problems: ["gh is not installed → run just brew-install"] };
   const { exitCode } = await $`gh auth status`.quiet().nothrow();
-  return { label: "gh signed in", problems: exitCode === 0 ? [] : ["gh is not signed in → run gh auth login"] };
+  return { label, problems: exitCode === 0 ? [] : ["gh is not signed in → run gh auth login"] };
 }
 
 /** TPM is cloned, so tmux can load its plugins. */
@@ -380,7 +372,11 @@ async function checkTpm(): Promise<CheckResult> {
 /** Every yazi plugin pinned in package.toml or authored in the repo is installed. */
 async function checkYaziPlugins(): Promise<CheckResult> {
   const pkg = await readToml<YaziPackage>(join(REPO, ".config/yazi/package.toml"));
-  const pinned = (pkg?.plugin?.deps ?? []).map(({ use }) => `${use.split(":").at(-1)}.yazi`);
+  // `owner/plugins:git` installs as git.yazi, `owner/name.yazi` as name.yazi.
+  const pinned = (pkg?.plugin?.deps ?? []).map(({ use }) => {
+    const name = use.includes(":") ? use.split(":").at(-1)! : use.split("/").at(-1)!;
+    return name.endsWith(".yazi") ? name : `${name}.yazi`;
+  });
   const authored = (await readdir(join(REPO, ".config/yazi/plugins"), { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name);
@@ -425,10 +421,26 @@ const CHECKS = [
   checkMacosDefaults,
 ];
 
+/**
+ * Runs one check, turning an error it throws into a failed result so one
+ * broken check never hides the others.
+ *
+ * @param check - Check to run.
+ */
+async function runCheck(check: Check): Promise<CheckResult> {
+  try {
+    return await check();
+  } catch (error) {
+    const label = check.name.replace(/^check/, "").replace(/([a-z])([A-Z])/g, "$1 $2");
+    return { label: `${label} check`, problems: [error instanceof Error ? error.message : String(error)] };
+  }
+}
+
+/** Runs every check concurrently and reports them in order. */
 async function main(): Promise<void> {
   step("Dotfiles doctor");
 
-  const results = await Promise.all(CHECKS.map((check) => check()));
+  const results = await Promise.all(CHECKS.map(runCheck));
   for (const { label, problems } of results) {
     if (problems.length) fail(label, problems);
     else ok(label);

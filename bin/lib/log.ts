@@ -46,6 +46,18 @@ export function fail(text: string, details: string[] = []): void {
 }
 
 /**
+ * Prints a warning line followed by indented detail lines: something worth
+ * knowing that did not fail.
+ *
+ * @param text - What to note.
+ * @param details - One line per item.
+ */
+export function warn(text: string, details: string[] = []): void {
+  console.log(`  ${styleText("yellow", "!")} ${text}`);
+  for (const detail of details) console.log(`    ${styleText("dim", `└ ${detail}`)}`);
+}
+
+/**
  * Runs a script's entry point and reports a thrown error as a failure line
  * instead of a stack trace. Scripts throw for problems the user must fix.
  *

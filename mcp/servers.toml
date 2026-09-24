@@ -9,7 +9,8 @@
 #   url            remote (HTTP) server
 #   env            environment; "${VAR}" passes a variable from mcp-secrets.env
 #   headers        HTTP headers; values may use "${VAR}"
-#   timeout        startup and tool timeout in seconds
+#   timeout        seconds; Codex applies it to startup and tool calls, Claude
+#                  Code to tool calls, OpenCode to listing the tools
 #   enabled        false keeps the entry but does not start it
 #   agents         agents that get the server; all four when omitted
 #

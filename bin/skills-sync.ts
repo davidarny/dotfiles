@@ -14,7 +14,7 @@ import { $ } from "bun";
 import { unlink } from "node:fs/promises";
 import { dirname, join, resolve } from "node:path";
 import { isSymlink, link } from "./lib/fs";
-import { fail, ok, runMain, step, summary } from "./lib/log";
+import { counted, fail, ok, runMain, step, summary } from "./lib/log";
 import { HOME, tilde } from "./lib/paths";
 import { CANONICAL_SKILLS_DIR, HARNESS_SKILL_DIRS, listLocalSkills, readSkills, type Skills } from "./lib/skills";
 
@@ -128,16 +128,44 @@ async function installMissing(missing: Skills): Promise<InstallResult> {
  * OpenCode); keeping all four lets every harness see every skill.
  *
  * @param names - Skills present in the canonical directory.
+ * @returns How many links were refused.
  */
-async function linkHarnesses(names: string[]): Promise<void> {
+async function linkHarnesses(names: string[]): Promise<number> {
+  let failures = 0;
   for (const name of names) {
     for (const dir of HARNESS_SKILL_DIRS) {
-      await link(join(HOME, dir, name), canonicalPath(name));
+      if (!(await tryLink(join(HOME, dir, name), canonicalPath(name)))) failures++;
     }
+  }
+  return failures;
+}
+
+/**
+ * Links one path, reporting a refusal (a real file or directory in the way)
+ * as a failure line instead of stopping the whole sync.
+ *
+ * @param linkPath - Where the symlink should live.
+ * @param target - What it should point to.
+ * @returns Whether the link is in place.
+ */
+async function tryLink(linkPath: string, target: string): Promise<boolean> {
+  try {
+    await link(linkPath, target);
+    return true;
+  } catch (error) {
+    fail(tilde(linkPath), [error instanceof Error ? error.message : String(error)]);
+    return false;
   }
 }
 
-async function main(manifestPath: string): Promise<void> {
+/**
+ * Installs external skills, links local ones, and links every skill into all
+ * four harnesses.
+ *
+ * @param manifestPath - Tracked manifest, normally `.agents/skills.json`.
+ */
+async function main(manifestPath: string | undefined): Promise<void> {
+  if (!manifestPath) throw new Error("Usage: bun skills-sync.ts <manifest>");
   const external = await readSkills(manifestPath);
   const localDir = join(dirname(resolve(manifestPath)), "skills");
   const local = await listLocalSkills(localDir);
@@ -154,23 +182,24 @@ async function main(manifestPath: string): Promise<void> {
   const { installed: newlyInstalled, failures } = await installMissing(missing);
 
   step(`Local skills (${local.length})`);
+  let linkFailures = 0;
   for (const name of local) {
-    await link(canonicalPath(name), join(localDir, name));
-    ok(name, tilde(canonicalPath(name)));
+    if (await tryLink(canonicalPath(name), join(localDir, name))) ok(name, tilde(canonicalPath(name)));
+    else linkFailures++;
   }
 
   const linked = [...alreadyInstalled, ...newlyInstalled, ...local];
-  await linkHarnesses(linked);
+  linkFailures += await linkHarnesses(linked);
 
+  const problems = [
+    failures ? counted(failures, "repository", "repositories") + " failed to install" : "",
+    linkFailures ? counted(linkFailures, "link") + " refused" : "",
+  ].filter(Boolean);
   summary(
-    failures ? `${failures} repositories failed to install` : `${linked.length} skills linked into ${HARNESS_SKILL_DIRS.length} harnesses`,
-    failures === 0,
+    problems.length ? problems.join("; ") : `${linked.length} skills linked into ${HARNESS_SKILL_DIRS.length} harnesses`,
+    problems.length === 0,
   );
-  process.exitCode = failures ? 1 : 0;
+  process.exitCode = problems.length ? 1 : 0;
 }
 
-await runMain(async () => {
-  const manifestPath = Bun.argv[2];
-  if (!manifestPath) throw new Error("Usage: bun skills-sync.ts <manifest>");
-  await main(manifestPath);
-});
+await runMain(() => main(Bun.argv[2]));

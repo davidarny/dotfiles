@@ -34,13 +34,16 @@ test("Codex forwards secrets by name and maps renamed ones through /bin/sh", () 
   expect(local.env_vars).toEqual(["TOKEN", "OTHER_KEY"]);
   expect(local.env).toEqual({ HOST: "example.com" });
   expect(local.startup_timeout_sec).toBe(120);
+  expect(local.tool_timeout_sec).toBe(120);
 
   expect(remote.bearer_token_env_var).toBe("BEARER");
   expect(remote.env_http_headers).toEqual({ "x-api-key": "API_KEY" });
 });
 
 test("Codex rejects a secret embedded in a longer value", () => {
-  expect(() => renderCodex({ bad: { command: "x", env: { URL: "https://${HOST}/api" } } })).toThrow();
+  expect(() => renderCodex({ bad: { command: "x", env: { URL: "https://${HOST}/api" } } })).toThrow(
+    "bad: Codex cannot embed ${VAR} in env URL",
+  );
 });
 
 test("Claude keeps ${VAR} references and converts the timeout to milliseconds", () => {

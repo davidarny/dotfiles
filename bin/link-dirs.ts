@@ -63,10 +63,13 @@ async function linkDirectory(relativePath: string): Promise<boolean> {
   return true;
 }
 
-await runMain(async () => {
+/** Links every directory in `DIRECTORY_LINKS`; fails when any stays unlinked. */
+async function main(): Promise<void> {
   let failures = 0;
   for (const path of DIRECTORY_LINKS) {
     if (!(await linkDirectory(path))) failures++;
   }
   process.exitCode = failures ? 1 : 0;
-});
+}
+
+await runMain(main);

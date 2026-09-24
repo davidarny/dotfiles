@@ -18,7 +18,7 @@ import { readText } from "./lib/fs";
 import { fail, ok, runMain } from "./lib/log";
 import { type Agent, ALL_AGENTS, readServers, type Server, type Servers } from "./lib/mcp";
 import { REPO, tilde } from "./lib/paths";
-import { formatJson } from "./lib/settings";
+import { formatJson } from "./lib/json";
 import { type TomlLiteral, tomlKey, tomlLiteral } from "./lib/toml";
 
 /** A key of a Codex server table and its value; `undefined` leaves the key out. */
@@ -162,6 +162,7 @@ function renderCodexServer(name: string, server: Server): string {
     ["args", args.length ? args : undefined],
     ["env_vars", envVars.length ? envVars : undefined],
     ["startup_timeout_sec", server.timeout],
+    ["tool_timeout_sec", server.timeout],
     ["enabled", server.enabled === false ? false : undefined],
   ];
   const table = `mcp_servers.${tomlKey(name)}`;
@@ -198,7 +199,8 @@ export function renderOpencode(servers: Servers, current: string): string {
   const toEnv: ValueTransform = (value) => value.replaceAll(REFERENCES, "{env:$1}");
   const mcp = Object.fromEntries(
     serversFor(servers, "opencode").map(([name, server]) => {
-      const common = { enabled: server.enabled ?? true, timeout: timeoutMs(server) };
+      // serversFor already left out disabled servers.
+      const common = { enabled: true, timeout: timeoutMs(server) };
       if (!server.url) {
         const command = [server.command, ...(server.args ?? [])];
         return [name, { type: "local", command, environment: mapValues(server.env, toEnv), ...common }];

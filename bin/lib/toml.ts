@@ -1,7 +1,8 @@
 /**
- * TOML output for the scripts that write TOML: keys and inline values. Bun
- * parses TOML but has no writer.
+ * TOML files for the scripts: reading with a file-named error, and writing
+ * keys and inline values, since Bun parses TOML but has no writer.
  */
+import { readText } from "./fs";
 
 /** A value that can be written inline in TOML. */
 export type TomlLiteral = string | number | boolean | TomlLiteral[] | TomlTable;
@@ -9,6 +10,23 @@ export type TomlLiteral = string | number | boolean | TomlLiteral[] | TomlTable;
 /** A TOML table, written inline as `{ key = value }`. */
 export interface TomlTable {
   [key: string]: TomlLiteral;
+}
+
+/**
+ * Reads and parses a TOML file.
+ *
+ * @param path - File to read.
+ * @returns The parsed value, or `undefined` when the file does not exist.
+ * @throws When the file is not valid TOML, naming the file.
+ */
+export async function readToml<T>(path: string): Promise<T | undefined> {
+  const text = await readText(path);
+  if (text === undefined) return undefined;
+  try {
+    return Bun.TOML.parse(text) as T;
+  } catch (error) {
+    throw new Error(`${path}: ${error instanceof Error ? error.message : String(error)}`);
+  }
 }
 
 /** A key that TOML accepts without quotes. */
