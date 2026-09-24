@@ -9,7 +9,9 @@ macOS dotfiles managed with **GNU stow**. All config files live in this repo and
 ## Commands
 
 ```bash
-just link          # stow --restow --adopt --no-folding --target="$HOME" .
+just bootstrap     # full, rerunnable setup: brew, link, secrets, skills, bun, agent configs, plugins
+just doctor        # read-only health report of the setup
+just link          # stow --restow --adopt --no-folding --target="$HOME" . (refuses a dirty tree)
 just unlink        # stow --delete --target="$HOME" .
 just brew-install  # brew bundle --file=Brewfile
 just brew-dump     # brew bundle dump to Brewfile

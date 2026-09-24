@@ -2,6 +2,16 @@
 default:
 	@just --list
 
+# Set up this machine end to end; safe to rerun
+[group('setup')]
+bootstrap:
+    ./bin/bootstrap
+
+# Read-only report of links, secrets, packages, MCP commands, skills, and plugins
+[group('setup')]
+doctor:
+    ./bin/doctor
+
 # Symlink dotfiles to home directory
 [group('stow')]
 link:
@@ -97,7 +107,7 @@ skills-sync:
 # Verify shell config, Brewfile dependencies, and whitespace
 [group('check')]
 check:
-    @zsh -n .zshrc .config/zsh/*.zsh
+    @zsh -n .zshrc .config/zsh/*.zsh bin/bootstrap bin/doctor
     @brew bundle check --file=Brewfile
     @git diff --check
     @echo "✓ Checks passed"

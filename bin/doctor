@@ -1,0 +1,103 @@
+#!/usr/bin/env zsh
+# Read-only health report for this machine's dotfiles setup. Exits 1 when a check fails.
+
+set -uo pipefail
+cd "${0:A:h:h}"
+repo=$PWD
+failed=0
+
+ok() { print -P "%F{green}✓%f $1" }
+bad() { print -P "%F{red}✗%f $1"; shift; (( $# )) && print -l -- "${@/#/    }"; failed=1 }
+check() { local label=$1; shift; (( $# )) && bad "$label" "$@" || ok "$label" }
+
+# Stow: links that are missing or blocked by existing files
+stow_out=$(stow --no --verbose --no-folding --target="$HOME" . 2>&1)
+check "Stow links in place" ${(f)"$(print -r -- "$stow_out" | grep -E '^LINK|conflict|existing target' || true)"}
+
+# Symlinks into the repo whose target no longer exists
+broken=()
+for dir in .agents .bun .claude .codex .config .local .pi Library/LaunchAgents; do
+  [[ -d "$HOME/$dir" ]] || continue
+  for link in "$HOME/$dir"/**/*(ND-@); do
+    [[ "$(readlink "$link")" == *${repo:t}/* ]] && broken+=("${link/#$HOME/~}")
+  done
+done
+for link in "$HOME"/*(ND-@); do
+  [[ "$(readlink "$link")" == *${repo:t}/* ]] && broken+=("${link/#$HOME/~}")
+done
+check "No broken repo symlinks" "${broken[@]}"
+
+# Karabiner needs the whole directory linked
+[[ -L "$HOME/.config/karabiner" && ${${:-$HOME/.config/karabiner}:A} == "$repo/.config/karabiner" ]] &&
+  ok "~/.config/karabiner links to the repo directory" ||
+  bad "~/.config/karabiner links to the repo directory" "run just link"
+
+# MCP secrets
+secrets="$HOME/.config/mcp/mcp-secrets.env"
+if [[ -f "$secrets" ]]; then
+  expected=(${(f)"$(sed -nE 's/^export ([A-Za-z_][A-Za-z0-9_]*)=.*/\1/p' .config/mcp/mcp-secrets.env.tpl)"})
+  empty=()
+  for name in "${expected[@]}"; do
+    grep -qE "^export $name=['\"]?[^'\"[:space:]]" "$secrets" || empty+=("$name")
+  done
+  check "MCP secrets resolved" "${empty[@]/%/ is empty or missing; run just mcp-secrets}"
+else
+  bad "MCP secrets resolved" "$secrets is missing; run just mcp-secrets"
+fi
+
+# Homebrew
+brew_out=$(brew bundle check --file=Brewfile --verbose 2>&1)
+check "Brewfile dependencies installed" ${(f)"$(print -r -- "$brew_out" | grep -E '^→' || true)"}
+
+# MCP server commands
+missing_command() {
+  local name=$1 command=$2
+  [[ -z "$command" ]] && return
+  if [[ "$command" == */* ]]; then
+    [[ -x "$command" ]] || print -r -- "$name: $command does not exist"
+  else
+    command -v "$command" >/dev/null 2>&1 || print -r -- "$name: $command is not on PATH"
+  fi
+}
+mcp=()
+if [[ -f "$HOME/.claude.json" ]]; then
+  while IFS=$'\t' read -r name command; do
+    mcp+=(${(f)"$(missing_command "claude $name" "$command")"})
+  done < <(jq -r '.mcpServers // {} | to_entries[] | [.key, .value.command // ""] | @tsv' "$HOME/.claude.json")
+fi
+if [[ -f "$HOME/.codex/config.toml" ]]; then
+  while IFS=$'\t' read -r name command; do
+    mcp+=(${(f)"$(missing_command "codex $name" "$command")"})
+  done < <(bun --print 'Object.entries(Bun.TOML.parse(await Bun.file(Bun.env.HOME + "/.codex/config.toml").text()).mcp_servers ?? {}).filter(([, s]) => s.enabled !== false && !s.cwd).map(([n, s]) => `${n}\t${s.command ?? ""}`).join("\n")')
+fi
+check "MCP server commands exist" "${mcp[@]}"
+
+# Skills: referenced by AGENTS.md, listed in the manifest, or authored locally
+skills=(
+  ${(f)"$(grep -oE 'skills/[a-z0-9-]+/SKILL\.md' .agents/AGENTS.md | cut -d/ -f2)"}
+  ${(f)"$(jq -r '.skills | keys[]' .agents/skills.json)"}
+  .agents/skills/*(N/:t)
+)
+skills=(${(u)skills})
+missing=()
+for skill in "${skills[@]}"; do
+  for dir in .agents/skills .claude/skills .codex/skills .pi/agent/skills .config/opencode/skills; do
+    [[ -f "$HOME/$dir/$skill/SKILL.md" ]] || missing+=("~/$dir/$skill")
+  done
+done
+check "Skills installed in all harnesses (${#skills})" "${missing[@]/%/ (run just skills-sync)}"
+
+# tmux plugins
+[[ -x "$HOME/.tmux/plugins/tpm/tpm" ]] && ok "TPM installed" ||
+  bad "TPM installed" "start tmux once; tmux.conf clones TPM and installs plugins"
+
+# yazi plugins
+plugins=(${(f)"$(sed -nE 's/^use = "[^:]+:([^"]+)"/\1/p' .config/yazi/package.toml)"} .config/yazi/plugins/*(N/:t:r))
+missing=()
+for plugin in "${plugins[@]}"; do
+  [[ -d "$HOME/.config/yazi/plugins/$plugin.yazi" ]] || missing+=("$plugin.yazi (run just yazi-plugins)")
+done
+check "yazi plugins installed" "${missing[@]}"
+
+(( failed )) && print -P "\n%F{red}Some checks failed.%f" || print -P "\n%F{green}All checks passed.%f"
+exit $failed

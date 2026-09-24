@@ -1,0 +1,50 @@
+#!/usr/bin/env zsh
+# Set up this machine from the repo. Safe to rerun; stops with a hint where a manual step is needed.
+
+set -euo pipefail
+cd "${0:A:h:h}"
+
+step() { print -P "\n%F{blue}==>%f %B$1%b" }
+fail() { print -u2 -P "\n%F{red}✗%f $1"; exit 1 }
+
+[[ -x /opt/homebrew/bin/brew ]] || fail "Install Homebrew first: https://brew.sh"
+eval "$(/opt/homebrew/bin/brew shellenv zsh)"
+
+step "Homebrew packages"
+brew bundle --file=Brewfile
+
+step "Symlinks"
+just link
+
+step "MCP secrets"
+if [[ -s "$HOME/.config/mcp/mcp-secrets.env" ]]; then
+  echo "✓ ~/.config/mcp/mcp-secrets.env exists; run just mcp-secrets to refresh it"
+else
+  just mcp-secrets || fail "Sign in to the 1Password app, enable Settings → Developer → Integrate with 1Password CLI, then rerun just bootstrap"
+fi
+
+step "MCP secrets LaunchAgent"
+just mcp-launchagent
+
+step "Global skills"
+just skills-sync
+
+step "Global Bun packages"
+just bun-sync
+
+step "Agent settings and MCP servers"
+# Restore rewrites ~/.claude.json and ~/.codex/config.toml, which running apps overwrite.
+running=(${(f)"$(ps -axo comm= | awk -F/ '{ print $NF }' | grep -xE 'claude|Claude|codex|Codex|ChatGPT' | sort -u || true)"})
+if (( ${#running} )); then
+  fail "Quit ${(j:, :)running} (including this terminal's agent session), then rerun just bootstrap"
+fi
+just claude-restore codex-restore
+
+step "yazi plugins"
+just yazi-plugins
+
+step "File associations"
+just file-defaults
+
+step "Done"
+echo "tmux installs TPM and its plugins on first start. Run just doctor to verify the setup."
