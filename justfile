@@ -19,7 +19,7 @@ link:
     fi; \
     fi; \
     mkdir -p "$config_target"; \
-    stow --restow --adopt --target="$HOME" .
+    stow --restow --adopt --no-folding --target="$HOME" .
 
 # Remove dotfiles symlinks from home directory
 [group('stow')]
@@ -71,8 +71,8 @@ file-defaults:
 # Resolve 1Password secret references into the sourced MCP env file
 [group('mcp')]
 mcp-secrets:
-    op inject --force --in-file .config/mcp/mcp-secrets.env.tpl --out-file .config/mcp/mcp-secrets.env
-    chmod 600 .config/mcp/mcp-secrets.env
+    op inject --force --in-file .config/mcp/mcp-secrets.env.tpl --out-file "$HOME/.config/mcp/mcp-secrets.env"
+    chmod 600 "$HOME/.config/mcp/mcp-secrets.env"
     .local/bin/mcp-secrets-launchctl
 
 # Load the login agent that publishes MCP secrets to GUI apps (run after just link)

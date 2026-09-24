@@ -9,7 +9,7 @@ macOS dotfiles managed with **GNU stow**. All config files live in this repo and
 ## Commands
 
 ```bash
-just link          # stow --restow --adopt --target="$HOME" .
+just link          # stow --restow --adopt --no-folding --target="$HOME" .
 just unlink        # stow --delete --target="$HOME" .
 just brew-install  # brew bundle --file=Brewfile
 just brew-dump     # brew bundle dump to Brewfile
