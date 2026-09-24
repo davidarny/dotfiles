@@ -128,40 +128,29 @@ These need to be installed manually:
 
 Before installation, ensure you have:
 
-- macOS installed
+- macOS on Apple Silicon
 - Command Line Tools for Xcode: `xcode-select --install`
 - [Homebrew](https://brew.sh) package manager
-- [GNU stow](https://www.gnu.org/software/stow/): `brew install stow`
 - [just](https://github.com/casey/just): `brew install just`
+- The 1Password app, signed in, with Settings → Developer → Integrate with 1Password CLI enabled
 
-### 2. Clone and Link Dotfiles
-
-1. Clone this repository:
+### 2. Clone and Bootstrap
 
 ```bash
-git clone git@gitlab.com:waosdx/dotfiles.git ~/.dotfiles
+git clone git@github.com:davidarny/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
+just bootstrap
 ```
 
-2. Create symlinks using GNU stow:
+`just bootstrap` installs the Brewfile, links the dotfiles with stow, resolves MCP secrets from 1Password, loads the LaunchAgent that publishes them to GUI apps, installs global skills and Bun packages, restores Claude Code and Codex settings and MCP servers, installs yazi plugins, and applies file associations. It is safe to rerun and stops with a hint when it needs you, for example to sign in to 1Password or to quit Claude and Codex before their configs are restored. tmux installs TPM and its plugins on first start.
+
+### 3. Verify
 
 ```bash
-just link
+just doctor
 ```
 
-### 3. Post-Installation
-
-1. Install required dependencies:
-
-```bash
-just brew-install
-```
-
-2. Reload your shell:
-
-```bash
-source ~/.zshrc
-```
+`just doctor` only reads and reports broken or missing links, empty MCP secrets, missing Brewfile packages, MCP servers whose command does not exist, missing skills, and missing tmux or yazi plugins. Reload your shell afterwards with `source ~/.zshrc`.
 
 ## Uninstalling
 
