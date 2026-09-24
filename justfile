@@ -178,8 +178,8 @@ mcp-secrets:
 # Load the login agent that publishes MCP secrets to GUI apps (run after just link)
 [group('mcp')]
 mcp-launchagent:
-    launchctl bootout gui/$(id -u)/com.davidarutyunyan.mcp-secrets-env 2>/dev/null || true
-    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.davidarutyunyan.mcp-secrets-env.plist
+    launchctl bootout gui/$(id -u)/local.dotfiles.mcp-secrets-env 2>/dev/null || true
+    launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/local.dotfiles.mcp-secrets-env.plist
 
 # Write every agent's MCP config from mcp/servers.toml; then restore Claude and Codex
 [group('mcp')]
