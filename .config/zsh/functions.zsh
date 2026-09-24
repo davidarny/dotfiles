@@ -31,7 +31,7 @@ function skills() {
 }
 
 # Parse dotenv data with Bun; never evaluate it as shell code.
-typeset -g _dotfiles_dotenv_script="${${(%):-%x}:A:h:h:h}/bin/dotenv-export.mjs"
+typeset -g _dotfiles_dotenv_script="${${(%):-%x}:A:h:h:h}/bin/dotenv-export.ts"
 
 function dotenv() {
   command -v bun >/dev/null 2>&1 || {
