@@ -205,6 +205,62 @@ async function checkSkills(): Promise<CheckResult> {
   return { label: `${skills.length} skills in all harnesses`, problems };
 }
 
+/** Label of the LaunchAgent that publishes MCP secrets to GUI apps. */
+const LAUNCH_AGENT = "local.dotfiles.mcp-secrets-env";
+
+/** The 1Password SSH agent socket that `env.zsh` and `~/.ssh/config` use. */
+const SSH_AGENT_SOCKET = join(HOME, "Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock");
+
+/** Every runtime pinned in the mise config is installed. */
+async function checkMiseRuntimes(): Promise<CheckResult> {
+  const output = await $`mise ls --missing --json`.cwd(HOME).quiet().nothrow().text();
+  const missing = Object.keys(JSON.parse(output || "{}"));
+  return {
+    label: "mise runtimes installed",
+    problems: missing.map((tool) => `${tool} is missing → run just mise-install`),
+  };
+}
+
+/** Every global Bun package in the stowed manifest is installed. */
+async function checkBunPackages(): Promise<CheckResult> {
+  const globalDir = join(HOME, ".bun/install/global");
+  const manifest = await readJson<{ dependencies?: Record<string, string> }>(join(globalDir, "package.json"));
+  const problems: string[] = [];
+  for (const name of Object.keys(manifest?.dependencies ?? {})) {
+    if (!(await Bun.file(join(globalDir, "node_modules", name, "package.json")).exists())) {
+      problems.push(`${name} is missing → run just bun-sync`);
+    }
+  }
+  return { label: "Global Bun packages installed", problems };
+}
+
+/** The LaunchAgent that publishes MCP secrets to GUI apps is loaded. */
+async function checkLaunchAgent(): Promise<CheckResult> {
+  const { exitCode } = await $`launchctl print gui/${process.getuid!()}/${LAUNCH_AGENT}`.quiet().nothrow();
+  return {
+    label: "MCP secrets LaunchAgent loaded",
+    problems: exitCode === 0 ? [] : [`${LAUNCH_AGENT} is not loaded → run just mcp-launchagent`],
+  };
+}
+
+/** The 1Password SSH agent answers and offers keys. */
+async function checkSshAgent(): Promise<CheckResult> {
+  const { exitCode } = await $`ssh-add -l`.env({ ...Bun.env, SSH_AUTH_SOCK: SSH_AGENT_SOCKET }).quiet().nothrow();
+  const problems =
+    exitCode === 0
+      ? []
+      : exitCode === 1
+        ? ["the 1Password SSH agent offers no keys → add keys to the vaults in ~/.config/1Password/ssh/agent.toml"]
+        : ["the 1Password SSH agent does not answer → enable it in 1Password, Settings, Developer"];
+  return { label: "1Password SSH agent ready", problems };
+}
+
+/** gh is signed in, so it can clone and call the GitHub API. */
+async function checkGhAuth(): Promise<CheckResult> {
+  const { exitCode } = await $`gh auth status`.quiet().nothrow();
+  return { label: "gh signed in", problems: exitCode === 0 ? [] : ["gh is not signed in → run gh auth login"] };
+}
+
 /** TPM is cloned, so tmux can load its plugins. */
 async function checkTpm(): Promise<CheckResult> {
   const installed = await Bun.file(join(HOME, ".tmux/plugins/tpm/tpm")).exists();
@@ -238,9 +294,14 @@ const CHECKS = [
   checkBrokenLinks,
   checkDirectoryLinks,
   checkMcpSecrets,
+  checkLaunchAgent,
   checkBrewfile,
+  checkMiseRuntimes,
+  checkBunPackages,
   checkMcpCommands,
   checkSkills,
+  checkSshAgent,
+  checkGhAuth,
   checkTpm,
   checkYaziPlugins,
 ];
