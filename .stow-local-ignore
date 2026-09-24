@@ -15,9 +15,11 @@
 /README\.md$
 /justfile$
 
-# Generated MCP snapshots (just claude-dump / codex-dump) — never stow material
+# Generated agent snapshots (just claude-dump / codex-dump) — copied by restore, never stowed
 /\.claude\/mcp-servers\.json$
+/\.claude\/settings\.json$
 /\.codex\/mcp-servers\.toml$
+/\.codex\/settings\.toml$
 
 # Skills manifest is read from the repo; the CLI lockfile is machine-local
 /\.agents\/skills\.json$

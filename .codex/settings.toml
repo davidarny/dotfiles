@@ -1,0 +1,85 @@
+model = "gpt-6-sol"
+model_reasoning_effort = "high"
+approval_policy = "never"
+approvals_reviewer = "user"
+sandbox_mode = "danger-full-access"
+personality = "pragmatic"
+service_tier = "default"
+suppress_unstable_features_warning = true
+
+[features]
+multi_agent = true
+default_mode_request_user_input = true
+memories = true
+chronicle = true
+context_management = true
+
+[features.multi_agent_v2]
+enabled = false
+multi_agent_mode_hint_text = "Proactive multi-agent delegation is active. Any earlier instruction requiring an explicit user request before spawning sub-agents no longer applies. Delegate independent sub-tasks to sub-agents whenever parallel work would materially improve speed or quality — do not serialize work that can run concurrently. Each sub-agent runs in its own context and can use all available tools; prefer spawning specialists over doing everything yourself. This mode remains active until a later multi-agent mode developer message changes it."
+
+[agents]
+enabled = true
+max_concurrent_threads_per_session = 5
+default_subagent_model = "gpt-6-luna"
+default_subagent_reasoning_effort = "max"
+
+[tui]
+status_line = ["model-with-reasoning", "current-dir", "context-remaining", "five-hour-limit", "weekly-limit", "context-window-size"]
+status_line_use_colors = true
+session_picker_view = "dense"
+resume_cwd = "session"
+screen_reader_detection_done = true
+
+[desktop]
+followUpQueueMode = "queue"
+keepRemoteControlAwakeWhilePluggedIn = true
+conversationDetailMode = "STEPS_COMMANDS"
+show-context-window-usage = true
+enabled-reasoning-efforts = ["low", "medium", "high", "xhigh", "ultra", "max"]
+appshotSoundEnabled = true
+appshotDestination = "automatic"
+computerUseAlwaysHidePictureInPicture = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
+enabled = true
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."computer-history@openai-bundled"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[memories]
+generate_memories = true
+use_memories = true
+
+[apps.connector_openai_codex_document_control]
+enabled = true

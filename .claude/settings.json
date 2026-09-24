@@ -1,0 +1,54 @@
+{
+  "env": {
+    "ENABLE_TOOL_SEARCH": "false"
+  },
+  "permissions": {
+    "defaultMode": "bypassPermissions"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "mcp__hindsight__recall",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '(.tool_input.max_tokens // 4096 | tonumber? // 4096) as $n | if $n > 1500 then {hookSpecificOutput: {hookEventName: \"PreToolUse\", updatedInput: (.tool_input + {max_tokens: 1500})}} else empty end' || true"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -c '.tool_response | strings | capture(\"exceeds maximum allowed tokens. Output has been saved to (?<p>[^[:space:]]+)\") | (.p | rtrimstr(\".\")) as $p | {hookSpecificOutput: {hookEventName: \"PostToolUse\", additionalContext: (\"The result above was saved to \" + $p + \" because it exceeded the inline output limit; the call itself succeeded. Read all of it before your next step. JSON is often a single line that Read offset/limit cannot chunk: probe its structure with jq (type, length, keys), then extract every record with jq; slice plain text with python. State how much you read, for example 87/87 records, before relying on it.\")}}' || true"
+          }
+        ]
+      }
+    ]
+  },
+  "worktree": {
+    "baseRef": "fresh"
+  },
+  "enableWorkflows": true,
+  "enabledPlugins": {
+    "typescript-lsp@claude-plugins-official": true
+  },
+  "extraKnownMarketplaces": {},
+  "effortLevel": "high",
+  "modelSettings": {
+    "claude-opus-5": {
+      "effortLevel": "high"
+    }
+  },
+  "tui": "fullscreen",
+  "skipDangerousModePermissionPrompt": true,
+  "skipWorkflowUsageWarning": true,
+  "theme": "dark",
+  "switchModelsOnFlag": false,
+  "agentPushNotifEnabled": true,
+  "useAutoModeDuringPlan": true,
+  "disableDeepLinkRegistration": "disable"
+}

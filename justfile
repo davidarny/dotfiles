@@ -81,22 +81,28 @@ mcp-launchagent:
     launchctl bootout gui/$(id -u)/com.davidarutyunyan.mcp-secrets-env 2>/dev/null || true
     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/com.davidarutyunyan.mcp-secrets-env.plist
 
-# Snapshot user-scope MCP servers from live configs into the repo (home paths become ${HOME})
+# Snapshot agent settings and user-scope MCP servers into the repo (home paths become ${HOME})
 [group('mcp')]
 claude-dump:
     mkdir -p .claude
     jq --arg home "$HOME/" '.mcpServers // {} | walk(if type == "string" then split($home) | join("${HOME}/") else . end)' ~/.claude.json > .claude/mcp-servers.json
+    jq --arg home "$HOME/" 'walk(if type == "string" then split($home) | join("${HOME}/") else . end)' ~/.claude/settings.json > .claude/settings.json
 
 [group('mcp')]
 codex-dump:
     bun ./bin/codex-config.ts dump ~/.codex/config.toml .codex
 
-# Restore MCP servers from the repo snapshots (close the respective app first)
+# Restore agent settings and MCP servers from the repo snapshots (close the respective app first)
 [group('mcp')]
 claude-restore:
+    mkdir -p ~/.claude
+    test -f ~/.claude.json || echo '{}' > ~/.claude.json
     tmp=$(mktemp); \
     jq --arg home "$HOME/" --slurpfile mcp .claude/mcp-servers.json '.mcpServers = ($mcp[0] | walk(if type == "string" then split("${HOME}/") | join($home) else . end))' ~/.claude.json > $tmp && \
     mv $tmp ~/.claude.json
+    tmp=$(mktemp); \
+    jq --arg home "$HOME/" 'walk(if type == "string" then split("${HOME}/") | join($home) else . end)' .claude/settings.json > $tmp && \
+    mv $tmp ~/.claude/settings.json
 
 [group('mcp')]
 codex-restore:
