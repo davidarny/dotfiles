@@ -3,6 +3,21 @@
 
 palette = "luna"
 
+# Top-level keys must come before the first table, or TOML files them under it.
+format = """
+$os\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_state\
+$git_status\
+$nodejs\
+$cmd_duration\
+$line_break\
+$python\
+$character"""
+
 [palettes.luna]
 black = "#000000"
 red = "#e08585"
@@ -20,20 +35,6 @@ bright-blue = "#8c9cb8"
 bright-purple = "#c4a8d6"
 bright-cyan = "#75a1c7"
 bright-white = "#ffffff"
-
-format = """
-$os\
-$username\
-$hostname\
-$directory\
-$git_branch\
-$git_state\
-$git_status\
-$nodejs\
-$cmd_duration\
-$line_break\
-$python\
-$character"""
 
 [os]
 disabled = false

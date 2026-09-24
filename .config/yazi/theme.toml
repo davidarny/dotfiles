@@ -1,10 +1,6 @@
 [mgr]
 cwd = { fg = "#e4e4e8", italic = true }
 
-# Hovered
-hovered = { bg = "#1c1c1c" }
-preview_hovered = { bg = "#1c1c1c" }
-
 # Find
 find_keyword = { fg = "#060606", bg = "#c2916a", bold = true }
 find_position = { fg = "#75a1c7", bg = "#888888", bold = true }
@@ -15,11 +11,6 @@ marker_cut = { fg = "#e08585", bg = "#e08585" }
 marker_marked = { fg = "#c7c7c7", bg = "#c7c7c7" }
 marker_selected = { fg = "#060606", bg = "#c2916a" }
 
-# Tab
-tab_active = { fg = "#e4e4e8", bg = "#1c1c1c" }
-tab_inactive = { fg = "#888888", bg = "#060606" }
-tab_width = 1
-
 # Count
 count_copied = { fg = "#e4e4e8", bg = "#888888" }
 count_cut = { fg = "#e4e4e8", bg = "#e08585" }
@@ -28,6 +19,15 @@ count_selected = { fg = "#e4e4e8", bg = "#888888" }
 # Border
 border_symbol = "│"
 border_style = { fg = "#1c1c1c" }
+
+[indicator]
+parent = { bg = "#1c1c1c" }
+current = { bg = "#1c1c1c" }
+preview = { bg = "#1c1c1c" }
+
+[tabs]
+active = { fg = "#e4e4e8", bg = "#1c1c1c" }
+inactive = { fg = "#888888", bg = "#060606" }
 
 [status]
 sep_left = { open = "", close = "" }
@@ -38,11 +38,11 @@ progress_normal = { fg = "#060606" }
 progress_error = { fg = "#e08585" }
 
 # Permissions
-permissions_t = { fg = "#c4a8d6" }
-permissions_r = { fg = "#c2916a" }
-permissions_w = { fg = "#b09080" }
-permissions_x = { fg = "#b09080" }
-permissions_s = { fg = "#403c41" }
+perm_type = { fg = "#c4a8d6" }
+perm_read = { fg = "#c2916a" }
+perm_write = { fg = "#b09080" }
+perm_exec = { fg = "#b09080" }
+perm_sep = { fg = "#403c41" }
 
 [mode]
 normal_main = { fg = "#060606", bg = "#75a1c7", bold = true }
@@ -90,10 +90,9 @@ title_warn = { fg = "#d9a35a" }
 title_error = { fg = "#e08585" }
 
 [help]
-on = { fg = "#b09080" }
-run = { fg = "#c7c7c7" }
+chord = { fg = "#b09080" }
+action = { fg = "#c7c7c7" }
 hovered = { bg = "#888888" }
-footer = { fg = "#e4e4e8", bg = "#060606" }
 
 [filetype]
 rules = [

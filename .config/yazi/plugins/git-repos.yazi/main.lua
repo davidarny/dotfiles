@@ -73,6 +73,9 @@ local function inspect_repo(url)
 		:cwd(tostring(url))
 		:arg({
 			"--no-optional-locks",
+			-- A repo with core.fsmonitor set would start a daemon for every listed repo.
+			"-c",
+			"core.fsmonitor=false",
 			"status",
 			"--porcelain=v2",
 			"--branch",

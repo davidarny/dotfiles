@@ -1,6 +1,6 @@
 theme = "luna"
 macos-icon = "custom"
-macos-custom-icon = "~/.config/ghostty/tokyo-night.icns"
+macos-custom-icon = "~/.config/ghostty/icons/tokyo-night.icns"
 
 font-size = 14
 font-family = "JetBrainsMono Nerd Font"

@@ -8,7 +8,7 @@ default:
 
 # Set up this machine end to end; safe to rerun and stops where it needs you
 [group('setup')]
-bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync claude-restore codex-restore pi-restore yazi-plugins file-defaults macos
+bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync claude-restore codex-restore pi-restore yazi-plugins bat-cache file-defaults macos
     @echo "✓ Bootstrap done. tmux installs TPM and its plugins on first start; run just doctor to verify."
 
 # Read-only report of links, secrets, packages, MCP commands, skills, and plugins
@@ -155,7 +155,7 @@ _check-shell:
 # mise, yazi, and Neovim record the new versions in the repo, so review git diff afterwards.
 # Upgrade every tool, one step after another
 [group('upgrade')]
-upgrade: upgrade-brew upgrade-mise upgrade-bun upgrade-uv upgrade-skills upgrade-pi upgrade-plugins
+upgrade: upgrade-brew bat-cache upgrade-mise upgrade-bun upgrade-uv upgrade-skills upgrade-pi upgrade-plugins
     @echo "✓ Upgraded. Review git diff for version bumps in mise, yazi, and Neovim."
 
 # Upgrade Homebrew formulae and casks, then remove old versions and unused dependencies
@@ -211,6 +211,12 @@ mise-install:
 [group('tools')]
 yazi-plugins:
     ya pkg install
+
+# bat reads custom themes only from its cache, and a new bat release refuses a cache built by the old one.
+# Build bat's cache of the stowed themes
+[group('tools')]
+bat-cache:
+    bat cache --build
 
 # Apply the macOS settings in macos/defaults.toml and restart what reads them
 [group('macos')]
