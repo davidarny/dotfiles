@@ -131,18 +131,23 @@ Before installation, ensure you have:
 - macOS on Apple Silicon
 - Command Line Tools for Xcode: `xcode-select --install`
 - [Homebrew](https://brew.sh) package manager
-- [just](https://github.com/casey/just): `brew install just`
-- The 1Password app, signed in, with Settings → Developer → Integrate with 1Password CLI enabled
+- [just](https://github.com/casey/just) and [gh](https://cli.github.com): `brew install just gh`
+- Desktop apps, installed manually (the Brewfile holds only CLI tools):
+  - [1Password](https://1password.com/downloads/mac), signed in, with Settings → Developer → Integrate with 1Password CLI enabled
+  - [Zed](https://zed.dev), the target of `just file-defaults`
 
 ### 2. Clone and Bootstrap
 
+The repository is private and the 1Password SSH agent is not configured yet, so clone over HTTPS through `gh`:
+
 ```bash
-git clone git@github.com:davidarny/dotfiles.git ~/.dotfiles
+gh auth login
+gh repo clone davidarny/dotfiles ~/.dotfiles
 cd ~/.dotfiles
 just bootstrap
 ```
 
-`just bootstrap` installs the Brewfile, links the dotfiles with stow, resolves MCP secrets from 1Password, loads the LaunchAgent that publishes them to GUI apps, installs global skills and Bun packages, restores Claude Code and Codex settings and MCP servers, installs yazi plugins, and applies file associations. It is safe to rerun and stops with a hint when it needs you, for example to sign in to 1Password or to quit Claude and Codex before their configs are restored. tmux installs TPM and its plugins on first start.
+`just bootstrap` installs the Brewfile, links the dotfiles with stow, installs the mise runtimes (bun, node, ...), resolves MCP secrets from 1Password, loads the LaunchAgent that publishes them to GUI apps, installs global skills and Bun packages, restores Claude Code and Codex settings and MCP servers, installs yazi plugins, and applies file associations. It is safe to rerun and stops with a hint when it needs you, for example to sign in to 1Password or to quit Claude and Codex before their configs are restored. tmux installs TPM and its plugins on first start.
 
 ### 3. Verify
 
