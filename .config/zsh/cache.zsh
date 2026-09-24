@@ -10,12 +10,14 @@ _eval_cached() {
 
   local cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/eval/${${(j:_:)@}//[^A-Za-z0-9_-]/_}.zsh"
   if [[ ! -s $cache || ${bin:A} -nt $cache ]]; then
+    # A per-shell temp file keeps shells that start together from mixing output.
+    local tmp="$cache.$$"
     mkdir -p "${cache:h}"
-    if ! "$@" >| "$cache.tmp" 2>/dev/null; then
-      rm -f "$cache.tmp"
+    if ! "$@" >| "$tmp" 2>/dev/null; then
+      rm -f "$tmp"
       return 1
     fi
-    mv -f "$cache.tmp" "$cache"
+    mv -f "$tmp" "$cache"
   fi
   source "$cache"
 }
