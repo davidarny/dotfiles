@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dats.Team MR creation"
+  short_description: "Create assigned Dats.Team MRs with Russian descriptions"
+  default_prompt: "Use $dats-team-mr-create to draft or create a Dats.Team MR with a Russian description from the current branch."

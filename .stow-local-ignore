@@ -21,8 +21,10 @@
 /\.codex\/mcp-servers\.toml$
 /\.codex\/settings\.toml$
 
-# Skills manifest is read from the repo; the CLI lockfile is machine-local
+# Skills manifest and local skills are read from the repo (just skills-sync links them);
+# the CLI lockfile is machine-local
 /\.agents\/skills\.json$
+/\.agents\/skills$
 /\.agents\/\.skill-lock\.json$
 
 # Bun global lockfile is machine-local

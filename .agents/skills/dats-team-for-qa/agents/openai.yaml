@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dats.Team For QA"
+  short_description: "Prepare focused QA handoffs in the Jira issue description"
+  default_prompt: "Use $dats-team-for-qa to draft or publish a focused For QA section in a Dats.Team Jira issue description."

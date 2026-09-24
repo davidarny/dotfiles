@@ -1,0 +1,8 @@
+interface:
+  display_name: "Claude Agent Broker"
+  short_description: "Delegate durable tasks to Claude as executor"
+  default_prompt: "Use $claude-agent-broker to delegate this work to Claude, monitor the durable session, and verify the result."
+dependencies:
+  mcp_servers:
+    - name: "claude-agent-broker"
+      url: "http://127.0.0.1:8765/mcp"

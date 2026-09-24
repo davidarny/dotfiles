@@ -81,6 +81,11 @@ The repo is public — never commit plaintext API keys or tokens. Agent/MCP secr
 - Configs reference variables, not values: `${VAR}` in Pi `mcp.json` (`~/.pi/agent/mcp.json`, `~/.agents/mcp.json`), `{env:VAR}` in OpenCode config.
 - Adding or rotating a secret: update the reference in the template, run `just mcp-secrets`. If a config fails auth with an empty variable, the generated file is stale or missing — regenerate it there; never paste the secret value into the config.
 
+## Skills
+
+- External skills: `.agents/skills.json` maps each name to its `owner/repo` source; `just skills-sync` installs them with the Skills CLI.
+- Locally authored skills live in `.agents/skills/<name>/` (not stowed). `just skills-sync` links `~/.agents/skills/<name>` to the repo directory and adds the four harness symlinks, so edits land in git. Create new local skills here.
+
 ## Adding New Configuration
 
 1. Place files in the repo mirroring their `$HOME` location (e.g., `.config/toolname/config`)

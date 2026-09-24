@@ -1,0 +1,4 @@
+interface:
+  display_name: "Homelab SSH"
+  short_description: "Безопасное администрирование homelab через SSH"
+  default_prompt: "Use $homelab-ssh to connect to and administer homelab safely."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dats.Team Jira comments"
+  short_description: "Draft and publish clear Dats.Team Jira comments"
+  default_prompt: "Use $dats-team-jira-comment to draft or publish a concise, evidence-backed comment on a Dats.Team Jira issue."

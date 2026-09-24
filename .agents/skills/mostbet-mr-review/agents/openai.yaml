@@ -1,0 +1,4 @@
+interface:
+  display_name: "Mostbet MR Review"
+  short_description: "Jira-aware evidence-first Mostbet MR reviews"
+  default_prompt: "Use $mostbet-mr-review to review this Mostbet MR against its Jira context and artifacts, draft validated findings, and publish them only when requested."
