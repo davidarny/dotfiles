@@ -15,6 +15,7 @@
 /README\.md$
 /justfile$
 /mcp$
+/macos$
 
 # Apps that replace their config files get the whole directory linked
 # (DIRECTORY_LINKS in bin/lib/paths.ts; just link does it)

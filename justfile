@@ -8,7 +8,7 @@ default:
 
 # Set up this machine end to end; safe to rerun and stops where it needs you
 [group('setup')]
-bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync _agents-closed claude-restore codex-restore pi-restore yazi-plugins file-defaults
+bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync _agents-closed claude-restore codex-restore pi-restore yazi-plugins file-defaults macos
     @echo "✓ Bootstrap done. tmux installs TPM and its plugins on first start; run just doctor to verify."
 
 # Read-only report of links, secrets, packages, MCP commands, skills, and plugins
@@ -167,6 +167,21 @@ mise-install:
 [group('tools')]
 yazi-plugins:
     ya pkg install
+
+# Apply the macOS settings in macos/defaults.toml and restart what reads them
+[group('macos')]
+macos:
+    @bun ./bin/macos-defaults.ts apply
+
+# List macOS settings that differ from macos/defaults.toml
+[group('macos')]
+macos-check:
+    @bun ./bin/macos-defaults.ts check
+
+# Find the keys behind a System Settings control: run, change the setting, run again
+[group('macos')]
+macos-diff:
+    @bun ./bin/macos-defaults.ts diff
 
 # Apply the repo's default macOS file associations
 [group('macos')]

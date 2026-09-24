@@ -1,0 +1,399 @@
+# macOS settings, applied with `just macos` through `defaults write`.
+#
+# Tables are [<scope>.<domain>]: `user` for the usual per-user domains,
+# `currentHost` for per-machine ones (`defaults -currentHost`). Each key is
+# written with the type of its TOML value; whole numbers become integers.
+# A table value, like AppleSymbolicHotKeys, replaces the whole key.
+#
+# To find the key behind a control: run `just macos-diff`, change the setting
+# in System Settings, run `just macos-diff` again, and paste what it prints.
+# `just doctor` reports keys whose value on this machine differs.
+#
+# Not covered (set by hand or need sudo): privacy permissions, Touch ID,
+# displays, Wi-Fi, login items, computer name, energy settings.
+
+# Appearance, Desktop & Dock, Language & Region, Keyboard, Trackpad, Finder, Sound
+[user.NSGlobalDomain]
+AppleInterfaceStyle = "Dark"
+AppleAccentColor = 4
+AppleAquaColorVariant = 1
+AppleIconAppearanceTheme = "RegularDark"
+NSGlassTintAmount = 1
+NSGlassBuddyTintAmount = 1
+AppleActionOnDoubleClick = "Fill"
+AppleMiniaturizeOnDoubleClick = false
+NSCloseAlwaysConfirmsChanges = false
+AppleLanguages = ["en-US", "ru-US"]
+AppleLocale = "en_US"
+KeyRepeat = 2
+InitialKeyRepeat = 15
+AppleKeyboardUIMode = 2
+"com.apple.keyboard.fnState" = false
+NSAutomaticCapitalizationEnabled = true
+NSAutomaticPeriodSubstitutionEnabled = true
+KB_DoubleQuoteOption = "“abc”"
+KB_SingleQuoteOption = "‘abc’"
+NSUserQuotesArray = ["“", "”", "‘", "’"]
+AppleEnableSwipeNavigateWithScrolls = false
+"com.apple.trackpad.forceClick" = true
+"com.apple.springing.enabled" = true
+"com.apple.springing.delay" = 0.5
+AppleShowAllExtensions = true
+"com.apple.sound.beep.flash" = 0
+
+# Trackpad gestures, as System Settings stores them for this machine
+[currentHost.NSGlobalDomain]
+"com.apple.trackpad.enableSecondaryClick" = true
+"com.apple.trackpad.fiveFingerPinchSwipeGesture" = 2
+"com.apple.trackpad.fourFingerHorizSwipeGesture" = 0
+"com.apple.trackpad.fourFingerPinchSwipeGesture" = 2
+"com.apple.trackpad.fourFingerVertSwipeGesture" = 2
+"com.apple.trackpad.momentumScroll" = true
+"com.apple.trackpad.pinchGesture" = true
+"com.apple.trackpad.rotateGesture" = true
+"com.apple.trackpad.scrollBehavior" = 2
+"com.apple.trackpad.threeFingerDragGesture" = false
+"com.apple.trackpad.threeFingerHorizSwipeGesture" = 0
+"com.apple.trackpad.threeFingerTapGesture" = 0
+"com.apple.trackpad.threeFingerVertSwipeGesture" = 2
+"com.apple.trackpad.twoFingerDoubleTapGesture" = 1
+"com.apple.trackpad.twoFingerFromRightEdgeSwipeGesture" = 0
+
+# Trackpad: built-in (AppleMultitouchTrackpad) and Bluetooth (the driver domain)
+[user."com.apple.AppleMultitouchTrackpad"]
+ActuateDetents = 1
+Clicking = 0
+DragLock = 0
+Dragging = 0
+FirstClickThreshold = 1
+ForceSuppressed = false
+SecondClickThreshold = 1
+TrackpadCornerSecondaryClick = 0
+TrackpadFiveFingerPinchGesture = 2
+TrackpadFourFingerHorizSwipeGesture = 0
+TrackpadFourFingerPinchGesture = 2
+TrackpadFourFingerVertSwipeGesture = 2
+TrackpadHandResting = true
+TrackpadHorizScroll = 1
+TrackpadMomentumScroll = true
+TrackpadPinch = 1
+TrackpadRightClick = true
+TrackpadRotate = 1
+TrackpadScroll = true
+TrackpadThreeFingerDrag = false
+TrackpadThreeFingerHorizSwipeGesture = 0
+TrackpadThreeFingerTapGesture = 0
+TrackpadThreeFingerVertSwipeGesture = 2
+TrackpadTwoFingerDoubleTapGesture = 1
+TrackpadTwoFingerFromRightEdgeSwipeGesture = 0
+USBMouseStopsTrackpad = 0
+UserPreferences = true
+
+[user."com.apple.driver.AppleBluetoothMultitouch.trackpad"]
+Clicking = 0
+DragLock = 0
+Dragging = 0
+TrackpadCornerSecondaryClick = 0
+TrackpadFiveFingerPinchGesture = 2
+TrackpadFourFingerHorizSwipeGesture = 0
+TrackpadFourFingerPinchGesture = 2
+TrackpadFourFingerVertSwipeGesture = 2
+TrackpadHandResting = true
+TrackpadHorizScroll = 1
+TrackpadMomentumScroll = true
+TrackpadPinch = 1
+TrackpadRightClick = true
+TrackpadRotate = 1
+TrackpadScroll = true
+TrackpadThreeFingerDrag = false
+TrackpadThreeFingerHorizSwipeGesture = 0
+TrackpadThreeFingerTapGesture = 0
+TrackpadThreeFingerVertSwipeGesture = 2
+TrackpadTwoFingerDoubleTapGesture = 1
+TrackpadTwoFingerFromRightEdgeSwipeGesture = 0
+USBMouseStopsTrackpad = 0
+UserPreferences = true
+
+# Mouse: Magic Mouse (multitouch and Bluetooth driver domains) and USB mice
+[user."com.apple.AppleMultitouchMouse"]
+MouseButtonDivision = 55
+MouseButtonMode = "OneButton"
+MouseHorizontalScroll = true
+MouseMomentumScroll = true
+MouseOneFingerDoubleTapGesture = 0
+MouseTwoFingerDoubleTapGesture = 3
+MouseTwoFingerHorizSwipeGesture = 2
+MouseVerticalScroll = true
+UserPreferences = true
+
+[user."com.apple.driver.AppleBluetoothMultitouch.mouse"]
+MouseButtonDivision = 55
+MouseButtonMode = "OneButton"
+MouseHorizontalScroll = true
+MouseMomentumScroll = true
+MouseOneFingerDoubleTapGesture = 0
+MouseTwoFingerDoubleTapGesture = 3
+MouseTwoFingerHorizSwipeGesture = 2
+MouseVerticalScroll = true
+UserPreferences = true
+
+[user."com.apple.driver.AppleHIDMouse"]
+Button1 = 1
+Button2 = 1
+Button3 = 0
+Button4 = 0
+Button4Click = 0
+Button4Force = 0
+ButtonDominance = 1
+ScrollH = 1
+ScrollS = 4
+ScrollSSize = 30
+ScrollV = 1
+
+# Keyboard: input sources and the input menu in the menu bar
+[user."com.apple.HIToolbox"]
+AppleEnabledInputSources = [
+  { InputSourceKind = "Keyboard Layout", "KeyboardLayout ID" = 0, "KeyboardLayout Name" = "U.S." },
+  { "Bundle ID" = "com.apple.CharacterPaletteIM", InputSourceKind = "Non Keyboard Input Method" },
+  { InputSourceKind = "Keyboard Layout", "KeyboardLayout ID" = 19456, "KeyboardLayout Name" = "Russian" },
+]
+
+[user."com.apple.TextInputMenu"]
+visible = true
+
+# Keyboard > Keyboard Shortcuts, by symbolic hot key ID. The whole table is
+# written at once, so it lists every shortcut this setup changed.
+[user."com.apple.symbolichotkeys".AppleSymbolicHotKeys]
+7 = { enabled = false, value = { parameters = [65535, 120, 8650752], type = "standard" } }
+8 = { enabled = false, value = { parameters = [65535, 99, 8650752], type = "standard" } }
+9 = { enabled = false, value = { parameters = [65535, 118, 8650752], type = "standard" } }
+10 = { enabled = false, value = { parameters = [65535, 96, 8650752], type = "standard" } }
+11 = { enabled = false, value = { parameters = [65535, 97, 8650752], type = "standard" } }
+12 = { enabled = false, value = { parameters = [65535, 122, 8650752], type = "standard" } }
+13 = { enabled = false, value = { parameters = [65535, 98, 8650752], type = "standard" } }
+15 = { enabled = false }
+16 = { enabled = false }
+17 = { enabled = false }
+18 = { enabled = false }
+19 = { enabled = false }
+20 = { enabled = false }
+21 = { enabled = false }
+22 = { enabled = false }
+23 = { enabled = false }
+24 = { enabled = false }
+25 = { enabled = false }
+26 = { enabled = false }
+27 = { enabled = false, value = { parameters = [96, 50, 1048576], type = "standard" } }
+28 = { enabled = false, value = { parameters = [51, 20, 1179648], type = "standard" } }
+29 = { enabled = false, value = { parameters = [51, 20, 1441792], type = "standard" } }
+30 = { enabled = false, value = { parameters = [52, 21, 1179648], type = "standard" } }
+31 = { enabled = false, value = { parameters = [52, 21, 1441792], type = "standard" } }
+32 = { enabled = false, value = { parameters = [65535, 126, 8650752], type = "standard" } }
+33 = { enabled = false, value = { parameters = [65535, 125, 8650752], type = "standard" } }
+36 = { enabled = false, value = { parameters = [65535, 103, 8388608], type = "standard" } }
+52 = { enabled = false, value = { parameters = [100, 2, 1572864], type = "standard" } }
+53 = { enabled = false, value = { parameters = [65535, 107, 8388608], type = "standard" } }
+54 = { enabled = false, value = { parameters = [65535, 113, 8388608], type = "standard" } }
+57 = { enabled = false, value = { parameters = [65535, 100, 8650752], type = "standard" } }
+59 = { enabled = false, value = { parameters = [65535, 96, 9437184], type = "standard" } }
+60 = { enabled = true, value = { parameters = [32, 49, 262144], type = "standard" } }
+61 = { enabled = true, value = { parameters = [32, 49, 786432], type = "standard" } }
+64 = { enabled = 0 }
+65 = { enabled = false, value = { parameters = [32, 49, 1572864], type = "standard" } }
+79 = { enabled = false, value = { parameters = [65535, 123, 8650752], type = "standard" } }
+80 = { enabled = true, value = { parameters = [65535, 123, 8781824], type = "standard" } }
+81 = { enabled = false, value = { parameters = [65535, 124, 8650752], type = "standard" } }
+82 = { enabled = true, value = { parameters = [65535, 124, 8781824], type = "standard" } }
+118 = { enabled = false, value = { parameters = [65535, 18, 262144], type = "standard" } }
+159 = { enabled = false, value = { parameters = [65535, 36, 262144], type = "standard" } }
+162 = { enabled = false, value = { parameters = [65535, 96, 9961472], type = "standard" } }
+164 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+175 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+184 = { enabled = false, value = { parameters = [53, 23, 1179648], type = "standard" } }
+190 = { enabled = false, value = { parameters = [113, 12, 8388608], type = "standard" } }
+215 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+216 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+217 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+218 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+219 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+222 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+223 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+224 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+225 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+226 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+227 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+228 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+229 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+230 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+231 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+232 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+233 = { enabled = false, value = { parameters = [109, 46, 1048576], type = "standard" } }
+235 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+237 = { enabled = false, value = { parameters = [102, 3, 8650752], type = "standard" } }
+238 = { enabled = false, value = { parameters = [99, 8, 8650752], type = "standard" } }
+239 = { enabled = false, value = { parameters = [114, 15, 8650752], type = "standard" } }
+240 = { enabled = false, value = { parameters = [65535, 123, 8650752], type = "standard" } }
+241 = { enabled = false, value = { parameters = [65535, 124, 8650752], type = "standard" } }
+242 = { enabled = false, value = { parameters = [65535, 126, 8650752], type = "standard" } }
+243 = { enabled = false, value = { parameters = [65535, 125, 8650752], type = "standard" } }
+244 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+245 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+246 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+247 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+248 = { enabled = false, value = { parameters = [65535, 123, 8781824], type = "standard" } }
+249 = { enabled = false, value = { parameters = [65535, 124, 8781824], type = "standard" } }
+250 = { enabled = false, value = { parameters = [65535, 126, 8781824], type = "standard" } }
+251 = { enabled = false, value = { parameters = [65535, 125, 8781824], type = "standard" } }
+256 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+257 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+258 = { enabled = false, value = { parameters = [65535, 65535, 0], type = "standard" } }
+260 = { enabled = false, value = { parameters = [65535, 53, 1048576], type = "standard" } }
+
+# Accessibility
+[user."com.apple.Accessibility"]
+AXSClassicInvertColorsPreference = 0
+ButtonShapesEnabled = 0
+CommandAndControlEnabled = 0
+DarkenSystemColors = 0
+DifferentiateWithoutColor = 0
+EnhancedBackgroundContrastEnabled = 0
+FullKeyboardAccessEnabled = 0
+FullKeyboardAccessFocusRingEnabled = 1
+GrayscaleDisplay = 0
+InvertColorsEnabled = 0
+KeyRepeatDelay = 0.25
+KeyRepeatEnabled = 1
+KeyRepeatInterval = 0.033333332999999993
+ReduceMotionEnabled = 0
+SpeakThisEnabled = 0
+VoiceOverTouchEnabled = 0
+
+[user."com.apple.universalaccess"]
+closeViewHotkeysEnabled = false
+liveSpeechEnabled = false
+mouseDriver = false
+slowKey = false
+slowKeyDelay = 250
+stickyKey = false
+useStickyKeysShortcutKeys = false
+
+# Desktop & Dock: the Dock (wvous-br-corner 14 = Quick Note in the bottom-right hot corner)
+[user."com.apple.dock"]
+autohide = true
+magnification = true
+largesize = 31
+tilesize = 50
+orientation = "left"
+mineffect = "scale"
+minimize-to-application = true
+show-recents = false
+wvous-br-corner = 14
+
+# Desktop & Dock: windows, Stage Manager, and widgets
+[user."com.apple.WindowManager"]
+AppWindowGroupingBehavior = 1
+AutoHide = true
+EnableStandardClickToShowDesktop = false
+EnableTiledWindowMargins = false
+HideDesktop = false
+StageManagerHideWidgets = false
+StandardHideWidgets = false
+
+# Finder settings (list view, search the current folder, new windows open Home)
+[user."com.apple.finder"]
+FXPreferredViewStyle = "Nlsv"
+FXDefaultSearchScope = "SCcf"
+FXArrangeGroupViewBy = "Name"
+FXPreferredGroupBy = "None"
+NewWindowTarget = "PfHm"
+ShowSidebar = true
+ShowExternalHardDrivesOnDesktop = true
+ShowHardDrivesOnDesktop = false
+ShowRemovableMediaOnDesktop = true
+
+# Menu Bar: clock and Control Center items
+[user."com.apple.menuextra.clock"]
+FlashDateSeparators = false
+ShowAMPM = true
+ShowDate = 0
+ShowDayOfWeek = true
+ShowSeconds = true
+
+[user."com.apple.controlcenter"]
+"NSStatusItem VisibleCC Battery" = true
+"NSStatusItem VisibleCC BentoBox-0" = true
+"NSStatusItem VisibleCC Clock" = true
+"NSStatusItem VisibleCC WiFi" = true
+
+[currentHost."com.apple.controlcenter"]
+ShowSuggestions = false
+Spotlight = 8
+UserSwitcher = 18
+
+# Spotlight: clipboard history, search categories, and the menu bar icon
+[user."com.apple.Spotlight"]
+PasteboardHistoryEnabled = true
+DisabledUTTypes = []
+EnabledPreferenceRules = [
+  "Custom.relatedContents",
+  "com.apple.AppStore",
+  "com.apple.iBooksX",
+  "com.apple.calculator",
+  "com.apple.iCal",
+  "com.apple.AddressBook",
+  "com.apple.Dictionary",
+  "com.apple.mail",
+  "com.apple.MobileSMS",
+  "com.apple.Notes",
+  "com.apple.mobilephone",
+  "com.apple.Photos",
+  "com.apple.podcasts",
+  "com.apple.reminders",
+  "com.apple.Safari",
+  "com.apple.shortcuts",
+  "com.apple.systempreferences",
+  "com.apple.tips",
+  "com.apple.VoiceMemos",
+  "System.files",
+  "System.folders",
+  "System.iphoneApps",
+  "System.menuItems",
+]
+
+[currentHost."com.apple.Spotlight"]
+MenuItemHidden = true
+
+# Siri and Apple Intelligence
+[user."com.apple.assistant.support"]
+"Assistant Enabled" = false
+
+[user."com.apple.EmojiPreferences"]
+GenmojiSuggestions = false
+
+# General > Login: do not reopen windows after logging back in
+[user."com.apple.loginwindow"]
+TALLogoutSavesState = false
+
+# Archive Utility: extract and archive next to the original, delete intermediate files
+[user."com.apple.archiveutility"]
+archive-into-location = { Selection = "UseSameFolder" }
+archive-move-after-location = { Selection = "UseSameFolder" }
+dearchive-into-location = { Selection = "UseSameFolder" }
+dearchive-move-after-location = { Selection = "UseSameFolder" }
+dearchive-move-intermediate-after-location = { Selection = "Delete" }
+
+# Activity Monitor: show all processes
+[user."com.apple.ActivityMonitor"]
+ShowCategory = 102
+
+# Safari
+[user."com.apple.Safari"]
+AutoFillPasswords = true
+EnableNarrowTabs = true
+ExtensionsEnabled = true
+HomePage = "https://google.com/"
+PrivateBrowsingRequiresAuthentication = true
+"ShowFavoritesBar-v2" = false
+ShowSidebarInNewWindows = false
+ShowStandaloneTabBar = false
+ShowBackgroundImageInFavorites = false

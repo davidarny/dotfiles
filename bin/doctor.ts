@@ -15,6 +15,7 @@ import { isSymlink, readText } from "./lib/fs";
 import { fail, ok, runMain, step, summary } from "./lib/log";
 import { DIRECTORY_LINKS, fromPortable, HOME, REPO, tilde } from "./lib/paths";
 import { CANONICAL_SKILLS_DIR, HARNESS_SKILL_DIRS, listLocalSkills, readSkills } from "./lib/skills";
+import { findDrift, readSettings } from "./macos-defaults";
 
 /** Label of the LaunchAgent that publishes MCP secrets to GUI apps (see the justfile). */
 const LAUNCH_AGENT = "local.dotfiles.mcp-secrets-env";
@@ -24,6 +25,9 @@ const SSH_AGENT_SOCKET = join(HOME, "Library/Group Containers/2BUA8C4S2C.com.1pa
 
 /** A skill link in the global instructions, e.g. `skills/caveman/SKILL.md`. */
 const SKILL_LINK = /skills\/([a-z0-9-]+)\/SKILL\.md/g;
+
+/** How many drifted macOS settings the report lists before summarizing the rest. */
+const MACOS_DRIFT_SHOWN = 5;
 
 /** A named check and the problems it found; no problems means it passed. */
 interface CheckResult {
@@ -391,6 +395,16 @@ async function checkYaziPlugins(): Promise<CheckResult> {
   return { label: "yazi plugins installed", problems };
 }
 
+/** Every setting in `macos/defaults.toml` has its value on this machine. */
+async function checkMacosDefaults(): Promise<CheckResult> {
+  const drift = await findDrift(await readSettings());
+  const problems = drift
+    .slice(0, MACOS_DRIFT_SHOWN)
+    .map(({ scope, domain, key }) => `${scope === "currentHost" ? "currentHost " : ""}${domain} ${key} differs → run just macos`);
+  if (drift.length > MACOS_DRIFT_SHOWN) problems.push(`and ${drift.length - MACOS_DRIFT_SHOWN} more → run just macos-check`);
+  return { label: "macOS settings applied", problems };
+}
+
 /** Every check, in report order. */
 const CHECKS = [
   checkStowLinks,
@@ -408,6 +422,7 @@ const CHECKS = [
   checkGhAuth,
   checkTpm,
   checkYaziPlugins,
+  checkMacosDefaults,
 ];
 
 async function main(): Promise<void> {

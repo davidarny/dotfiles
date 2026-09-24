@@ -16,6 +16,12 @@ macOS (Apple Silicon) dotfiles. The repo root mirrors `$HOME`; `just link` runs 
 - Locally authored skills live in `.agents/skills/<name>/`; create new ones there. External skills are listed in `.agents/skills.json`, which the `skills` zsh function updates on add, remove, and update. `just skills-sync` installs and links both into all four harnesses.
 - The `brew` zsh function rewrites `Brewfile` after install and uninstall. The Brewfile holds command line tools only; the user installs desktop apps by hand.
 
+## macOS settings
+
+- `macos/defaults.toml` holds System Settings and app preferences as `[user.<domain>]` and `[currentHost.<domain>]` tables; `bin/macos-defaults.ts` writes them with `defaults write`, typed from the TOML value. Since Sonoma macOS ignores symlinked plists, so never stow or link `~/Library/Preferences` files.
+- Add only settings, never state: skip timestamps, analytics, window frames, recents, bookmarks (`data` values), UUIDs, and version or migration flags. Find keys with `just macos-diff`.
+- A domain that needs a process restart to pick up changes goes into `RESTART` in `bin/macos-defaults.ts`.
+
 ## Secrets
 
 The repo is private, and secrets still stay out of it because git history outlives any access setting. `.config/mcp/mcp-secrets.env.tpl` holds `op://` references; `just mcp-secrets` resolves them into the untracked `~/.config/mcp/mcp-secrets.env`, which `env.zsh` sources and a LaunchAgent exports to GUI apps. Configs reference variables by name, never values. For an empty variable or a rotated key, edit the template and rerun `just mcp-secrets`.
