@@ -19,7 +19,37 @@ link:
     fi; \
     fi; \
     mkdir -p "$config_target"; \
-    stow --restow --adopt --no-folding --target="$HOME" .
+    stow --restow --adopt --no-folding --target="$HOME" . && \
+    just _link-dir .config/karabiner
+
+# Link a whole directory for apps that break on per-file symlinks (e.g. Karabiner rewrites its config)
+[private]
+_link-dir path:
+    #!/usr/bin/env zsh
+    set -euo pipefail
+    source="${PWD:A}/{{path}}"
+    target="$HOME/{{path}}"
+    [[ "$(readlink "$target" 2>/dev/null)" == "$source" ]] && exit 0
+    if [[ -d "$target" && ! -L "$target" ]]; then
+      # Replace a directory that holds only per-file symlinks left by stow --no-folding.
+      repo_links=() others=()
+      for entry in "$target"/*(DN); do
+        if [[ -L "$entry" && "${entry:A}" == "$source"/* ]]; then repo_links+=("$entry"); else others+=("${entry:t}"); fi
+      done
+      if (( ${#others} )); then
+        echo "✗ $target has files that are not repo symlinks; move them away and rerun:" >&2
+        print -l -- "${others[@]}" >&2
+        exit 1
+      fi
+      for entry in "${repo_links[@]}"; do unlink "$entry"; done
+      rmdir "$target"
+    elif [[ -e "$target" && ! -L "$target" ]]; then
+      echo "✗ $target is a file; move it away and rerun" >&2
+      exit 1
+    fi
+    mkdir -p "${target:h}"
+    ln -sfn "$source" "$target"
+    echo "✓ Linked ~/{{path}}"
 
 # Remove dotfiles symlinks from home directory
 [group('stow')]

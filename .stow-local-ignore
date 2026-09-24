@@ -15,6 +15,9 @@
 /README\.md$
 /justfile$
 
+# Karabiner rewrites its config and needs the whole directory linked (just link does it)
+/\.config\/karabiner$
+
 # Generated agent snapshots (just claude-dump / codex-dump) — copied by restore, never stowed
 /\.claude\/mcp-servers\.json$
 /\.claude\/settings\.json$
