@@ -47,7 +47,7 @@ _alias_if_exists bun 'buni=bun install --no-save && bun pm trust --all && rm -f 
 _alias_if_exists just "dot=just --justfile ${${(%):-%x}:A:h:h:h}/justfile"
 
 # ai
-_alias_if_exists claude 'cc=claude --setting-sources user,local,project --allow-dangerously-skip-permissions --dangerously-skip-permissions'
+_alias_if_exists claude 'cl=claude --setting-sources user,local,project --allow-dangerously-skip-permissions --dangerously-skip-permissions'
 _alias_if_exists codex 'cx=codex --dangerously-bypass-approvals-and-sandbox'
 _alias_if_exists opencode 'oc=opencode'
 
