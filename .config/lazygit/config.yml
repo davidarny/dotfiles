@@ -63,6 +63,11 @@ customCommands:
           case " $wt " in *" $br "*) continue ;; esac
           git rev-parse -q --verify "$up" >/dev/null || continue
           [ "$(git rev-parse "$br")" = "$(git rev-parse "$up")" ] && continue
+          # Fast-forward only: a branch with commits its upstream lacks keeps them.
+          if ! git merge-base --is-ancestor "$br" "$up"; then
+            echo "skipped $br: it has commits $up does not"
+            continue
+          fi
           echo "updated $br -> $up"
           git branch -f "$br" "$up"
         done
@@ -110,4 +115,4 @@ customCommands:
           command: "git log --format='%ae' | sort -u"
       - type: confirm
         title: "Rewrite history"
-        body: "Rewrite all commits, or the selected commit range, with this identity?"
+        body: "Rewrite the selected commit or range with this identity? Pushed commits are refused."

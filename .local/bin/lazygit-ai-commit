@@ -29,10 +29,12 @@ Return only the raw commit message. Include a concise imperative subject (maximu
   git log -n 20 --format='%s'
   printf '%s\n' '</recent_commit_subjects>'
   printf '%s\n' '<staged_diff>'
-  git diff --cached --no-ext-diff
+  git diff --cached --no-ext-diff --no-textconv
   printf '%s\n' '</staged_diff>'
 } | codex exec \
   --ephemeral \
+  --ignore-user-config \
+  --disable shell_tool \
   --sandbox read-only \
   --model gpt-6-luna \
   --config 'model_reasoning_effort="max"' \
