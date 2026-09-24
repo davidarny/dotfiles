@@ -13,7 +13,7 @@ import { readdir, readlink, realpath } from "node:fs/promises";
 import { basename, dirname, join } from "node:path";
 import { isSymlink, readText } from "./lib/fs";
 import { fail, ok, runMain, step, summary } from "./lib/log";
-import { DIRECTORY_LINKS, HOME, REPO, tilde } from "./lib/paths";
+import { DIRECTORY_LINKS, fromPortable, HOME, REPO, tilde } from "./lib/paths";
 import { CANONICAL_SKILLS_DIR, HARNESS_SKILL_DIRS, listLocalSkills, readSkills } from "./lib/skills";
 
 /** Label of the LaunchAgent that publishes MCP secrets to GUI apps (see the justfile). */
@@ -203,6 +203,59 @@ function missingCommand(agent: string, name: string, { command }: McpServer): st
   return found ? undefined : `${agent} ${name}: ${command} not found → reinstall it or run just ${agent}-restore`;
 }
 
+/**
+ * Serializes a value with object keys sorted, so key order does not affect a
+ * comparison.
+ *
+ * @param value - Value to serialize.
+ */
+function canonicalJson(value: unknown): string {
+  return JSON.stringify(value, (_key, item) =>
+    item && typeof item === "object" && !Array.isArray(item)
+      ? Object.fromEntries(Object.entries(item).sort(([a], [b]) => a.localeCompare(b)))
+      : item,
+  );
+}
+
+/**
+ * Reads a tracked snapshot with the `${HOME}/` placeholder expanded, as
+ * restore writes it.
+ *
+ * @param path - Snapshot path relative to the repo.
+ */
+async function readSnapshot(path: string): Promise<string> {
+  return fromPortable(await Bun.file(join(REPO, path)).text());
+}
+
+/**
+ * The live Claude Code and Codex MCP servers match the snapshots rendered from
+ * `mcp/servers.toml`. Codex may also run servers of its own, so only the
+ * snapshot's servers are compared there.
+ */
+async function checkMcpRestored(): Promise<CheckResult> {
+  const [claude, codex, claudeSnapshot, codexSnapshot] = await Promise.all([
+    readJson<ClaudeState>(join(HOME, ".claude.json")),
+    readToml<CodexConfig>(join(HOME, ".codex/config.toml")),
+    readSnapshot(".claude/mcp-servers.json"),
+    readSnapshot(".codex/mcp-servers.toml"),
+  ]);
+  const problems: string[] = [];
+
+  if (canonicalJson(claude?.mcpServers ?? {}) !== canonicalJson(JSON.parse(claudeSnapshot))) {
+    problems.push("Claude Code MCP servers differ from mcp/servers.toml → quit Claude and run just claude-restore");
+  }
+
+  const codexServers = (Bun.TOML.parse(codexSnapshot) as CodexConfig).mcp_servers ?? {};
+  const stale = Object.keys(codexServers).filter(
+    (name) => canonicalJson(codex?.mcp_servers?.[name]) !== canonicalJson(codexServers[name]),
+  );
+  if (stale.length) {
+    problems.push(`Codex MCP servers differ from mcp/servers.toml: ${stale.join(", ")} → quit Codex and run just codex-restore`);
+  }
+
+  return { label: "Agent MCP configs restored", problems };
+}
+
 /** The command of every enabled Claude Code and Codex MCP server exists. */
 async function checkMcpCommands(): Promise<CheckResult> {
   const [claude, codex] = await Promise.all([
@@ -348,6 +401,7 @@ const CHECKS = [
   checkBrewfile,
   checkMiseRuntimes,
   checkBunPackages,
+  checkMcpRestored,
   checkMcpCommands,
   checkSkills,
   checkSshAgent,
