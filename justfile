@@ -140,6 +140,11 @@ mcp-launchagent:
 mcp-sync:
     @bun ./bin/mcp-sync.ts
 
+# List MCP server packages in mcp/servers.toml with a newer release
+[group('mcp')]
+mcp-outdated:
+    @bun ./bin/mcp-outdated.ts
+
 # Snapshot agent settings into the repo (home paths become ${HOME}); MCP servers live in mcp/servers.toml
 [group('mcp')]
 claude-dump:

@@ -19,7 +19,7 @@
     "command": "bunx",
     "args": [
       "-y",
-      "@upstash/context7-mcp@latest"
+      "@upstash/context7-mcp@4.1.1"
     ],
     "env": {
       "CONTEXT7_API_KEY": "${CONTEXT7_API_KEY}"
@@ -44,7 +44,7 @@
     "command": "bunx",
     "args": [
       "-y",
-      "@atlassian-dc-mcp/jira@latest"
+      "@atlassian-dc-mcp/jira@0.35.0"
     ],
     "env": {
       "JIRA_HOST": "jira.dats.tech",
@@ -57,7 +57,7 @@
     "command": "bunx",
     "args": [
       "-y",
-      "@atlassian-dc-mcp/confluence@latest"
+      "@atlassian-dc-mcp/confluence@0.35.0"
     ],
     "env": {
       "CONFLUENCE_HOST": "confluence.dats.tech",
@@ -80,7 +80,7 @@
     "args": [
       "--python",
       "3.12",
-      "elasticsearch-mcp-server@latest"
+      "elasticsearch-mcp-server@2.1.3"
     ],
     "env": {
       "ELASTICSEARCH_HOSTS": "https://elastic-logs-htzn-2.infra.dats.host:9200,https://elastic-logs-htzn-3.infra.dats.host:9200,https://elastic-logs-htzn-4.infra.dats.host:9200",
@@ -96,7 +96,7 @@
     "args": [
       "--python",
       "3.12",
-      "elasticsearch-mcp-server@latest"
+      "elasticsearch-mcp-server@2.1.3"
     ],
     "env": {
       "ELASTICSEARCH_HOSTS": "https://elastic-logs-mostbet-frnx-1.prod.dats.host:9200",
@@ -110,7 +110,7 @@
     "type": "stdio",
     "command": "uvx",
     "args": [
-      "testrail-mcp@latest"
+      "testrail-mcp@0.1.5"
     ],
     "env": {
       "TESTRAIL_URL": "http://media.test8bit.com/testrail",

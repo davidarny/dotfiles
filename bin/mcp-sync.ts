@@ -16,33 +16,12 @@
 import { join } from "node:path";
 import { readText } from "./lib/fs";
 import { fail, ok, runMain } from "./lib/log";
+import { type Agent, readServers, type Server, type Servers } from "./lib/mcp";
 import { REPO, tilde } from "./lib/paths";
 import { formatJson } from "./lib/settings";
 
-/** Agents that get MCP servers. */
-type Agent = "claude" | "codex" | "opencode" | "pi";
-
-/** One server in `mcp/servers.toml`; the file header documents each field. */
-interface Server {
-  agents?: Agent[];
-  command?: string;
-  args?: string[];
-  url?: string;
-  env?: Record<string, string>;
-  headers?: Record<string, string>;
-  /** Startup and tool timeout in seconds. */
-  timeout?: number;
-  enabled?: boolean;
-}
-
-/** Server name to server, in source order. */
-type Servers = Record<string, Server>;
-
 /** Every agent, the default for a server without `agents`. */
 const ALL_AGENTS: Agent[] = ["claude", "codex", "opencode", "pi"];
-
-/** The source file. */
-const SOURCE = join(REPO, "mcp/servers.toml");
 
 /** A value that is exactly one `${VAR}` reference. */
 const WHOLE_REFERENCE = /^\$\{([A-Za-z_][A-Za-z0-9_]*)\}$/;
@@ -244,7 +223,7 @@ function renderPi(servers: Servers): string {
 }
 
 async function main(check: boolean): Promise<void> {
-  const servers = Bun.TOML.parse(await Bun.file(SOURCE).text()) as Servers;
+  const servers = await readServers();
   const opencodePath = join(REPO, ".config/opencode/opencode.json");
 
   const outputs: Record<string, string> = {

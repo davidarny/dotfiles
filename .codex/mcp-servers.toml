@@ -10,7 +10,7 @@ FFF_MCP_IDLE_TIMEOUT_SECS = "0"
 
 [mcp_servers.context7]
 command = "bunx"
-args = ["-y", "@upstash/context7-mcp@latest"]
+args = ["-y", "@upstash/context7-mcp@4.1.1"]
 env_vars = ["CONTEXT7_API_KEY"]
 
 [mcp_servers.exa]
@@ -23,7 +23,7 @@ bearer_token_env_var = "HINDSIGHT_MCP_TOKEN"
 
 [mcp_servers.atlassian-jira-dc]
 command = "bunx"
-args = ["-y", "@atlassian-dc-mcp/jira@latest"]
+args = ["-y", "@atlassian-dc-mcp/jira@0.35.0"]
 env_vars = ["JIRA_API_TOKEN"]
 startup_timeout_sec = 120.0
 
@@ -32,7 +32,7 @@ JIRA_HOST = "jira.dats.tech"
 
 [mcp_servers.atlassian-confluence-dc]
 command = "bunx"
-args = ["-y", "@atlassian-dc-mcp/confluence@latest"]
+args = ["-y", "@atlassian-dc-mcp/confluence@0.35.0"]
 env_vars = ["CONFLUENCE_API_TOKEN"]
 startup_timeout_sec = 120.0
 
@@ -49,7 +49,7 @@ GRAFANA_URL = "https://grafana.dats.services"
 
 [mcp_servers.elasticsearch-main]
 command = "uvx"
-args = ["--python", "3.12", "elasticsearch-mcp-server@latest"]
+args = ["--python", "3.12", "elasticsearch-mcp-server@2.1.3"]
 env_vars = ["ELASTICSEARCH_PASSWORD"]
 
 [mcp_servers.elasticsearch-main.env]
@@ -60,7 +60,7 @@ VERIFY_CERTS = "false"
 
 [mcp_servers.mostbet-elasticsearch]
 command = "uvx"
-args = ["--python", "3.12", "elasticsearch-mcp-server@latest"]
+args = ["--python", "3.12", "elasticsearch-mcp-server@2.1.3"]
 env_vars = ["ELASTICSEARCH_PASSWORD"]
 
 [mcp_servers.mostbet-elasticsearch.env]
@@ -71,7 +71,7 @@ VERIFY_CERTS = "false"
 
 [mcp_servers.testrail]
 command = "uvx"
-args = ["testrail-mcp@latest"]
+args = ["testrail-mcp@0.1.5"]
 env_vars = ["TESTRAIL_API_KEY"]
 
 [mcp_servers.testrail.env]
