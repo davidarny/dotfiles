@@ -8,7 +8,7 @@ default:
 
 # Set up this machine end to end; safe to rerun and stops where it needs you
 [group('setup')]
-bootstrap: brew-install link mise-install _mcp-secrets-once mcp-launchagent skills-sync bun-sync _agents-closed claude-restore codex-restore yazi-plugins file-defaults
+bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync _agents-closed claude-restore codex-restore yazi-plugins file-defaults
     @echo "✓ Bootstrap done. tmux installs TPM and its plugins on first start; run just doctor to verify."
 
 # Read-only report of links, secrets, packages, MCP commands, skills, and plugins
@@ -105,10 +105,11 @@ check:
     @git diff --check
     @echo "✓ Checks passed"
 
-# Install runtimes pinned in the stowed mise config (bun, node, go, ...)
+# Install runtimes pinned in the mise config (bun, node, go, ...). Reads the repo copy,
+# so it works before just link, which needs bun.
 [group('tools')]
 mise-install:
-    mise install
+    MISE_GLOBAL_CONFIG_FILE=.config/mise/config.toml mise install
 
 # Install yazi plugins pinned in the stowed package.toml
 [group('tools')]
