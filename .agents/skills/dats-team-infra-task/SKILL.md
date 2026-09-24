@@ -23,14 +23,14 @@ Prior tickets on the same host or path belong in the body too: a recurring failu
 
 ## Create the request
 
-Run the workspace Jira reachability preflight first; the portal sits behind the same network as the rest of Jira.
+Run the Jira reachability preflight from [dats-team.md](../../references/dats-team.md) first; the portal sits behind the same network as the rest of Jira.
 
 Portal `OPS`, service desk id `23`, creates `INFRASTRUC` issues. Its catalogue and field sets are the source of truth; re-read them when a type looks unfamiliar:
 
 ```bash
-curl -s -H "Authorization: Bearer $JIRA_TOKEN" \
+curl -s -H @<(printf 'Authorization: Bearer %s\n' "$JIRA_API_TOKEN") \
   "https://jira.dats.tech/rest/servicedeskapi/servicedesk/23/requesttype?start=0&limit=25"
-curl -s -H "Authorization: Bearer $JIRA_TOKEN" \
+curl -s -H @<(printf 'Authorization: Bearer %s\n' "$JIRA_API_TOKEN") \
   "https://jira.dats.tech/rest/servicedeskapi/servicedesk/23/requesttype/<id>/field"
 ```
 
@@ -63,14 +63,16 @@ Do not ask the user for the personal fields. Copy them from their last access re
 Submit it as the reporter:
 
 ```bash
-curl -s -X POST -H "Authorization: Bearer $JIRA_TOKEN" -H "Content-Type: application/json" \
+curl -s -X POST -H @<(printf 'Authorization: Bearer %s\n' "$JIRA_API_TOKEN") -H "Content-Type: application/json" \
   --data @request.json "https://jira.dats.tech/rest/servicedeskapi/request"
 ```
 
-with `{"serviceDeskId":"23","requestTypeId":"892","requestFieldValues":{...}}`. Build `request.json` with a script rather than a heredoc, so the Russian description keeps its newlines. Read the token into an environment variable and keep it out of command arguments, output, and files:
+with `{"serviceDeskId":"23","requestTypeId":"892","requestFieldValues":{...}}`. Build `request.json` with a script rather than a heredoc, so the Russian description keeps its newlines.
+
+The shell already has the token as `JIRA_API_TOKEN` (from `~/.config/mcp/mcp-secrets.env`). The `-H @<(...)` form feeds the header through a pipe, so the token never appears in command arguments, where `ps` would show it; keep it out of output and files too. Only if the variable is empty, read it from 1Password:
 
 ```bash
-JIRA_TOKEN=$(op read 'op://Dats.Team/Jira/API key')
+JIRA_API_TOKEN=$(op read 'op://Dats.Team/Jira/API key')
 ```
 
 `op` unlocks through the 1Password desktop app, which relocks on idle. The first call after that relock waits on an approval prompt on the user's screen and returns empty if it is not answered; `op whoami` then reports `account is not signed in` even though nothing is wrong with the login. Retry the same call once, and only treat it as a real failure if the second attempt is empty too.

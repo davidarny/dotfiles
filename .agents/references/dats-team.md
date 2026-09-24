@@ -6,7 +6,7 @@ Rules for Dats.Team work. `AGENTS.md` points here; they are as mandatory as `AGE
 
 - Before the first network request to any Dats.Team resource in a turn, verify real Jira reachability with:
   `curl --silent --show-error --fail --connect-timeout 5 --max-time 10 https://jira.dats.tech/rest/api/2/serverInfo | jq -e '.baseUrl == "https://jira.dats.tech"' >/dev/null`
-- This preflight gates all Dats.Team hosts and tools, including GitLab and the MCP servers `elasticsearch-main`, `mostbet-elasticsearch`, `grafana`, `atlassian-jira-dc`, and `atlassian-confluence-dc`.
+- This preflight gates all Dats.Team hosts and tools, including GitLab and the MCP servers `elasticsearch-main`, `mostbet-elasticsearch`, `grafana`, `minio`, `atlassian-jira-dc`, and `atlassian-confluence-dc`.
 - If the preflight fails, do not call Dats.Team resources and do not diagnose the failure as credentials, permissions, MCP startup, or service health yet. Tell the user that GlobalProtect may be disconnected, ask them to connect it, and rerun the preflight after they confirm.
 - Rerun the preflight before troubleshooting any Dats.Team `403`, timeout, DNS, connection, or unexpected MCP availability error. GlobalProtect processes, the enabled system extension, and `utun` interfaces do not prove that its tunnel is connected.
 

@@ -9,7 +9,7 @@ Use for release preparation in `~/Developer/Dats.Team/mostbet-next`. The release
 
 ## Contract and inputs
 
-Read applicable repository guides and `$mostbet` routing. Before any Dats.Team request, run the mandated Jira reachability preflight; use Jira MCP for task confirmation and authenticated `glab` for matching MRs. Record branch, HEAD, clean/dirty state, worktrees, and local/remote heads. Do not stash or overwrite user changes. Fetch refs and resolve each source branch from its actual MR/ref. Use the exact supplied release branch; if it is absent remotely, ask for its starting point. Detect already integrated changes, including squashed or cherry-picked equivalents.
+Read applicable repository guides and `$mostbet` routing. Before any Dats.Team request, run the Jira reachability preflight from [dats-team.md](../../references/dats-team.md); use Jira MCP for task confirmation and authenticated `glab` for matching MRs. Record branch, HEAD, clean/dirty state, worktrees, and local/remote heads. Do not stash or overwrite user changes. Fetch refs and resolve each source branch from its actual MR/ref. Use the exact supplied release branch; if it is absent remotely, ask for its starting point. Detect already integrated changes, including squashed or cherry-picked equivalents.
 
 Local-only integration or validation stays local. Release preparation includes validation and publication of the selected task and release branches under the shared autonomy policy, unless the user explicitly limits it to local work. Do not approve or merge MRs, change Jira state, or message anyone as incidental work.
 
