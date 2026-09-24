@@ -89,14 +89,16 @@ for (const [name, skill] of skills) {
 status(`Linking ${localSkills.length} local skills`);
 
 for (const name of localSkills) {
-  const canonical = join(canonicalDir, name);
-  await link(canonical, join(localDir, name));
-
-  for (const dir of harnessDirs) {
-    await link(join(home, dir, name), canonical);
-  }
-
+  await link(join(canonicalDir, name), join(localDir, name));
   status(`✓ ${name}`);
+}
+
+// The Skills CLI skips harness links for agents that read ~/.agents/skills
+// themselves (Codex, OpenCode); keep all four so every harness sees every skill.
+for (const name of [...Object.keys(lock.skills), ...localSkills]) {
+  for (const dir of harnessDirs) {
+    await link(join(home, dir, name), join(canonicalDir, name));
+  }
 }
 
 status("✓ Global skills synced");
