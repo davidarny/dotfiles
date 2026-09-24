@@ -135,6 +135,7 @@ Before installation, ensure you have:
 - Desktop apps, installed manually (the Brewfile holds only CLI tools):
   - [1Password](https://1password.com/downloads/mac), signed in, with Settings → Developer → Integrate with 1Password CLI enabled
   - [Zed](https://zed.dev), the target of `just file-defaults`
+- SSH, set up manually: the 1Password SSH agent config (`~/.config/1Password/ssh/agent.toml`) and the public keys in `~/.ssh/*.pub`. gh uses SSH once the dotfiles are linked.
 
 ### 2. Clone and Bootstrap
 
