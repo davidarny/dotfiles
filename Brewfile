@@ -91,6 +91,8 @@ brew "ni"
 brew "ripgrep"
 # AI coding agent, built for the terminal
 brew "opencode"
+# AI agent toolkit
+brew "pi-coding-agent"
 # Object-relational database system
 brew "postgresql@18", link: true
 # Python interface to Tcl/Tk

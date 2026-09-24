@@ -1,16 +1,9 @@
 {
   "trustedDependencies": [
-    "@google/genai",
-    "agent-browser",
-    "bun",
-    "esbuild",
-    "koffi",
-    "protobufjs",
-    "remodex"
+    "bun"
   ],
   "dependencies": {
-    "@bitkyc08/opencodex": "2.63.0",
-    "@colbymchenry/codegraph": "^1.6.0",
-    "@earendil-works/pi-coding-agent": "0.87.1"
+    "@bitkyc08/opencodex": "2.64.0",
+    "@colbymchenry/codegraph": "^1.6.0"
   }
 }
