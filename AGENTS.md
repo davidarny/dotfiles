@@ -1,95 +1,42 @@
 # AGENTS.md
 
-This file provides guidance to AI coding agents when working with code in this repository.
+macOS (Apple Silicon) dotfiles. The repo root mirrors `$HOME`; `just link` runs GNU stow with `--no-folding`, so `$HOME` holds per-file symlinks into the repo. `just --list` shows every task.
 
-## Overview
+## Linking
 
-macOS dotfiles managed with **GNU stow**. All config files live in this repo and are symlinked into `$HOME` via stow.
+- `.stow-local-ignore` entries containing `/` are anchored regexes that match repo-root paths only, e.g. `/README\.md$`; entries without `/` match a basename anywhere.
+- `just link` requires a clean tree because `stow --adopt` moves existing home files into the repo. When it stops after adopting, inspect `git diff` and restore the repo version with `git checkout -- <file>` unless the user wants the adopted content.
+- Apps that replace their config file instead of writing through a symlink (Karabiner, Zed) get the whole directory linked. List such a directory in `DIRECTORY_LINKS` (`bin/lib/paths.ts`) and exclude it in `.stow-local-ignore`.
+- `.agents/AGENTS.md` is the global instruction file for Claude, Codex, OpenCode, and Pi; `.claude/CLAUDE.md` and the other harness files are symlinks to it. Edit `.agents/AGENTS.md` itself.
 
-## Commands
+## Copied, not linked
 
-```bash
-just bootstrap     # full, rerunnable setup: brew, link, secrets, skills, bun, agent configs, plugins
-just doctor        # read-only health report of the setup
-just link          # stow --restow --adopt --no-folding --target="$HOME" . (refuses a dirty tree)
-just unlink        # stow --delete --target="$HOME" .
-just brew-install  # brew bundle --file=Brewfile
-just brew-dump     # brew bundle dump to Brewfile
-just check         # zsh syntax, Brewfile, and whitespace checks
-source ~/.zshrc    # reload shell after changes
-```
-
-No tests or linting — this is a shell configuration repo.
-
-## How Stow Works Here
-
-The repo root mirrors `$HOME`. Running `just link` symlinks everything (except files in `.stow-local-ignore`) into the home directory. For example, `.config/zsh/aliases.zsh` becomes `~/.config/zsh/aliases.zsh`.
-
-Files excluded from stow: `.git`, `.gitignore`, `AGENTS.md`, `Brewfile`, `CLAUDE.md`, `LICENSE.md`, `README.md`, `justfile`, `.DS_Store`.
-
-## Architecture
-
-### ZSH Configuration (Modular)
-
-`.zshrc` sources 10 modules from `~/.config/zsh/` in a specific order:
-
-1. **env.zsh** — Environment variables (`EDITOR=nvim`, `PAGER=bat`, 1Password SSH, XDG)
-2. **options.zsh** — Shell options
-3. **path.zsh** — PATH additions (bun, pyenv, Java)
-4. **history.zsh** — History settings
-5. **plugins.zsh** — Antidote plugin manager; plugin lists live in `.config/antidote/`
-6. **completions.zsh** — Completion system
-7. **fzf.zsh** — FZF configuration and theme
-8. **aliases.zsh** — Shell aliases
-9. **functions.zsh** — Custom functions (`brew` wrapper for auto-syncing Brewfile, `tm` for tmux)
-10. **tools.zsh** — Tool initialization via `eval` (fzf, zoxide, starship, pyenv)
-
-**Order matters** — plugins.zsh must load before completions.zsh, and tools.zsh comes last to initialize tools after plugins are loaded.
-
-### Git Configuration (Modular)
-
-`.gitconfig` uses `[include]` to compose from `~/.config/git/`:
-
-- `core.gitconfig` — Editor, EOL, compression
-- `user.gitconfig` — Author identity
-- `appearance.gitconfig` — Colors, diff, blame
-- `behavior.gitconfig` — Push/pull/rebase/merge
-- `tools.gitconfig` — Submodules, tags
-- `credentials.gitconfig` — 1Password / gh CLI auth
-
-### Neovim
-
-LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses folke/snacks.nvim for UI and file explorer (neo-tree is disabled).
-
-### Tmux
-
-`.config/tmux/tmux.conf` — TPM-managed plugins, vim-style navigation, and Tokyo Night status styling.
-
-## Conventions
-
-- **Tokyo Night theme** is applied consistently across all tools (ghostty, neovim, tmux, fzf, bat, eza, lazygit, starship).
-- **Guard all tool usage** with `command -v <tool> >/dev/null 2>&1` before referencing it.
-- **SSH uses 1Password agent** — `SSH_AUTH_SOCK` points to `~/.1password/agent.sock`.
-- **Run `just check` before committing shell/config changes**.
-- **Use Conventional Commits for every commit** — format commit messages like `feat: ...`, `fix: ...`, `chore: ...`, `docs: ...`, etc. Do not create non-conventional commit messages.
-- **Do not add documentation to the repository unless the user explicitly requests it.**
+- `.claude/{settings,mcp-servers}.json`, `.codex/{settings,mcp-servers}.toml`, and `.pi/agent/settings.json` are snapshots of live agent configs. The live file is the source: change it, then run `just <agent>-dump`. `just <agent>-restore` writes the snapshot back and needs the app closed. Dumps replace the home prefix with `${HOME}/`; restore expands it. Keys the user toggles often stay machine-local through `LOCAL_KEYS` in `bin/claude-config.ts` and `bin/pi-config.ts`; machine-local Codex tables are listed in `bin/codex-config.ts`.
+- Locally authored skills live in `.agents/skills/<name>/`; create new ones there. External skills are listed in `.agents/skills.json`, which the `skills` zsh function updates on add, remove, and update. `just skills-sync` installs and links both into all four harnesses.
+- The `brew` zsh function rewrites `Brewfile` after install and uninstall. The Brewfile holds command line tools only; the user installs desktop apps by hand.
 
 ## Secrets
 
-The repo is private, but git history outlives any access setting — never commit plaintext API keys or tokens. Agent/MCP secrets flow through 1Password:
+The repo is private, and secrets still stay out of it because git history outlives any access setting. `.config/mcp/mcp-secrets.env.tpl` holds `op://` references; `just mcp-secrets` resolves them into the untracked `~/.config/mcp/mcp-secrets.env`, which `env.zsh` sources and a LaunchAgent exports to GUI apps. Configs reference variables: `${VAR}` in Pi `mcp.json` and the Claude snapshot, `env_vars` / `bearer_token_env_var` in the Codex snapshot, `{env:VAR}` in OpenCode. For an empty variable or a rotated key, edit the template and rerun `just mcp-secrets`.
 
-- `.config/mcp/mcp-secrets.env.tpl` (tracked) holds the `op://` references; `just mcp-secrets` resolves them into `~/.config/mcp/mcp-secrets.env` (gitignored, `chmod 600`, one TouchID prompt), which `env.zsh` sources on shell startup.
-- GUI apps (Claude desktop from Dock or login) do not read zsh files: the `com.davidarutyunyan.mcp-secrets-env` LaunchAgent runs `~/.local/bin/mcp-secrets-launchctl` at login to `launchctl setenv` every exported variable; `just mcp-secrets` reruns it. Enable once with `just link && just mcp-launchagent`; restart an app to pick up new values.
-- Configs reference variables, not values: `${VAR}` in Pi `mcp.json` (`~/.pi/agent/mcp.json`, `~/.agents/mcp.json`), `{env:VAR}` in OpenCode config.
-- Adding or rotating a secret: update the reference in the template, run `just mcp-secrets`. If a config fails auth with an empty variable, the generated file is stale or missing — regenerate it there; never paste the secret value into the config.
+## Shell
 
-## Skills
+- `.zshrc` sources `~/.config/zsh/*.zsh` in a fixed order: `plugins.zsh` before `completions.zsh`, `tools.zsh` after both.
+- `.zshenv` and `.zprofile` source `aliases.zsh` and `env.zsh` again on purpose: non-interactive agent shells get aliases such as `rf`, and login shells reapply them after `brew shellenv`.
+- Guard every external tool with `command -v <tool> >/dev/null 2>&1`.
 
-- External skills: `.agents/skills.json` maps each name to its `owner/repo` source; `just skills-sync` installs them with the Skills CLI.
-- Locally authored skills live in `.agents/skills/<name>/` (not stowed). `just skills-sync` links `~/.agents/skills/<name>` to the repo directory and adds the four harness symlinks, so edits land in git. Create new local skills here.
+## Scripts in `bin/`
 
-## Adding New Configuration
+The justfile orchestrates; logic lives in TypeScript scripts run by Bun, with no dependencies.
 
-1. Place files in the repo mirroring their `$HOME` location (e.g., `.config/toolname/config`)
-2. Run `just link` to create the symlink
-3. If adding a new ZSH module, source it from `.zshrc` in the appropriate position
+- Use Bun APIs (`$`, `Bun.file`, `Bun.which`, `Bun.TOML`, `Bun.argv`, `Bun.env`); use `node:fs` only for symlinks and FIFOs.
+- Each script has a `main()` started through `runMain`, which prints a thrown error as one `✗` line.
+- Print through `bin/lib/log.ts`, which uses the terminal's ANSI theme colors.
+- Share helpers through `bin/lib/`. Module constants are UPPER_CASE, and every function and interface has TSDoc.
+
+## Conventions
+
+- Configs use the Luna theme.
+- Commits follow Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, ...).
+- Run `just check` before committing; run `just doctor` after changing linking, snapshots, skills, or plugins.
+- Add documentation files only when the user asks for them.
