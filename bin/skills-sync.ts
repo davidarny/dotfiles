@@ -11,58 +11,46 @@
  * Usage: `bun skills-sync.ts <manifest>` (normally `.agents/skills.json`).
  */
 import { $ } from "bun";
-import { lstat, mkdir, readlink, symlink, unlink } from "node:fs/promises";
-import { dirname, join, relative, resolve } from "node:path";
-import { fail, ok, step, summary } from "./lib/log";
-import type { SkillSource } from "./lib/skills";
-import { canonicalSkillsDir, harnessSkillDirs, listLocalSkills, readSkills } from "./lib/skills";
+import { unlink } from "node:fs/promises";
+import { dirname, join, resolve } from "node:path";
+import { isSymlink, link } from "./lib/fs";
+import { fail, ok, runMain, step, summary } from "./lib/log";
+import { HOME, tilde } from "./lib/paths";
+import { CANONICAL_SKILLS_DIR, HARNESS_SKILL_DIRS, listLocalSkills, readSkills, type Skills } from "./lib/skills";
 
 /** Agents passed to `skills add --agent`. */
-const agents = ["claude-code", "codex", "opencode", "pi"];
+const AGENTS = ["claude-code", "codex", "opencode", "pi"];
 
-const home = Bun.env.HOME!;
-const manifestPath = Bun.argv[2];
-
-if (!manifestPath) {
-  throw new Error("Usage: bun skills-sync.ts <manifest>");
-}
+/** Machine-local lockfile the Skills CLI keeps of installed skills. */
+const CLI_LOCKFILE = join(HOME, ".agents/.skill-lock.json");
 
 /**
- * Makes `linkPath` a relative symlink to `target`.
- *
- * An up-to-date link is left alone and a symlink pointing elsewhere is
- * replaced. Anything that is not a symlink is user data, so the sync stops
- * instead of overwriting it.
- *
- * @param linkPath - Where the symlink should live.
- * @param target - Absolute path the symlink should resolve to.
- */
-async function link(linkPath: string, target: string): Promise<void> {
-  const expected = relative(dirname(linkPath), target);
-  const current = await lstat(linkPath).catch(() => null);
-
-  if (current?.isSymbolicLink()) {
-    if ((await readlink(linkPath)) === expected) return;
-    await unlink(linkPath);
-  } else if (current) {
-    throw new Error(`Refusing to replace ${linkPath}: not a symlink; move it away and rerun`);
-  }
-
-  await mkdir(dirname(linkPath), { recursive: true });
-  await symlink(expected, linkPath);
-}
-
-/**
- * Checks whether a skill is already installed from the expected source: the
- * CLI lockfile records that source and the skill's files are on disk.
+ * Path of a skill in the canonical directory.
  *
  * @param name - Skill name.
- * @param source - Source the manifest expects.
- * @param lock - Skills recorded in the CLI lockfile.
  */
-async function isInstalled(name: string, source: string, lock: Record<string, SkillSource>): Promise<boolean> {
-  if (lock[name]?.source !== source) return false;
-  return Bun.file(join(home, canonicalSkillsDir, name, "SKILL.md")).exists();
+function canonicalPath(name: string): string {
+  return join(HOME, CANONICAL_SKILLS_DIR, name);
+}
+
+/**
+ * Splits the manifest into skills already installed from the expected source
+ * (the CLI lockfile records it and the files are on disk) and skills to install.
+ *
+ * @param external - Skills from the manifest.
+ */
+async function partitionInstalled(external: Skills): Promise<{ installed: string[]; missing: Skills }> {
+  const lock = await readSkills(CLI_LOCKFILE);
+  const installed: string[] = [];
+  const missing: Skills = {};
+
+  for (const [name, skill] of Object.entries(external)) {
+    const recorded = lock[name]?.source === skill.source;
+    if (recorded && (await Bun.file(join(canonicalPath(name), "SKILL.md")).exists())) installed.push(name);
+    else missing[name] = skill;
+  }
+
+  return { installed, missing };
 }
 
 /**
@@ -71,7 +59,7 @@ async function isInstalled(name: string, source: string, lock: Record<string, Sk
  * @param skills - Skill name to source.
  * @returns Source repository to the skill names it provides.
  */
-function groupBySource(skills: Record<string, SkillSource>): Map<string, string[]> {
+function groupBySource(skills: Skills): Map<string, string[]> {
   const groups = new Map<string, string[]>();
   for (const [name, { source }] of Object.entries(skills)) {
     groups.set(source, [...(groups.get(source) ?? []), name]);
@@ -88,7 +76,7 @@ function groupBySource(skills: Record<string, SkillSource>): Map<string, string[
  * @returns Whether the install succeeded.
  */
 async function install(source: string, names: string[]): Promise<boolean> {
-  const result = await $`skills add ${source} --global --agent ${agents} --skill ${names} --yes`.quiet().nothrow();
+  const result = await $`skills add ${source} --global --agent ${AGENTS} --skill ${names} --yes`.quiet().nothrow();
   if (result.exitCode === 0) {
     ok(source, names.length > 3 ? `${names.length} skills` : names.join(", "));
     return true;
@@ -99,67 +87,74 @@ async function install(source: string, names: string[]): Promise<boolean> {
   return false;
 }
 
-/** Machine-local lockfile the Skills CLI keeps of installed skills. */
-const cliLockfile = join(home, ".agents/.skill-lock.json");
+/**
+ * Installs the missing external skills, one repository at a time: the Skills
+ * CLI rewrites a shared lockfile on every install.
+ *
+ * @param missing - Skills to install.
+ * @returns Names installed now, and how many repositories failed.
+ */
+async function installMissing(missing: Skills): Promise<{ installed: string[]; failures: number }> {
+  const installed: string[] = [];
+  let failures = 0;
+
+  for (const [source, names] of groupBySource(missing)) {
+    if (await install(source, names)) installed.push(...names);
+    else failures++;
+  }
+
+  return { installed, failures };
+}
 
 /**
- * The CLI lockfile used to be a stow symlink into the repo. Drop such a link
- * so the CLI writes a machine-local file instead.
+ * Links every skill into all four harness directories. The Skills CLI skips
+ * the links for agents that read `~/.agents/skills` themselves (Codex,
+ * OpenCode); keeping all four lets every harness see every skill.
+ *
+ * @param names - Skills present in the canonical directory.
  */
-async function detachCliLockfile(): Promise<void> {
-  if ((await lstat(cliLockfile).catch(() => null))?.isSymbolicLink()) {
-    await unlink(cliLockfile);
+async function linkHarnesses(names: string[]): Promise<void> {
+  for (const name of names) {
+    for (const dir of HARNESS_SKILL_DIRS) {
+      await link(join(HOME, dir, name), canonicalPath(name));
+    }
   }
 }
 
-const external = await readSkills(manifestPath);
-const localDir = join(dirname(resolve(manifestPath)), "skills");
-const local = await listLocalSkills(localDir);
+async function main(manifestPath: string): Promise<void> {
+  const external = await readSkills(manifestPath);
+  const localDir = join(dirname(resolve(manifestPath)), "skills");
+  const local = await listLocalSkills(localDir);
 
-for (const name of local) {
-  if (name in external) {
-    throw new Error(`Skill ${name} is both local and listed in ${manifestPath}`);
+  const conflict = local.find((name) => name in external);
+  if (conflict) throw new Error(`Skill ${conflict} is both local and listed in ${manifestPath}`);
+
+  // The CLI lockfile used to be a stow symlink into the repo; make it machine-local.
+  if (await isSymlink(CLI_LOCKFILE)) await unlink(CLI_LOCKFILE);
+
+  step(`External skills (${Object.keys(external).length})`);
+  const { installed: alreadyInstalled, missing } = await partitionInstalled(external);
+  if (alreadyInstalled.length) ok(`${alreadyInstalled.length} already installed`, "update them with skills update");
+  const { installed: newlyInstalled, failures } = await installMissing(missing);
+
+  step(`Local skills (${local.length})`);
+  for (const name of local) {
+    await link(canonicalPath(name), join(localDir, name));
+    ok(name, tilde(canonicalPath(name)));
   }
+
+  const linked = [...alreadyInstalled, ...newlyInstalled, ...local];
+  await linkHarnesses(linked);
+
+  summary(
+    failures ? `${failures} repositories failed to install` : `${linked.length} skills linked into ${HARNESS_SKILL_DIRS.length} harnesses`,
+    failures === 0,
+  );
+  process.exitCode = failures ? 1 : 0;
 }
 
-await detachCliLockfile();
-
-const lock = await readSkills(cliLockfile);
-const installed: string[] = [];
-const missing: Record<string, SkillSource> = {};
-for (const [name, skill] of Object.entries(external)) {
-  if (await isInstalled(name, skill.source, lock)) installed.push(name);
-  else missing[name] = skill;
-}
-
-const sources = groupBySource(missing);
-step(`External skills (${Object.keys(external).length})`);
-if (installed.length) ok(`${installed.length} already installed`, "update them with skills update");
-
-// One at a time: the Skills CLI rewrites a shared lockfile on every install.
-let failures = 0;
-for (const [source, names] of sources) {
-  if (await install(source, names)) installed.push(...names);
-  else failures++;
-}
-
-step(`Local skills (${local.length})`);
-for (const name of local) {
-  await link(join(home, canonicalSkillsDir, name), join(localDir, name));
-  ok(name, `~/${canonicalSkillsDir}/${name}`);
-}
-
-// The Skills CLI skips harness links for agents that read ~/.agents/skills
-// themselves (Codex, OpenCode); keep all four so every harness sees every skill.
-const linked = [...installed, ...local];
-for (const name of linked) {
-  for (const dir of harnessSkillDirs) {
-    await link(join(home, dir, name), join(home, canonicalSkillsDir, name));
-  }
-}
-
-summary(
-  failures ? `${failures} repositories failed to install` : `${linked.length} skills linked into ${harnessSkillDirs.length} harnesses`,
-  failures === 0,
-);
-process.exitCode = failures ? 1 : 0;
+await runMain(async () => {
+  const manifestPath = Bun.argv[2];
+  if (!manifestPath) throw new Error("Usage: bun skills-sync.ts <manifest>");
+  await main(manifestPath);
+});

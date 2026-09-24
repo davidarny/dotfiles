@@ -12,10 +12,10 @@ import { readFileSync, statSync } from "node:fs";
 import { parse } from "dotenv@16.6.1";
 
 /** Files read when none are passed on the command line. */
-const defaultFiles = [".env", ".env.local"];
+const DEFAULT_FILES = [".env", ".env.local"];
 
 /** Environment variable names the shell can export. */
-const validName = /^[A-Za-z_][A-Za-z0-9_]*$/;
+const VALID_NAME = /^[A-Za-z_][A-Za-z0-9_]*$/;
 
 /**
  * Checks whether a file exists, treating only "not found" as absence.
@@ -52,7 +52,7 @@ function readInto(file: string, values: Map<string, string>): void {
 
   const parsed: Record<string, string> = parse(content);
   for (const [key, value] of Object.entries(parsed)) {
-    if (!validName.test(key)) throw new Error(`${label}: invalid environment variable name`);
+    if (!VALID_NAME.test(key)) throw new Error(`${label}: invalid environment variable name`);
     values.set(key, value);
   }
 }
@@ -60,7 +60,7 @@ function readInto(file: string, values: Map<string, string>): void {
 try {
   let files = Bun.argv.slice(2);
   if (files.length === 0) {
-    files = defaultFiles.filter(exists);
+    files = DEFAULT_FILES.filter(exists);
     if (files.length === 0) throw new Error("no .env or .env.local found");
   }
 

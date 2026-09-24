@@ -11,8 +11,9 @@
  *
  * Usage: `bun codex-config.ts dump|restore <config.toml> <snapshot dir>`
  */
-import { rename } from "node:fs/promises";
-import { ok } from "./lib/log";
+import { readText, writeAtomic } from "./lib/fs";
+import { ok, runMain } from "./lib/log";
+import { fromPortable, toPortable } from "./lib/paths";
 
 /**
  * A top-level key or a table of the TOML file, kept as its original lines
@@ -41,11 +42,8 @@ interface Config {
  */
 type Kind = "settings" | "mcp" | "local";
 
-const home = `${Bun.env.HOME}/`;
-const homePlaceholder = "${HOME}/";
-
 /** Top-level keys with machine paths or local proxy URLs. */
-const localKeys = new Set([
+const LOCAL_KEYS = new Set([
   "notify",
   "model_catalog_json",
   "openai_base_url",
@@ -53,13 +51,14 @@ const localKeys = new Set([
 ]);
 
 /** Tables with machine paths, trust lists, account ids, or UI state. */
-const localTables =
+const LOCAL_TABLES =
   /^(marketplaces|projects|shell_environment_policy|desktop\.daybreak-enabled|tui\.model_availability_nux)(\.|$)/;
 
 /** MCP servers the Codex app writes itself, with app versions and home paths inside. */
-const appMcpServers = /^mcp_servers\.(node_repl|computer-use)(\.|$)/;
+const APP_MCP_SERVERS = /^mcp_servers\.(node_repl|computer-use)(\.|$)/;
 
-const mcpServers = /^mcp_servers(\.|$)/;
+/** All MCP server tables. */
+const MCP_SERVERS = /^mcp_servers(\.|$)/;
 
 /**
  * Decides which snapshot a block belongs to.
@@ -68,10 +67,10 @@ const mcpServers = /^mcp_servers(\.|$)/;
  */
 function kind(block: Block): Kind {
   if (!block.table) {
-    return block.key && localKeys.has(block.key) ? "local" : "settings";
+    return block.key && LOCAL_KEYS.has(block.key) ? "local" : "settings";
   }
-  if (appMcpServers.test(block.table) || localTables.test(block.table)) return "local";
-  return mcpServers.test(block.table) ? "mcp" : "settings";
+  if (APP_MCP_SERVERS.test(block.table) || LOCAL_TABLES.test(block.table)) return "local";
+  return MCP_SERVERS.test(block.table) ? "mcp" : "settings";
 }
 
 /**
@@ -142,9 +141,7 @@ function only(blocks: Block[], wanted: Kind): Block[] {
  * @param path - File to read; a missing file parses as an empty config.
  */
 async function load(path: string): Promise<Config> {
-  const file = Bun.file(path);
-  const text = (await file.exists()) ? await file.text() : "";
-  return parse(text.replaceAll(homePlaceholder, home));
+  return parse(fromPortable((await readText(path)) ?? ""));
 }
 
 /**
@@ -154,7 +151,7 @@ async function load(path: string): Promise<Config> {
  * @param text - TOML to write.
  */
 async function writeSnapshot(path: string, text: string): Promise<void> {
-  await Bun.write(path, `${text.replaceAll(home, homePlaceholder)}\n`);
+  await Bun.write(path, `${toPortable(text)}\n`);
   ok("Dumped", path);
 }
 
@@ -167,9 +164,7 @@ async function writeSnapshot(path: string, text: string): Promise<void> {
  */
 async function writeConfig(path: string, text: string): Promise<void> {
   Bun.TOML.parse(text);
-  const tmp = `${path}.tmp-${process.pid}`;
-  await Bun.write(tmp, `${text}\n`);
-  await rename(tmp, path);
+  await writeAtomic(path, `${text}\n`);
   ok("Restored", path);
 }
 
@@ -211,12 +206,9 @@ async function restore(configPath: string, snapshotDir: string): Promise<void> {
   await writeConfig(configPath, sections.filter(Boolean).join("\n\n"));
 }
 
-const [command, configPath, snapshotDir] = Bun.argv.slice(2);
-
-if (command === "dump" && configPath && snapshotDir) {
-  await dump(configPath, snapshotDir);
-} else if (command === "restore" && configPath && snapshotDir) {
-  await restore(configPath, snapshotDir);
-} else {
-  throw new Error("Usage: bun codex-config.ts dump|restore <config.toml> <snapshot dir>");
-}
+await runMain(async () => {
+  const [command, configPath, snapshotDir] = Bun.argv.slice(2);
+  if (command === "dump" && configPath && snapshotDir) await dump(configPath, snapshotDir);
+  else if (command === "restore" && configPath && snapshotDir) await restore(configPath, snapshotDir);
+  else throw new Error("Usage: bun codex-config.ts dump|restore <config.toml> <snapshot dir>");
+});

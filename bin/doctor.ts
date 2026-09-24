@@ -9,10 +9,12 @@
  */
 import { $ } from "bun";
 import { existsSync } from "node:fs";
-import { lstat, readdir, readlink, realpath } from "node:fs/promises";
-import { basename, dirname, join, resolve } from "node:path";
-import { fail, ok, step, summary } from "./lib/log";
-import { canonicalSkillsDir, harnessSkillDirs, listLocalSkills, readSkills } from "./lib/skills";
+import { readdir, readlink, realpath } from "node:fs/promises";
+import { basename, dirname, join } from "node:path";
+import { isSymlink, readText } from "./lib/fs";
+import { fail, ok, runMain, step, summary } from "./lib/log";
+import { HOME, REPO, tilde } from "./lib/paths";
+import { CANONICAL_SKILLS_DIR, HARNESS_SKILL_DIRS, listLocalSkills, readSkills } from "./lib/skills";
 
 /** A named check and the problems it found; no problems means it passed. */
 interface CheckResult {
@@ -32,18 +34,6 @@ interface McpServer {
   cwd?: string;
 }
 
-const home = Bun.env.HOME!;
-const repo = resolve(import.meta.dir, "..");
-
-/**
- * Shortens a path under the home directory to `~/...` for display.
- *
- * @param path - Absolute path.
- */
-function tilde(path: string): string {
-  return path.startsWith(`${home}/`) ? `~${path.slice(home.length)}` : path;
-}
-
 /**
  * Reads and parses a JSON file.
  *
@@ -51,8 +41,8 @@ function tilde(path: string): string {
  * @returns The parsed value, or `undefined` when the file does not exist.
  */
 async function readJson<T>(path: string): Promise<T | undefined> {
-  const file = Bun.file(path);
-  return (await file.exists()) ? ((await file.json()) as T) : undefined;
+  const text = await readText(path);
+  return text === undefined ? undefined : (JSON.parse(text) as T);
 }
 
 /**
@@ -62,8 +52,8 @@ async function readJson<T>(path: string): Promise<T | undefined> {
  * @returns The parsed value, or `undefined` when the file does not exist.
  */
 async function readToml<T>(path: string): Promise<T | undefined> {
-  const file = Bun.file(path);
-  return (await file.exists()) ? (Bun.TOML.parse(await file.text()) as T) : undefined;
+  const text = await readText(path);
+  return text === undefined ? undefined : (Bun.TOML.parse(text) as T);
 }
 
 /**
@@ -73,7 +63,7 @@ async function readToml<T>(path: string): Promise<T | undefined> {
  */
 async function trackedDirs(): Promise<string[]> {
   const dirs = new Set<string>(["."]);
-  for (const file of (await $`git ls-files`.cwd(repo).text()).split("\n")) {
+  for (const file of (await $`git ls-files`.cwd(REPO).text()).split("\n")) {
     for (let dir = dirname(file); dir !== "."; dir = dirname(dir)) dirs.add(dir);
   }
   return [...dirs];
@@ -84,7 +74,7 @@ async function trackedDirs(): Promise<string[]> {
  * files. A dry run of `stow` lists each missing link as `LINK:`.
  */
 async function checkStowLinks(): Promise<CheckResult> {
-  const { stdout, stderr } = await $`stow --no --verbose --no-folding --target=${home} .`.cwd(repo).quiet().nothrow();
+  const { stdout, stderr } = await $`stow --no --verbose --no-folding --target=${HOME} .`.cwd(REPO).quiet().nothrow();
   const problems = `${stdout}${stderr}`
     .split("\n")
     .filter((line) => /^LINK|conflict|existing target/.test(line))
@@ -95,13 +85,13 @@ async function checkStowLinks(): Promise<CheckResult> {
 
 /** No symlink into the repo points at a file that no longer exists. */
 async function checkBrokenLinks(): Promise<CheckResult> {
-  const repoName = `${basename(repo)}/`;
+  const repoName = `${basename(REPO)}/`;
   const problems: string[] = [];
 
   for (const dir of await trackedDirs()) {
-    const entries = await readdir(join(home, dir), { withFileTypes: true }).catch(() => []);
+    const entries = await readdir(join(HOME, dir), { withFileTypes: true }).catch(() => []);
     for (const entry of entries.filter((entry) => entry.isSymbolicLink())) {
-      const path = join(home, dir, entry.name);
+      const path = join(HOME, dir, entry.name);
       // existsSync follows the link and, unlike Bun.file(), also accepts directories.
       if ((await readlink(path)).includes(repoName) && !existsSync(path)) {
         problems.push(`${tilde(path)} is broken → remove it or run just link`);
@@ -114,10 +104,9 @@ async function checkBrokenLinks(): Promise<CheckResult> {
 
 /** `~/.config/karabiner` links to the repo directory as a whole. */
 async function checkKarabiner(): Promise<CheckResult> {
-  const path = join(home, ".config/karabiner");
-  const isLink = (await lstat(path).catch(() => null))?.isSymbolicLink();
+  const path = join(HOME, ".config/karabiner");
   const target = await realpath(path).catch(() => "");
-  const linked = isLink && target === join(repo, ".config/karabiner");
+  const linked = (await isSymlink(path)) && target === join(REPO, ".config/karabiner");
 
   return {
     label: "Karabiner config directory linked",
@@ -128,14 +117,14 @@ async function checkKarabiner(): Promise<CheckResult> {
 /** Every variable from the secrets template has a non-empty resolved value. */
 async function checkMcpSecrets(): Promise<CheckResult> {
   const label = "MCP secrets resolved";
-  const secretsPath = join(home, ".config/mcp/mcp-secrets.env");
+  const secretsPath = join(HOME, ".config/mcp/mcp-secrets.env");
   const secrets = Bun.file(secretsPath);
   if (!(await secrets.exists())) {
     return { label, problems: [`${tilde(secretsPath)} is missing → run just mcp-secrets`] };
   }
 
   const exported = /^export ([A-Za-z_][A-Za-z0-9_]*)=(.*)$/gm;
-  const template = await Bun.file(join(repo, ".config/mcp/mcp-secrets.env.tpl")).text();
+  const template = await Bun.file(join(REPO, ".config/mcp/mcp-secrets.env.tpl")).text();
   const values = new Map(
     [...(await secrets.text()).matchAll(exported)].map(([, name, value]) => [name, value.replace(/^['"]|['"]$/g, "")]),
   );
@@ -149,7 +138,7 @@ async function checkMcpSecrets(): Promise<CheckResult> {
 
 /** Everything in the Brewfile is installed. */
 async function checkBrewfile(): Promise<CheckResult> {
-  const output = await $`brew bundle check --file=Brewfile --verbose --no-upgrade`.cwd(repo).quiet().nothrow().text();
+  const output = await $`brew bundle check --file=Brewfile --verbose --no-upgrade`.cwd(REPO).quiet().nothrow().text();
   const problems = output
     .split("\n")
     .filter((line) => line.startsWith("→"))
@@ -176,8 +165,8 @@ function missingCommand(agent: string, name: string, { command }: McpServer): st
 /** The command of every enabled Claude Code and Codex MCP server exists. */
 async function checkMcpCommands(): Promise<CheckResult> {
   const [claude, codex] = await Promise.all([
-    readJson<{ mcpServers?: Record<string, McpServer> }>(join(home, ".claude.json")),
-    readToml<{ mcp_servers?: Record<string, McpServer> }>(join(home, ".codex/config.toml")),
+    readJson<{ mcpServers?: Record<string, McpServer> }>(join(HOME, ".claude.json")),
+    readToml<{ mcp_servers?: Record<string, McpServer> }>(join(HOME, ".codex/config.toml")),
   ]);
 
   const problems = [
@@ -196,16 +185,16 @@ async function checkMcpCommands(): Promise<CheckResult> {
  * authors has a `SKILL.md` in the canonical directory and in all harnesses.
  */
 async function checkSkills(): Promise<CheckResult> {
-  const agentsDoc = await Bun.file(join(repo, ".agents/AGENTS.md")).text();
+  const agentsDoc = await Bun.file(join(REPO, ".agents/AGENTS.md")).text();
   const referenced = [...agentsDoc.matchAll(/skills\/([a-z0-9-]+)\/SKILL\.md/g)].map(([, name]) => name);
-  const listed = Object.keys(await readSkills(join(repo, ".agents/skills.json")));
-  const local = await listLocalSkills(join(repo, ".agents/skills"));
+  const listed = Object.keys(await readSkills(join(REPO, ".agents/skills.json")));
+  const local = await listLocalSkills(join(REPO, ".agents/skills"));
   const skills = [...new Set([...referenced, ...listed, ...local])];
 
   const problems: string[] = [];
   for (const skill of skills) {
-    for (const dir of [canonicalSkillsDir, ...harnessSkillDirs]) {
-      if (!(await Bun.file(join(home, dir, skill, "SKILL.md")).exists())) {
+    for (const dir of [CANONICAL_SKILLS_DIR, ...HARNESS_SKILL_DIRS]) {
+      if (!(await Bun.file(join(HOME, dir, skill, "SKILL.md")).exists())) {
         problems.push(`~/${dir}/${skill} is missing → run just skills-sync`);
       }
     }
@@ -216,7 +205,7 @@ async function checkSkills(): Promise<CheckResult> {
 
 /** TPM is cloned, so tmux can load its plugins. */
 async function checkTpm(): Promise<CheckResult> {
-  const installed = await Bun.file(join(home, ".tmux/plugins/tpm/tpm")).exists();
+  const installed = await Bun.file(join(HOME, ".tmux/plugins/tpm/tpm")).exists();
   return {
     label: "TPM installed",
     problems: installed ? [] : ["~/.tmux/plugins/tpm is missing → start tmux once; tmux.conf installs it"],
@@ -225,15 +214,15 @@ async function checkTpm(): Promise<CheckResult> {
 
 /** Every yazi plugin pinned in package.toml or authored in the repo is installed. */
 async function checkYaziPlugins(): Promise<CheckResult> {
-  const pkg = await readToml<{ plugin?: { deps?: { use: string }[] } }>(join(repo, ".config/yazi/package.toml"));
+  const pkg = await readToml<{ plugin?: { deps?: { use: string }[] } }>(join(REPO, ".config/yazi/package.toml"));
   const pinned = (pkg?.plugin?.deps ?? []).map(({ use }) => `${use.split(":").at(-1)}.yazi`);
-  const authored = (await readdir(join(repo, ".config/yazi/plugins"), { withFileTypes: true }))
+  const authored = (await readdir(join(REPO, ".config/yazi/plugins"), { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name);
 
   const problems: string[] = [];
   for (const plugin of [...pinned, ...authored]) {
-    if (!existsSync(join(home, ".config/yazi/plugins", plugin))) {
+    if (!existsSync(join(HOME, ".config/yazi/plugins", plugin))) {
       problems.push(`${plugin} is missing → run just yazi-plugins`);
     }
   }
@@ -241,25 +230,31 @@ async function checkYaziPlugins(): Promise<CheckResult> {
   return { label: "yazi plugins installed", problems };
 }
 
-step("Dotfiles doctor");
+/** Every check, in report order. */
+const CHECKS = [
+  checkStowLinks,
+  checkBrokenLinks,
+  checkKarabiner,
+  checkMcpSecrets,
+  checkBrewfile,
+  checkMcpCommands,
+  checkSkills,
+  checkTpm,
+  checkYaziPlugins,
+];
 
-const results = await Promise.all([
-  checkStowLinks(),
-  checkBrokenLinks(),
-  checkKarabiner(),
-  checkMcpSecrets(),
-  checkBrewfile(),
-  checkMcpCommands(),
-  checkSkills(),
-  checkTpm(),
-  checkYaziPlugins(),
-]);
+async function main(): Promise<void> {
+  step("Dotfiles doctor");
 
-for (const { label, problems } of results) {
-  if (problems.length) fail(label, problems);
-  else ok(label);
+  const results = await Promise.all(CHECKS.map((check) => check()));
+  for (const { label, problems } of results) {
+    if (problems.length) fail(label, problems);
+    else ok(label);
+  }
+
+  const failed = results.filter(({ problems }) => problems.length).length;
+  summary(failed ? `${failed} of ${results.length} checks failed` : `All ${results.length} checks passed`, failed === 0);
+  process.exitCode = failed ? 1 : 0;
 }
 
-const failed = results.filter(({ problems }) => problems.length).length;
-summary(failed ? `${failed} of ${results.length} checks failed` : `All ${results.length} checks passed`, failed === 0);
-process.exitCode = failed ? 1 : 0;
+await runMain(main);

@@ -8,6 +8,9 @@
  */
 import { styleText } from "node:util";
 
+/** Column where the dimmed detail of an `ok` line starts. */
+const DETAIL_COLUMN = 28;
+
 /**
  * Prints a section header, e.g. `▸ Global skills`.
  *
@@ -24,7 +27,7 @@ export function step(title: string): void {
  * @param detail - Extra context, such as a source or a path.
  */
 export function ok(text: string, detail?: string): void {
-  const line = detail ? `${text.padEnd(28)} ${styleText("dim", detail)}` : text;
+  const line = detail ? `${text.padEnd(DETAIL_COLUMN)} ${styleText("dim", detail)}` : text;
   console.log(`  ${styleText("green", "✓")} ${line}`);
 }
 
@@ -37,6 +40,21 @@ export function ok(text: string, detail?: string): void {
 export function fail(text: string, details: string[] = []): void {
   console.log(`  ${styleText("red", "✗")} ${text}`);
   for (const detail of details) console.log(`    ${styleText("dim", `└ ${detail}`)}`);
+}
+
+/**
+ * Runs a script's entry point and reports a thrown error as a failure line
+ * instead of a stack trace. Scripts throw for problems the user must fix.
+ *
+ * @param main - The script's entry point.
+ */
+export async function runMain(main: () => Promise<void>): Promise<void> {
+  try {
+    await main();
+  } catch (error) {
+    fail(error instanceof Error ? error.message : String(error));
+    process.exitCode = 1;
+  }
 }
 
 /**
