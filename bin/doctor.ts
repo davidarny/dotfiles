@@ -183,12 +183,17 @@ async function checkMcpCommands(): Promise<CheckResult> {
 }
 
 /**
- * Every skill that AGENTS.md references, the manifest lists, or the repo
- * authors has a `SKILL.md` in the canonical directory and in all harnesses.
+ * Every skill that the global instructions (`AGENTS.md` and its
+ * `references/`) link, the manifest lists, or the repo authors has a
+ * `SKILL.md` in the canonical directory and in all harnesses.
  */
 async function checkSkills(): Promise<CheckResult> {
-  const agentsDoc = await Bun.file(join(REPO, ".agents/AGENTS.md")).text();
-  const referenced = [...agentsDoc.matchAll(/skills\/([a-z0-9-]+)\/SKILL\.md/g)].map(([, name]) => name);
+  const docs = await Promise.all(
+    [...new Bun.Glob("{AGENTS.md,references/*.md}").scanSync(join(REPO, ".agents"))].map((path) =>
+      Bun.file(join(REPO, ".agents", path)).text(),
+    ),
+  );
+  const referenced = docs.flatMap((doc) => [...doc.matchAll(/skills\/([a-z0-9-]+)\/SKILL\.md/g)].map(([, name]) => name));
   const listed = Object.keys(await readSkills(join(REPO, ".agents/skills.json")));
   const local = await listLocalSkills(join(REPO, ".agents/skills"));
   const skills = [...new Set([...referenced, ...listed, ...local])];

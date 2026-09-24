@@ -146,11 +146,12 @@ $RECYCLE.BIN/
 # Zsh history
 .zsh_history
 
-# Track the global skills manifest and local skills; the Skills CLI lockfile stays machine-local.
+# Track the global skills manifest, local skills, and instruction references; the Skills CLI lockfile stays machine-local.
 !.agents/
 .agents/*
 !.agents/skills.json
 !.agents/skills/
+!.agents/references/
 
 # Bun replaces its global lockfile instead of writing through the stow symlink.
 .bun/install/global/bun.lock
