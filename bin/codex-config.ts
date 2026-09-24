@@ -1,124 +1,222 @@
+/**
+ * Splits `~/.codex/config.toml` into tracked snapshots and machine-local entries.
+ *
+ * - `dump` writes the portable settings to `settings.toml` and the MCP servers
+ *   to `mcp-servers.toml`, with the home prefix replaced by `${HOME}/`.
+ * - `restore` rebuilds the live config from both snapshots plus the entries
+ *   that stay on this machine.
+ *
+ * The file is split into text blocks instead of parsed and re-serialized, so
+ * comments, key order, and formatting survive a round trip.
+ *
+ * Usage: `bun codex-config.ts dump|restore <config.toml> <snapshot dir>`
+ */
 import { rename } from "node:fs/promises";
+import { ok } from "./lib/log";
 
-// Usage: bun codex-config.ts dump|restore <config.toml> <snapshot dir>
-// Splits ~/.codex/config.toml into tracked snapshots (settings.toml,
-// mcp-servers.toml) and machine-local entries. Restore keeps the local
-// entries and replaces everything tracked.
-
+/**
+ * A top-level key or a table of the TOML file, kept as its original lines
+ * together with the comments right above it.
+ */
 interface Block {
+  /** Table name without brackets and quotes, e.g. `mcp_servers.fff.env`. */
   table?: string;
+  /** Key name for a top-level assignment, e.g. `model`. */
   key?: string;
+  /** Source lines, including leading comments and blank lines. */
   lines: string[];
 }
 
+/** A config parsed into blocks, split the way TOML requires them ordered. */
+interface Config {
+  /** Top-level assignments; TOML needs them before the first table. */
+  top: Block[];
+  /** Tables, including array tables. */
+  tables: Block[];
+}
+
+/**
+ * Where a block belongs: the settings snapshot, the MCP snapshot, or this
+ * machine only.
+ */
 type Kind = "settings" | "mcp" | "local";
 
-const home = `${process.env.HOME}/`;
-const placeholder = "${HOME}/";
+const home = `${Bun.env.HOME}/`;
+const homePlaceholder = "${HOME}/";
 
-// Machine paths, local proxies, account ids, trust lists, and UI state.
+/** Top-level keys with machine paths or local proxy URLs. */
 const localKeys = new Set([
   "notify",
   "model_catalog_json",
   "openai_base_url",
   "experimental_realtime_ws_base_url",
 ]);
+
+/** Tables with machine paths, trust lists, account ids, or UI state. */
 const localTables =
   /^(marketplaces|projects|shell_environment_policy|desktop\.daybreak-enabled|tui\.model_availability_nux)(\.|$)/;
-// Servers the Codex app writes itself, with app versions and home paths inside.
-const appMcp = /^mcp_servers\.(node_repl|computer-use)(\.|$)/;
-const mcp = /^mcp_servers(\.|$)/;
 
+/** MCP servers the Codex app writes itself, with app versions and home paths inside. */
+const appMcpServers = /^mcp_servers\.(node_repl|computer-use)(\.|$)/;
+
+const mcpServers = /^mcp_servers(\.|$)/;
+
+/**
+ * Decides which snapshot a block belongs to.
+ *
+ * @param block - A top-level key or a table.
+ */
 function kind(block: Block): Kind {
-  if (!block.table) return block.key && localKeys.has(block.key) ? "local" : "settings";
-  if (appMcp.test(block.table) || localTables.test(block.table)) return "local";
-  return mcp.test(block.table) ? "mcp" : "settings";
+  if (!block.table) {
+    return block.key && localKeys.has(block.key) ? "local" : "settings";
+  }
+  if (appMcpServers.test(block.table) || localTables.test(block.table)) return "local";
+  return mcpServers.test(block.table) ? "mcp" : "settings";
 }
 
-function parse(text: string) {
-  const top: Block[] = [];
-  const tables: Block[] = [];
+/**
+ * Splits TOML text into blocks. Comments and blank lines attach to the block
+ * that follows them; lines of a multi-line value stay with their key.
+ *
+ * @param text - TOML source.
+ */
+function parse(text: string): Config {
+  const config: Config = { top: [], tables: [] };
   let pending: string[] = [];
   let current: Block | undefined;
 
   for (const line of text.split("\n")) {
     const header = line.match(/^\s*\[\[?\s*(.+?)\s*\]\]?\s*(#.*)?$/);
+    const isComment = !line.trim() || line.trimStart().startsWith("#");
+
     if (header) {
       current = { table: header[1].replaceAll('"', ""), lines: [...pending, line] };
+      config.tables.push(current);
       pending = [];
-      tables.push(current);
     } else if (current?.table) {
       current.lines.push(line);
-    } else if (!line.trim() || line.trimStart().startsWith("#")) {
+    } else if (isComment) {
       pending.push(line);
     } else {
       const key = line.match(/^\s*([A-Za-z0-9_-]+)\s*=/)?.[1];
       if (key || !current) {
         current = { key, lines: [...pending, line] };
+        config.top.push(current);
         pending = [];
-        top.push(current);
       } else {
         current.lines.push(line);
       }
     }
   }
 
-  return { top, tables };
+  return config;
 }
 
-// Top-level keys stay on consecutive lines; tables are separated by a blank line.
-function render(blocks: Block[], separator = "\n\n") {
+/**
+ * Joins blocks back into TOML text.
+ *
+ * @param blocks - Blocks to render, in order.
+ * @param separator - Text between blocks: consecutive lines for top-level
+ *   keys, a blank line between tables.
+ */
+function render(blocks: Block[], separator = "\n\n"): string {
   return blocks
     .map((block) => block.lines.join("\n").trim())
     .filter(Boolean)
     .join(separator);
 }
 
-async function readText(path: string) {
+/**
+ * Keeps only the blocks of one kind.
+ *
+ * @param blocks - Blocks to filter.
+ * @param wanted - Kind to keep.
+ */
+function only(blocks: Block[], wanted: Kind): Block[] {
+  return blocks.filter((block) => kind(block) === wanted);
+}
+
+/**
+ * Reads and parses a TOML file, expanding the `${HOME}/` placeholder.
+ *
+ * @param path - File to read; a missing file parses as an empty config.
+ */
+async function load(path: string): Promise<Config> {
   const file = Bun.file(path);
-  return (await file.exists()) ? file.text() : "";
+  const text = (await file.exists()) ? await file.text() : "";
+  return parse(text.replaceAll(homePlaceholder, home));
 }
 
-const [command, configPath, snapshotDir] = process.argv.slice(2);
-
-if (!["dump", "restore"].includes(command) || !configPath || !snapshotDir) {
-  throw new Error("Usage: bun codex-config.ts dump|restore <config.toml> <snapshot dir>");
+/**
+ * Writes a snapshot with the home prefix replaced by `${HOME}/`.
+ *
+ * @param path - Snapshot file.
+ * @param text - TOML to write.
+ */
+async function writeSnapshot(path: string, text: string): Promise<void> {
+  await Bun.write(path, `${text.replaceAll(home, homePlaceholder)}\n`);
+  ok("Dumped", path);
 }
 
-const settingsPath = `${snapshotDir}/settings.toml`;
-const mcpPath = `${snapshotDir}/mcp-servers.toml`;
-const live = parse(await readText(configPath));
-const only = (blocks: Block[], wanted: Kind) => blocks.filter((block) => kind(block) === wanted);
-
-async function dump(path: string, text: string) {
-  await Bun.write(path, `${text.replaceAll(home, placeholder)}\n`);
-  console.log(`✓ Dumped ${path}`);
+/**
+ * Replaces the live config atomically after checking that the result is valid
+ * TOML, so a bad merge never leaves Codex with a broken config.
+ *
+ * @param path - Live config file.
+ * @param text - New config content.
+ */
+async function writeConfig(path: string, text: string): Promise<void> {
+  Bun.TOML.parse(text);
+  const tmp = `${path}.tmp-${process.pid}`;
+  await Bun.write(tmp, `${text}\n`);
+  await rename(tmp, path);
+  ok("Restored", path);
 }
 
-async function load(path: string) {
-  return parse((await readText(path)).replaceAll(placeholder, home));
+/**
+ * Saves the portable parts of the live config into the snapshot directory.
+ *
+ * @param configPath - Live `config.toml`.
+ * @param snapshotDir - Directory for `settings.toml` and `mcp-servers.toml`.
+ */
+async function dump(configPath: string, snapshotDir: string): Promise<void> {
+  const live = await load(configPath);
+  const settings = [render(only(live.top, "settings"), "\n"), render(only(live.tables, "settings"))];
+
+  await writeSnapshot(`${snapshotDir}/settings.toml`, settings.join("\n\n"));
+  await writeSnapshot(`${snapshotDir}/mcp-servers.toml`, render(only(live.tables, "mcp")));
 }
 
-if (command === "dump") {
-  await dump(settingsPath, [render(only(live.top, "settings"), "\n"), render(only(live.tables, "settings"))].join("\n\n"));
-  await dump(mcpPath, render(only(live.tables, "mcp")));
-} else {
-  const settings = await load(settingsPath);
-  const servers = await load(mcpPath);
+/**
+ * Rebuilds the live config from the snapshots, keeping the machine-local
+ * entries of the current config.
+ *
+ * @param configPath - Live `config.toml`.
+ * @param snapshotDir - Directory with `settings.toml` and `mcp-servers.toml`.
+ */
+async function restore(configPath: string, snapshotDir: string): Promise<void> {
+  const live = await load(configPath);
+  const settings = await load(`${snapshotDir}/settings.toml`);
+  const servers = await load(`${snapshotDir}/mcp-servers.toml`);
+
   // TOML needs every top-level key before the first table.
-  const text = [
+  const sections = [
     render(only(live.top, "local"), "\n"),
     render(settings.top, "\n"),
     render(only(live.tables, "local")),
     render(settings.tables),
     render(servers.tables),
-  ]
-    .filter(Boolean)
-    .join("\n\n");
+  ];
 
-  Bun.TOML.parse(text);
-  const tmp = `${configPath}.tmp-${process.pid}`;
-  await Bun.write(tmp, `${text}\n`);
-  await rename(tmp, configPath);
-  console.log(`✓ Restored ${configPath}`);
+  await writeConfig(configPath, sections.filter(Boolean).join("\n\n"));
+}
+
+const [command, configPath, snapshotDir] = Bun.argv.slice(2);
+
+if (command === "dump" && configPath && snapshotDir) {
+  await dump(configPath, snapshotDir);
+} else if (command === "restore" && configPath && snapshotDir) {
+  await restore(configPath, snapshotDir);
+} else {
+  throw new Error("Usage: bun codex-config.ts dump|restore <config.toml> <snapshot dir>");
 }
