@@ -35,6 +35,8 @@ The justfile orchestrates; logic lives in TypeScript scripts run by Bun, with no
 - Each script has a `main()` started through `runMain`, which prints a thrown error as one `✗` line.
 - Print through `bin/lib/log.ts`, which uses the terminal's ANSI theme colors.
 - Share helpers through `bin/lib/`. Module constants are UPPER_CASE, and every function and interface has TSDoc.
+- Tests sit next to the code as `*.test.ts` (`bun test ./bin`). A script with tests exports what they need and runs its entry point only under `if (import.meta.main)`.
+- `just check` type-checks `bin/` with the tools in `bin/typecheck/`. Keep `node_modules` out of `bin/` itself: Bun auto-installs versioned imports such as `dotenv@16.6.1` only where no `node_modules` exists. Declare such imports in `bin/typecheck/imports.d.ts`.
 
 ## Conventions
 

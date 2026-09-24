@@ -1,0 +1,8 @@
+{
+  "private": true,
+  "description": "Type-checks bin/ (just check). Lives in its own directory so bin/ has no node_modules and Bun keeps auto-installing imports there.",
+  "devDependencies": {
+    "@types/bun": "1.4.2",
+    "typescript": "7.0.2"
+  }
+}

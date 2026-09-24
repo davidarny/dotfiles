@@ -198,3 +198,6 @@ zsdoc/data
 
 # Generated MCP secrets — resolved from .config/mcp/mcp-secrets.env.tpl via `just mcp-secrets`
 .config/mcp/mcp-secrets.env
+
+# Type-checking tools for bin/, installed by just check
+bin/typecheck/node_modules/

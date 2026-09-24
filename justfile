@@ -97,12 +97,15 @@ bun-sync:
 skills-sync:
     @bun ./bin/skills-sync.ts .agents/skills.json
 
-# Verify shell config, Brewfile dependencies, generated MCP configs, and whitespace
+# Verify shell config, Brewfile dependencies, generated MCP configs, bin/ scripts, and whitespace
 [group('check')]
 check:
     @zsh -n .zshrc .config/zsh/*.zsh
     @brew bundle check --no-upgrade --file=Brewfile
     @bun ./bin/mcp-sync.ts --check
+    @bun install --cwd bin/typecheck --frozen-lockfile --silent
+    @bin/typecheck/node_modules/.bin/tsc -p bin/typecheck
+    @bun test ./bin
     @git diff --check
     @echo "✓ Checks passed"
 

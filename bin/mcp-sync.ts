@@ -66,7 +66,7 @@ function mapValues(
  *
  * @param servers - All servers.
  */
-function renderClaude(servers: Servers): string {
+export function renderClaude(servers: Servers): string {
   const config = Object.fromEntries(
     serversFor(servers, "claude").map(([name, server]) => {
       const timeout = server.timeout && server.timeout * 1000;
@@ -174,7 +174,7 @@ function renderCodexServer(name: string, server: Server): string {
  *
  * @param servers - All servers.
  */
-function renderCodex(servers: Servers): string {
+export function renderCodex(servers: Servers): string {
   const text = `${serversFor(servers, "codex")
     .map(([name, server]) => renderCodexServer(name, server))
     .join("\n\n")}\n`;
@@ -189,7 +189,7 @@ function renderCodex(servers: Servers): string {
  * @param servers - All servers.
  * @param current - Current `opencode.json` content.
  */
-function renderOpencode(servers: Servers, current: string): string {
+export function renderOpencode(servers: Servers, current: string): string {
   const toEnv = (value: string) => value.replaceAll(REFERENCES, "{env:$1}");
   const mcp = Object.fromEntries(
     serversFor(servers, "opencode").map(([name, server]) => {
@@ -210,7 +210,7 @@ function renderOpencode(servers: Servers, current: string): string {
  *
  * @param servers - All servers.
  */
-function renderPi(servers: Servers): string {
+export function renderPi(servers: Servers): string {
   const mcpServers = Object.fromEntries(
     serversFor(servers, "pi").map(([name, server]) => [
       name,
@@ -251,4 +251,5 @@ async function main(check: boolean): Promise<void> {
   }
 }
 
-await runMain(() => main(Bun.argv.includes("--check")));
+// Tests import the renderers; only a direct run writes files.
+if (import.meta.main) await runMain(() => main(Bun.argv.includes("--check")));

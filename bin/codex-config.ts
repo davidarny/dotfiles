@@ -175,7 +175,7 @@ async function writeConfig(path: string, text: string): Promise<void> {
  * @param configPath - Live `config.toml`.
  * @param snapshotDir - Directory for `settings.toml`.
  */
-async function dump(configPath: string, snapshotDir: string): Promise<void> {
+export async function dump(configPath: string, snapshotDir: string): Promise<void> {
   const live = await load(configPath);
   const settings = [render(only(live.top, "settings"), "\n"), render(only(live.tables, "settings"))];
 
@@ -189,7 +189,7 @@ async function dump(configPath: string, snapshotDir: string): Promise<void> {
  * @param configPath - Live `config.toml`.
  * @param snapshotDir - Directory with `settings.toml` and `mcp-servers.toml`.
  */
-async function restore(configPath: string, snapshotDir: string): Promise<void> {
+export async function restore(configPath: string, snapshotDir: string): Promise<void> {
   const live = await load(configPath);
   const settings = await load(`${snapshotDir}/settings.toml`);
   const servers = await load(`${snapshotDir}/mcp-servers.toml`);
@@ -206,7 +206,8 @@ async function restore(configPath: string, snapshotDir: string): Promise<void> {
   await writeConfig(configPath, sections.filter(Boolean).join("\n\n"));
 }
 
-await runMain(async () => {
+// Tests import dump and restore; only a direct run parses arguments.
+if (import.meta.main) await runMain(async () => {
   const [command, configPath, snapshotDir] = Bun.argv.slice(2);
   if (command === "dump" && configPath && snapshotDir) await dump(configPath, snapshotDir);
   else if (command === "restore" && configPath && snapshotDir) await restore(configPath, snapshotDir);
