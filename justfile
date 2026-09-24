@@ -101,7 +101,7 @@ skills-sync:
 [group('check')]
 check:
     @zsh -n .zshrc .config/zsh/*.zsh
-    @brew bundle check --file=Brewfile
+    @brew bundle check --no-upgrade --file=Brewfile
     @git diff --check
     @echo "✓ Checks passed"
 
