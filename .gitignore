@@ -97,7 +97,6 @@ Temporary Items
 [._]s[a-rt-v][a-z]
 [._]ss[a-gi-z]
 [._]sw[a-p]
-lazy-lock.json
 
 # Session
 Session.vim
