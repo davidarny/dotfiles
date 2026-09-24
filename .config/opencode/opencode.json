@@ -1,5 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
+  "shell": "{env:HOME}/.config/zsh/agent/zsh",
   "mcp": {
     "codegraph": {
       "type": "local",

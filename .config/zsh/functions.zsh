@@ -1,21 +1,23 @@
-# Auto-sync Brewfile after install/uninstall
-typeset -g _dotfiles_brewfile="${${(%):-%x}:A:h:h:h}/Brewfile"
+# The dotfiles repo, found through the stowed link to this file. A function, not
+# a variable: agent shell snapshots keep functions but drop unexported variables,
+# and an empty path made the brew dump write a Brewfile into the current directory.
+function _dotfiles_root() {
+  print -r -- "${${:-$HOME/.config/zsh/functions.zsh}:A:h:h:h}"
+}
 
+# Auto-sync Brewfile after install/uninstall
 function brew() {
   command brew "$@"
   local brew_status=$?
 
-  if (( brew_status == 0 )) && [[ "$1" =~ ^(install|uninstall|remove|rmtree)$ ]]; then
-    command brew bundle dump --file="$_dotfiles_brewfile" --force --brews --casks --cargo --uv --taps
+  if (( brew_status == 0 )) && [[ "$1" =~ ^(install|uninstall|remove|rm|rmtree)$ ]]; then
+    command brew bundle dump --file="$(_dotfiles_root)/Brewfile" --force --brews --casks --cargo --uv --taps
   fi
 
   return $brew_status
 }
 
 # Auto-sync the global skills manifest after add/remove/update
-typeset -g _dotfiles_skills_manifest="${${(%):-%x}:A:h:h:h}/.agents/skills.json"
-typeset -g _dotfiles_skills_dump_script="${${(%):-%x}:A:h:h:h}/bin/skills-dump.ts"
-
 function skills() {
   local lock="$HOME/.agents/.skill-lock.json" before=''
   [[ -f "$lock" ]] && before=$(<"$lock")
@@ -24,15 +26,14 @@ function skills() {
   local skills_status=$?
 
   if (( skills_status == 0 )) && [[ "$1" =~ ^(add|a|remove|rm|update|upgrade)$ ]]; then
-    print -r -- "$before" | command bun "$_dotfiles_skills_dump_script" "$lock" "$_dotfiles_skills_manifest"
+    local root=$(_dotfiles_root)
+    print -r -- "$before" | command bun "$root/bin/skills-dump.ts" "$lock" "$root/.agents/skills.json"
   fi
 
   return $skills_status
 }
 
 # Parse dotenv data with Bun; never evaluate it as shell code.
-typeset -g _dotfiles_dotenv_script="${${(%):-%x}:A:h:h:h}/bin/dotenv-export.ts"
-
 function dotenv() {
   command -v bun >/dev/null 2>&1 || {
     print -u2 'dotenv: bun is required'
@@ -40,7 +41,7 @@ function dotenv() {
   }
 
   local _dotenv_data _dotenv_key _dotenv_value
-  _dotenv_data=$(command bun --no-env-file --install=force "$_dotfiles_dotenv_script" "$@") || return $?
+  _dotenv_data=$(command bun --no-env-file --install=force "$(_dotfiles_root)/bin/dotenv-export.ts" "$@") || return $?
 
   while IFS= read -r -d '' _dotenv_key && IFS= read -r -d '' _dotenv_value; do
     if [[ "$_dotenv_key" == _dotenv_* ]]; then
@@ -59,6 +60,17 @@ function dotenv() {
   while IFS= read -r -d '' _dotenv_key && IFS= read -r -d '' _dotenv_value; do
     export "$_dotenv_key=$_dotenv_value" || return $?
   done <<< "$_dotenv_data"
+}
+
+# eza 0.23 reads file names from stdin when it gets no path and stdin is not a
+# terminal, so in agent shells a bare l or tree hangs or prints nothing. List
+# the current directory there, as a terminal would.
+function eza() {
+  if [[ ! -t 0 && ${@[(I)--stdin]} -eq 0 && -z ${@:#-*} ]]; then
+    command eza "$@" .
+  else
+    command eza "$@"
+  fi
 }
 
 # Pad text to a column width and assign it to <var>
@@ -88,7 +100,7 @@ function gsall() {
   integer wbranch=16 wremote=12 wnum=2 wbranchdash=18  # dash rows have no icon: wbranch + 2
 
   for dir in */(N); do
-    [[ -d "$dir/.git" ]] || continue
+    [[ -e "$dir/.git" ]] || continue  # a file in worktrees and submodules
     dirs+=("$dir")
     (( ${#dir} > width )) && width=${#dir}
   done
@@ -165,7 +177,7 @@ function gpall() {
   integer width=0 nff=0 nok=0 nerr=0 nskip=0
 
   for dir in */(N); do
-    [[ -d "$dir/.git" ]] || continue
+    [[ -e "$dir/.git" ]] || continue  # a file in worktrees and submodules
     dirs+=("$dir")
     (( ${#dir} > width )) && width=${#dir}
   done
@@ -265,7 +277,7 @@ function cgall() {
   zmodload -F zsh/datetime b:strftime p:EPOCHREALTIME 2>/dev/null
 
   for dir in */(N); do
-    [[ -d "$dir/.git" ]] || continue
+    [[ -e "$dir/.git" ]] || continue  # a file in worktrees and submodules
     dirs+=("$dir")
     (( ${#dir} > width )) && width=${#dir}
   done

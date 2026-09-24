@@ -36,5 +36,5 @@
     "npm:@juicesharp/rpiv-todo"
   ],
   "hideThinkingBlock": true,
-  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(zsh -fc 'source ~/.zprofile; alias -L')\""
+  "shellPath": "~/.config/zsh/agent/zsh"
 }

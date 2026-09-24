@@ -8,20 +8,22 @@
 # newer than the cache. Homebrew and mise keep a release's build time as the
 # binary's mtime, so an upgrade can leave the binary older than the cache; its
 # resolved path contains the version, so the first line of the cache records
-# that path.
+# that path. It records the arguments too: the file name folds punctuation to
+# _, so two command lines can share a cache file.
 # Usage: _eval_cached <command> [args...]
 _eval_cached() {
   local bin=${commands[$1]}
   [[ -n $bin ]] || return 1
 
   local cache="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/eval/${${(j:_:)@}//[^A-Za-z0-9_-]/_}.zsh"
-  local stamp="# ${bin:A}" cached_stamp
+  local stamp="# ${bin:A} ${(q)@[2,-1]}" cached_stamp
   [[ -s $cache ]] && IFS= read -r cached_stamp < "$cache"
   if [[ $cached_stamp != $stamp || ${bin:A} -nt $cache ]]; then
     # A per-shell temp file keeps shells that start together from mixing output.
     local tmp="$cache.$$"
     mkdir -p "${cache:h}"
-    if ! { print -r -- "$stamp"; "$@" } >| "$tmp" 2>/dev/null; then
+    # command skips a function of the same name; a prompt would hang the start unseen.
+    if ! { print -r -- "$stamp"; command "$@" </dev/null } >| "$tmp" 2>/dev/null; then
       rm -f "$tmp"
       return 1
     fi

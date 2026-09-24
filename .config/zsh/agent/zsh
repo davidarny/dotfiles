@@ -1,0 +1,12 @@
+#!/bin/zsh -l
+# The shell OpenCode and Pi run agent commands in (opencode.json "shell", Pi
+# "shellPath"). Both run a plain `<shell> -c <command>`, which skips ~/.zshrc,
+# while Claude Code and Codex load it into a snapshot first. Loading it here
+# gives every agent the same shell as the user's terminal. The file is named zsh
+# so OpenCode treats it as zsh; its terminal pane gets a plain login zsh.
+if [[ $1 == -c ]]; then
+  source ~/.zshrc >/dev/null 2>&1
+  eval "$2"
+else
+  exec /bin/zsh "$@"
+fi

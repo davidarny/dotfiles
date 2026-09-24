@@ -18,7 +18,8 @@ _alias_if_exists eza 'tt=eza -lA --tree --level=1 --git --git-repos --group-dire
 _alias_if_exists rg "rg=command rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
 
 # macOS
-alias reload='source ~/.zshrc'
+# A fresh shell: sourcing .zshrc again stacks the plugins' widget wrappers.
+alias reload='exec zsh'
 _alias_if_exists xattr 'allowapp=sudo xattr -r -d com.apple.quarantine'
 _alias_if_exists fd "dsclean=fd -H '^\\.DS_Store$' -tf -X rm"
 _alias_if_exists fd "lnclean=fd . --type l -x sh -c 'if [ ! -e \"\$1\" ]; then rm \"\$1\"; fi' --"

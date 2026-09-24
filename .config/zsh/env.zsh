@@ -16,23 +16,15 @@ export VISUAL=$EDITOR
 # XDG
 export XDG_CONFIG_HOME="$HOME/.config"
 
-# 1Password SSH agent (sandboxed app path)
-export SSH_AUTH_SOCK="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+# 1Password SSH agent (sandboxed app path). An SSH session keeps its forwarded agent.
+op_ssh_sock="$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+if [[ -S $op_ssh_sock && -z $SSH_CONNECTION ]]; then
+  export SSH_AUTH_SOCK=$op_ssh_sock
+fi
+unset op_ssh_sock
 
 # Disable Corepack auto-pin
 export COREPACK_ENABLE_AUTO_PIN=0
-
-# ImageMagick for image.nvim
-for homebrew_lib_dir in /opt/homebrew/lib /usr/local/lib; do
-  if [[ -d "$homebrew_lib_dir" ]]; then
-    case ":${DYLD_LIBRARY_PATH:-}:" in
-      *":$homebrew_lib_dir:"*) ;;
-      *) export DYLD_LIBRARY_PATH="$homebrew_lib_dir${DYLD_LIBRARY_PATH:+:$DYLD_LIBRARY_PATH}" ;;
-    esac
-    break
-  fi
-done
-unset homebrew_lib_dir
 
 # MCP secrets resolved from 1Password (see `just mcp-secrets`)
 if [[ -f "$XDG_CONFIG_HOME/mcp/mcp-secrets.env" ]]; then

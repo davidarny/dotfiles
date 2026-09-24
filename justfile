@@ -144,7 +144,7 @@ check:
 _check-shell:
     #!/usr/bin/env zsh
     set -euo pipefail
-    for file in .zshenv .zprofile .zshrc .config/zsh/*.zsh .local/bin/* ${(f)"$(git ls-files '*.sh')"}; do
+    for file in .zshenv .zprofile .zshrc .config/zsh/*.zsh .config/zsh/agent/zsh .local/bin/* ${(f)"$(git ls-files '*.sh')"}; do
       case "$(head -1 "$file")" in
         *bash*) bash -n "$file" ;;
         '#!/bin/sh'*|*' sh') sh -n "$file" ;;

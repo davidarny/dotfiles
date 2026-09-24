@@ -1,5 +1,4 @@
-# Source configuration modules in order
-source ~/.config/zsh/env.zsh
+# Source configuration modules in order; .zshenv already loaded env.zsh.
 source ~/.config/zsh/options.zsh
 source ~/.config/zsh/cache.zsh
 source ~/.config/zsh/path.zsh

@@ -1,6 +1,6 @@
 /**
  * Snapshots Pi's settings (`~/.pi/agent/settings.json`: packages, subagents,
- * theme, shell prefix) into the repo and restores them.
+ * theme, shell) into the repo and restores them.
  *
  * The default provider, model, and thinking level are toggled often and the
  * changelog version is Pi's own state, so they stay on the machine.

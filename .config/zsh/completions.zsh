@@ -22,13 +22,14 @@ else
   done
 fi
 if (( zdump_stale )); then
+  # compinit reuses a dump whose file count still matches, so a completion
+  # replaced by another would keep its old mapping: rebuild from an empty dump.
+  : >| "$zdump"
   compinit -d "$zdump"
-  # compinit keeps an unchanged dump as is; mark it fresh so the next start is fast.
-  command touch "$zdump"
 else
   compinit -C -d "$zdump"
 fi
-unset zdump_stale zdump_dir
+unset zdump zdump_stale zdump_dir
 
 # Load plugins that require compinit first.
 if command -v antidote >/dev/null 2>&1 && (( ${+functions[_antidote_load_bundle]} )); then

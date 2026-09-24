@@ -58,7 +58,8 @@ _fzf_comprun() {
 
   case "$command" in
     cd)           fzf --preview "$fzf_dir_preview" "$@" ;;
-    export|unset) fzf --preview 'printenv {}'               "$@" ;;
+    # Hide the values of the MCP secrets and other credentials env.zsh exports.
+    export|unset) fzf --preview 'case {} in *TOKEN*|*KEY*|*SECRET*|*PASSWORD*) echo "(hidden)" ;; *) printenv {} ;; esac' "$@" ;;
     ssh)          fzf --preview "$fzf_ssh_preview"          "$@" ;;
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
   esac
