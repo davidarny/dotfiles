@@ -15,7 +15,7 @@ _alias_if_exists eza 'tree=eza -A --tree --group-directories-first --color=alway
 _alias_if_exists eza 'tt=eza -lA --tree --level=1 --git --git-repos --group-directories-first --color=always --icons=always --no-permissions --no-filesize --no-user --no-time'
 
 # rg
-_alias_if_exists rg "rg=command rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
+_alias_if_exists rg "rg=command rg --hidden --smart-case --glob='!.git/' --no-search-zip --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
 
 # macOS
 # A fresh shell: sourcing .zshrc again stacks the plugins' widget wrappers.
