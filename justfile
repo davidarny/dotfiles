@@ -102,6 +102,11 @@ check:
     @git diff --check
     @echo "✓ Checks passed"
 
+# Install yazi plugins pinned in the stowed package.toml
+[group('tools')]
+yazi-plugins:
+    ya pkg install
+
 # Apply the repo's default macOS file associations
 [group('macos')]
 file-defaults:
