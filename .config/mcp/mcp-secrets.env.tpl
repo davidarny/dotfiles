@@ -1,6 +1,6 @@
 # MCP secrets template — resolve with: just mcp-secrets
 # References are safe for git; the resolved file is gitignored and never leaves this machine.
-export HINDSIGHT_MCP_TOKEN='op://Hobby/Vectorize/API key'
+export HINDSIGHT_MCP_TOKEN='op://Hobby/Hindsight/API key'
 export CONTEXT7_API_KEY='op://Personal/Context7/API key'
 export EXA_API_KEY='op://Hobby/Exa/API key'
 export BROWSER_USE_API_KEY='op://Hobby/Browser Use/API key'
