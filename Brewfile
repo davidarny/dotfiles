@@ -1,6 +1,6 @@
-tap "514-labs/tap"
-tap "dmtrkovalenko/fff", "https://github.com/dmtrKovalenko/homebrew-fff"
-tap "modem-dev/tap", trusted: { formulae: ["hunk"] }
+tap "514-labs/tap", trusted: true
+tap "dmtrkovalenko/fff", "https://github.com/dmtrKovalenko/homebrew-fff", trusted: true
+tap "modem-dev/tap", trusted: true
 # Browser automation CLI for AI agents
 brew "agent-browser"
 # Automate deployment, configuration, and upgrading
@@ -111,6 +111,8 @@ brew "stow"
 brew "tlrc"
 # Terminal multiplexer
 brew "tmux"
+# Parser generator tool
+brew "tree-sitter-cli"
 # Language Server Protocol implementation for TypeScript wrapping tsserver
 brew "typescript-language-server"
 # Extremely fast Python package installer and resolver, written in Rust
