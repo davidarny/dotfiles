@@ -1,3 +1,5 @@
+import { lstat, unlink } from "node:fs/promises";
+
 interface InstalledSkill {
   source: string;
 }
@@ -11,6 +13,12 @@ const path = process.argv[2];
 
 if (!path) {
   throw new Error("Usage: bun skills-sync.ts <lockfile>");
+}
+
+// The CLI lockfile used to be a stow symlink into the repo; make it machine-local.
+const cliLock = `${process.env.HOME}/.agents/.skill-lock.json`;
+if ((await lstat(cliLock).catch(() => null))?.isSymbolicLink()) {
+  await unlink(cliLock);
 }
 
 const lock = (await Bun.file(path).json()) as SkillLock;

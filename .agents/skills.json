@@ -1,0 +1,142 @@
+{
+  "skills": {
+    "1password": {
+      "source": "steveclarke/dotfiles"
+    },
+    "agent-browser": {
+      "source": "vercel-labs/agent-browser"
+    },
+    "apple-design": {
+      "source": "emilkowalski/skills"
+    },
+    "blast-radius": {
+      "source": "cursor/plugins"
+    },
+    "browser-harness": {
+      "source": "browser-use/browser-harness"
+    },
+    "browser-use": {
+      "source": "browser-use/browser-use"
+    },
+    "caveman": {
+      "source": "juliusbrussee/caveman"
+    },
+    "caveman-commit": {
+      "source": "juliusbrussee/caveman"
+    },
+    "caveman-review": {
+      "source": "juliusbrussee/caveman"
+    },
+    "code-review": {
+      "source": "mattpocock/skills"
+    },
+    "codebase-design": {
+      "source": "mattpocock/skills"
+    },
+    "diagnosing-bugs": {
+      "source": "mattpocock/skills"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills"
+    },
+    "gitlab-cli-skills": {
+      "source": "vince-winkintel/gitlab-cli-skills"
+    },
+    "glab-api": {
+      "source": "vince-winkintel/gitlab-cli-skills"
+    },
+    "glab-ci": {
+      "source": "vince-winkintel/gitlab-cli-skills"
+    },
+    "glab-job": {
+      "source": "vince-winkintel/gitlab-cli-skills"
+    },
+    "glab-mr": {
+      "source": "vince-winkintel/gitlab-cli-skills"
+    },
+    "grill-me": {
+      "source": "mattpocock/skills"
+    },
+    "grilling": {
+      "source": "mattpocock/skills"
+    },
+    "hallmark": {
+      "source": "nutlope/hallmark"
+    },
+    "humanizer": {
+      "source": "blader/humanizer"
+    },
+    "i-have-adhd": {
+      "source": "ayghri/i-have-adhd"
+    },
+    "improve": {
+      "source": "shadcn/improve"
+    },
+    "improve-codebase-architecture": {
+      "source": "mattpocock/skills"
+    },
+    "jira-cli": {
+      "source": "code-and-sorts/awesome-copilot-agents"
+    },
+    "jira-communication": {
+      "source": "netresearch/jira-skill"
+    },
+    "jira-syntax": {
+      "source": "netresearch/jira-skill"
+    },
+    "playwright-cli": {
+      "source": "microsoft/playwright-cli"
+    },
+    "prototype": {
+      "source": "mattpocock/skills"
+    },
+    "refactor": {
+      "source": "github/awesome-copilot"
+    },
+    "research": {
+      "source": "mattpocock/skills"
+    },
+    "resolving-merge-conflicts": {
+      "source": "mattpocock/skills"
+    },
+    "show-me": {
+      "source": "humanlayer/skills"
+    },
+    "skill-doctor": {
+      "source": "warpdotdev/common-skills"
+    },
+    "thermo-nuclear-code-quality-review": {
+      "source": "cursor/plugins"
+    },
+    "typescript-advanced-types": {
+      "source": "wshobson/agents"
+    },
+    "ui-ux-pro-max": {
+      "source": "nextlevelbuilder/ui-ux-pro-max-skill"
+    },
+    "unlazy": {
+      "source": "leonxlnx/unlazy"
+    },
+    "unslop": {
+      "source": "cursor/plugins"
+    },
+    "wait-what": {
+      "source": "mattpocock/skills"
+    },
+    "wayfinder": {
+      "source": "mattpocock/skills"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills"
+    },
+    "wizard": {
+      "source": "mattpocock/skills"
+    },
+    "writing-for-agents": {
+      "source": "mattpocock/skills"
+    }
+  }
+}

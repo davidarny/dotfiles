@@ -18,3 +18,7 @@
 # Generated MCP snapshots (just claude-dump / codex-dump) — never stow material
 /\.claude\/mcp-servers\.json$
 /\.codex\/mcp-servers\.toml$
+
+# Skills manifest is read from the repo; the CLI lockfile is machine-local
+/\.agents\/skills\.json$
+/\.agents\/\.skill-lock\.json$

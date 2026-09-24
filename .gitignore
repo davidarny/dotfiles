@@ -147,10 +147,10 @@ $RECYCLE.BIN/
 # Zsh history
 .zsh_history
 
-# Track the global Skills manifest, but not installed skill files.
+# Track the global skills manifest; the Skills CLI lockfile stays machine-local.
 !.agents/
 .agents/*
-!.agents/.skill-lock.json
+!.agents/skills.json
 
 # Zsh sessions
 .zsh_sessions

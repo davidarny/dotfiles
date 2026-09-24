@@ -12,6 +12,24 @@ function brew() {
   return $brew_status
 }
 
+# Auto-sync the global skills manifest after add/remove/update
+typeset -g _dotfiles_skills_manifest="${${(%):-%x}:A:h:h:h}/.agents/skills.json"
+typeset -g _dotfiles_skills_dump_script="${${(%):-%x}:A:h:h:h}/bin/skills-dump.ts"
+
+function skills() {
+  local lock="$HOME/.agents/.skill-lock.json" before=''
+  [[ -f "$lock" ]] && before=$(<"$lock")
+
+  command skills "$@"
+  local skills_status=$?
+
+  if (( skills_status == 0 )) && [[ "$1" =~ ^(add|a|remove|rm|update|upgrade)$ ]]; then
+    print -r -- "$before" | command bun "$_dotfiles_skills_dump_script" "$lock" "$_dotfiles_skills_manifest"
+  fi
+
+  return $skills_status
+}
+
 # Parse dotenv data with Bun; never evaluate it as shell code.
 typeset -g _dotfiles_dotenv_script="${${(%):-%x}:A:h:h:h}/bin/dotenv-export.mjs"
 
