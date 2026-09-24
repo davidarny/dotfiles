@@ -2,15 +2,36 @@
 default:
 	@just --list
 
-# Set up this machine end to end; safe to rerun
+# Set up this machine end to end; safe to rerun and stops where it needs you
 [group('setup')]
-bootstrap:
-    ./bin/bootstrap
+bootstrap: brew-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync _agents-closed claude-restore codex-restore yazi-plugins file-defaults
+    @echo "✓ Bootstrap done. tmux installs TPM and its plugins on first start; run just doctor to verify."
 
 # Read-only report of links, secrets, packages, MCP commands, skills, and plugins
 [group('setup')]
 doctor:
-    ./bin/doctor
+    @bun ./bin/doctor.ts
+
+# Resolve MCP secrets unless they already exist (each run costs a 1Password prompt)
+[private]
+_mcp-secrets-once:
+    #!/usr/bin/env zsh
+    if [[ -s ~/.config/mcp/mcp-secrets.env ]]; then
+      echo "✓ ~/.config/mcp/mcp-secrets.env exists; run just mcp-secrets to refresh it"
+    elif ! just mcp-secrets; then
+      echo "✗ Sign in to the 1Password app, enable Settings → Developer → Integrate with 1Password CLI, then rerun just bootstrap" >&2
+      exit 1
+    fi
+
+# Stop before restore while an agent app runs: it would overwrite the restored config
+[private]
+_agents-closed:
+    #!/usr/bin/env zsh
+    running=(${(f)"$(ps -axo comm= | awk -F/ '{ print $NF }' | grep -xE 'claude|Claude|codex|Codex|ChatGPT' | sort -u)"})
+    if (( ${#running} )); then
+      echo "✗ Quit ${(j:, :)running} (including this terminal's agent session), then rerun just bootstrap" >&2
+      exit 1
+    fi
 
 # Symlink dotfiles to home directory
 [group('stow')]
@@ -97,7 +118,12 @@ brew-sync: brew-install brew-cleanup
 # Restore global Bun packages declared in the stowed manifest.
 [group('bun')]
 bun-sync:
-    ./bin/bun-sync
+    #!/usr/bin/env zsh
+    set -euo pipefail
+    packages=(${(f)"$(jq -r '.dependencies // {} | to_entries[] | "\(.key)@\(.value)"' ~/.bun/install/global/package.json)"})
+    (( ${#packages} )) || exit 0
+    bun install --global "${packages[@]}"
+    echo "✓ Synced ${#packages} global Bun packages"
 
 # Restore global skills declared in the tracked manifest.
 [group('skills')]
@@ -107,7 +133,7 @@ skills-sync:
 # Verify shell config, Brewfile dependencies, and whitespace
 [group('check')]
 check:
-    @zsh -n .zshrc .config/zsh/*.zsh bin/bootstrap bin/doctor
+    @zsh -n .zshrc .config/zsh/*.zsh
     @brew bundle check --file=Brewfile
     @git diff --check
     @echo "✓ Checks passed"
