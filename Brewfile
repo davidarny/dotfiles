@@ -1,6 +1,6 @@
 tap "514-labs/tap"
 tap "dmtrkovalenko/fff", "https://github.com/dmtrKovalenko/homebrew-fff"
-tap "modem-dev/tap"
+tap "modem-dev/tap", trusted: { formulae: ["hunk"] }
 # Browser automation CLI for AI agents
 brew "agent-browser"
 # Automate deployment, configuration, and upgrading
@@ -123,6 +123,10 @@ brew "wireguard-tools"
 brew "yazi"
 # Shell extension to navigate your filesystem faster
 brew "zoxide"
+# Global DNS propagation checker TUI — watch a DNS record propagate across 34 public resolvers worldwide, on a world map in your terminal
+brew "514-labs/tap/dnsglobe", trusted: true
+# Fast file search toolkit for AI agents (MCP server)
+brew "dmtrkovalenko/fff/fff-mcp", trusted: true
 # Command-line interface for 1Password
 cask "1password-cli"
 # Terminal-based AI coding assistant
