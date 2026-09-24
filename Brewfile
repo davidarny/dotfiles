@@ -109,6 +109,8 @@ brew "stow"
 brew "tlrc"
 # Terminal multiplexer
 brew "tmux"
+# Upgrade all the things
+brew "topgrade"
 # Parser generator tool
 brew "tree-sitter-cli"
 # Language Server Protocol implementation for TypeScript wrapping tsserver

@@ -42,7 +42,7 @@ The `brew` and `skills` shell functions update the Brewfile and `.agents/skills.
 
 To add a new config file, put it at the same path it has under `$HOME` and run `just link`.
 
-`just upgrade` updates Homebrew, mise runtimes, Bun and uv tools, skills, Pi, and the tmux, yazi, and Neovim plugins, one step after another; `just upgrade-brew` and the other `upgrade-*` recipes run a single step. The `dot` alias runs any recipe from another directory, for example `dot upgrade`.
+`just upgrade` updates Homebrew, mise runtimes, Bun and uv tools, skills, Pi, and the tmux, zsh, yazi, and Neovim plugins, one step after another; `just upgrade-brew` and the other `upgrade-*` recipes run a single step. `topgrade` (`.config/topgrade.toml`) is the alternative that finds tools on its own and also updates Rust, npm, gh extensions, and tldr pages; it upgrades mise runtimes without bumping the pins in the repo. The `dot` alias runs any recipe from another directory, for example `dot upgrade`.
 
 Run `just check` before committing.
 

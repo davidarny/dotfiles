@@ -193,11 +193,13 @@ upgrade-pi:
     pi update
     pi update --extensions
 
-# Upgrade tmux, yazi, and Neovim plugins
+# Upgrade tmux, zsh, yazi, and Neovim plugins
 [group('upgrade')]
 upgrade-plugins:
     # tmux installs TPM on its first start; skip it until then.
     if [ -x ~/.tmux/plugins/tpm/bin/update_plugins ]; then ~/.tmux/plugins/tpm/bin/update_plugins all; fi
+    # antidote is a zsh function; ANTIDOTE_HOME matches plugins.zsh. Homebrew updates antidote itself.
+    ANTIDOTE_HOME="${XDG_CACHE_HOME:-$HOME/.cache}/antidote" zsh -c 'source /opt/homebrew/opt/antidote/share/antidote/antidote.zsh && antidote update --bundles'
     ya pkg upgrade
     nvim --headless "+Lazy! sync" +qa
 
