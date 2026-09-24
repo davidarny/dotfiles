@@ -9,5 +9,5 @@ packages=("${(@f)$(bun ./bin/bun-global-packages.ts "$manifest")}")
 (( ${#packages} )) || exit 0
 
 echo "Syncing ${#packages} global Bun packages"
-bun install --global --frozen-lockfile "${packages[@]}"
+bun install --global "${packages[@]}"
 echo '✓ Global Bun packages synced'
