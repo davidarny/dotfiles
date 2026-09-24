@@ -1,6 +1,9 @@
 # Junk files: ignore anywhere (basename match, no /)
-.DS_Store
+\.DS_Store
 \.gitignore
+
+# Generated secrets: just mcp-secrets writes them straight to ~/.config/mcp, never through the repo
+/\.config\/mcp\/mcp-secrets\.env$
 
 # Regexes containing / match full paths, so these ignore only repo-root entries.
 # Nested same-named files stay stowed (e.g. .local/bin/*).

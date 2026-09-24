@@ -11,10 +11,10 @@ macOS (Apple Silicon) dotfiles. The repo root mirrors `$HOME`; `just link` runs 
 
 ## Copied, not linked
 
-- MCP servers for all four agents are defined only in `mcp/servers.toml`. `just mcp-sync` renders `.claude/mcp-servers.json`, `.codex/mcp-servers.toml`, the `mcp` block of `.config/opencode/opencode.json`, and `.agents/mcp.json` (Pi); never edit those by hand. `just check` fails when they are stale. Write secrets as `${VAR}`; the renderer converts them per agent. Packages are pinned as `name@1.2.3`; `just mcp-upgrade` bumps them to the latest releases.
-- `.claude/settings.json`, `.codex/settings.toml`, and `.pi/agent/settings.json` are snapshots of live agent settings. The live file is the source: change it, then run `just <agent>-dump`. `just <agent>-restore` writes the snapshot back and needs the app closed. Dumps replace the home prefix with `${HOME}/`; restore expands it. Keys the user toggles often stay machine-local through `LOCAL_KEYS` in `bin/claude-config.ts` and `bin/pi-config.ts`; machine-local Codex tables are listed in `bin/codex-config.ts`.
+- MCP servers for all four agents are defined only in `mcp/servers.toml`. `just mcp-sync` renders `.claude/mcp-servers.json`, `.codex/mcp-servers.toml`, the `mcp` block of `.config/opencode/opencode.json`, and `.agents/mcp.json` (Pi); never edit those by hand. `just check` fails when they are stale. Write secrets as `${VAR}` in `env` and `headers` only; the renderer converts them per agent. Packages are pinned as `name@1.2.3`; `just mcp-upgrade` bumps them to the latest releases. `just mcp-restore` installs the rendered servers into Claude Code and Codex without touching their other settings.
+- `.claude/settings.json`, `.codex/settings.toml`, and `.pi/agent/settings.json` are snapshots of live agent settings. The live file is the source: change it, then run `just <agent>-dump`. `just <agent>-restore` replaces the live settings with the snapshot, removing live keys the snapshot lacks (it lists them), and refuses to run while that agent is open. Dumps replace the home prefix with `${HOME}/`; restore expands it. Keys the user toggles often stay machine-local through `LOCAL_KEYS` in `bin/claude-config.ts` and `bin/pi-config.ts`; machine-local Codex tables are listed in `bin/codex-config.ts`.
 - Locally authored skills live in `.agents/skills/<name>/`; create new ones there. External skills are listed in `.agents/skills.json`, which the `skills` zsh function updates on add, remove, and update. `just skills-sync` installs and links both into all four harnesses.
-- The `brew` zsh function rewrites `Brewfile` after install and uninstall. The Brewfile holds command line tools only; the user installs desktop apps by hand.
+- The Brewfile is generated: change it only with `brew install` / `brew uninstall` followed by `just brew-dump`, never by hand. The `brew` zsh function dumps automatically in interactive shells; agent shells are non-interactive, so run `just brew-dump` yourself and review the diff. The Brewfile holds command line tools only; the user installs desktop apps by hand.
 
 ## macOS settings
 
@@ -37,8 +37,8 @@ The repo is private, and secrets still stay out of it because git history outliv
 
 The justfile orchestrates; logic lives in TypeScript scripts run by Bun, with no dependencies.
 
-- Use Bun APIs (`$`, `Bun.file`, `Bun.which`, `Bun.TOML`, `Bun.argv`, `Bun.env`); use `node:fs` only for symlinks and FIFOs.
-- Each script has a `main()` started through `runMain`, which prints a thrown error as one `✗` line.
+- Use Bun APIs (`$`, `Bun.file`, `Bun.write`, `Bun.which`, `Bun.TOML`, `Bun.argv`, `Bun.env`); use `node:fs` only where Bun has no equivalent: symlinks, directories, permissions (`Bun.write` cannot set a file mode), and FIFOs.
+- Each script has a `main()` started through `runMain`, which prints a thrown error as one `✗` line. `dotenv-export.ts` is the exception: its stdout is data for the zsh `dotenv` function, so it reports errors on stderr.
 - Print through `bin/lib/log.ts`, which uses the terminal's ANSI theme colors.
 - Share helpers through `bin/lib/`. Module constants are UPPER_CASE, and every function and interface has TSDoc.
 - Name every type: declare object shapes as interfaces and tuple or function shapes as type aliases, each with TSDoc, and refer to them by name. No inline `{ ... }`, `[...]`, or `(...) => ...` type literals in annotations, generics, or assertions.

@@ -8,7 +8,7 @@ default:
 
 # Set up this machine end to end; safe to rerun and stops where it needs you
 [group('setup')]
-bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync _agents-closed claude-restore codex-restore pi-restore yazi-plugins file-defaults macos
+bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync claude-restore codex-restore pi-restore yazi-plugins file-defaults macos
     @echo "✓ Bootstrap done. tmux installs TPM and its plugins on first start; run just doctor to verify."
 
 # Read-only report of links, secrets, packages, MCP commands, skills, and plugins
@@ -27,13 +27,23 @@ _mcp-secrets-once:
       exit 1
     fi
 
-# Stop before restore while an agent app runs: it would overwrite the restored config
+# Stop before a restore while one of the given agents (claude, codex, pi) runs: it would overwrite the restored config
 [private]
-_agents-closed:
+_closed +agents:
     #!/usr/bin/env zsh
-    running=(${(f)"$(ps -axo comm= | awk -F/ '{ print $NF }' | grep -xE 'claude|Claude|codex|Codex|ChatGPT|pi' | sort -u)"})
+    set -euo pipefail
+    names=(${(f)"$(ps -axo comm= | awk -F/ '{ print $NF }')"})
+    running=()
+    for agent in {{agents}}; do
+      case $agent in
+        claude) (( ${names[(Ie)claude]} || ${names[(Ie)Claude]} )) && running+=Claude ;;
+        codex) (( ${names[(Ie)codex]} || ${names[(Ie)Codex]} || ${names[(Ie)ChatGPT]} )) && running+=Codex ;;
+        # Pi runs on node but renames its process to pi.
+        pi) (( ${names[(Ie)pi]} )) && running+=Pi ;;
+      esac
+    done
     if (( ${#running} )); then
-      echo "✗ Quit ${(j:, :)running} (including this terminal's agent session), then rerun just bootstrap" >&2
+      echo "✗ Quit ${(j:, :)running} (including this terminal's agent session), then rerun" >&2
       exit 1
     fi
 
@@ -48,10 +58,30 @@ link:
       git status --short --no-branch >&2
       exit 1
     fi
+    # git status hides ignored files, which stow would link (and adopt) too: a secrets file, a tool's local
+    # config. Link only files git tracks.
+    tracked=(${(f)"$(git ls-files)"})
+    untracked=()
+    for target in ${(f)"$(stow --no --verbose --restow --no-folding --target="$HOME" . 2>&1 | sed -nE 's/^LINK: (.*) => .*$/\1/p')"}; do
+      (( ${tracked[(Ie)$target]} )) || untracked+=$target
+    done
+    if (( ${#untracked} )); then
+      echo "✗ These repo files are not tracked by git; move them out or add them to .stow-local-ignore:" >&2
+      print -l -- "  "${^untracked} >&2
+      exit 1
+    fi
+    # stow would create a missing ~/.ssh readable by others; ssh wants it private.
+    [[ -d "$HOME/.ssh" ]] || mkdir -m 700 "$HOME/.ssh"
     stow --restow --adopt --no-folding --target="$HOME" .
     if [[ -n "$(git status --porcelain)" ]]; then
-      echo "✗ stow --adopt pulled these files from \$HOME into the repo; review with git diff," >&2
-      echo "  then keep them with a commit or restore the repo version with git checkout -- <file>:" >&2
+      # Keep what stow took from $HOME: restoring the repo version with git checkout would otherwise delete it.
+      backup="${XDG_CACHE_HOME:-$HOME/.cache}/dotfiles/adopted/$(date +%Y%m%d-%H%M%S)"
+      for file in ${(f)"$(git diff --name-only)"}; do
+        mkdir -p "$backup/${file:h}"
+        cp -p "$file" "$backup/$file"
+      done
+      echo "✗ stow --adopt moved these home files into the repo; copies are in $backup." >&2
+      echo "  Review with git diff, then commit them or restore the repo version with git checkout -- <file>:" >&2
       git status --short --no-branch >&2
       exit 1
     fi
@@ -66,12 +96,12 @@ unlink:
 # Install packages from Brewfile
 [group('brew')]
 brew-install:
-    @brew bundle --file=Brewfile
+    @brew bundle --file=Brewfile --no-upgrade
 
 # Dump installed packages to Brewfile
 [group('brew')]
 brew-dump:
-    @brew bundle dump --file=Brewfile --force --force --brews --casks --cargo --uv --taps
+    @brew bundle dump --file=Brewfile --force --brews --casks --cargo --uv --taps
 
 # Remove packages not listed in Brewfile
 [group('brew')]
@@ -100,7 +130,7 @@ skills-sync:
 # Verify shell config, Brewfile dependencies, generated MCP configs, bin/ scripts, and whitespace
 [group('check')]
 check:
-    @zsh -n .zshrc .config/zsh/*.zsh
+    @just _check-shell
     @brew bundle check --no-upgrade --file=Brewfile
     @bun ./bin/mcp-sync.ts --check
     @bun install --cwd bin/typecheck --frozen-lockfile --silent
@@ -109,8 +139,21 @@ check:
     @git diff --check
     @echo "✓ Checks passed"
 
-# Upgrade every tool, one step after another; review git diff afterwards, since
-# mise, yazi, and Neovim record the new versions in the repo
+# Parse every shell file with the shell its shebang names (zsh -n reads only its first file argument)
+[private]
+_check-shell:
+    #!/usr/bin/env zsh
+    set -euo pipefail
+    for file in .zshenv .zprofile .zshrc .config/zsh/*.zsh .local/bin/* ${(f)"$(git ls-files '*.sh')"}; do
+      case "$(head -1 "$file")" in
+        *bash*) bash -n "$file" ;;
+        '#!/bin/sh'*|*' sh') sh -n "$file" ;;
+        *) zsh -n "$file" ;;
+      esac
+    done
+
+# mise, yazi, and Neovim record the new versions in the repo, so review git diff afterwards.
+# Upgrade every tool, one step after another
 [group('upgrade')]
 upgrade: upgrade-brew upgrade-mise upgrade-bun upgrade-uv upgrade-skills upgrade-pi upgrade-plugins
     @echo "✓ Upgraded. Review git diff for version bumps in mise, yazi, and Neovim."
@@ -153,12 +196,13 @@ upgrade-pi:
 # Upgrade tmux, yazi, and Neovim plugins
 [group('upgrade')]
 upgrade-plugins:
-    ~/.tmux/plugins/tpm/bin/update_plugins all
+    # tmux installs TPM on its first start; skip it until then.
+    if [ -x ~/.tmux/plugins/tpm/bin/update_plugins ]; then ~/.tmux/plugins/tpm/bin/update_plugins all; fi
     ya pkg upgrade
     nvim --headless "+Lazy! sync" +qa
 
-# Install runtimes pinned in the mise config (bun, node, go, ...). Reads the repo copy,
-# so it works before just link, which needs bun.
+# Reads the repo copy of the mise config, so it works before just link, which needs bun.
+# Install runtimes pinned in the mise config (bun, node, go, ...)
 [group('tools')]
 mise-install:
     MISE_GLOBAL_CONFIG_FILE=.config/mise/config.toml mise install
@@ -201,10 +245,16 @@ mcp-launchagent:
     launchctl bootout gui/$(id -u)/local.dotfiles.mcp-secrets-env 2>/dev/null || true
     launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/local.dotfiles.mcp-secrets-env.plist
 
-# Write every agent's MCP config from mcp/servers.toml; then restore Claude and Codex
+# Write every agent's MCP config from mcp/servers.toml; then run just mcp-restore
 [group('mcp')]
 mcp-sync:
     @bun ./bin/mcp-sync.ts
+
+# Install the generated MCP servers into Claude Code and Codex, leaving their other settings alone
+[group('mcp')]
+mcp-restore: (_closed "claude" "codex")
+    @bun ./bin/claude-config.ts restore-mcp .claude
+    @bun ./bin/codex-config.ts restore-mcp ~/.codex/config.toml .codex
 
 # List MCP server packages in mcp/servers.toml with a newer release
 [group('mcp')]
@@ -216,30 +266,34 @@ mcp-outdated:
 mcp-upgrade:
     @bun ./bin/mcp-packages.ts upgrade
     @bun ./bin/mcp-sync.ts
-    @echo "Review git diff, then run just claude-restore and just codex-restore"
+    @echo "Review git diff, then run just mcp-restore"
 
-# Snapshot agent settings into the repo (home paths become ${HOME}); MCP servers live in mcp/servers.toml
+# Snapshot Claude Code settings into the repo (home paths become ${HOME}); MCP servers live in mcp/servers.toml
 [group('mcp')]
 claude-dump:
     @bun ./bin/claude-config.ts dump .claude
 
+# Snapshot Codex settings into the repo; MCP servers live in mcp/servers.toml
 [group('mcp')]
 codex-dump:
     @bun ./bin/codex-config.ts dump ~/.codex/config.toml .codex
 
+# Snapshot Pi settings into the repo
 [group('mcp')]
 pi-dump:
     @bun ./bin/pi-config.ts dump .pi/agent/settings.json
 
-# Restore agent settings and MCP servers from the repo snapshots (close the respective app first)
+# Replace live Claude Code settings and MCP servers with the repo snapshots; Claude must be closed
 [group('mcp')]
-claude-restore:
+claude-restore: (_closed "claude")
     @bun ./bin/claude-config.ts restore .claude
 
+# Replace live Pi settings with the repo snapshot; Pi must be closed
 [group('mcp')]
-pi-restore:
+pi-restore: (_closed "pi")
     @bun ./bin/pi-config.ts restore .pi/agent/settings.json
 
+# Replace live Codex settings and MCP servers with the repo snapshots; Codex must be closed
 [group('mcp')]
-codex-restore:
+codex-restore: (_closed "codex")
     @bun ./bin/codex-config.ts restore ~/.codex/config.toml .codex

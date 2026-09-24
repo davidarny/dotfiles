@@ -92,7 +92,8 @@ Temporary Items
 ### Vim ###
 # Swap
 [._]*.s[a-v][a-z]
-!*.svg  # comment out if you don't need vector files
+# Keep vector files, which the swap pattern above would match (gitignore has no inline comments)
+!*.svg
 [._]*.sw[a-p]
 [._]s[a-rt-v][a-z]
 [._]ss[a-gi-z]
@@ -152,6 +153,7 @@ $RECYCLE.BIN/
 !.agents/skills.json
 !.agents/skills/
 !.agents/references/
+!.agents/mcp.json
 
 # Bun replaces its global lockfile instead of writing through the stow symlink.
 .bun/install/global/bun.lock
@@ -202,3 +204,8 @@ zsdoc/data
 
 # Type-checking tools for bin/, installed by just check
 bin/typecheck/node_modules/
+
+# Agent state an agent creates when it runs inside this repo; it would block just link and must not be committed
+.claude/settings.local.json
+.claude/worktrees/
+.pi/tasks/

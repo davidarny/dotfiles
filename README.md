@@ -23,18 +23,18 @@ just bootstrap
 just doctor
 ```
 
-Run `just bootstrap` from a plain terminal with Claude, Codex, and Pi closed, because it restores their settings. It installs the Brewfile and the mise runtimes, links the dotfiles, resolves secrets from 1Password, installs skills, Bun packages, and yazi plugins, restores agent settings, and sets file associations. When a step needs you, it stops with a hint. Do what it says and run it again. Repeated runs change nothing that is already in place. tmux installs its plugins the first time it starts.
+Run `just bootstrap` from a plain terminal with Claude, Codex, and Pi closed, because it restores their settings. It installs the Brewfile and the mise runtimes, links the dotfiles, resolves secrets from 1Password, installs skills, Bun packages, and yazi plugins, restores agent settings, sets file associations, and applies the macOS settings. When a step needs you, it stops with a hint. Do what it says and run it again. Repeated runs install what is missing and upgrade nothing; `just upgrade` does upgrades. tmux installs its plugins the first time it starts. If writing the Safari or Accessibility settings fails, give the terminal Full Disk Access in System Settings, Privacy & Security, and run `just macos`.
 
 `just doctor` checks the result without changing anything. Restart the terminal and the agent apps afterwards so they pick up the secrets.
 
-If `just link` stops because stow adopted files from `$HOME` (a default `~/.zshrc`, for example), inspect them with `git diff` and restore the repository version with `git checkout -- <file>`.
+If `just link` stops because stow adopted files from `$HOME` (a `~/.zprofile` from the Homebrew installer, for example), it saves copies of them under `~/.cache/dotfiles/adopted/` first. Inspect them with `git diff` and restore the repository version with `git checkout -- <file>`. It also refuses to link files git does not track, such as a stray secrets file in the repo.
 
 ## Change the configuration
 
 Edit files in `~/.dotfiles`. Most files in `$HOME` are symlinks, so edits in either place show up in git. Two groups of files are copies instead:
 
 - Claude Code, Codex, and Pi settings live in `.claude/`, `.codex/`, and `.pi/agent/settings.json` as snapshots. After changing them in the app, run `just claude-dump`, `just codex-dump`, or `just pi-dump`. The matching `*-restore` recipe writes them back; close the app first. Effort and model choices stay on each machine.
-- MCP servers for all four agents are defined in `mcp/servers.toml`. After editing it, run `just mcp-sync`, then `just claude-restore` and `just codex-restore`. OpenCode and Pi read their generated files through the symlinks. Server packages are pinned; `just mcp-upgrade` moves them to the latest releases.
+- MCP servers for all four agents are defined in `mcp/servers.toml`. After editing it, run `just mcp-sync`, then `just mcp-restore` with Claude and Codex closed. OpenCode and Pi read their generated files through the symlinks. Server packages are pinned; `just mcp-upgrade` moves them to the latest releases.
 - macOS settings live in `macos/defaults.toml` as `defaults` keys; `just macos` applies them and `just doctor` reports drift. macOS ignores symlinked preference files, so they are written key by key. To find the key behind a control, run `just macos-diff`, change the setting in System Settings, run `just macos-diff` again, and paste the printed lines into the file.
 - Skills written here live in `.agents/skills/<name>/`. Skills from other repositories are listed in `.agents/skills.json`. `just skills-sync` installs and links both.
 
