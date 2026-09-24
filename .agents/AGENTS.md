@@ -78,7 +78,7 @@ Applies only when setting up or changing Claude, Codex, OpenCode, Pi, their MCPs
 
 ### Secrets in agent configs
 
-- Never put plaintext API keys or tokens in agent runtime configs (`opencode.json`, `mcp.json`, provider blocks); the dotfiles repo is public. Reference environment variables instead: `{env:VAR}` in OpenCode config, `${VAR}` in Pi `mcp.json` headers/env.
+- Never put plaintext API keys or tokens in agent runtime configs (`opencode.json`, `mcp.json`, provider blocks); the dotfiles repo is private, but secrets in git history are hard to purge. Reference environment variables instead: `{env:VAR}` in OpenCode config, `${VAR}` in Pi `mcp.json` headers/env.
 - The dotfiles provision these variables: `.config/mcp/mcp-secrets.env` is generated from the `op://` references in `.config/mcp/mcp-secrets.env.tpl` via `just mcp-secrets` (dotfiles repo) and sourced by zsh on shell startup.
 - When a variable is empty or a key rotates, update the template and regenerate there. Do not paste secret values into configs to work around a missing variable.
 

@@ -76,7 +76,7 @@ LazyVim-based config in `.config/nvim/`. Plugin specs in `lua/plugins/`. Uses fo
 
 ## Secrets
 
-The repo is public — never commit plaintext API keys or tokens. Agent/MCP secrets flow through 1Password:
+The repo is private, but git history outlives any access setting — never commit plaintext API keys or tokens. Agent/MCP secrets flow through 1Password:
 
 - `.config/mcp/mcp-secrets.env.tpl` (tracked) holds the `op://` references; `just mcp-secrets` resolves them into `~/.config/mcp/mcp-secrets.env` (gitignored, `chmod 600`, one TouchID prompt), which `env.zsh` sources on shell startup.
 - GUI apps (Claude desktop from Dock or login) do not read zsh files: the `com.davidarutyunyan.mcp-secrets-env` LaunchAgent runs `~/.local/bin/mcp-secrets-launchctl` at login to `launchctl setenv` every exported variable; `just mcp-secrets` reruns it. Enable once with `just link && just mcp-launchagent`; restart an app to pick up new values.
