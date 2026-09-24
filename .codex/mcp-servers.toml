@@ -39,7 +39,7 @@ JIRA_HOST = "jira.dats.tech"
 
 [mcp_servers.grafana]
 env_vars = ["GRAFANA_API_KEY"]
-command = "${HOME}/Developer/Personal/mcp-grafana/dist/mcp-grafana"
+command = "/opt/homebrew/bin/mcp-grafana"
 startup_timeout_sec = 120.0
 
 [mcp_servers.grafana.env]
@@ -79,34 +79,6 @@ TESTRAIL_USERNAME = "readonly@8bitov.com"
 [mcp_servers.openai-developer-docs]
 url = "https://developers.openai.com/mcp"
 
-[mcp_servers.node_repl]
-args = []
-command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
-startup_timeout_sec = 120
-
-[mcp_servers.node_repl.env]
-NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
-NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
-NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
-NODE_REPL_TRUSTED_CODE_PATHS = "${HOME}/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
-CODEX_HOME = "${HOME}/.codex"
-BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_TINYSKY_ENABLED = "1"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
-NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
-BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.908.40834"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"${HOME}/.codex/plugins/cache/openai-bundled/browser/26.908.40834/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
-SKY_CUA_SERVICE_PATH = "${HOME}/.codex/computer-use/Codex Computer Use.app"
-CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
-
-[mcp_servers.computer-use]
-command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
-args = ["mcp"]
-cwd = "."
-enabled = false
-
 [mcp_servers.proxyman]
 command = "/Applications/Proxyman.app/Contents/MacOS/mcp-server"
 enabled = false
@@ -116,8 +88,8 @@ url = "http://127.0.0.1:8765/mcp"
 
 [mcp_servers.minio]
 env_vars = ["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"]
-command = "node"
-args = ["${HOME}/.local/share/minio-mcp/dist/index.js"]
+command = "bunx"
+args = ["-y", "github:chenchiwei/s3-mcp-server#ceebf773d6881fb6cd3abc80709088d4792518c6"]
 
 [mcp_servers.minio.env]
 ALLOW_WRITE = "false"
@@ -127,4 +99,3 @@ AWS_REGION = "eu-west-1"
 [mcp_servers.hindsight]
 url = "https://api.hindsight.vectorize.io/mcp/shared-memory/"
 bearer_token_env_var = "HINDSIGHT_MCP_TOKEN"
-

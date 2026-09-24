@@ -1,9 +1,10 @@
 {
   "minio": {
     "type": "stdio",
-    "command": "node",
+    "command": "bunx",
     "args": [
-      "${HOME}/.local/share/minio-mcp/dist/index.js"
+      "-y",
+      "github:chenchiwei/s3-mcp-server#ceebf773d6881fb6cd3abc80709088d4792518c6"
     ],
     "env": {
       "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
@@ -29,7 +30,7 @@
   },
   "grafana": {
     "args": [],
-    "command": "${HOME}/Developer/Personal/mcp-grafana/dist/mcp-grafana",
+    "command": "/opt/homebrew/bin/mcp-grafana",
     "timeout": 120000,
     "env": {
       "GRAFANA_URL": "https://grafana.dats.services",
