@@ -14,7 +14,8 @@
 #   agents         agents that get the server; all four when omitted
 #
 # Pin package versions as name@1.2.3 (bunx and uvx both accept it) so a new
-# release never reaches the agents unreviewed; `just mcp-outdated` lists newer ones.
+# release never reaches the agents unreviewed. `just mcp-outdated` lists newer
+# releases; `just mcp-upgrade` pins the latest ones and regenerates the configs.
 
 [codegraph]
 command = "codegraph"

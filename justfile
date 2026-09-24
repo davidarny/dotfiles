@@ -143,7 +143,14 @@ mcp-sync:
 # List MCP server packages in mcp/servers.toml with a newer release
 [group('mcp')]
 mcp-outdated:
-    @bun ./bin/mcp-outdated.ts
+    @bun ./bin/mcp-packages.ts outdated
+
+# Pin every MCP server package to its latest release and regenerate the agent configs
+[group('mcp')]
+mcp-upgrade:
+    @bun ./bin/mcp-packages.ts upgrade
+    @bun ./bin/mcp-sync.ts
+    @echo "Review git diff, then run just claude-restore and just codex-restore"
 
 # Snapshot agent settings into the repo (home paths become ${HOME}); MCP servers live in mcp/servers.toml
 [group('mcp')]
