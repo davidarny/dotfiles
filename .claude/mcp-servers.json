@@ -128,8 +128,8 @@
     "env": {
       "AWS_ENDPOINT_URL": "https://minio-synthetic-tests-perf.infra.dats.host",
       "AWS_REGION": "eu-west-1",
-      "AWS_ACCESS_KEY_ID": "${AWS_ACCESS_KEY_ID}",
-      "AWS_SECRET_ACCESS_KEY": "${AWS_SECRET_ACCESS_KEY}",
+      "AWS_ACCESS_KEY_ID": "${MINIO_ACCESS_KEY_ID}",
+      "AWS_SECRET_ACCESS_KEY": "${MINIO_SECRET_ACCESS_KEY}",
       "ALLOW_WRITE": "false"
     }
   }

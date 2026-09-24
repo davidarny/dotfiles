@@ -79,9 +79,9 @@ TESTRAIL_URL = "http://media.test8bit.com/testrail"
 TESTRAIL_USERNAME = "readonly@8bitov.com"
 
 [mcp_servers.minio]
-command = "bunx"
-args = ["-y", "github:chenchiwei/s3-mcp-server#ceebf773d6881fb6cd3abc80709088d4792518c6"]
-env_vars = ["AWS_ACCESS_KEY_ID", "AWS_SECRET_ACCESS_KEY"]
+command = "/bin/sh"
+args = ["-c", "AWS_ACCESS_KEY_ID=\"$MINIO_ACCESS_KEY_ID\" AWS_SECRET_ACCESS_KEY=\"$MINIO_SECRET_ACCESS_KEY\" exec \"$0\" \"$@\"", "bunx", "-y", "github:chenchiwei/s3-mcp-server#ceebf773d6881fb6cd3abc80709088d4792518c6"]
+env_vars = ["MINIO_ACCESS_KEY_ID", "MINIO_SECRET_ACCESS_KEY"]
 
 [mcp_servers.minio.env]
 AWS_ENDPOINT_URL = "https://minio-synthetic-tests-perf.infra.dats.host"

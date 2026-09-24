@@ -9,6 +9,8 @@ export JIRA_API_TOKEN='op://Dats.Team/Jira/API key'
 export GRAFANA_API_KEY='op://Dats.Team/Grafana/API token'
 export ELASTICSEARCH_PASSWORD='op://Dats.Team/Kibana/password'
 export TESTRAIL_API_KEY='op://Dats.Team/TestRail/API key'
-export AWS_ACCESS_KEY_ID='op://Dats.Team/MiniIO/accessKey'
-export AWS_SECRET_ACCESS_KEY='op://Dats.Team/MiniIO/secretKey'
+# MinIO keys keep their own names so AWS tools never pick them up by default;
+# mcp/servers.toml maps them to AWS_* for the minio server only.
+export MINIO_ACCESS_KEY_ID='op://Dats.Team/MiniIO/accessKey'
+export MINIO_SECRET_ACCESS_KEY='op://Dats.Team/MiniIO/secretKey'
 export DATS_TEAM_AI_API_KEY='op://Dats.Team/Dats AI/API key'
