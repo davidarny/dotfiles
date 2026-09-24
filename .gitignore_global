@@ -1,4 +1,5 @@
-# AI
+# AI agent files stay out of every repo on purpose: not every project should
+# show that AI agents are used. Commit them with `git add -f` where wanted.
 .claude/
 .codex/
 .agents/

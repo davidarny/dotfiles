@@ -40,3 +40,4 @@ The justfile orchestrates; logic lives in TypeScript scripts run by Bun, with no
 - Commits follow Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, ...).
 - Run `just check` before committing; run `just doctor` after changing linking, snapshots, skills, or plugins.
 - Add documentation files only when the user asks for them.
+- `.gitignore_global` ignores agent files (`AGENTS.md`, `CLAUDE.md`, `.claude/`, `.agents/`, ...) in every repo on purpose: the user keeps AI agent use out of projects where it should not show. Keep these entries.
