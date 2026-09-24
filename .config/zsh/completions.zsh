@@ -7,16 +7,28 @@ if [[ -d /opt/homebrew/share/zsh/site-functions ]]; then
 fi
 
 # Initialize completion system
-mkdir -p "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh"
+[[ -d "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh" ]] || mkdir -p "${XDG_CACHE_HOME:-${HOME}/.cache}/zsh"
 autoload -Uz compinit
 local zdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump-${ZSH_VERSION}"
-# compinit -C replays the cached dump without scanning fpath, so rebuild the
-# dump when any completion file in fpath is newer than it (brew install/upgrade).
-if [[ ! -s $zdump ]] || [[ -n $(find $fpath -name '_*' -newer "$zdump" 2>/dev/null | head -1) ]]; then
+# compinit -C replays the cached dump without scanning fpath. The dump maps
+# commands to completion functions, so rebuild it when a completion is added or
+# removed: that changes its fpath directory's mtime (brew link, plugin update).
+local zdump_stale=0 zdump_dir
+if [[ ! -s $zdump ]]; then
+  zdump_stale=1
+else
+  for zdump_dir in $fpath; do
+    [[ $zdump_dir -nt $zdump ]] && { zdump_stale=1; break }
+  done
+fi
+if (( zdump_stale )); then
   compinit -d "$zdump"
+  # compinit keeps an unchanged dump as is; mark it fresh so the next start is fast.
+  command touch "$zdump"
 else
   compinit -C -d "$zdump"
 fi
+unset zdump_stale zdump_dir
 
 # Load plugins that require compinit first.
 if command -v antidote >/dev/null 2>&1 && (( ${+functions[_antidote_load_bundle]} )); then
@@ -28,9 +40,9 @@ if command -v antidote >/dev/null 2>&1 && (( ${+functions[_antidote_load_bundle]
 fi
 
 # Tool completions not shipped into fpath by their package manager
-command -v lazygit >/dev/null 2>&1 && eval "$(lazygit completion zsh)"
-command -v lazyssh >/dev/null 2>&1 && eval "$(lazyssh completion zsh)"
-command -v ngrok >/dev/null 2>&1 && eval "$(ngrok completion)"
+_eval_cached lazygit completion zsh
+_eval_cached lazyssh completion zsh
+_eval_cached ngrok completion
 
 # Completion styling
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'

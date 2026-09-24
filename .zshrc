@@ -1,6 +1,7 @@
 # Source configuration modules in order
 source ~/.config/zsh/env.zsh
 source ~/.config/zsh/options.zsh
+source ~/.config/zsh/cache.zsh
 source ~/.config/zsh/path.zsh
 source ~/.config/zsh/history.zsh
 source ~/.config/zsh/plugins.zsh
