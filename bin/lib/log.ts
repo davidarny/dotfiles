@@ -61,6 +61,18 @@ export async function runMain(main: EntryPoint): Promise<void> {
 }
 
 /**
+ * Formats a count with the matching form of a phrase, e.g. `1 key` or
+ * `3 keys`, `1 setting differs` or `2 settings differ`.
+ *
+ * @param count - How many.
+ * @param one - Phrase for exactly one.
+ * @param many - Phrase for any other count; defaults to `one` plus "s".
+ */
+export function counted(count: number, one: string, many = `${one}s`): string {
+  return `${count} ${count === 1 ? one : many}`;
+}
+
+/**
  * Prints the closing summary line with the time since the script started.
  *
  * @param text - Summary, e.g. `All 9 checks passed`.

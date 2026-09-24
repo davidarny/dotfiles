@@ -11,7 +11,7 @@
  * Usage: `bun mcp-packages.ts outdated|upgrade` (run from `just mcp-outdated`
  * and `just mcp-upgrade`).
  */
-import { fail, ok, runMain, step, summary } from "./lib/log";
+import { counted, fail, ok, runMain, step, summary } from "./lib/log";
 import { readServers, SERVERS_PATH, type Servers } from "./lib/mcp";
 
 /**
@@ -133,8 +133,8 @@ function outdated(pins: Pin[]): void {
   }
 
   const attention = pins.filter((pin) => status(pin) !== "current").length;
-  const noun = attention === 1 ? "package needs" : "packages need";
-  summary(attention ? `${attention} ${noun} attention` : "All MCP packages are pinned and current", attention === 0);
+  const needs = `${counted(attention, "package needs", "packages need")} attention`;
+  summary(attention ? needs : "All MCP packages are pinned and current", attention === 0);
 }
 
 /**

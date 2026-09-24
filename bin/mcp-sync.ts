@@ -19,12 +19,10 @@ import { fail, ok, runMain } from "./lib/log";
 import { type Agent, ALL_AGENTS, readServers, type Server, type Servers } from "./lib/mcp";
 import { REPO, tilde } from "./lib/paths";
 import { formatJson } from "./lib/settings";
-
-/** A value this script writes into Codex's TOML. */
-type TomlValue = string | number | boolean | string[] | Record<string, string>;
+import { type TomlLiteral, tomlKey, tomlLiteral } from "./lib/toml";
 
 /** A key of a Codex server table and its value; `undefined` leaves the key out. */
-type TomlField = [key: string, value: TomlValue | undefined];
+type TomlField = [key: string, value: TomlLiteral | undefined];
 
 /** A server with its name, as `Object.entries` yields it. */
 type NamedServer = [name: string, server: Server];
@@ -104,29 +102,13 @@ export function renderClaude(servers: Servers): string {
 }
 
 /**
- * Formats a TOML key, quoting it when it is not a bare key.
+ * Formats a value for Codex's TOML. Codex reads its numbers (timeouts) as
+ * floats, so whole numbers get a `.0`.
  *
- * @param key - Key to format.
+ * @param value - Value to format.
  */
-function tomlKey(key: string): string {
-  return /^[A-Za-z0-9_-]+$/.test(key) ? key : JSON.stringify(key);
-}
-
-/**
- * Formats a TOML value. JSON strings are valid TOML basic strings.
- *
- * @param value - String, number, boolean, string array, or string table.
- */
-function tomlValue(value: TomlValue): string {
-  if (Array.isArray(value)) return `[${value.map((item) => JSON.stringify(item)).join(", ")}]`;
-  if (typeof value === "object") {
-    return `{ ${Object.entries(value)
-      .map(([key, item]) => `${tomlKey(key)} = ${JSON.stringify(item)}`)
-      .join(", ")} }`;
-  }
-  // Codex reads timeouts as floats.
-  if (typeof value === "number") return Number.isInteger(value) ? `${value}.0` : `${value}`;
-  return JSON.stringify(value);
+function codexValue(value: TomlLiteral): string {
+  return typeof value === "number" && Number.isInteger(value) ? `${value}.0` : tomlLiteral(value);
 }
 
 /**
@@ -184,10 +166,10 @@ function renderCodexServer(name: string, server: Server): string {
   ];
   const table = `mcp_servers.${tomlKey(name)}`;
   const lines = [`[${table}]`];
-  for (const [key, value] of fields) if (value !== undefined) lines.push(`${key} = ${tomlValue(value)}`);
+  for (const [key, value] of fields) if (value !== undefined) lines.push(`${key} = ${codexValue(value)}`);
   if (Object.keys(env).length) {
     lines.push("", `[${table}.env]`);
-    for (const [key, value] of Object.entries(env)) lines.push(`${tomlKey(key)} = ${tomlValue(value)}`);
+    for (const [key, value] of Object.entries(env)) lines.push(`${tomlKey(key)} = ${codexValue(value)}`);
   }
   return lines.join("\n");
 }
