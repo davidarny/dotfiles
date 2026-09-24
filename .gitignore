@@ -185,6 +185,11 @@ zsdoc/data
 !.agents/
 !.pi/
 
+# SSH: track only the config and public keys; private keys and known hosts stay local
+.ssh/*
+!.ssh/config
+!.ssh/*.pub
+
 # Karabiner writes backups next to its config, which is linked into the repo
 .config/karabiner/automatic_backups/
 
