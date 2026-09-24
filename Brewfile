@@ -19,8 +19,6 @@ brew "bat"
 brew "bat-extras"
 # Resource monitor. C++ version and continuation of bashtop and bpytop
 brew "btop"
-# Powerful, enterprise-ready, open source web server with automatic HTTPS
-brew "caddy"
 # Cross-platform make
 brew "cmake"
 # Container runtimes on MacOS (and Linux) with minimal setup

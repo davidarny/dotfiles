@@ -17,10 +17,6 @@ _alias_if_exists eza 'tt=eza -lA --tree --level=1 --git --git-repos --group-dire
 # rg
 _alias_if_exists rg "rg=command rg --hidden --smart-case --glob='!.git/' --no-search-zip --trim --colors=line:fg:black --colors=line:style:bold --colors=path:fg:magenta --colors=match:style:nobold"
 
-# caddy
-_alias_if_exists caddy 'cds=caddy start --config ~/.config/caddy/caddy.json'
-_alias_if_exists caddy 'cdx=caddy stop'
-
 # macOS
 alias reload='source ~/.zshrc'
 _alias_if_exists xattr 'allowapp=sudo xattr -r -d com.apple.quarantine'
