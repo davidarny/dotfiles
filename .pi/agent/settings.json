@@ -1,0 +1,40 @@
+{
+  "subagents": {
+    "agentOverrides": {
+      "researcher": {
+        "model": "openai-codex/gpt-5.6-sol",
+        "thinking": "xhigh",
+        "tools": "inherit"
+      },
+      "reviewer": {
+        "model": "openai-codex/gpt-5.6-terra",
+        "thinking": "xhigh",
+        "tools": "inherit"
+      },
+      "scout": {
+        "model": "openai-codex/gpt-5.6-luna",
+        "thinking": "low",
+        "tools": "inherit"
+      },
+      "worker": {
+        "model": "openai-codex/gpt-5.6-luna",
+        "thinking": "max",
+        "tools": "inherit"
+      }
+    }
+  },
+  "theme": "dark",
+  "enableInstallTelemetry": false,
+  "packages": [
+    "npm:pi-mcp-adapter",
+    "npm:@ff-labs/pi-fff",
+    "npm:@earendil-works/pi-coding-agent",
+    "npm:pi-background-tasks",
+    "npm:pi-subagents",
+    "npm:pi-goal",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-todo"
+  ],
+  "hideThinkingBlock": true,
+  "shellCommandPrefix": "shopt -s expand_aliases\neval \"$(zsh -fc 'source ~/.zprofile; alias -L')\""
+}

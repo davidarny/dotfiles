@@ -8,7 +8,7 @@ default:
 
 # Set up this machine end to end; safe to rerun and stops where it needs you
 [group('setup')]
-bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync _agents-closed claude-restore codex-restore yazi-plugins file-defaults
+bootstrap: brew-install mise-install link _mcp-secrets-once mcp-launchagent skills-sync bun-sync _agents-closed claude-restore codex-restore pi-restore yazi-plugins file-defaults
     @echo "✓ Bootstrap done. tmux installs TPM and its plugins on first start; run just doctor to verify."
 
 # Read-only report of links, secrets, packages, MCP commands, skills, and plugins
@@ -31,7 +31,7 @@ _mcp-secrets-once:
 [private]
 _agents-closed:
     #!/usr/bin/env zsh
-    running=(${(f)"$(ps -axo comm= | awk -F/ '{ print $NF }' | grep -xE 'claude|Claude|codex|Codex|ChatGPT' | sort -u)"})
+    running=(${(f)"$(ps -axo comm= | awk -F/ '{ print $NF }' | grep -xE 'claude|Claude|codex|Codex|ChatGPT|pi' | sort -u)"})
     if (( ${#running} )); then
       echo "✗ Quit ${(j:, :)running} (including this terminal's agent session), then rerun just bootstrap" >&2
       exit 1
@@ -143,10 +143,18 @@ claude-dump:
 codex-dump:
     @bun ./bin/codex-config.ts dump ~/.codex/config.toml .codex
 
+[group('mcp')]
+pi-dump:
+    @bun ./bin/pi-config.ts dump .pi/agent/settings.json
+
 # Restore agent settings and MCP servers from the repo snapshots (close the respective app first)
 [group('mcp')]
 claude-restore:
     @bun ./bin/claude-config.ts restore .claude
+
+[group('mcp')]
+pi-restore:
+    @bun ./bin/pi-config.ts restore .pi/agent/settings.json
 
 [group('mcp')]
 codex-restore:

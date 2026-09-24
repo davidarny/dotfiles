@@ -2,32 +2,38 @@
  * Snapshots Claude Code's user settings and MCP servers into the repo and
  * restores them.
  *
- * - `dump` writes `~/.claude/settings.json` to `settings.json` and the
- *   `mcpServers` of `~/.claude.json` to `mcp-servers.json`, with the home
- *   prefix replaced by `${HOME}/`.
- * - `restore` writes both back; the rest of `~/.claude.json` (projects,
- *   caches, account state) stays untouched.
+ * - `dump` writes `~/.claude/settings.json` to `settings.json` (without the
+ *   often toggled effort and model keys) and the `mcpServers` of
+ *   `~/.claude.json` to `mcp-servers.json`, with the home prefix replaced by
+ *   `${HOME}/`.
+ * - `restore` writes both back, keeping the live effort and model and the
+ *   rest of `~/.claude.json` (projects, caches, account state).
  *
  * Usage: `bun claude-config.ts dump|restore <snapshot dir>`
  */
 import { join } from "node:path";
-import { readText, writeAtomic } from "./lib/fs";
+import { writeAtomic } from "./lib/fs";
 import { ok, runMain } from "./lib/log";
 import { fromPortable, HOME, toPortable } from "./lib/paths";
+import { dumpSettings, formatJson, readJsonObject, restoreSettings, type SettingsFile } from "./lib/settings";
 
 /** Claude Code's global state, which holds the user-scope `mcpServers`. */
 const STATE_PATH = join(HOME, ".claude.json");
 
-/** Claude Code's user settings: hooks, permissions, plugins, env. */
-const SETTINGS_PATH = join(HOME, ".claude/settings.json");
+/** Settings keys that `/effort` and `/model` switch; they stay on the machine. */
+const LOCAL_KEYS = ["effortLevel", "modelSettings", "model"];
 
 /**
- * Formats a value as JSON the way Claude Code writes it.
+ * Claude Code's user settings file: hooks, permissions, plugins, env.
  *
- * @param value - Value to serialize.
+ * @param snapshotDir - Directory with the tracked snapshots.
  */
-function formatJson(value: unknown): string {
-  return `${JSON.stringify(value, null, 2)}\n`;
+function settingsFile(snapshotDir: string): SettingsFile {
+  return {
+    live: join(HOME, ".claude/settings.json"),
+    snapshot: join(snapshotDir, "settings.json"),
+    localKeys: LOCAL_KEYS,
+  };
 }
 
 /**
@@ -36,17 +42,14 @@ function formatJson(value: unknown): string {
  * @param snapshotDir - Directory for `settings.json` and `mcp-servers.json`.
  */
 async function dump(snapshotDir: string): Promise<void> {
-  const state = JSON.parse((await readText(STATE_PATH)) ?? "{}");
-  const snapshots = {
-    "mcp-servers.json": formatJson(state.mcpServers ?? {}),
-    "settings.json": (await readText(SETTINGS_PATH)) ?? formatJson({}),
-  };
+  const serversPath = join(snapshotDir, "mcp-servers.json");
+  const { mcpServers = {} } = await readJsonObject(STATE_PATH);
+  await Bun.write(serversPath, toPortable(formatJson(mcpServers)));
+  ok("Dumped", serversPath);
 
-  for (const [name, text] of Object.entries(snapshots)) {
-    const path = join(snapshotDir, name);
-    await Bun.write(path, toPortable(text));
-    ok("Dumped", path);
-  }
+  const settings = settingsFile(snapshotDir);
+  await dumpSettings(settings);
+  ok("Dumped", settings.snapshot);
 }
 
 /**
@@ -57,14 +60,13 @@ async function dump(snapshotDir: string): Promise<void> {
  */
 async function restore(snapshotDir: string): Promise<void> {
   const servers = JSON.parse(fromPortable(await Bun.file(join(snapshotDir, "mcp-servers.json")).text()));
-  const state = JSON.parse((await readText(STATE_PATH)) ?? "{}");
+  const state = await readJsonObject(STATE_PATH);
   await writeAtomic(STATE_PATH, formatJson({ ...state, mcpServers: servers }));
   ok("Restored", STATE_PATH);
 
-  const settings = fromPortable(await Bun.file(join(snapshotDir, "settings.json")).text());
-  JSON.parse(settings); // Never leave Claude Code with invalid settings.
-  await writeAtomic(SETTINGS_PATH, settings);
-  ok("Restored", SETTINGS_PATH);
+  const settings = settingsFile(snapshotDir);
+  await restoreSettings(settings);
+  ok("Restored", settings.live);
 }
 
 await runMain(async () => {

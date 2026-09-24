@@ -18,7 +18,8 @@
 # Karabiner rewrites its config and needs the whole directory linked (just link does it)
 /\.config\/karabiner$
 
-# Generated agent snapshots (just claude-dump / codex-dump) — copied by restore, never stowed
+# Generated agent snapshots (just claude-dump / codex-dump / pi-dump) — copied by restore, never stowed
+/\.pi\/agent\/settings\.json$
 /\.claude\/mcp-servers\.json$
 /\.claude\/settings\.json$
 /\.codex\/mcp-servers\.toml$
