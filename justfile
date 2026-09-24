@@ -106,6 +106,49 @@ check:
     @git diff --check
     @echo "✓ Checks passed"
 
+# Upgrade every tool, one step after another; review git diff afterwards, since
+# mise, yazi, and Neovim record the new versions in the repo
+[group('upgrade')]
+upgrade: upgrade-brew upgrade-mise upgrade-bun upgrade-uv upgrade-skills upgrade-pi upgrade-plugins
+    @echo "✓ Upgraded. Review git diff for version bumps in mise, yazi, and Neovim."
+
+[group('upgrade')]
+upgrade-brew:
+    brew update
+    brew upgrade --greedy-latest
+    brew cleanup --prune=all
+    brew autoremove
+
+# Upgrade mise runtimes and bump their pins in .config/mise/config.toml
+[group('upgrade')]
+upgrade-mise:
+    mise upgrade --yes --bump
+
+[group('upgrade')]
+upgrade-bun:
+    bun update --global --latest
+    bun pm trust --all --global
+
+[group('upgrade')]
+upgrade-uv:
+    uv tool upgrade --all
+
+[group('upgrade')]
+upgrade-skills:
+    skills update --global --yes
+
+[group('upgrade')]
+upgrade-pi:
+    pi update
+    pi update --extensions
+
+# Upgrade tmux, yazi, and Neovim plugins
+[group('upgrade')]
+upgrade-plugins:
+    ~/.tmux/plugins/tpm/bin/update_plugins all
+    ya pkg upgrade
+    nvim --headless "+Lazy! sync" +qa
+
 # Install runtimes pinned in the mise config (bun, node, go, ...). Reads the repo copy,
 # so it works before just link, which needs bun.
 [group('tools')]

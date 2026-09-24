@@ -111,8 +111,6 @@ brew "stow"
 brew "tlrc"
 # Terminal multiplexer
 brew "tmux"
-# Upgrade all the things
-brew "topgrade"
 # Language Server Protocol implementation for TypeScript wrapping tsserver
 brew "typescript-language-server"
 # Extremely fast Python package installer and resolver, written in Rust

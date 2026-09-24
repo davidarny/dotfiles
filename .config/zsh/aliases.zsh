@@ -46,14 +46,8 @@ _alias_if_exists tmux 'tm=tmux'
 # bun
 _alias_if_exists bun 'buni=bun install --no-save && bun pm trust --all && rm -f bun.lock'
 
-# upgrade commands
-_alias_if_exists bun 'bunup=bun update -g --latest && bun pm trust --all -g'
-_alias_if_exists uv 'uvup=uv tool upgrade --all'
-_alias_if_exists skills 'skillsup=skills update --global --yes'
-_alias_if_exists pi 'piup=pi update && pi update --extensions'
-_alias_if_exists brew 'brewup=brew upgrade --greedy-latest && brew cleanup --prune=all && brew autoremove'
-_alias_if_exists mise 'miseup=mise upgrade --yes --bump'
-alias toolsup='brewup & miseup & bunup & uvup & skillsup && piup'
+# dotfiles tasks from any directory, e.g. `dot upgrade`, `dot doctor`
+_alias_if_exists just "dot=just --justfile ${${(%):-%x}:A:h:h:h}/justfile"
 
 # ai
 _alias_if_exists claude 'cc=claude --setting-sources user,local,project --allow-dangerously-skip-permissions --dangerously-skip-permissions'
