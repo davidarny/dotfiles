@@ -24,6 +24,22 @@ const AGENTS = ["claude-code", "codex", "opencode", "pi"];
 /** Machine-local lockfile the Skills CLI keeps of installed skills. */
 const CLI_LOCKFILE = join(HOME, ".agents/.skill-lock.json");
 
+/** External skills split by whether they are already installed. */
+interface Partition {
+  /** Names installed from the expected source, with files on disk. */
+  installed: string[];
+  /** Skills still to install. */
+  missing: Skills;
+}
+
+/** Outcome of installing the missing external skills. */
+interface InstallResult {
+  /** Names installed now. */
+  installed: string[];
+  /** Number of source repositories whose install failed. */
+  failures: number;
+}
+
 /**
  * Path of a skill in the canonical directory.
  *
@@ -39,7 +55,7 @@ function canonicalPath(name: string): string {
  *
  * @param external - Skills from the manifest.
  */
-async function partitionInstalled(external: Skills): Promise<{ installed: string[]; missing: Skills }> {
+async function partitionInstalled(external: Skills): Promise<Partition> {
   const lock = await readSkills(CLI_LOCKFILE);
   const installed: string[] = [];
   const missing: Skills = {};
@@ -94,7 +110,7 @@ async function install(source: string, names: string[]): Promise<boolean> {
  * @param missing - Skills to install.
  * @returns Names installed now, and how many repositories failed.
  */
-async function installMissing(missing: Skills): Promise<{ installed: string[]; failures: number }> {
+async function installMissing(missing: Skills): Promise<InstallResult> {
   const installed: string[] = [];
   let failures = 0;
 

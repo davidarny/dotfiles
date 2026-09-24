@@ -11,6 +11,9 @@ import { styleText } from "node:util";
 /** Column where the dimmed detail of an `ok` line starts. */
 const DETAIL_COLUMN = 28;
 
+/** A script's entry point, as `runMain` runs it. */
+type EntryPoint = () => Promise<void>;
+
 /**
  * Prints a section header, e.g. `▸ Global skills`.
  *
@@ -48,7 +51,7 @@ export function fail(text: string, details: string[] = []): void {
  *
  * @param main - The script's entry point.
  */
-export async function runMain(main: () => Promise<void>): Promise<void> {
+export async function runMain(main: EntryPoint): Promise<void> {
   try {
     await main();
   } catch (error) {

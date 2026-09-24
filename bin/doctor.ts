@@ -16,6 +16,15 @@ import { fail, ok, runMain, step, summary } from "./lib/log";
 import { DIRECTORY_LINKS, HOME, REPO, tilde } from "./lib/paths";
 import { CANONICAL_SKILLS_DIR, HARNESS_SKILL_DIRS, listLocalSkills, readSkills } from "./lib/skills";
 
+/** Label of the LaunchAgent that publishes MCP secrets to GUI apps (see the justfile). */
+const LAUNCH_AGENT = "local.dotfiles.mcp-secrets-env";
+
+/** The 1Password SSH agent socket that `env.zsh` and `~/.ssh/config` use. */
+const SSH_AGENT_SOCKET = join(HOME, "Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock");
+
+/** A skill link in the global instructions, e.g. `skills/caveman/SKILL.md`. */
+const SKILL_LINK = /skills\/([a-z0-9-]+)\/SKILL\.md/g;
+
 /** A named check and the problems it found; no problems means it passed. */
 interface CheckResult {
   /** What was verified, phrased as the healthy state. */
@@ -32,6 +41,36 @@ interface McpServer {
   enabled?: boolean;
   /** Codex: working directory that relative commands resolve against. */
   cwd?: string;
+}
+
+/** The part of Claude Code's `~/.claude.json` that holds user-scope MCP servers. */
+interface ClaudeState {
+  mcpServers?: Record<string, McpServer>;
+}
+
+/** The part of Codex's `~/.codex/config.toml` that holds MCP servers. */
+interface CodexConfig {
+  mcp_servers?: Record<string, McpServer>;
+}
+
+/** The global Bun manifest, `~/.bun/install/global/package.json`. */
+interface BunManifest {
+  dependencies?: Record<string, string>;
+}
+
+/** yazi's `package.toml`. */
+interface YaziPackage {
+  plugin?: YaziPlugins;
+}
+
+/** The `[plugin]` table of yazi's `package.toml`. */
+interface YaziPlugins {
+  deps?: YaziDependency[];
+}
+
+/** One pinned yazi plugin, e.g. `use = "yazi-rs/plugins:git"`. */
+interface YaziDependency {
+  use: string;
 }
 
 /**
@@ -167,8 +206,8 @@ function missingCommand(agent: string, name: string, { command }: McpServer): st
 /** The command of every enabled Claude Code and Codex MCP server exists. */
 async function checkMcpCommands(): Promise<CheckResult> {
   const [claude, codex] = await Promise.all([
-    readJson<{ mcpServers?: Record<string, McpServer> }>(join(HOME, ".claude.json")),
-    readToml<{ mcp_servers?: Record<string, McpServer> }>(join(HOME, ".codex/config.toml")),
+    readJson<ClaudeState>(join(HOME, ".claude.json")),
+    readToml<CodexConfig>(join(HOME, ".codex/config.toml")),
   ]);
 
   const problems = [
@@ -188,12 +227,11 @@ async function checkMcpCommands(): Promise<CheckResult> {
  * `SKILL.md` in the canonical directory and in all harnesses.
  */
 async function checkSkills(): Promise<CheckResult> {
-  const docs = await Promise.all(
-    [...new Bun.Glob("{AGENTS.md,references/*.md}").scanSync(join(REPO, ".agents"))].map((path) =>
-      Bun.file(join(REPO, ".agents", path)).text(),
-    ),
-  );
-  const referenced = docs.flatMap((doc) => [...doc.matchAll(/skills\/([a-z0-9-]+)\/SKILL\.md/g)].map(([, name]) => name));
+  const referenced: string[] = [];
+  for await (const path of new Bun.Glob("{AGENTS.md,references/*.md}").scan(join(REPO, ".agents"))) {
+    const doc = await Bun.file(join(REPO, ".agents", path)).text();
+    referenced.push(...[...doc.matchAll(SKILL_LINK)].map(([, name]) => name));
+  }
   const listed = Object.keys(await readSkills(join(REPO, ".agents/skills.json")));
   const local = await listLocalSkills(join(REPO, ".agents/skills"));
   const skills = [...new Set([...referenced, ...listed, ...local])];
@@ -210,26 +248,33 @@ async function checkSkills(): Promise<CheckResult> {
   return { label: `${skills.length} skills in all harnesses`, problems };
 }
 
-/** Label of the LaunchAgent that publishes MCP secrets to GUI apps. */
-const LAUNCH_AGENT = "local.dotfiles.mcp-secrets-env";
-
-/** The 1Password SSH agent socket that `env.zsh` and `~/.ssh/config` use. */
-const SSH_AGENT_SOCKET = join(HOME, "Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock");
+/**
+ * Reads the tool names from `mise ls --json` output, an object keyed by tool.
+ *
+ * @param json - Command output; empty output means no tools.
+ * @returns Tool names, or `undefined` when the output is not JSON.
+ */
+function miseToolNames(json: string): string[] | undefined {
+  try {
+    return Object.keys(JSON.parse(json || "{}"));
+  } catch {
+    return undefined;
+  }
+}
 
 /** Every runtime pinned in the mise config is installed. */
 async function checkMiseRuntimes(): Promise<CheckResult> {
-  const output = await $`mise ls --missing --json`.cwd(HOME).quiet().nothrow().text();
-  const missing = Object.keys(JSON.parse(output || "{}"));
-  return {
-    label: "mise runtimes installed",
-    problems: missing.map((tool) => `${tool} is missing → run just mise-install`),
-  };
+  const label = "mise runtimes installed";
+  const { stdout, exitCode } = await $`mise ls --missing --json`.cwd(HOME).quiet().nothrow();
+  const missing = exitCode === 0 ? miseToolNames(stdout.toString()) : undefined;
+  if (!missing) return { label, problems: ["mise ls --missing failed → run it to see why"] };
+  return { label, problems: missing.map((tool) => `${tool} is missing → run just mise-install`) };
 }
 
 /** Every global Bun package in the stowed manifest is installed. */
 async function checkBunPackages(): Promise<CheckResult> {
   const globalDir = join(HOME, ".bun/install/global");
-  const manifest = await readJson<{ dependencies?: Record<string, string> }>(join(globalDir, "package.json"));
+  const manifest = await readJson<BunManifest>(join(globalDir, "package.json"));
   const problems: string[] = [];
   for (const name of Object.keys(manifest?.dependencies ?? {})) {
     if (!(await Bun.file(join(globalDir, "node_modules", name, "package.json")).exists())) {
@@ -250,14 +295,14 @@ async function checkLaunchAgent(): Promise<CheckResult> {
 
 /** The 1Password SSH agent answers and offers keys. */
 async function checkSshAgent(): Promise<CheckResult> {
+  const label = "1Password SSH agent ready";
+  // ssh-add -l exits 1 when the agent has no keys and 2 when it cannot reach the agent.
   const { exitCode } = await $`ssh-add -l`.env({ ...Bun.env, SSH_AUTH_SOCK: SSH_AGENT_SOCKET }).quiet().nothrow();
-  const problems =
-    exitCode === 0
-      ? []
-      : exitCode === 1
-        ? ["the 1Password SSH agent offers no keys → add keys to the vaults in ~/.config/1Password/ssh/agent.toml"]
-        : ["the 1Password SSH agent does not answer → enable it in 1Password, Settings, Developer"];
-  return { label: "1Password SSH agent ready", problems };
+  if (exitCode === 0) return { label, problems: [] };
+  if (exitCode === 1) {
+    return { label, problems: ["the agent offers no keys → add keys to the vaults in ~/.config/1Password/ssh/agent.toml"] };
+  }
+  return { label, problems: ["the agent does not answer → enable it in 1Password, Settings, Developer"] };
 }
 
 /** gh is signed in, so it can clone and call the GitHub API. */
@@ -277,7 +322,7 @@ async function checkTpm(): Promise<CheckResult> {
 
 /** Every yazi plugin pinned in package.toml or authored in the repo is installed. */
 async function checkYaziPlugins(): Promise<CheckResult> {
-  const pkg = await readToml<{ plugin?: { deps?: { use: string }[] } }>(join(REPO, ".config/yazi/package.toml"));
+  const pkg = await readToml<YaziPackage>(join(REPO, ".config/yazi/package.toml"));
   const pinned = (pkg?.plugin?.deps ?? []).map(({ use }) => `${use.split(":").at(-1)}.yazi`);
   const authored = (await readdir(join(REPO, ".config/yazi/plugins"), { withFileTypes: true }))
     .filter((entry) => entry.isDirectory())

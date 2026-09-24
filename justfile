@@ -115,6 +115,7 @@ check:
 upgrade: upgrade-brew upgrade-mise upgrade-bun upgrade-uv upgrade-skills upgrade-pi upgrade-plugins
     @echo "✓ Upgraded. Review git diff for version bumps in mise, yazi, and Neovim."
 
+# Upgrade Homebrew formulae and casks, then remove old versions and unused dependencies
 [group('upgrade')]
 upgrade-brew:
     brew update
@@ -127,19 +128,23 @@ upgrade-brew:
 upgrade-mise:
     mise upgrade --yes --bump
 
+# Upgrade global Bun packages to their latest releases
 [group('upgrade')]
 upgrade-bun:
     bun update --global --latest
     bun pm trust --all --global
 
+# Upgrade tools installed with uv
 [group('upgrade')]
 upgrade-uv:
     uv tool upgrade --all
 
+# Upgrade external skills from their source repositories
 [group('upgrade')]
 upgrade-skills:
     skills update --global --yes
 
+# Upgrade Pi packages and extensions
 [group('upgrade')]
 upgrade-pi:
     pi update

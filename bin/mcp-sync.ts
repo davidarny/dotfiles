@@ -16,12 +16,21 @@
 import { join } from "node:path";
 import { readText } from "./lib/fs";
 import { fail, ok, runMain } from "./lib/log";
-import { type Agent, readServers, type Server, type Servers } from "./lib/mcp";
+import { type Agent, ALL_AGENTS, readServers, type Server, type Servers } from "./lib/mcp";
 import { REPO, tilde } from "./lib/paths";
 import { formatJson } from "./lib/settings";
 
-/** Every agent, the default for a server without `agents`. */
-const ALL_AGENTS: Agent[] = ["claude", "codex", "opencode", "pi"];
+/** A value this script writes into Codex's TOML. */
+type TomlValue = string | number | boolean | string[] | Record<string, string>;
+
+/** A key of a Codex server table and its value; `undefined` leaves the key out. */
+type TomlField = [key: string, value: TomlValue | undefined];
+
+/** A server with its name, as `Object.entries` yields it. */
+type NamedServer = [name: string, server: Server];
+
+/** Rewrites one config value, e.g. a `${VAR}` reference into another syntax. */
+type ValueTransform = (value: string) => string;
 
 /** A value that is exactly one `${VAR}` reference. */
 const WHOLE_REFERENCE = /^\$\{([A-Za-z_][A-Za-z0-9_]*)\}$/;
@@ -39,7 +48,7 @@ const REFERENCES = /\$\{([A-Za-z_][A-Za-z0-9_]*)\}/g;
  * @param servers - All servers.
  * @param agent - Agent to filter for.
  */
-function serversFor(servers: Servers, agent: Agent): [string, Server][] {
+function serversFor(servers: Servers, agent: Agent): NamedServer[] {
   return Object.entries(servers).filter(
     ([, server]) =>
       (server.agents ?? ALL_AGENTS).includes(agent) && (agent === "codex" || server.enabled !== false),
@@ -55,10 +64,20 @@ function serversFor(servers: Servers, agent: Agent): [string, Server][] {
  */
 function mapValues(
   record: Record<string, string> | undefined,
-  transform: (value: string) => string = (value) => value,
+  transform: ValueTransform = (value) => value,
 ): Record<string, string> | undefined {
   const entries = Object.entries(record ?? {});
   return entries.length ? Object.fromEntries(entries.map(([key, value]) => [key, transform(value)])) : undefined;
+}
+
+/**
+ * Converts a server's timeout to milliseconds, the unit Claude Code and
+ * OpenCode use.
+ *
+ * @param server - Server whose `timeout` is in seconds.
+ */
+function timeoutMs({ timeout }: Server): number | undefined {
+  return timeout === undefined ? undefined : timeout * 1000;
 }
 
 /**
@@ -68,15 +87,18 @@ function mapValues(
  */
 export function renderClaude(servers: Servers): string {
   const config = Object.fromEntries(
-    serversFor(servers, "claude").map(([name, server]) => {
-      const timeout = server.timeout && server.timeout * 1000;
-      return [
-        name,
-        server.url
-          ? { type: "http", url: server.url, headers: mapValues(server.headers), timeout }
-          : { type: "stdio", command: server.command, args: server.args, env: mapValues(server.env), timeout },
-      ];
-    }),
+    serversFor(servers, "claude").map(([name, server]) => [
+      name,
+      server.url
+        ? { type: "http", url: server.url, headers: mapValues(server.headers), timeout: timeoutMs(server) }
+        : {
+            type: "stdio",
+            command: server.command,
+            args: server.args,
+            env: mapValues(server.env),
+            timeout: timeoutMs(server),
+          },
+    ]),
   );
   return formatJson(config);
 }
@@ -95,7 +117,7 @@ function tomlKey(key: string): string {
  *
  * @param value - String, number, boolean, string array, or string table.
  */
-function tomlValue(value: string | number | boolean | string[] | Record<string, string>): string {
+function tomlValue(value: TomlValue): string {
   if (Array.isArray(value)) return `[${value.map((item) => JSON.stringify(item)).join(", ")}]`;
   if (typeof value === "object") {
     return `{ ${Object.entries(value)
@@ -130,13 +152,13 @@ function renderCodexServer(name: string, server: Server): string {
     }
   }
 
-  const bearer: string[] = [];
+  let bearer: string | undefined;
   const envHeaders: Record<string, string> = {};
   const headers: Record<string, string> = {};
   for (const [key, value] of Object.entries(server.headers ?? {})) {
     const token = key === "Authorization" ? value.match(BEARER_REFERENCE)?.[1] : undefined;
     const reference = value.match(WHOLE_REFERENCE)?.[1];
-    if (token) bearer.push(token);
+    if (token) bearer = token;
     else if (reference) envHeaders[key] = reference;
     else if (value.includes("${")) throw new Error(`${name}: Codex cannot embed \${VAR} in header ${key}`);
     else headers[key] = value;
@@ -149,9 +171,9 @@ function renderCodexServer(name: string, server: Server): string {
     command = "/bin/sh";
   }
 
-  const fields: [string, Parameters<typeof tomlValue>[0] | undefined][] = [
+  const fields: TomlField[] = [
     ["url", server.url],
-    ["bearer_token_env_var", bearer[0]],
+    ["bearer_token_env_var", bearer],
     ["env_http_headers", Object.keys(envHeaders).length ? envHeaders : undefined],
     ["http_headers", Object.keys(headers).length ? headers : undefined],
     ["command", command],
@@ -164,7 +186,8 @@ function renderCodexServer(name: string, server: Server): string {
   const lines = [`[${table}]`];
   for (const [key, value] of fields) if (value !== undefined) lines.push(`${key} = ${tomlValue(value)}`);
   if (Object.keys(env).length) {
-    lines.push("", `[${table}.env]`, ...Object.entries(env).map(([key, value]) => `${tomlKey(key)} = ${tomlValue(value)}`));
+    lines.push("", `[${table}.env]`);
+    for (const [key, value] of Object.entries(env)) lines.push(`${tomlKey(key)} = ${tomlValue(value)}`);
   }
   return lines.join("\n");
 }
@@ -190,16 +213,17 @@ export function renderCodex(servers: Servers): string {
  * @param current - Current `opencode.json` content.
  */
 export function renderOpencode(servers: Servers, current: string): string {
-  const toEnv = (value: string) => value.replaceAll(REFERENCES, "{env:$1}");
+  const toEnv: ValueTransform = (value) => value.replaceAll(REFERENCES, "{env:$1}");
   const mcp = Object.fromEntries(
     serversFor(servers, "opencode").map(([name, server]) => {
-      const common = { enabled: server.enabled ?? true, timeout: server.timeout && server.timeout * 1000 };
-      return [
-        name,
-        server.url
-          ? { type: "remote", url: server.url, headers: mapValues(server.headers, toEnv), oauth: server.headers ? false : undefined, ...common }
-          : { type: "local", command: [server.command, ...(server.args ?? [])], environment: mapValues(server.env, toEnv), ...common },
-      ];
+      const common = { enabled: server.enabled ?? true, timeout: timeoutMs(server) };
+      if (!server.url) {
+        const command = [server.command, ...(server.args ?? [])];
+        return [name, { type: "local", command, environment: mapValues(server.env, toEnv), ...common }];
+      }
+      // Headers carry the credentials, so OpenCode must not start an OAuth flow.
+      const oauth = server.headers ? false : undefined;
+      return [name, { type: "remote", url: server.url, headers: mapValues(server.headers, toEnv), oauth, ...common }];
     }),
   );
   return formatJson({ ...JSON.parse(current), mcp });
@@ -222,6 +246,11 @@ export function renderPi(servers: Servers): string {
   return formatJson({ mcpServers });
 }
 
+/**
+ * Renders every agent's config and writes the ones that changed.
+ *
+ * @param check - Report stale files and fail instead of writing them.
+ */
 async function main(check: boolean): Promise<void> {
   const servers = await readServers();
   const opencodePath = join(REPO, ".config/opencode/opencode.json");

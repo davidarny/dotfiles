@@ -1,4 +1,4 @@
-import { afterEach, beforeEach, expect, test } from "bun:test";
+import { afterEach, beforeEach, expect, spyOn, test } from "bun:test";
 import { chmod, mkdtemp, rm, stat } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -26,6 +26,8 @@ let dir: string;
 let configPath: string;
 
 beforeEach(async () => {
+  // dump and restore report each file they write; keep test output clean.
+  spyOn(console, "log").mockImplementation(() => {});
   dir = await mkdtemp(join(tmpdir(), "codex-config-"));
   configPath = join(dir, "config.toml");
   await Bun.write(configPath, LIVE);
