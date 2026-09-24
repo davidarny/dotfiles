@@ -23,7 +23,7 @@ The repo is private, and secrets still stay out of it because git history outliv
 ## Shell
 
 - `.zshrc` sources `~/.config/zsh/*.zsh` in a fixed order: `cache.zsh` before any module that uses `_eval_cached`, `plugins.zsh` before `completions.zsh`, `tools.zsh` after both.
-- Load `tool init` / `tool completion` output through `_eval_cached` (`cache.zsh`) instead of `eval "$(...)"`; it caches by command line and binary mtime. Output that embeds session state, such as `mise activate` with its `$PATH`, stays uncached.
+- Load `tool init` / `tool completion` output through `_eval_cached` (`cache.zsh`) instead of `eval "$(...)"`; it caches per command line and rebuilds when the resolved binary path (which carries the Homebrew or mise version) or its mtime changes. Output that embeds session state, such as `mise activate` with its `$PATH`, stays uncached.
 - `.zshenv` and `.zprofile` source `aliases.zsh` and `env.zsh` again on purpose: non-interactive agent shells get aliases such as `rf`, and login shells reapply them after `brew shellenv`.
 - Guard every external tool with `command -v <tool> >/dev/null 2>&1`.
 
