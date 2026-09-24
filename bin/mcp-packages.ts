@@ -3,8 +3,8 @@
  * bunx packages are checked against npm, uvx packages against PyPI; `github:`
  * sources and binaries are skipped.
  *
- * - `outdated` lists packages with a newer release and packages that are not
- *   pinned.
+ * - `outdated` lists packages that are not pinned, have a newer release, or
+ *   could not be checked.
  * - `upgrade` pins every package to its latest release in `mcp/servers.toml`,
  *   keeping the rest of the file as written.
  *
@@ -14,10 +14,31 @@
 import { fail, ok, runMain, step, summary } from "./lib/log";
 import { readServers, SERVERS_PATH, type Servers } from "./lib/mcp";
 
-/** Registry that answers the latest version of a package, per runner. */
-const LATEST_VERSION: Record<string, (name: string) => Promise<string>> = {
-  bunx: async (name) => (await (await fetch(`https://registry.npmjs.org/${name}/latest`)).json()).version,
-  uvx: async (name) => (await (await fetch(`https://pypi.org/pypi/${name}/json`)).json()).info.version,
+/**
+ * Asks a registry for the latest version of a package. The answer is whatever
+ * the registry sent; `findPins` keeps it only when it is a string.
+ */
+type LatestVersionLookup = (name: string) => Promise<unknown>;
+
+/** npm's answer for `/<package>/latest`. */
+interface NpmRelease {
+  version?: unknown;
+}
+
+/** PyPI's answer for `/pypi/<package>/json`. */
+interface PypiProject {
+  info?: PypiInfo;
+}
+
+/** The `info` object of a PyPI project. */
+interface PypiInfo {
+  version?: unknown;
+}
+
+/** Registry lookup per runner. */
+const LATEST_VERSION: Record<string, LatestVersionLookup> = {
+  bunx: async (name) => (await fetchJson<NpmRelease>(`https://registry.npmjs.org/${name}/latest`)).version,
+  uvx: async (name) => (await fetchJson<PypiProject>(`https://pypi.org/pypi/${name}/json`)).info?.version,
 };
 
 /** A package argument: `name` or `name@version`, npm scopes included. */
@@ -31,13 +52,29 @@ interface Pin {
   name: string;
   /** Pinned version; missing or `latest` when not pinned. */
   version?: string;
-  /** Latest release; empty when the registry did not answer. */
-  latest: string;
+  /** Latest release; missing when the registry did not answer. */
+  latest?: string;
+}
+
+/** Where a package stands against its registry. */
+type Status = "current" | "unpinned" | "outdated" | "unknown";
+
+/**
+ * Fetches JSON and throws on an HTTP error, so an error page is never read as
+ * a version.
+ *
+ * @param url - Registry URL.
+ */
+async function fetchJson<T>(url: string): Promise<T> {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error(`${url} answered HTTP ${response.status}`);
+  return (await response.json()) as T;
 }
 
 /**
  * Finds the package each bunx or uvx server runs, the first argument that is
- * neither an option nor an option's value, and looks up its latest release.
+ * neither an option nor the value of a `--` option, and looks up its latest
+ * release.
  *
  * @param servers - Parsed `mcp/servers.toml`.
  */
@@ -52,7 +89,8 @@ async function findPins(servers: Servers): Promise<Pin[]> {
     const [, name, version] = match;
     pins.push(
       LATEST_VERSION[command](name)
-        .catch(() => "")
+        .then((latest) => (typeof latest === "string" ? latest : undefined))
+        .catch(() => undefined)
         .then((latest) => ({ server, spec, name, version, latest })),
     );
   }
@@ -60,12 +98,14 @@ async function findPins(servers: Servers): Promise<Pin[]> {
 }
 
 /**
- * Whether a package needs attention: not pinned, or behind its latest release.
+ * Compares a package's pin with its latest release.
  *
  * @param pin - Package to check.
  */
-function isStale({ version, latest }: Pin): boolean {
-  return !version || version === "latest" || (latest !== "" && latest !== version);
+function status({ version, latest }: Pin): Status {
+  if (!version || version === "latest") return "unpinned";
+  if (!latest) return "unknown";
+  return latest === version ? "current" : "outdated";
 }
 
 /**
@@ -75,33 +115,57 @@ function isStale({ version, latest }: Pin): boolean {
  */
 function outdated(pins: Pin[]): void {
   for (const pin of pins) {
-    if (!isStale(pin)) ok(pin.server, `${pin.name}@${pin.version}`);
-    else fail(`${pin.server}: ${pin.spec}`, [`${pin.latest || "unknown"} is the latest; run just mcp-upgrade`]);
+    const hint = `${pin.latest} is the latest; run just mcp-upgrade`;
+    switch (status(pin)) {
+      case "current":
+        ok(pin.server, pin.spec);
+        break;
+      case "unpinned":
+        fail(`${pin.server}: ${pin.spec} is not pinned`, [pin.latest ? hint : "the registry did not answer"]);
+        break;
+      case "outdated":
+        fail(`${pin.server}: ${pin.spec}`, [hint]);
+        break;
+      case "unknown":
+        fail(`${pin.server}: ${pin.spec}`, ["the registry did not answer"]);
+        break;
+    }
   }
-  const stale = pins.filter(isStale).length;
-  const noun = stale === 1 ? "package" : "packages";
-  summary(stale ? `${stale} ${noun} to upgrade` : "All MCP packages are pinned and current", stale === 0);
+
+  const attention = pins.filter((pin) => status(pin) !== "current").length;
+  const noun = attention === 1 ? "package needs" : "packages need";
+  summary(attention ? `${attention} ${noun} attention` : "All MCP packages are pinned and current", attention === 0);
 }
 
 /**
- * Rewrites each stale package argument in `mcp/servers.toml` to its latest
- * release, as a text replacement so comments and layout stay.
+ * Rewrites each unpinned or outdated package argument in `mcp/servers.toml` to
+ * its latest release, as a text replacement so comments and layout stay.
  *
  * @param pins - Packages to upgrade.
  */
 async function upgrade(pins: Pin[]): Promise<void> {
-  let text = await Bun.file(SERVERS_PATH).text();
-  for (const pin of pins.filter(isStale)) {
-    if (!pin.latest) {
-      fail(`${pin.server}: ${pin.name}`, ["the registry did not answer; left as is"]);
-      continue;
+  const original = await Bun.file(SERVERS_PATH).text();
+  let text = original;
+
+  for (const pin of pins) {
+    const state = status(pin);
+    if (state === "unknown" || (state === "unpinned" && !pin.latest)) {
+      fail(`${pin.server}: ${pin.spec}`, ["the registry did not answer; left as is"]);
+    } else if (state !== "current") {
+      text = text.replaceAll(JSON.stringify(pin.spec), JSON.stringify(`${pin.name}@${pin.latest}`));
+      ok(pin.server, `${pin.version ?? "unpinned"} → ${pin.latest}`);
     }
-    text = text.replaceAll(JSON.stringify(pin.spec), JSON.stringify(`${pin.name}@${pin.latest}`));
-    ok(pin.server, `${pin.version ?? "unpinned"} → ${pin.latest}`);
   }
-  await Bun.write(SERVERS_PATH, text);
+
+  if (text === original) ok("Nothing to upgrade");
+  else await Bun.write(SERVERS_PATH, text);
 }
 
+/**
+ * Runs `outdated` or `upgrade`.
+ *
+ * @param command - Subcommand from the command line.
+ */
 async function main(command: string | undefined): Promise<void> {
   if (command !== "outdated" && command !== "upgrade") {
     throw new Error("Usage: bun mcp-packages.ts outdated|upgrade");
