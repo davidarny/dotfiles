@@ -22,3 +22,6 @@
 # Skills manifest is read from the repo; the CLI lockfile is machine-local
 /\.agents\/skills\.json$
 /\.agents\/\.skill-lock\.json$
+
+# Bun global lockfile is machine-local
+/\.bun\/install\/global\/bun\.lock$

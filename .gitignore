@@ -152,6 +152,9 @@ $RECYCLE.BIN/
 .agents/*
 !.agents/skills.json
 
+# Bun replaces its global lockfile instead of writing through the stow symlink.
+.bun/install/global/bun.lock
+
 # Zsh sessions
 .zsh_sessions
 
