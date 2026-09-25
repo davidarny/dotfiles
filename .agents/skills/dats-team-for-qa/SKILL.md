@@ -21,11 +21,11 @@ The tester runs every scenario before release, on a preprod stand deployed from 
 
 Keep implementation details, full benchmark output, and generic neighboring checks out of the handoff. Do not invent setup, deployment, pipeline status, environment readiness, or expected results; report a blocker when evidence cannot define a meaningful result.
 
-For several related MRs sharing a scenario, prepare one combined handoff with every relevant link and each distinct prerequisite. Do not duplicate a checklist per MR or replace a missing account, flag, or balance prerequisite with an assumed result. Keep an engineering investigation report as a separate Jira comment through `$dats-team-jira-comment`.
+QA deploys one branch at a time to a stand and tests branches separately. Give each branch its own handoff, and name the exact branch to deploy next to its MR link; a section never asks QA to deploy several branches together. Do not replace a missing account, flag, or balance prerequisite with an assumed result. Keep an engineering investigation report as a separate Jira comment through `$dats-team-jira-comment`.
 
 ## Structure
 
-Start with `h3. For QA`; put the reachable MR link immediately below it when one exists. For a narrow change, use a short sentence or compact bullets. For a multi-step change, add only sections that carry information:
+Start with `h3. For QA`; put the branch to deploy and the reachable MR link immediately below it. With several branches, title each section `h3. For QA: <branch>`. For a narrow change, use a short sentence or compact bullets. For a multi-step change, add only sections that carry information:
 
 - `*Предусловия*` for required setup;
 - `*Основной сценарий*` with numbered user actions;
@@ -35,4 +35,4 @@ Start with `h3. For QA`; put the reachable MR link immediately below it when one
 
 Omit empty headings. Preserve exact routes, flags, response codes, and commands when the tester needs them to reproduce or judge the scenario. Apply [unslop](../unslop/SKILL.md) for reader-first wording and [show-me](../show-me/SKILL.md) when a compact scenario/outcome comparison or sequence helps. Render visuals in Jira-supported markup and choose the form for the actual task. Keep the handoff focused on what the tester should do and observe rather than an inventory of the author's unperformed checks. Do not prepend `h3. TL;DR`.
 
-Publish For QA in the issue description rather than a comment: replace the existing `h3. For QA` section, or append one at the end of the description when it is absent, and keep the rest byte-identical. A request to write or publish For QA authorizes that description edit and no other field. When only a draft is requested, return the body without a Jira write.
+Publish For QA in the issue description rather than a comment: replace the existing For QA sections, or append them at the end of the description when absent, and keep the rest byte-identical. A request to write or publish For QA authorizes that description edit and no other field. When only a draft is requested, return the body without a Jira write.
