@@ -30,6 +30,11 @@ For either mode, classify each claim independently. A request to challenge comme
 - Audit a scope constraint the user states for the MR against every file outside its primary area, and give the verdict in the report even when the diff honors it. A constraint such as "tests only, selectors on components are allowed" names the check the user wants run.
 - A review-only request produces a report or drafts. Modify the branch or publish comments only within established authorization.
 
+## Delegate at the reviewer's level
+
+- Delegate a full MR review or an independent judgment pass only to a subagent with the same model and reasoning effort as the parent reviewer, or a verified comparable level. Set both explicitly when the tool permits; do not assume inherited defaults match. If a comparable subagent is unavailable, perform the pass in the parent.
+- Give lower-capability subagents only bounded mechanical work with checkable output, such as listing changed files, extracting issue fields, or collecting CI results. Verify their output before using it. Keep requirement interpretation, finding classification, discussion resolution, approval, and review publication with the parent or a comparable reviewer.
+
 ## 1. Pin the review target
 
 1. Resolve the MR IID, project, source and target branches, base SHA, and head SHA. Fetch current refs and record the immutable comparison:
