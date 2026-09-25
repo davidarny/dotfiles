@@ -101,6 +101,8 @@ git commit -m 'perf: [MST-207625] render promo content on the server'
 
 The key belongs after the colon, not in a conventional-commit scope. `jira-prepare-commit-msg@1.7.2` does not duplicate the same key when it is already in the subject. This explicit form also keeps the correct task label when a legacy worktree hook reads an ignored main-checkout branch such as `master`.
 
+Run the commit under the `.nvmrc` Node, `mise x node@<.nvmrc-version> -- git commit ...`: the pre-commit hook runs related Jest tests, and a newer system Node fails existing suites such as `src/__tests__/proxy.test.ts`.
+
 Keep all hooks enabled. Never use `--no-verify` or `-n`. Use project `SKIP_*` variables only when the user explicitly requests the matching exception.
 
 After every commit, compare the branch key with the committed subject:

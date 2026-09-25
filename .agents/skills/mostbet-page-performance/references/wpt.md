@@ -102,7 +102,7 @@ Poll every 30–60 seconds against a bounded deadline and continue independent s
 
 ### 5. Validate before interpreting
 
-Check on every run: final route and `initialUrl`, document response code, authenticated or public state, locale, `deviceName`/viewport against the requested profile, first-party resource success, and a page-specific marker in the filmstrip or fetched HTML. Reject redirects, error pages, guest shells and unresolved skeletons; mark such a series `invalid` and keep it only as diagnostic evidence. A `notFound()` from a route's layout answers HTTP 200 and paints «Page not found» only after hydration, so take identity from the last filmstrip frame and the LCP element, never from the status code.
+Check on every run: final route and `initialUrl`, document response code, authenticated or public state, locale, `deviceName`/viewport against the requested profile, first-party resource success, and a page-specific marker in the filmstrip or fetched HTML. Reject redirects, error pages, guest shells and unresolved skeletons; mark such a series `invalid` and keep it only as diagnostic evidence. A `notFound()` from a route's layout answers HTTP 200 and paints «Page not found» only after hydration, so take identity from the last filmstrip frame and the LCP element, never from the status code. A document that answers 404 ends a WPT run at its first request with no metrics; measure a real 404 with Sitespeed.
 
 Then connect loaded bytes, request timing, main-thread work, LCP and layout shifts to the route's source, separating shared work from route-specific work and from already tracked optimizations.
 
