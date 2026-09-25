@@ -198,7 +198,7 @@ visible = true
 59 = { enabled = false, value = { parameters = [65535, 96, 9437184], type = "standard" } }
 60 = { enabled = true, value = { parameters = [32, 49, 262144], type = "standard" } }
 61 = { enabled = true, value = { parameters = [32, 49, 786432], type = "standard" } }
-64 = { enabled = 0 }
+64 = { enabled = true, value = { parameters = [32, 49, 524288], type = "standard" } }
 65 = { enabled = false, value = { parameters = [32, 49, 1572864], type = "standard" } }
 79 = { enabled = false, value = { parameters = [65535, 123, 8650752], type = "standard" } }
 80 = { enabled = true, value = { parameters = [65535, 123, 8781824], type = "standard" } }
