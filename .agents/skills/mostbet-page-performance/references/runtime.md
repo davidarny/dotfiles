@@ -115,7 +115,7 @@ Artifact size and request counts come from `pagexray` as `*_value` metrics, whic
 
 The dashboard carries annotation tracks `mostbet_next_deploy_finished_preprod0/14/15`, so deploy boundaries are visible on the graph without looking up a pipeline.
 
-Two limits. A pass writes one point per URL and the value is already an aggregate over that pass's iterations, so a median of these points is a median of medians; use a range query with a step no larger than the pass interval, never an instant query at "now". And nothing here carries `commitSha`, so revision identity still comes from step 4.
+Two limits. A pass writes one point per URL and the value is already an aggregate over that pass's iterations, so a median of these points is a median of medians; use a range query with a step no larger than the pass interval, never an instant query at "now". And nothing here carries `commitSha`, so revision identity still comes from step 4. A point's timestamp is the pass start, the same as its on-box directory name, so a window that opens at the `deploy:web` finish (or at the kill below) already excludes passes that straddle the deploy.
 
 A flat gap at the right edge usually means the runner is stuck, not that the metrics broke. A pass that spans a deploy hits `config/webVitalsComplete.js`, the suite's `pageCompleteCheck`, which needs `loadEventEnd > 0`, one LCP entry, and five seconds with an unchanged LCP signature. While the stand is rolling this never becomes true, and browsertime retries the iteration five times at 120 s each — ten minutes with no pass completing and nothing written.
 
