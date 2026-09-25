@@ -14,7 +14,7 @@ local zdump="${XDG_CACHE_HOME:-${HOME}/.cache}/zsh/zcompdump-${ZSH_VERSION}"
 # commands to completion functions, so rebuild it when a completion is added or
 # removed: that changes its fpath directory's mtime (brew link, plugin update).
 local zdump_stale=0 zdump_dir
-if [[ ! -s $zdump ]]; then
+if [[ ! -s $zdump || ${(%):-%x} -nt $zdump ]]; then
   zdump_stale=1
 else
   for zdump_dir in $fpath; do
@@ -25,7 +25,8 @@ if (( zdump_stale )); then
   # compinit reuses a dump whose file count still matches, so a completion
   # replaced by another would keep its old mapping: rebuild from an empty dump.
   : >| "$zdump"
-  compinit -d "$zdump"
+  # Trust fpath, including Homebrew completions owned by another local user.
+  compinit -u -d "$zdump"
 else
   compinit -C -d "$zdump"
 fi
