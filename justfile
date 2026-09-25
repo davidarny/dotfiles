@@ -175,7 +175,6 @@ upgrade-mise:
 [group('upgrade')]
 upgrade-bun:
     bun update --global --latest
-    bun pm trust --all --global
 
 # Upgrade tools installed with uv
 [group('upgrade')]
