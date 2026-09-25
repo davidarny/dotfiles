@@ -26,6 +26,10 @@ Finish safe, available checks needed to resolve the requested performance claim.
 
 Keep task resources until the required evidence is captured. An intermediate finding is not a completion point while requested checks remain. A user stop, narrower scope, or time/resource limit takes precedence; finish independent work within that boundary and state what the missing evidence prevents.
 
+## Preflight
+
+Before reading evidence or touching any system, run [preflight](references/preflight.md): prove every access and tool the task will need with one real call each, acquire its secrets once, and choose transports that need no approval. Preflight is complete when every needed check has passed or has a named fallback, and the user has been told in one message that they can leave, together with the only events that would call them back.
+
 ## Choose the work needed
 
 - For source, Jira, dashboard, or supplied-artifact analysis, follow the diagnosis workflow below.
