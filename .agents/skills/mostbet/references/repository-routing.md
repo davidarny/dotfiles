@@ -151,7 +151,11 @@ For a dependency change, distinguish package runtime dependencies, build-only to
 
 Derive build, type-check, lint, unit, coverage and visual-test commands from the affected package scripts. Inspect lifecycle scripts before running them: clean/build/generator commands may remove or overwrite generated assets, and token-loading commands may call external services. Use a disposable task checkout for generated-output comparisons and respect the workspace deletion rules.
 
-When the task includes a consumer update, validate a built or prerelease package in that consumer before the stable release/update sequence defined by the repository. Confirm release authorization from the task; testing does not require publishing. Keep unrelated core packages and consumer applications outside the implementation scope.
+The root pre-commit hook runs `type-check`, `fix`, and `test` across all packages, and `@core/ui` type-check resolves `@core/icons` from its built output: run `npm run build` in a fresh checkout before the first commit. It also fails on an already broken `master` package (for example `@core/ui` stylelint after a token sync); base the task branch on the last green commit and report the breakage instead of fixing it in scope.
+
+CI publishes prereleases only from `-prerelease` tags. For a task-scoped manual prerelease, bump with `npm version prerelease --preid <KEY> --no-git-tag-version -w <package>`, commit it, and `npm publish --tag <KEY>` from the package to the hosted Nexus repository `general-npm` (`proxy-npmjs` is a read-only proxy and returns 404 on publish). Nexus credentials are `op://Dats.Team/Nexus/{username,password}`; acquire them through `1password-handoff` and pass them through a temporary private `--userconfig`.
+
+When the task includes a consumer update, validate a built or prerelease package in that consumer before the stable release/update sequence defined by the repository. `@core/testing` consumers outside this workspace (multi-white-label `admin-notifications`, `admin-loyalty`, `licence-uz`) pin their own Playwright; find current ones with a GitLab blob search for `"@core/testing"` before narrowing a peer or engine range. Confirm release authorization from the task; testing does not require publishing. Keep unrelated core packages and consumer applications outside the implementation scope.
 
 ### Consumer boundary
 

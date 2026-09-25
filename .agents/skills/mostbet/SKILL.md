@@ -39,7 +39,7 @@ For a small review correction, run the affected checks and required repository g
 
 ## Environment and evidence
 
-Use configured `mise` for Node/npm and verify the runtime used by scripts. Keep browser flags, authentication setup, and measurement transport changes in the synthetic repository when that is where the cause belongs.
+Use configured `mise` for Node/npm and verify the runtime used by scripts. Before running, comparing, or diagnosing `mostbet-next` E2E locally, read [local E2E](references/e2e-local.md). Keep browser flags, authentication setup, and measurement transport changes in the synthetic repository when that is where the cause belongs.
 
 For observability, use the available MCP first. After a verified MCP transport or capability failure, use the service's documented HTTP API with the current configured credentials and bounded queries. Keep credentials out of command arguments, logs, and artifacts. Reuse the diagnosed failure within the task and continue evidence gathering through the working API; a broken MCP does not by itself make the backend unavailable.
 
