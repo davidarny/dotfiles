@@ -67,7 +67,11 @@
   },
   "grafana": {
     "type": "stdio",
-    "command": "/opt/homebrew/bin/mcp-grafana",
+    "command": "/bin/sh",
+    "args": [
+      "-c",
+      "exec \"$HOME/go/bin/mcp-grafana\""
+    ],
     "env": {
       "GRAFANA_URL": "https://grafana.dats.services",
       "GRAFANA_API_KEY": "${GRAFANA_API_KEY}"

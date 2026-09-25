@@ -42,7 +42,8 @@ tool_timeout_sec = 120.0
 CONFLUENCE_HOST = "confluence.dats.tech"
 
 [mcp_servers.grafana]
-command = "/opt/homebrew/bin/mcp-grafana"
+command = "/bin/sh"
+args = ["-c", "exec \"$HOME/go/bin/mcp-grafana\""]
 env_vars = ["GRAFANA_API_KEY"]
 startup_timeout_sec = 120.0
 tool_timeout_sec = 120.0
